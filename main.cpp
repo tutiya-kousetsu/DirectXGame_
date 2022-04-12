@@ -11,6 +11,7 @@
 #include "DebugText.h"
 #include "Audio.h"
 
+
 int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR, int)
 {
 #pragma region WindowsAPI初期化

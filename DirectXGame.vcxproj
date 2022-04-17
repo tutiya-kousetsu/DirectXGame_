@@ -198,6 +198,7 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MyGame.h" />

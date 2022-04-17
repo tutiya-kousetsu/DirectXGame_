@@ -3,17 +3,17 @@
 
 using namespace DirectX;
 
-Sprite* Sprite::Create(SpriteCommon* spriteCommon, UINT texNumber, DirectX::XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+Sprite* Sprite::Create(UINT texNumber, DirectX::XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
 {
 	//メモリ確保
 	Sprite* instance = new Sprite;
 	//インスタンス初期化
-	instance->Initialize(spriteCommon, texNumber, anchorpoint, isFlipX, isFlipY);
+	instance->Initialize(texNumber, anchorpoint, isFlipX, isFlipY);
 	
 	return instance;
 }
 
-void Sprite::Initialize(SpriteCommon* spriteCommon, UINT texNumber, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+void Sprite::Initialize(UINT texNumber, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
 {
 	HRESULT result = S_FALSE;
 
@@ -22,16 +22,17 @@ void Sprite::Initialize(SpriteCommon* spriteCommon, UINT texNumber, XMFLOAT2 anc
 	this->anchorpoint = anchorpoint;
 	this->isFlipX = isFlipX;
 	this->isFlipY = isFlipY;
-	this->spriteCommon = spriteCommon;
+
+	SpriteCommon* spriteCommon = SpriteCommon::GetInstance();
 
 	// 頂点データ
 	VertexPosUv vertices[4];
 
 	// 指定番号の画像が読み込み済みなら
 	//if (this->spriteCommon->texBuff[this->texNumber]) {
-	if (this->spriteCommon->GetTexBuff(this->texNumber)) {
+	if (spriteCommon->GetTexBuff(this->texNumber)) {
 		// テクスチャ情報取得
-		D3D12_RESOURCE_DESC resDesc = this->spriteCommon->GetTexBuff(this->texNumber)->GetDesc();
+		D3D12_RESOURCE_DESC resDesc = spriteCommon->GetTexBuff(this->texNumber)->GetDesc();
 
 		// スプライトの大きさを画像の解像度に合わせる
 		this->size = { (float)resDesc.Width, (float)resDesc.Height };
@@ -39,7 +40,7 @@ void Sprite::Initialize(SpriteCommon* spriteCommon, UINT texNumber, XMFLOAT2 anc
 	}
 
 	// 頂点バッファ生成
-	result = this->spriteCommon->GetDevice()->CreateCommittedResource(
+	result = spriteCommon->GetDevice()->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeof(vertices)),
@@ -54,7 +55,7 @@ void Sprite::Initialize(SpriteCommon* spriteCommon, UINT texNumber, XMFLOAT2 anc
 	this->vbView.StrideInBytes = sizeof(vertices[0]);
 
 	// 定数バッファの生成
-	result = this->spriteCommon->GetDevice()->CreateCommittedResource(
+	result = spriteCommon->GetDevice()->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
@@ -72,6 +73,8 @@ void Sprite::Initialize(SpriteCommon* spriteCommon, UINT texNumber, XMFLOAT2 anc
 
 void Sprite::TransferVertexBuffer()
 {
+	SpriteCommon* spriteCommon = SpriteCommon::GetInstance();
+
 	HRESULT result = S_FALSE;
 
 	// 頂点データ
@@ -109,9 +112,9 @@ void Sprite::TransferVertexBuffer()
 	vertices[RT].pos = { right, top,    0.0f }; // 右上
 
 	// 指定番号の画像が読み込み済みなら
-	if (this->spriteCommon->GetTexBuff(this->texNumber)) {
+	if (spriteCommon->GetTexBuff(this->texNumber)) {
 		// テクスチャ情報取得
-		D3D12_RESOURCE_DESC resDesc = this->spriteCommon->GetTexBuff(this->texNumber)->GetDesc();
+		D3D12_RESOURCE_DESC resDesc = spriteCommon->GetTexBuff(this->texNumber)->GetDesc();
 
 		float tex_left = this->texLeftTop.x / resDesc.Width;
 		float tex_right = (this->texLeftTop.x + this->texSize.x) / resDesc.Width;
@@ -133,6 +136,8 @@ void Sprite::TransferVertexBuffer()
 
 void Sprite::Update()
 {
+	SpriteCommon* spriteCommon = SpriteCommon::GetInstance();
+
 	// ワールド行列の更新
 	this->matWorld = XMMatrixIdentity();
 	// Z軸回転
@@ -143,18 +148,20 @@ void Sprite::Update()
 	// 定数バッファの転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
-	constMap->mat = this->matWorld * this->spriteCommon->GetMatProjection();
+	constMap->mat = this->matWorld * spriteCommon->GetMatProjection();
 	constMap->color = this->color;
 	this->constBuff->Unmap(0, nullptr);
 }
 
 void Sprite::Draw()
 {
+	SpriteCommon* spriteCommon = SpriteCommon::GetInstance();
+
 	if (this->isInvisible) {
 		return;
 	}
 
-	ID3D12GraphicsCommandList* cmdList = this->spriteCommon->GetCommandList();
+	ID3D12GraphicsCommandList* cmdList = spriteCommon->GetCommandList();
 
 	// 頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &this->vbView);

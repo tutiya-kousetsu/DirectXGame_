@@ -25,37 +25,30 @@ XMFLOAT3 Object3d::up = { 0, 1, 0 };
 Object3d::PipelineSet Object3d::pipelineSet;
 Camera* Object3d::camera = nullptr;
 
-bool Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
+bool Object3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height)
 {
 	// nullptrチェック
 	assert(device);
 
 	Object3d::device = device;
+	Object3d::cmdList = cmdList;
 
+	//モデルにデバイスをチェック
 	Model::SetDevice(device);
-
-	// カメラ初期化
-	//InitializeCamera(window_width, window_height);
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
 
-	// テクスチャ読み込み
-	//LoadTexture(directoryPath,material.textureFilename);
-
-	// モデル生成
-	//CreateModel();
-
 	return true;
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void Object3d::PreDraw()
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	assert(Object3d::cmdList == nullptr);
+	//assert(Object3d::cmdList == nullptr);
 
 	// コマンドリストをセット
-	Object3d::cmdList = cmdList;
+	//Object3d::cmdList = cmdList;
 
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
@@ -63,7 +56,7 @@ void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 void Object3d::PostDraw()
 {
 	// コマンドリストを解除
-	Object3d::cmdList = nullptr;
+	//Object3d::cmdList = nullptr;
 }
 
 Object3d* Object3d::Create()
@@ -82,7 +75,7 @@ Object3d* Object3d::Create()
 	}
 	//3Dモデルの大きさを変える
 	float scale_val = 5;
-	object3d->scale_ = { scale_val , scale_val , scale_val };
+	object3d->scale = { scale_val , scale_val , scale_val };
 
 	return object3d;
 }
@@ -257,7 +250,7 @@ bool Object3d::Initialize()
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffB0_));
+		IID_PPV_ARGS(&this->constBuffB0));
 
 	return true;
 }
@@ -268,27 +261,27 @@ void Object3d::Update()
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
+	matScale = XMMatrixScaling(this->scale.x, this->scale.y, this->scale.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation_.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation_.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation_.y));
-	matTrans = XMMatrixTranslation(position_.x, position_.y, position_.z);
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(this->rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(this->rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(this->rotation.y));
+	matTrans = XMMatrixTranslation(this->position.x, this->position.y, this->position.z);
 
 	// ワールド行列の合成
-	matWorld_ = XMMatrixIdentity(); // 変形をリセット
-	matWorld_ *= matScale; // ワールド行列にスケーリングを反映
-	matWorld_ *= matRot; // ワールド行列に回転を反映
-	matWorld_ *= matTrans; // ワールド行列に平行移動を反映
+	this->matWorld = XMMatrixIdentity(); // 変形をリセット
+	this->matWorld *= matScale; // ワールド行列にスケーリングを反映
+	this->matWorld *= matRot; // ワールド行列に回転を反映
+	this->matWorld *= matTrans; // ワールド行列に平行移動を反映
 
-	rotation_.y = -90;//Y軸に対して回転
-	rotation_.x = 0;//X軸に対して回転
+	this->rotation.y = -90;//Y軸に対して回転
+	this->rotation.x = 0;//X軸に対して回転
 	//rotation.z = 50;//z軸に対して回転
 
 	// 親オブジェクトがあれば
-	if (parent_ != nullptr) {
+	if (this->parent != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける
-		matWorld_ *= parent_->matWorld_;
+		this->matWorld *= this->parent->matWorld;
 	}
 
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
@@ -296,12 +289,12 @@ void Object3d::Update()
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
-	result = constBuffB0_->Map(0, nullptr, (void**)&constMap);
+	result = this->constBuffB0->Map(0, nullptr, (void**)&constMap);
 	//constMap->mat = matWorld * matViewProjection;	// 行列の合成
 	constMap->viewproj = matViewProjection;
-	constMap->world = matWorld_;
+	constMap->world = this->matWorld;
 	constMap->cameraPos = cameraPos;
-	constBuffB0_->Unmap(0, nullptr);
+	this->constBuffB0->Unmap(0, nullptr);
 }
 
 void Object3d::Draw()
@@ -311,7 +304,7 @@ void Object3d::Draw()
 	assert(Object3d::cmdList);
 
 	//モデルがセットされていなければ描画をストップ
-	if (model_ == nullptr) {
+	if (this->model == nullptr) {
 		return;
 	}
 	// パイプラインステートの設定
@@ -320,8 +313,8 @@ void Object3d::Draw()
 	cmdList->SetGraphicsRootSignature(pipelineSet.rootsignature.Get());
 
 	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuffB0->GetGPUVirtualAddress());
 
 	//モデルを描画
-	model_->Draw(cmdList, 1);
+	this->model->Draw(cmdList, 1);
 }

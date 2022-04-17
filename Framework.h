@@ -3,11 +3,10 @@
 #include "Input.h"
 #include "WinApp.h"
 #include "DirectXCommon.h"
-#include "DebugCamera.h"
 #include "DebugText.h"
 #include "Audio.h"
 #include "Object3d.h"
-
+#include "Sprite.h"
 
 /// <summary>
 /// フレームワーク
@@ -50,7 +49,6 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	Audio* audio = nullptr;
 	DebugText* debugText = nullptr;
-	DebugCamera* camera = nullptr;
 	SpriteCommon* spriteCommon = nullptr;
 };
 

@@ -54,16 +54,16 @@ public: // 静的メンバ関数
 	/// 静的初期化
 	/// </summary>
 	/// <param name="device">デバイス</param>
+	/// <param name="cmdList">描画コマンドリスト</param>
 	/// <param name="window_width">画面幅</param>
 	/// <param name="window_height">画面高さ</param>
 	/// <returns>成否</returns>
-	static bool StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static bool StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height);
 
 	/// <summary>
 	/// 描画前処理
 	/// </summary>
-	/// <param name="cmdList">描画コマンドリスト</param>
-	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
+	static void PreDraw();
 
 	/// <summary>
 	/// カメラのセット
@@ -176,33 +176,33 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() { return position_; }
+	const XMFLOAT3& GetPosition() { return this->position; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(XMFLOAT3 position) { this->position_ = position; }
+	void SetPosition(XMFLOAT3 position) { this->position = position; }
 
 	/// <summary>
 	/// setter
 	/// </summary>
-	void SetModel(Model* model) { model_ = model; }
+	void SetModel(Model* model) { this->model = model; }
 
 private: // メンバ変数
 	//3Dモデル(借りてくる)
-	Model* model_ = nullptr;
+	Model* model = nullptr;
 	// 行列用定数バッファ
-	ComPtr<ID3D12Resource> constBuffB0_;
+	ComPtr<ID3D12Resource> constBuffB0;
 	// ローカルスケール
-	XMFLOAT3 scale_ = { 1,1,1 };
+	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation_ = { 0,0,0 };
+	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position_ = { 0,0,0 };
+	XMFLOAT3 position = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld_;
+	XMMATRIX matWorld;
 	// 親オブジェクト
-	Object3d* parent_ = nullptr;
+	Object3d* parent = nullptr;
 };
 

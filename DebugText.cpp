@@ -1,18 +1,25 @@
 #include "DebugText.h"
 
+DebugText* DebugText::GetInstance()
+{
+	static DebugText instance;
+
+	return &instance;
+}
+
 void DebugText::Initialize(SpriteCommon* spriteCommon, UINT texnumber)
 {
 	//nullptrチェック
 	assert(spriteCommon);
 
 	//引数をメンバ変数に格納
-	spriteCommon_ = spriteCommon;
+	this->spriteCommon = spriteCommon;
 
 	//全てのスプライトデータについて
-	for (int i = 0; i < _countof(sprites_); i++)
+	for (int i = 0; i < _countof(this->sprites); i++)
 	{
 		//スプライトを再生
-		sprites_[i] = Sprite::Create(spriteCommon_, texnumber, { 0,0 });
+		this->sprites[i] = Sprite::Create(texnumber, { 0,0 });
 	}
 }
 
@@ -22,7 +29,7 @@ void DebugText::Print(const std::string& text, float x, float y, float scale)
 	for (int i = 0; i < text.size(); i++)
 	{
 		//最大文字数超過
-		if (spriteIndex_ >= maxCharCount) {
+		if (this->spriteIndex >= maxCharCount) {
 			break;
 		}
 
@@ -39,28 +46,28 @@ void DebugText::Print(const std::string& text, float x, float y, float scale)
 		int fontIndexX = fontIndex % fontLineCount;
 
 		//座標計算
-		sprites_[spriteIndex_]->SetPosition({ x + fontWidth * scale * i, y, 0 });
-		sprites_[spriteIndex_]->SetTexLeftTop({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight });
-		sprites_[spriteIndex_]->SetTexSize({ fontWidth, fontHeight });
-		sprites_[spriteIndex_]->SetSize({ fontWidth * scale, fontHeight * scale });
+		this->sprites[this->spriteIndex]->SetPosition({ x + fontWidth * scale * i, y, 0 });
+		this->sprites[this->spriteIndex]->SetTexLeftTop({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight });
+		this->sprites[this->spriteIndex]->SetTexSize({ fontWidth, fontHeight });
+		this->sprites[this->spriteIndex]->SetSize({ fontWidth * scale, fontHeight * scale });
 		//頂点バッファ転送
-		sprites_[spriteIndex_]->TransferVertexBuffer();
+		this->sprites[this->spriteIndex]->TransferVertexBuffer();
 		//更新
-		sprites_[spriteIndex_]->Update();
+		this->sprites[this->spriteIndex]->Update();
 
 		//文字を1つ進める
-		spriteIndex_++;
+		this->spriteIndex++;
 	}
 }
 
 void DebugText::DrawAll()
 {
 	//全ての文字のスプライトについて
-	for (int i = 0; i < spriteIndex_; i++)
+	for (int i = 0; i < this->spriteIndex; i++)
 	{
 		//スプライト描画
-		sprites_[i]->Draw();
+		this->sprites[i]->Draw();
 	}
 
-	spriteIndex_ = 0;
+	this->spriteIndex = 0;
 }

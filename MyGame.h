@@ -2,7 +2,8 @@
 #include <vector>
 
 #include "Framework.h"
-#include "Sprite.h"
+
+class GamePlayScene;
 
 /// <summary>
 /// ゲーム固有のクラス
@@ -31,11 +32,8 @@ public:
 	/// </summary>
 	void Draw() override;
 
-
 private:
-
-	std::vector<Sprite*> sprites;
-	Model* modelPost = nullptr;
-	Object3d* objPost = nullptr;
+	//シーン
+	GamePlayScene* scene = nullptr;
 };
 

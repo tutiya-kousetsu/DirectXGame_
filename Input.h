@@ -10,6 +10,7 @@ public:
 	//namespaceÈ—ª
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 public://ƒƒ“ƒoŠÖ”
+	static Input* GetInstance();
 	//‰Šú‰»
 	void Initialize(WinApp* winApp);
 	//XV

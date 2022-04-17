@@ -31,11 +31,11 @@ void Framework::Initialize()
 	dxCommon->Initialize(winApp);
 
 	//スプライト共通部分の初期化
-	spriteCommon = new SpriteCommon();
+	spriteCommon = SpriteCommon::GetInstance();
 	spriteCommon->Initialize(dxCommon->GetDev(), dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
 
 	//デバックテキスト
-	debugText = new DebugText();
+	debugText = DebugText::GetInstance();
 	//デバックテキスト用のテクスチャ番号を指定
 	const int debugTextTexNumber = 2;
 	//デバックテキスト用のテクスチャ読み込み
@@ -44,34 +44,21 @@ void Framework::Initialize()
 	debugText->Initialize(spriteCommon, debugTextTexNumber);
 
 	//入力の初期化
-	input = new Input();
+	input = Input::GetInstance();
 	input->Initialize(winApp);
 
 	//オーディオの初期化
-	audio = new Audio();
-	audio->Initialize();
+	/*audio = Audio::GetInstance();
+	audio->Initialize();*/
 
 	//3Dオブジェット静的初期化
-	Object3d::StaticInitialize(dxCommon->GetDev(), winApp->window_width, winApp->window_height);
-	//カメラの初期化
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
-	//カメラを3Dオブジェットにセット
-	Object3d::SetCamera(camera);
-
+	Object3d::StaticInitialize(dxCommon->GetDev(),dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
 }
 
 void Framework::Finalize()
 {
-	//デバックテキスト解放
-	delete debugText;
-	//スプライト共通部解放
-	delete spriteCommon;
-	//オーディオ解放
-	delete audio;
 	//DirectX解放
 	delete dxCommon;
-	//入力開放
-	delete input;
 	//WindowsAPIの終了処理
 	winApp->Finalize();
 	//WindowsAPI解放

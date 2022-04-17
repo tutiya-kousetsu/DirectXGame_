@@ -73,6 +73,8 @@ public: // サブクラス
 	};
 
 public: //メンバ関数
+	static Audio* GetInstance();
+
 	bool Initialize();
 	void SoundLoadWave(const char* filename);
 	void SoundUnload();

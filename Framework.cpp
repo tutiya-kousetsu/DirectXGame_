@@ -57,6 +57,7 @@ void Framework::Initialize()
 
 void Framework::Finalize()
 {
+	//シングルトンにしたらdeleteダメ
 	//DirectX解放
 	delete dxCommon;
 	//WindowsAPIの終了処理

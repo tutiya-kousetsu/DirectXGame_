@@ -2,11 +2,10 @@
 #include "Audio.h"
 #include "Input.h"
 #include "DebugText.h"
-#include "fbxsdk.h"
+#include "FbxLoader.h"
 
 void GamePlayScene::Initialize()
 {
-	FbxManager* fbxManager = FbxManager::Create();
 	//スプライト共通テクスチャ読み込み
 	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
 	//spriteCommon->LoadTexture(2, L"Resources/house.png");
@@ -37,6 +36,10 @@ void GamePlayScene::Initialize()
 
 	camera->SetEye({ 0, 0, -50 });
 	camera->SetTarget({ -20,0,-10 });
+
+	//モデル名を指定してファイルを読み込む
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+
 }
 
 void GamePlayScene::Finalize()
@@ -48,6 +51,7 @@ void GamePlayScene::Finalize()
 	delete modelPost;
 	//3Dオブジェクト解放
 	delete objPost;
+
 }
 
 void GamePlayScene::Update()

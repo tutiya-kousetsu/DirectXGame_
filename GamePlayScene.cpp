@@ -2,9 +2,11 @@
 #include "Audio.h"
 #include "Input.h"
 #include "DebugText.h"
+#include "fbxsdk.h"
 
 void GamePlayScene::Initialize()
 {
+	FbxManager* fbxManager = FbxManager::Create();
 	//スプライト共通テクスチャ読み込み
 	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
 	//spriteCommon->LoadTexture(2, L"Resources/house.png");

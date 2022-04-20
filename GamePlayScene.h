@@ -3,12 +3,22 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include "DebugCamera.h"
+#include <DirectXMath.h>
 
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
 class GamePlayScene
 {
+private: // エイリアス
+// Microsoft::WRL::を省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+
 public:
 	/// <summary>
 	/// 初期化
@@ -32,5 +42,10 @@ private:
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
+
+	float speed = 1.0f;
+	int t = 1;
+	double g = 0.0f;
+	int Flag = 0;
 };
 

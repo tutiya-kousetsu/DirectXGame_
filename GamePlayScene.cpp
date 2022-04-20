@@ -27,7 +27,7 @@ void GamePlayScene::Initialize()
 	//音声再生
 	//audio->SoundPlayWave("Alarm01.wav", true);
 
-	objPost->SetPosition({ -10,0,-5 });
+	//objPost->SetPosition({ -10,0,-5 });
 	//objChr->SetPosition({ +10,0,+5 });
 	//カメラの初期化
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
@@ -35,7 +35,7 @@ void GamePlayScene::Initialize()
 	Object3d::SetCamera(camera);
 
 	camera->SetEye({ 0, 0, -50 });
-	camera->SetTarget({ -20,0,-10 });
+	camera->SetTarget({ 0,0,-10 });
 
 	//モデル名を指定してファイルを読み込む
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
@@ -51,28 +51,36 @@ void GamePlayScene::Finalize()
 	delete modelPost;
 	//3Dオブジェクト解放
 	delete objPost;
-
 }
 
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
 
-	if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
-	{
+	XMFLOAT3 playerPos = objPost->GetPosition();
 
+	if (input->PushKey(DIK_UP))
+	{
+		if (playerPos.x <= 70) {
+			playerPos.x += speed * 2;
+		}
+		if (playerPos.x >= 70) {
+			playerPos.x = -70;
+		}
 	}
 
 	// 座標操作
-	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
 	{
 
-	}
+	}*/
+
+	objPost->SetPosition(playerPos);
 
 	//X座標,Y座標を指定して表示
-	DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
+	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
-	DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
+	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	//更新
 	objPost->Update();

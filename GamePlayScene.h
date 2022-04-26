@@ -3,6 +3,8 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include "DebugCamera.h"
+#include "DirectXCommon.h"
+//#include "FbxObject3d.h"
 
 /// <summary>
 /// ゲームプレイシーン
@@ -13,7 +15,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(DirectXCommon* dxCommon);
 
 	void Finalize();
 
@@ -28,9 +30,14 @@ public:
 	void Draw();
 
 private:
+	
 	Sprite* sprite = nullptr;
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
+	DirectXCommon* dxCommon = nullptr;
+
+	//FbxModel* fbxmodel1 = nullptr;
+	//FbxObject3d* fbxobject1 = nullptr;
 };
 

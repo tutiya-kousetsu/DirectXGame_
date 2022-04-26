@@ -7,7 +7,7 @@ void MyGame::Initialize()
 
 #pragma region ƒV[ƒ“‰Šú‰»ˆ—
 	this->scene = new GamePlayScene();
-	this->scene->Initialize();
+	this->scene->Initialize(dxCommon);
 }
 
 void MyGame::Finalize()

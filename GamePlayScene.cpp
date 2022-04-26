@@ -2,9 +2,9 @@
 #include "Audio.h"
 #include "Input.h"
 #include "DebugText.h"
-#include "FbxLoader.h"
+//#include "FbxLoader.h"
 
-void GamePlayScene::Initialize()
+void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み
 	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
@@ -34,16 +34,30 @@ void GamePlayScene::Initialize()
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
-	camera->SetEye({ 0, 0, -50 });
-	camera->SetTarget({ -20,0,-10 });
-
+	//camera->SetEye({ 0, 0, -50 });
+	camera->SetTarget({ 0,20,0 });
+	camera->SetDistance(100.0f);
 	//モデル名を指定してファイルを読み込む
-	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
+	//デバイスをセット
+	//FbxObject3d::SetDevice(dxCommon->GetDev());
+	//カメラをセット
+	//FbxObject3d::SetCamera(camera);
+	//グラフィックスパイプライン生成
+	//FbxObject3d::CreateGraphicsPipeline();
+
+	//3Dオブジェクト生成とモデルのセット
+	//fbxobject1 = new FbxObject3d;
+	//fbxobject1->Initialize();
+	//fbxobject1->SetModel(fbxmodel1);
 }
 
 void GamePlayScene::Finalize()
 {
+	//delete fbxobject1;
+	//delete fbxmodel1;
 	delete camera;
 	//スプライト個別解放
 	delete sprite;
@@ -52,6 +66,7 @@ void GamePlayScene::Finalize()
 	//3Dオブジェクト解放
 	delete objPost;
 
+	
 }
 
 void GamePlayScene::Update()
@@ -78,11 +93,16 @@ void GamePlayScene::Update()
 	objPost->Update();
 	//objChr->Update();
 	camera->Update();
+	//fbxobject1->Update();
 	sprite->Update();
+	
 }
 
 void GamePlayScene::Draw()
 {
+	// コマンドリストの取得
+	//ID3D12GraphicsCommandList* cmdList = dxCommon->GetCmdList();
+
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
@@ -90,10 +110,11 @@ void GamePlayScene::Draw()
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
-
+	
 	//3Dオブジェクトの描画
 	objPost->Draw();
-
+	
+	//fbxobject1->Draw(cmdList);
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 

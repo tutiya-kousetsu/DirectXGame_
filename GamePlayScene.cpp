@@ -39,7 +39,8 @@ void GamePlayScene::Initialize()
 
 	//モデル名を指定してファイルを読み込む
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
-
+	//playerPos = { -100, -10, 0 };
+	playerPos = objPost->GetPosition();
 }
 
 void GamePlayScene::Finalize()
@@ -56,18 +57,20 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
-
-	XMFLOAT3 playerPos = objPost->GetPosition();
-
-	if (input->PushKey(DIK_UP))
-	{
+	
 		if (playerPos.x <= 70) {
-			playerPos.x += speed * 2;
+			playerPos.x += speed;
+			playerPos.y += speed2;
+			speed2 -= t;
 		}
-		if (playerPos.x >= 70) {
+		if (playerPos.x >= 70 || playerPos.y <= -40) {
 			playerPos.x = -70;
+			playerPos.y = -10;
+			t = 0.01;
+			speed = 0.75f;
+			speed2 = 0.75f;
 		}
-	}
+	//playerPos.y -= speed;
 
 	// 座標操作
 	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))

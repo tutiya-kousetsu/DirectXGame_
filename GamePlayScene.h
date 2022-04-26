@@ -43,9 +43,11 @@ private:
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
 
-	float speed = 1.0f;
-	int t = 1;
+	float speed = 0.75f;
+	float t = 0.01f;
+	float speed2 = 0.75f;
 	double g = 0.0f;
 	int Flag = 0;
+	XMFLOAT3 playerPos;
 };
 

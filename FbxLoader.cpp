@@ -72,6 +72,9 @@ void FbxLoader::LoadModelFromFile(const string& modelName)
 	ParseNodeRecursive(fbx_model, fbxScene->GetRootNode());
 	//FBXシーン解放
 	fbxScene->Destroy();
+
+	//バッファ生成	
+	fbx_model->CreateBuffers(device);
 }
 
 void FbxLoader::ParseNodeRecursive(Fbx_Model* fbx_model, FbxNode* fbxNode, Node* parent)

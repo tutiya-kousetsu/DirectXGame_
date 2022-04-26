@@ -108,7 +108,7 @@ void GamePlayScene::Draw()
 	Object3d::PreDraw();
 	
 	//3Dオブジェクトの描画
-	objPost->Draw();
+	//objPost->Draw();
 	
 	//fbxobject1->Draw(cmdList);
 	//3Dオブジェクト描画後処理

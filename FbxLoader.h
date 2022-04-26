@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "fbxsdk.h"
-
+#include "Fbx_Model.h"
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <string>
@@ -50,6 +50,13 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
 	void LoadModelFromFile(const string& modelName);
+
+	/// <summary>
+	/// 再帰的にノード構成を解析
+	/// </summary>
+	/// <param name="fbx_model">読み込み先モデルオブジェクト</param>
+	/// <param name="fbxNode">解析対象のノード</param>
+	void ParseNodeRecursive(Fbx_Model* fbx_model, FbxNode* fbxNode, Node* parent = nullptr);
 
 private:
 	//D3D12デバイス

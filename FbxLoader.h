@@ -15,7 +15,8 @@ private://エイリアス
 public://定数
 	//モデル格納ルートパス
 	static const string baseDirectory;
-
+	//テクスチャがない場合の標準テクスチャファイル名
+	static const string defaultTextureFileName;
 public:
 	/// <summary>
 	/// シングルトンインスタンスの取得
@@ -58,6 +59,23 @@ public://メンバ関数
 	/// <param name="fbxNode">解析対象のノード</param>
 	void ParseNodeRecursive(Fbx_Model* fbx_model, FbxNode* fbxNode, Node* parent = nullptr);
 
+	/// <summary>
+	/// メッシュ読み取り
+	/// </summary>
+	/// <param name="fbx_model">読み込み先モデルオブジェクト</param>
+	/// <param name="fbxNode">解析対象のノード</param>
+	void ParseMesh(Fbx_Model* fbx_model, FbxNode* fbxNode);
+
+	//頂点情報読み取り
+	void ParseMeshVertices(Fbx_Model* fbx_model, FbxMesh* fbxMesh);
+	//面情報読み取り
+	void ParseMeshFaces(Fbx_Model* fbx_model, FbxMesh* fbxMesh);
+	//マテリアル読み取り
+	void ParseMaterial(Fbx_Model* fbx_model, FbxNode* fbxNode);
+	//テクスチャ読み込み
+	void LoadTexture(Fbx_Model* fbx_model, const std::string& fullpath);
+	//ディレクトリを含んだファイルパスからファイル名を抽出する
+	std::string ExtractFileName(const std::string& path);
 private:
 	//D3D12デバイス
 	ID3D12Device* device = nullptr;

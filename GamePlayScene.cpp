@@ -2,7 +2,7 @@
 #include "Audio.h"
 #include "Input.h"
 #include "DebugText.h"
-//#include "FbxLoader.h"
+#include "FbxLoader.h"
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
@@ -27,7 +27,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//音声再生
 	//audio->SoundPlayWave("Alarm01.wav", true);
 
-	objPost->SetPosition({ -10,0,-5 });
+	
 	//objChr->SetPosition({ +10,0,+5 });
 	//カメラの初期化
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
@@ -36,9 +36,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//camera->SetEye({ 0, 0, -50 });
 	camera->SetTarget({ 0,20,0 });
-	camera->SetDistance(100.0f);
+	camera->SetDistance(5.0f);
 	//モデル名を指定してファイルを読み込む
-	//FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 	//fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
 	//デバイスをセット
@@ -65,24 +65,23 @@ void GamePlayScene::Finalize()
 	delete modelPost;
 	//3Dオブジェクト解放
 	delete objPost;
-
-	
 }
 
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
+	objPost->SetPosition({ 0, 15,10 });
+	objPost->SetRotation({ -45, 0, 0 });
+	//if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
+	//{
 
-	if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
-	{
-
-	}
+	//}
 
 	// 座標操作
-	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
 	{
 
-	}
+	}*/
 
 	//X座標,Y座標を指定して表示
 	DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
@@ -100,9 +99,6 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw()
 {
-	// コマンドリストの取得
-	//ID3D12GraphicsCommandList* cmdList = dxCommon->GetCmdList();
-
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画

@@ -185,6 +185,12 @@ public: // メンバ関数
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
 
 	/// <summary>
+	///  X,Y,Z軸回りの回転角
+	/// </summary>
+	/// <param name="rotation">回転角</param>
+	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+
+	/// <summary>
 	/// setter
 	/// </summary>
 	void SetModel(Model* model) { this->model = model; }

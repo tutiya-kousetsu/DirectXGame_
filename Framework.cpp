@@ -1,5 +1,5 @@
 #include "Framework.h"
-//#include "FbxLoader.h"
+#include "FbxLoader.h"
 
 void Framework::Run()
 {
@@ -31,7 +31,7 @@ void Framework::Initialize()
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(winApp);
 
-	//FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
 	//スプライト共通部分の初期化
 	spriteCommon = SpriteCommon::GetInstance();
@@ -68,7 +68,7 @@ void Framework::Finalize()
 	//WindowsAPI解放
 	delete winApp;
 	//FBXの解放
-	//FbxLoader::GetInstance()->Finalize();
+	FbxLoader::GetInstance()->Finalize();
 
 }
 

@@ -45,8 +45,9 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Finalize()
 {
+	//カメラの解放
 	delete camera;
-	//スプライト個別解放
+	//スプライト解放
 	delete sprite;
 	//3Dモデル解放
 	delete modelPost;

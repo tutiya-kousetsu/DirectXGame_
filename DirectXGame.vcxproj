@@ -149,10 +149,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="Resources\shaders\FBX.hlsli" />
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\shaders\FBXPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\shaders\OBJPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
@@ -202,6 +211,7 @@
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Fbx_Model.cpp" />
+    <ClCompile Include="Fbx_Object3d.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GamePlayScene.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -226,6 +236,7 @@
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Fbx_Model.h" />
+    <ClInclude Include="Fbx_Object3d.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GamePlayScene.h" />
     <ClInclude Include="Input.h" />

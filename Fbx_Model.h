@@ -67,13 +67,12 @@ public:
 	//バッファ生成
 	void CreateBuffers(ID3D12Device* device);
 	//描画
-	void Draw();
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	//モデルの変形行列取得
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+
 private://メンバ変数
-	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
 	//モデル名
 	std::string name;
 	//ノード配列

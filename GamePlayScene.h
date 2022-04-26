@@ -4,8 +4,7 @@
 #include "Sprite.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
-//#include "FbxObject3d.h"
-
+#include "Fbx_Object3d.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -35,9 +34,9 @@ private:
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
-	DirectXCommon* dxCommon = nullptr;
+	DirectXCommon* dxCommon;
 
-	//FbxModel* fbxmodel1 = nullptr;
-	//FbxObject3d* fbxobject1 = nullptr;
+	Fbx_Model* fbxmodel1 = nullptr;
+	Fbx_Object3d* fbxobject1 = nullptr;
 };
 

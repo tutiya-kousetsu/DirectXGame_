@@ -71,7 +71,6 @@ void GamePlayScene::Update()
 			speed = 0.75f;
 			speed2 = 0.75f;
 		}
-	//playerPos.y -= speed;
 
 	// À•W‘€ì
 	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))

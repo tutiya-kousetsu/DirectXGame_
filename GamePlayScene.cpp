@@ -28,7 +28,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//音声再生
 	//audio->SoundPlayWave("Alarm01.wav", true);
 
-	
+
 	//objChr->SetPosition({ +10,0,+5 });
 	//カメラの初期化
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
@@ -95,13 +95,11 @@ void GamePlayScene::Update()
 	camera->Update();
 	fbxobject1->Update();
 	sprite->Update();
-	
+
 }
 
-void GamePlayScene::Draw()
+void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-	// コマンドリストの取得
-	//ID3D12GraphicsCommandList* cmdList = dxCommon->GetCmdList();
 
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
@@ -110,11 +108,11 @@ void GamePlayScene::Draw()
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
-	
+
 	//3Dオブジェクトの描画
 	//objPost->Draw();
-	
-	fbxobject1->Draw(cmdList);
+
+	fbxobject1->Draw(dxCommon->GetCmdList());
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 

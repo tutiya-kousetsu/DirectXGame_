@@ -45,23 +45,15 @@ private:
 	ComPtr<ID3D12Device> dev;
 	//DXGIファクトリ
 	ComPtr<IDXGIFactory6> dxgiFactory;
-
 	ComPtr<ID3D12CommandAllocator> cmdAllocator;
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
 	ComPtr<ID3D12CommandQueue> cmdQueue;
-
 	ComPtr<IDXGISwapChain4> swapchain;
-
 	ComPtr<ID3D12DescriptorHeap> rtvHeaps;
-
 	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
-
 	ComPtr<ID3D12Resource> depthBuffer;
-
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
-
 	ComPtr<ID3D12Fence> fence;
-
 	UINT64 fenceVal = 0;
 
 };

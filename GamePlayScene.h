@@ -26,7 +26,7 @@ public:
 	/// <summary>
 	/// •`‰æ
 	/// </summary>
-	void Draw();
+	void Draw(DirectXCommon* dxCommon);
 
 private:
 	

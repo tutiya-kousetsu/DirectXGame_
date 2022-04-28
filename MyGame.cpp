@@ -31,7 +31,7 @@ void MyGame::Draw()
 	dxCommon->PreDraw();
 
 	//シーン描画
-	this->scene->Draw();
+	this->scene->Draw(dxCommon);
 
 	//デバックテキスト描画
 	debugText->DrawAll();

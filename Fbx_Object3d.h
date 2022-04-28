@@ -2,6 +2,7 @@
 #include "Fbx_Model.h"
 #include "Camera.h"
 //#include "FbxLoader.h"
+//#include "Dire"
 
 #include <Windows.h>
 #include <wrl.h>

@@ -67,6 +67,13 @@ public://メンバ関数
 	/// <param name="fbxNode">解析対象のノード</param>
 	void ParseMesh(Fbx_Model* fbx_model, FbxNode* fbxNode);
 
+	/// <summary>
+	/// FBXの行列をXMMatrixに変換
+	/// </summary>
+	/// <param name="dst">書き込み先</param>
+	/// <param name="src">元となるFBX行列</param>
+	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src);
+
 	//頂点情報読み取り
 	void ParseMeshVertices(Fbx_Model* fbx_model, FbxMesh* fbxMesh);
 	//面情報読み取り
@@ -77,6 +84,9 @@ public://メンバ関数
 	void LoadTexture(Fbx_Model* fbx_model, const std::string& fullpath);
 	//ディレクトリを含んだファイルパスからファイル名を抽出する
 	std::string ExtractFileName(const std::string& path);
+	//スキニング情報の読み取り
+	void ParseSkin(Fbx_Model* fbx_model, FbxMesh* fbxMesh);
+
 private:
 	//D3D12デバイス
 	ID3D12Device* device = nullptr;
@@ -84,5 +94,4 @@ private:
 	FbxManager* fbxManager = nullptr;
 	//FBXインポータ
 	FbxImporter* fbxImporter = nullptr;
-
 };

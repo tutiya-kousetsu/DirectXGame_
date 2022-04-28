@@ -36,11 +36,11 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	Object3d::SetCamera(camera);
 
 	//camera->SetEye({ 0, 0, -50 });
-	camera->SetTarget({ 0,20,0 });
+	camera->SetTarget({ 0,0,0 });
 	camera->SetDistance(100.0f);
 	//モデル名を指定してファイルを読み込む
 	//FbxLoader::GetInstance()->LoadModelFromFile("cube");
-	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
@@ -73,10 +73,10 @@ void GamePlayScene::Update()
 	Input* input = Input::GetInstance();
 	objPost->SetPosition({ 0, 15,10 });
 	objPost->SetRotation({ -45, 0, 0 });
-	//if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
-	//{
-
-	//}
+	if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
+	{
+		fbxobject1->PlayAnimation();
+	}
 
 	// 座標操作
 	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))

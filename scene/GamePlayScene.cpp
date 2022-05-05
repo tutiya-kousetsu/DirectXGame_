@@ -100,7 +100,6 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画

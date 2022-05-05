@@ -83,7 +83,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)input;$(ProjectDir)base;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)FBX;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectrDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -204,24 +204,24 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DebugCamera.cpp" />
-    <ClCompile Include="DebugText.cpp" />
-    <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="FbxLoader.cpp" />
-    <ClCompile Include="Fbx_Model.cpp" />
-    <ClCompile Include="Fbx_Object3d.cpp" />
+    <ClCompile Include="2d\DebugText.cpp" />
+    <ClCompile Include="2d\Sprite.cpp" />
+    <ClCompile Include="2d\SpriteCommon.cpp" />
+    <ClCompile Include="3d\Model.cpp" />
+    <ClCompile Include="3d\Object3d.cpp" />
+    <ClCompile Include="audio\Audio.cpp" />
+    <ClCompile Include="base\DirectXCommon.cpp" />
+    <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="camera\Camera.cpp" />
+    <ClCompile Include="camera\DebugCamera.cpp" />
+    <ClCompile Include="FBX\FbxLoader.cpp" />
+    <ClCompile Include="FBX\Fbx_Model.cpp" />
+    <ClCompile Include="FBX\Fbx_Object3d.cpp" />
     <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="GamePlayScene.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyGame.cpp" />
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteCommon.cpp" />
-    <ClCompile Include="WinApp.cpp" />
+    <ClCompile Include="scene\GamePlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
@@ -229,24 +229,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="DebugText.h" />
-    <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="FbxLoader.h" />
-    <ClInclude Include="Fbx_Model.h" />
-    <ClInclude Include="Fbx_Object3d.h" />
+    <ClInclude Include="2d\DebugText.h" />
+    <ClInclude Include="2d\PipelineSet.h" />
+    <ClInclude Include="2d\Sprite.h" />
+    <ClInclude Include="2d\SpriteCommon.h" />
+    <ClInclude Include="3d\Model.h" />
+    <ClInclude Include="3d\Object3d.h" />
+    <ClInclude Include="audio\Audio.h" />
+    <ClInclude Include="base\DirectXCommon.h" />
+    <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="camera\Camera.h" />
+    <ClInclude Include="camera\DebugCamera.h" />
+    <ClInclude Include="FBX\FbxLoader.h" />
+    <ClInclude Include="FBX\Fbx_Model.h" />
+    <ClInclude Include="FBX\Fbx_Object3d.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="GamePlayScene.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="input\Input.h" />
     <ClInclude Include="MyGame.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="PipelineSet.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteCommon.h" />
-    <ClInclude Include="WinApp.h" />
+    <ClInclude Include="scene\GamePlayScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

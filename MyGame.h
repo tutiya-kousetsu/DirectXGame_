@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+#include "BaseScene.h"
 #include "Framework.h"
 
 class GamePlayScene;

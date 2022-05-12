@@ -4,6 +4,7 @@
 #include "Framework.h"
 
 class GamePlayScene;
+class TitleScene;
 
 /// <summary>
 /// ゲーム固有のクラス
@@ -34,6 +35,7 @@ public:
 
 private:
 	//シーン
-	GamePlayScene* scene = nullptr;
+	//GamePlayScene* scene = nullptr;
+	TitleScene* scene = nullptr;
 };
 

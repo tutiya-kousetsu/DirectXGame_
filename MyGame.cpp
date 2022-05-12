@@ -1,12 +1,13 @@
 #include "MyGame.h"
 #include "GamePlayScene.h"
+#include "TitleScene.h"
 void MyGame::Initialize()
 {
 	//基底クラスの初期化
 	Framework::Initialize();
 
 #pragma region シーン初期化処理
-	this->scene = new GamePlayScene();
+	this->scene = new TitleScene();
 	this->scene->Initialize(dxCommon);
 }
 

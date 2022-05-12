@@ -9,11 +9,15 @@
 class TitleScene : public BaseScene
 {
 public:
+	TitleScene(SceneManager* sceneManager);
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
 	void Initialize(DirectXCommon* dxCommon) override;
 
+	/// <summary>
+	/// I—¹
+	/// </summary>
 	void Finalize() override;
 
 	/// <summary>

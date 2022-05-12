@@ -1,9 +1,15 @@
 #include "TitleScene.h"
+#include "SceneManager.h"
 #include "Audio.h"
 #include "Input.h"
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
+
+TitleScene::TitleScene(SceneManager* sceneManager)
+	:BaseScene(sceneManager)
+{
+}
 
 void TitleScene::Initialize(DirectXCommon* dxCommon)
 {

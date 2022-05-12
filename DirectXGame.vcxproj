@@ -205,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugText.cpp" />
@@ -219,6 +220,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="Object3d.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteCommon.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -246,6 +248,7 @@
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="PipelineSet.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteCommon.h" />
     <ClInclude Include="TitleScene.h" />

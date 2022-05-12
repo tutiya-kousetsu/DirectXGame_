@@ -12,11 +12,15 @@
 class GamePlayScene : public BaseScene
 {
 public:
+	GamePlayScene(SceneManager* sceneManager);
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
 	void Initialize(DirectXCommon* dxCommon) override;
 
+	/// <summary>
+	/// I—¹
+	/// </summary>
 	void Finalize() override;
 
 	/// <summary>

@@ -56,6 +56,8 @@ void Framework::Initialize()
 
 	//3Dオブジェット静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(),dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
+	//シーンマネーギャーの生成
+	this->sceneManager = new SceneManager();
 }
 
 void Framework::Finalize()
@@ -82,9 +84,23 @@ void Framework::Update()
 	}
 	//入力の更新
 	input->Update();
-
+	/// <summary>
+	/// シーンの更新
+	/// </summary>
+	this->sceneManager->Update(dxCommon);
 }
 
 void Framework::Draw()
 {
+	//描画前処理
+	dxCommon->PreDraw();
+
+	//シーン描画
+	this->sceneManager->Draw(dxCommon);
+
+	//デバックテキスト描画
+	debugText->DrawAll();
+
+	//描画後処理
+	dxCommon->PostDraw();
 }

@@ -7,13 +7,13 @@ void MyGame::Initialize()
 	Framework::Initialize();
 
 #pragma region シーン初期化処理
-	this->scene = new TitleScene();
-	this->scene->Initialize(dxCommon);
+	BaseScene* scene = new GamePlayScene(this->sceneManager);
+	//シーンマネージャーに最初のシーンをセット
+	this->sceneManager->SetNextScene(scene);
 }
 
 void MyGame::Finalize()
 {
-	this->scene->Finalize();
 	//基底クラスの終了処理
 	Framework::Finalize();
 }
@@ -22,21 +22,10 @@ void MyGame::Update()
 {
 	//基底クラスの更新処理
 	Framework::Update();
-
-	this->scene->Update();
 }
 
 void MyGame::Draw()
 {
-	//描画前処理
-	dxCommon->PreDraw();
-
-	//シーン描画
-	this->scene->Draw(dxCommon);
-
-	//デバックテキスト描画
-	debugText->DrawAll();
-
-	//描画後処理
-	dxCommon->PostDraw();
+	//基底クラスの描画処理
+	Framework::Draw();
 }

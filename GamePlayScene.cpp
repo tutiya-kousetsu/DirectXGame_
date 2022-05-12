@@ -1,9 +1,15 @@
 #include "GamePlayScene.h"
+#include "SceneManager.h"
 #include "Audio.h"
 #include "Input.h"
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
+
+GamePlayScene::GamePlayScene(SceneManager* sceneManager)
+	:BaseScene(sceneManager)
+{
+}
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {

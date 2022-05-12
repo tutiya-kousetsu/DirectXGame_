@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "Framework.h"
-#include "BaseScene.h"
 
 /// <summary>
 /// ゲーム固有のクラス
@@ -32,7 +31,6 @@ public:
 	void Draw() override;
 
 private:
-	//シーン
-	BaseScene* scene = nullptr;
+
 };
 

@@ -1,12 +1,17 @@
 #pragma once
 #include "DirectXCommon.h"
 
+//前方宣言
+class SceneManager;
+
 /// <summary>
-/// シーンインターフェース
+/// シーン基底
 /// </summary>
 class BaseScene
 {
+	
 public:
+	BaseScene(SceneManager* sceneManager);
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -26,5 +31,9 @@ public:
 	/// 描画
 	/// </summary>
 	virtual void Draw(DirectXCommon* dxCommon) = 0;
+
+private:
+	//シーンマネージャー(借りてくるもの)
+	SceneManager* sceneManager = nullptr;
 };
 

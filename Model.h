@@ -1,11 +1,13 @@
 #pragma once
+#include <string>
 #include <DirectXMath.h>
-#include<vector>
-//#include <sstream>
-#include <d3dx12.h>
+#include <vector>
+#include <DirectXTex.h>
+#include <Windows.h>
+#include <wrl.h>
 #include <d3d12.h>
-#include<wrl.h>
-#include<string>
+#include <d3dx12.h>
+#include <fbxsdk.h>
 
 /// <summary>
 /// 3Dƒ‚ƒfƒ‹

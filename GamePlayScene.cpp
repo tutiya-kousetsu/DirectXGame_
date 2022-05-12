@@ -3,8 +3,9 @@
 #include "Input.h"
 #include "DebugText.h"
 #include "FbxLoader.h"
+#include "Fbx_Object3d.h"
 
-void GamePlayScene::Initialize()
+void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み
 	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
@@ -27,27 +28,39 @@ void GamePlayScene::Initialize()
 	//音声再生
 	//audio->SoundPlayWave("Alarm01.wav", true);
 
-	//objPost->SetPosition({ -10,0,-5 });
+
 	//objChr->SetPosition({ +10,0,+5 });
 	//カメラの初期化
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
-	camera->SetEye({ 0, 0, -50 });
-	camera->SetTarget({ 0,0,-10 });
-
+	//camera->SetEye({ 0, 0, -50 });
+	camera->SetTarget({ 0,0,0 });
+	camera->SetDistance(100.0f);
 	//モデル名を指定してファイルを読み込む
-	FbxLoader::GetInstance()->LoadModelFromFile("cube");
-	//playerPos = { -100, -10, 0 };
-	playerPos = objPost->GetPosition();
+	//FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+
+	//デバイスをセット
+	Fbx_Object3d::SetDevice(dxCommon->GetDev());
+	//カメラをセット
+	Fbx_Object3d::SetCamera(camera);
+	//グラフィックスパイプライン生成
+	Fbx_Object3d::CreateGraphicsPipeline();
+
+	//3Dオブジェクト生成とモデルのセット
+	fbxobject1 = new Fbx_Object3d;
+	fbxobject1->Initialize();
+	fbxobject1->SetModel(fbxmodel1);
 }
 
 void GamePlayScene::Finalize()
 {
-	//カメラの解放
+	delete fbxobject1;
+	delete fbxmodel1;
 	delete camera;
-	//スプライト解放
+	//スプライト個別解放
 	delete sprite;
 	//3Dモデル解放
 	delete modelPost;
@@ -58,19 +71,12 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
-	
-		if (playerPos.x <= 70) {
-			playerPos.x += speed;
-			playerPos.y += speed2;
-			speed2 -= t;
-		}
-		if (playerPos.x >= 70 || playerPos.y <= -40) {
-			playerPos.x = -70;
-			playerPos.y = -10;
-			t = 0.01;
-			speed = 0.75f;
-			speed2 = 0.75f;
-		}
+	objPost->SetPosition({ 0, 15,10 });
+	objPost->SetRotation({ -45, 0, 0 });
+	if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
+	{
+		fbxobject1->PlayAnimation();
+	}
 
 	// 座標操作
 	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
@@ -78,21 +84,21 @@ void GamePlayScene::Update()
 
 	}*/
 
-	objPost->SetPosition(playerPos);
-
 	//X座標,Y座標を指定して表示
-	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
+	DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
-	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
+	DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	//更新
 	objPost->Update();
 	//objChr->Update();
 	camera->Update();
+	fbxobject1->Update();
 	sprite->Update();
+
 }
 
-void GamePlayScene::Draw()
+void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
@@ -103,8 +109,9 @@ void GamePlayScene::Draw()
 	Object3d::PreDraw();
 
 	//3Dオブジェクトの描画
-	objPost->Draw();
+	//objPost->Draw();
 
+	fbxobject1->Draw(dxCommon->GetCmdList());
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 

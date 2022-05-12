@@ -3,18 +3,27 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include "DebugCamera.h"
-#include "DirectXCommon.h"
-#include "Fbx_Object3d.h"
+#include <DirectXMath.h>
+
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
 class GamePlayScene
 {
+private: // エイリアス
+// Microsoft::WRL::を省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize();
 
 	void Finalize();
 
@@ -26,17 +35,19 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(DirectXCommon* dxCommon);
+	void Draw();
 
 private:
-	
 	Sprite* sprite = nullptr;
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
-	DirectXCommon* dxCommon;
 
-	Fbx_Model* fbxmodel1 = nullptr;
-	Fbx_Object3d* fbxobject1 = nullptr;
+	float speed = 0.75f;
+	float t = 0.01f;
+	float speed2 = 0.75f;
+	double g = 0.0f;
+	int Flag = 0;
+	XMFLOAT3 playerPos;
 };
 

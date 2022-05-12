@@ -2,9 +2,7 @@
 #include <vector>
 
 #include "Framework.h"
-
-class GamePlayScene;
-class TitleScene;
+#include "BaseScene.h"
 
 /// <summary>
 /// ゲーム固有のクラス
@@ -35,7 +33,6 @@ public:
 
 private:
 	//シーン
-	//GamePlayScene* scene = nullptr;
-	TitleScene* scene = nullptr;
+	BaseScene* scene = nullptr;
 };
 

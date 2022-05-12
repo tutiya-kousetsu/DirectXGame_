@@ -1,5 +1,12 @@
 #include "SceneManager.h"
 
+SceneManager::~SceneManager()
+{
+	//最後のシーンの終了と解放
+	this->scene->Finalize();
+	delete this->scene;
+}
+
 void SceneManager::Update(DirectXCommon* dxCommon)
 {
 	//シーンの切り替え

@@ -62,6 +62,9 @@ void Framework::Initialize()
 
 void Framework::Finalize()
 {
+
+	//シーンマネージャー解放
+	delete sceneManager;
 	//シングルトンにしたらdeleteダメ
 	//DirectX解放
 	delete dxCommon;

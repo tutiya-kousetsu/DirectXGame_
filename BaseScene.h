@@ -32,7 +32,7 @@ public:
 	/// </summary>
 	virtual void Draw(DirectXCommon* dxCommon) = 0;
 
-private:
+protected:
 	//シーンマネージャー(借りてくるもの)
 	SceneManager* sceneManager = nullptr;
 };

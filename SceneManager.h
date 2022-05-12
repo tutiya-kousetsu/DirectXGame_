@@ -8,6 +8,7 @@
 class SceneManager
 {
 public:
+	~SceneManager();
 	/// <summary>
 	/// XV
 	/// </summary>

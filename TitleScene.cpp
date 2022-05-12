@@ -5,7 +5,7 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
-
+#include "GamePlayScene.h"
 TitleScene::TitleScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -40,8 +40,11 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
-	if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
+	if (input->TriggerKey(DIK_SPACE))     // スペースキーが押されていたら
 	{
+		//シーン切り替え
+		BaseScene* scene = new GamePlayScene(this->sceneManager);
+		this->sceneManager->SetNextScene(scene);
 	}
 
 	// 座標操作

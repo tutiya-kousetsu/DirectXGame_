@@ -34,7 +34,7 @@ private:
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
-	DirectXCommon* dxCommon;
+	DirectXCommon* dxCommon = nullptr;
 
 	Fbx_Model* fbxmodel1 = nullptr;
 	Fbx_Object3d* fbxobject1 = nullptr;

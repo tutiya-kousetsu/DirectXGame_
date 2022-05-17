@@ -15,7 +15,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み
 	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
-	//spriteCommon->LoadTexture(2, L"Resources/house.png");
 
 	//スプライトの生成
 	sprite = Sprite::Create(1, { 0,0 }, false, false);
@@ -34,8 +33,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//音声再生
 	//audio->SoundPlayWave("Alarm01.wav", true);
 
-
-	//objChr->SetPosition({ +10,0,+5 });
 	//カメラの初期化
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	//カメラを3Dオブジェットにセット
@@ -45,7 +42,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	camera->SetTarget({ 0,0,0 });
 	camera->SetDistance(100.0f);
 	//モデル名を指定してファイルを読み込む
-	//FbxLoader::GetInstance()->LoadModelFromFile("cube");
 	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	//デバイスをセット

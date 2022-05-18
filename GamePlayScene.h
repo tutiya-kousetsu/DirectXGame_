@@ -41,6 +41,7 @@ private:
 	Sprite* sprite = nullptr;
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
+	Object3d* objPost2 = nullptr;
 	DebugCamera* camera = nullptr;
 
 	float speed = 0.75f;
@@ -48,6 +49,10 @@ private:
 	float speed2 = 0.75f;
 	double g = 0.0f;
 	int Flag = 0;
+	float R = 1;
 	XMFLOAT3 playerPos;
+	XMFLOAT3 playerScale;
+	XMFLOAT3 playerPos2;
+	XMFLOAT3 playerScale2;
 };
 

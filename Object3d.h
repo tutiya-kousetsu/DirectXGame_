@@ -185,6 +185,12 @@ public: // メンバ関数
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
 
 	/// <summary>
+	/// スケールの取得
+	/// </summary>
+	/// <param name="scale">スケール</param>
+	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+
+	/// <summary>
 	/// setter
 	/// </summary>
 	void SetModel(Model* model) { this->model = model; }
@@ -199,7 +205,7 @@ private: // メンバ変数
 	// X,Y,Z軸回りのローカル回転角
 	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 70,0,0 };
+	XMFLOAT3 position = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト

@@ -20,7 +20,8 @@ void GamePlayScene::Initialize()
 	//3Dオブジェクト生成
 	objPost = Object3d::Create();
 	objPost->SetModel(modelPost);
-
+	objPost2 = Object3d::Create();
+	objPost2->SetModel(modelPost);
 	//音声読み込み
 	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
 
@@ -39,12 +40,17 @@ void GamePlayScene::Initialize()
 
 	//モデル名を指定してファイルを読み込む
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
-	//playerPos = { -100, -10, 0 };
-	playerPos = objPost->GetPosition();
+
+	//playerPos = objPost->GetPosition();
+	playerPos = { -70, 0, 0 };
+	//playerPos2 = objPost2->GetPosition();
+	playerPos2 = { 70, 0, 0 };
+
 }
 
 void GamePlayScene::Finalize()
 {
+	delete objPost2;
 	//カメラの解放
 	delete camera;
 	//スプライト解放
@@ -53,13 +59,16 @@ void GamePlayScene::Finalize()
 	delete modelPost;
 	//3Dオブジェクト解放
 	delete objPost;
+
 }
 
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
-	
-		if (playerPos.x <= 70) {
+	objPost->SetScale({ 1.5f, 1.5f, 1.5f });
+	objPost2->SetScale({ 2.0f, 2.0f, 2.0f });
+	//放物線運動
+		/*if (playerPos.x <= 70) {
 			playerPos.x += speed;
 			playerPos.y += speed2;
 			speed2 -= t;
@@ -70,16 +79,36 @@ void GamePlayScene::Update()
 			t = 0.01;
 			speed = 0.75f;
 			speed2 = 0.75f;
-		}
+		}*/
 
-	// 座標操作
-	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
-	{
+	if (playerPos.x <= 70) {
+		playerPos.x += speed;
 
-	}*/
+	}
+	if (playerPos.x >= 70) {
+		playerPos.x = -70;
+		speed = 0.75f;
+	}
+	if (playerPos2.x >= -70) {
+		playerPos2.x -= speed2;
+
+	}
+	if (playerPos2.x <= -70) {
+		playerPos2.x = 70;
+		speed = 0.75f;
+	}
+
+	//	float dx = abs(playerPos.x - playerPos2.x);
+
+	float enemyi;
+	enemyi = sqrtf((playerPos.x - playerPos2.x) * (playerPos.x - playerPos2.x) + (playerPos.y - playerPos2.y) * (playerPos.y - playerPos2.y));
+	if (R + R >= enemyi) {
+		speed = -speed;
+		speed2 = -speed2;
+	}
 
 	objPost->SetPosition(playerPos);
-
+	objPost2->SetPosition(playerPos2);
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
@@ -87,6 +116,7 @@ void GamePlayScene::Update()
 
 	//更新
 	objPost->Update();
+	objPost2->Update();
 	//objChr->Update();
 	camera->Update();
 	sprite->Update();
@@ -97,14 +127,14 @@ void GamePlayScene::Draw()
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
-	sprite->Draw();
+	//sprite->Draw();
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 
 	//3Dオブジェクトの描画
 	objPost->Draw();
-
+	objPost2->Draw();
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 

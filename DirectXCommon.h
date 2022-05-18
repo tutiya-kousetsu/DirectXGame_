@@ -9,7 +9,13 @@
 
 class DirectXCommon
 {
+private: // エイリアス
+// Microsoft::WRL::を省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 public:
+	static DirectXCommon* GetInstance();
+
 	void Initialize(WinApp* winApp);
 
 	void PreDraw();
@@ -36,26 +42,18 @@ private:
 	WinApp* winApp = nullptr;
 
 	//デバイス
-	Microsoft::WRL::ComPtr<ID3D12Device> dev;
+	ComPtr<ID3D12Device> dev;
 	//DXGIファクトリ
-	Microsoft::WRL::ComPtr<IDXGIFactory6> dxgiFactory;
-
-	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> cmdAllocator;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList;
-	Microsoft::WRL::ComPtr<ID3D12CommandQueue> cmdQueue;
-
-	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapchain;
-
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeaps;
-
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
-
-	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuffer;
-
-	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> backBuffers;
-
-	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
-
+	ComPtr<IDXGIFactory6> dxgiFactory;
+	ComPtr<ID3D12CommandAllocator> cmdAllocator;
+	ComPtr<ID3D12GraphicsCommandList> cmdList;
+	ComPtr<ID3D12CommandQueue> cmdQueue;
+	ComPtr<IDXGISwapChain4> swapchain;
+	ComPtr<ID3D12DescriptorHeap> rtvHeaps;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
+	ComPtr<ID3D12Resource> depthBuffer;
+	std::vector<ComPtr<ID3D12Resource>> backBuffers;
+	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 
 };

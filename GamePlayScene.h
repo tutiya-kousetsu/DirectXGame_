@@ -1,58 +1,49 @@
 #pragma once
 
+#include "BaseScene.h"
 #include "Object3d.h"
 #include "Sprite.h"
 #include "DebugCamera.h"
-#include <DirectXMath.h>
-
+#include "DirectXCommon.h"
+#include "Fbx_Object3d.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
-class GamePlayScene
+class GamePlayScene : public BaseScene
 {
-private: // エイリアス
-// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-
 public:
+	GamePlayScene(SceneManager* sceneManager);
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(DirectXCommon* dxCommon) override;
 
-	void Finalize();
+	/// <summary>
+	/// 終了
+	/// </summary>
+	void Finalize() override;
 
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw(DirectXCommon* dxCommon) override;
 
 private:
+	
 	Sprite* sprite = nullptr;
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	Object3d* objPost2 = nullptr;
 	DebugCamera* camera = nullptr;
+	DirectXCommon* dxCommon = nullptr;
 
-	float speed = 0.75f;
-	float t = 0.01f;
-	float speed2 = 0.75f;
-	double g = 0.0f;
-	int Flag = 0;
-	float R = 1;
-	XMFLOAT3 playerPos;
-	XMFLOAT3 playerScale;
-	XMFLOAT3 playerPos2;
-	XMFLOAT3 playerScale2;
+	Fbx_Model* fbxmodel1 = nullptr;
+	Fbx_Object3d* fbxobject1 = nullptr;
+	Fbx_Object3d* fbxobject2 = nullptr;
 };
 

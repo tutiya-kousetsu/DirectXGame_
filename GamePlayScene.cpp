@@ -33,6 +33,7 @@ void GamePlayScene::Initialize()
 	//モデル名を指定してファイルを読み込む
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
+	//プレイヤーの初期位置
 	playerPos = { -70, 0, 0 };
 	playerPos2 = { 70, 0, 0 };
 
@@ -40,16 +41,15 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Finalize()
 {
+	//3Dオブジェクト解放
+	delete objPost;
 	delete objPost2;
+	//3Dモデル解放
+	delete modelPost;
 	//カメラの解放
 	delete camera;
 	//スプライト解放
 	delete sprite;
-	//3Dモデル解放
-	delete modelPost;
-	//3Dオブジェクト解放
-	delete objPost;
-
 }
 
 void GamePlayScene::Update()

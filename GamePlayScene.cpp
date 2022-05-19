@@ -22,14 +22,6 @@ void GamePlayScene::Initialize()
 	objPost->SetModel(modelPost);
 	objPost2 = Object3d::Create();
 	objPost2->SetModel(modelPost);
-	//音声読み込み
-	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
-
-	//音声再生
-	//audio->SoundPlayWave("Alarm01.wav", true);
-
-	//objPost->SetPosition({ -10,0,-5 });
-	//objChr->SetPosition({ +10,0,+5 });
 	//カメラの初期化
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	//カメラを3Dオブジェットにセット
@@ -41,9 +33,7 @@ void GamePlayScene::Initialize()
 	//モデル名を指定してファイルを読み込む
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
-	//playerPos = objPost->GetPosition();
 	playerPos = { -70, 0, 0 };
-	//playerPos2 = objPost2->GetPosition();
 	playerPos2 = { 70, 0, 0 };
 
 }
@@ -97,8 +87,6 @@ void GamePlayScene::Update()
 		playerPos2.x = 70;
 		speed = 0.75f;
 	}
-
-	//	float dx = abs(playerPos.x - playerPos2.x);
 
 	float enemyi;
 	enemyi = sqrtf((playerPos.x - playerPos2.x) * (playerPos.x - playerPos2.x) + (playerPos.y - playerPos2.y) * (playerPos.y - playerPos2.y));

@@ -73,18 +73,13 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
-	objPost->SetPosition({ 0, 15,10 });
-	objPost->SetRotation({ -45, 0, 0 });
+	//objPost->SetPosition({ 0, 15,10 });
+	//objPost->SetRotation({ -45, 0, 0 });
+	fbxobject1->SetRotation({ 0, 90, 0 });
 	if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
 	{
 		fbxobject1->PlayAnimation();
 	}
-
-	// 座標操作
-	/*if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
-	{
-
-	}*/
 
 	//X座標,Y座標を指定して表示
 	DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);

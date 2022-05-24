@@ -46,7 +46,7 @@ private:
 
 	float speed = 0.75f;
 	float t = 0.01f;
-	float speed2 = 0.75f;
+	float speed2 = 0.15f;
 	double g = 0.0f;
 	int Flag = 0;
 	float R = 1;

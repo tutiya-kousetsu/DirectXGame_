@@ -35,7 +35,7 @@ void GamePlayScene::Initialize()
 
 	//プレイヤーの初期位置
 	playerPos = { -70, 0, 0 };
-	playerPos2 = { 70, 0, 0 };
+	playerPos2 = { -10, 0, 0 };
 
 }
 
@@ -75,26 +75,17 @@ void GamePlayScene::Update()
 		playerPos.x += speed;
 
 	}
-	if (playerPos.x >= 70) {
-		playerPos.x = -70;
-		speed = 0.75f;
-	}
 	if (playerPos2.x >= -70) {
-		playerPos2.x -= speed2;
+		playerPos2.x += speed2;
 
-	}
-	if (playerPos2.x <= -70) {
-		playerPos2.x = 70;
-		speed = 0.75f;
 	}
 
 	float enemyi;
 	enemyi = sqrtf((playerPos.x - playerPos2.x) * (playerPos.x - playerPos2.x) + (playerPos.y - playerPos2.y) * (playerPos.y - playerPos2.y));
 	if (R + R >= enemyi) {
-		speed = -speed;
-		speed2 = -speed2;
+		speed = speed2;
+		speed2 += speed;
 	}
-
 	objPost->SetPosition(playerPos);
 	objPost2->SetPosition(playerPos2);
 	//X座標,Y座標を指定して表示

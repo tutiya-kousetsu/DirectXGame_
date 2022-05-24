@@ -73,11 +73,9 @@ void GamePlayScene::Update()
 
 	if (playerPos.x <= 70) {
 		playerPos.x += speed;
-
 	}
 	if (playerPos2.x >= -70) {
 		playerPos2.x += speed2;
-
 	}
 
 	float enemyi;
@@ -86,8 +84,11 @@ void GamePlayScene::Update()
 		speed = speed2;
 		speed2 += speed;
 	}
+
+
 	objPost->SetPosition(playerPos);
 	objPost2->SetPosition(playerPos2);
+
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情

@@ -34,8 +34,16 @@ void GamePlayScene::Initialize()
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
 	//プレイヤーの初期位置
-	playerPos = { -70, 0, 0 };
-	playerPos2 = { -10, 0, 0 };
+	//playerPos = { -70, 0, 0 };
+	//playerPos2 = { -15, 0, 0 };
+
+	// 全ての球の初期値
+	playerPos2 = { 0, 15, 0 };
+	m = 1.f;
+	v = { 0, 0, 0 };
+	a = { 0, -g, 0 };
+	r = 1.0f;
+
 
 }
 
@@ -56,7 +64,7 @@ void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
 	objPost->SetScale({ 1.5f, 1.5f, 1.5f });
-	objPost2->SetScale({ 2.0f, 2.0f, 2.0f });
+	objPost2->SetScale({ 3.0f, 3.0f, 3.0f });
 	//放物線運動
 		/*if (playerPos.x <= 70) {
 			playerPos.x += speed;
@@ -71,7 +79,8 @@ void GamePlayScene::Update()
 			speed2 = 0.75f;
 		}*/
 
-	if (playerPos.x <= 70) {
+	//衝突
+	/*if (playerPos.x <= 70) {
 		playerPos.x += speed;
 	}
 	if (playerPos2.x >= -70) {
@@ -80,12 +89,26 @@ void GamePlayScene::Update()
 
 	float collisioni;
 	collisioni = sqrtf((playerPos.x - playerPos2.x) * (playerPos.x - playerPos2.x) + (playerPos.y - playerPos2.y) * (playerPos.y - playerPos2.y));
-	if (R + R >= collisioni) {
+	if (r + r >= collisioni) {
 		speed = speed2;
 		speed2 += speed;
+	}*/
+
+	// 値を更新
+	v.y += a.y;
+	playerPos2.y += v.y;
+
+	v.z += a.z;
+	playerPos2.z += v.z;
+
+	v.x += a.x;
+	playerPos2.x += v.x;
+
+	// -10以下に移動したら跳ね返る
+	if (playerPos2.y < -10) {
+		playerPos2.y -= v.y;
+		v.y *= -repulCoe;
 	}
-
-
 	objPost->SetPosition(playerPos);
 	objPost2->SetPosition(playerPos2);
 
@@ -95,7 +118,7 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	//更新
-	objPost->Update();
+	//objPost->Update();
 	objPost2->Update();
 	//objChr->Update();
 	camera->Update();

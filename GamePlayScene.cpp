@@ -78,9 +78,9 @@ void GamePlayScene::Update()
 		playerPos2.x += speed2;
 	}
 
-	float enemyi;
-	enemyi = sqrtf((playerPos.x - playerPos2.x) * (playerPos.x - playerPos2.x) + (playerPos.y - playerPos2.y) * (playerPos.y - playerPos2.y));
-	if (R + R >= enemyi) {
+	float collisioni;
+	collisioni = sqrtf((playerPos.x - playerPos2.x) * (playerPos.x - playerPos2.x) + (playerPos.y - playerPos2.y) * (playerPos.y - playerPos2.y));
+	if (R + R >= collisioni) {
 		speed = speed2;
 		speed2 += speed;
 	}

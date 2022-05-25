@@ -37,6 +37,16 @@ public:
 	/// </summary>
 	void Draw();
 
+	struct gameObject
+	{
+		XMFLOAT3 pos;
+		XMFLOAT3 vel;
+		XMFLOAT3 acc;
+		float r;
+		float m = 1.f;
+		float repulCoe = 0.8f;    // íµÇÀï‘ÇËåWêî
+	};
+	gameObject objs[SPHERE_MAX]{};
 private:
 	Sprite* sprite = nullptr;
 	Model* modelPost = nullptr;

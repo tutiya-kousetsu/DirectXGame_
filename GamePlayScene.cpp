@@ -34,7 +34,7 @@ void GamePlayScene::Initialize()
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
 	//プレイヤーの初期位置
-	//playerPos = { -70, 0, 0 };
+	playerPos = { 0, 0, 0 };
 	//playerPos2 = { -15, 0, 0 };
 
 	// 全ての球の初期値
@@ -65,50 +65,31 @@ void GamePlayScene::Update()
 	Input* input = Input::GetInstance();
 	objPost->SetScale({ 1.5f, 1.5f, 1.5f });
 	objPost2->SetScale({ 3.0f, 3.0f, 3.0f });
-	//放物線運動
-		/*if (playerPos.x <= 70) {
-			playerPos.x += speed;
-			playerPos.y += speed2;
-			speed2 -= t;
-		}
-		if (playerPos.x >= 70 || playerPos.y <= -40) {
-			playerPos.x = -70;
-			playerPos.y = -10;
-			t = 0.01;
-			speed = 0.75f;
-			speed2 = 0.75f;
-		}*/
 
-	//衝突
-	/*if (playerPos.x <= 70) {
-		playerPos.x += speed;
-	}
-	if (playerPos2.x >= -70) {
-		playerPos2.x += speed2;
-	}
+	/*自機の動き*/
+	r = Angle * 3.14f / 180.0f;	//度数法の角度を弧度法に変換
 
-	float collisioni;
-	collisioni = sqrtf((playerPos.x - playerPos2.x) * (playerPos.x - playerPos2.x) + (playerPos.y - playerPos2.y) * (playerPos.y - playerPos2.y));
-	if (r + r >= collisioni) {
-		speed = speed2;
-		speed2 += speed;
-	}*/
+	float addX = cos(r) * Length;		//三角関数を使用し、円の位置を割り出す。
+	float addY = sin(r) * Length;
 
-	// 値を更新
-	v.y += a.y;
-	playerPos2.y += v.y;
+	playerPos.x = centerX + addX;						//結果で出てきた位置を中心位置に加算し、それを描画位置とする
+	playerPos.y = centerY + addY;
+	Angle += 3.0f;							//角度更新、時計回り
+	//// 値を更新(反発)
+	//v.y += a.y;
+	//playerPos2.y += v.y;
 
-	v.z += a.z;
-	playerPos2.z += v.z;
+	//v.z += a.z;
+	//playerPos2.z += v.z;
 
-	v.x += a.x;
-	playerPos2.x += v.x;
+	//v.x += a.x;
+	//playerPos2.x += v.x;
 
-	// -10以下に移動したら跳ね返る
-	if (playerPos2.y < -10) {
-		playerPos2.y -= v.y;
-		v.y *= -repulCoe;
-	}
+	//// -10以下に移動したら跳ね返る
+	//if (playerPos2.y < -10) {
+	//	playerPos2.y -= v.y;
+	//	v.y *= -repulCoe;
+	//}
 	objPost->SetPosition(playerPos);
 	objPost2->SetPosition(playerPos2);
 
@@ -118,8 +99,8 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	//更新
-	//objPost->Update();
-	objPost2->Update();
+	objPost->Update();
+	//objPost2->Update();
 	//objChr->Update();
 	camera->Update();
 	sprite->Update();

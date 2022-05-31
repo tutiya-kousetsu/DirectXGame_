@@ -52,6 +52,10 @@ private:
 	float r;
 	float m = 1.f;
 	float repulCoe = 0.8f;    // 跳ね返り係数
+	float Angle = 15.0f;             //角度
+	float Length = 20.0f;                 //半径の長さ
+	float centerX = 0;			//中心座標x
+	float centerY = 0;			//中心座標y
 	XMFLOAT3 playerPos;
 	XMFLOAT3 playerScale;
 	XMFLOAT3 playerPos2;

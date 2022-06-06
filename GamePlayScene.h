@@ -44,18 +44,18 @@ private:
 	Object3d* objPost2 = nullptr;
 	DebugCamera* camera = nullptr;
 
-	float speed = 0.75f;
-	float t = 0.01f;
-	float speed2 = 0.15f;
-	float g = 0.5f;
+	float speed = 0.75f;	//速度
+	float t = 0.01f;		//時間
+	float speed2 = 0.15f;	//速度
+	float g = 0.5f;			//重力
 	int Flag = 0;
-	float r;
-	float m = 1.f;
-	float repulCoe = 0.8f;    // 跳ね返り係数
-	float Angle = 15.0f;             //角度
-	float Length = 20.0f;                 //半径の長さ
-	float centerX = 0;			//中心座標x
-	float centerY = 0;			//中心座標y
+	float r;				//半径
+	float m;
+	float repulCoe = 0.8f;	//跳ね返り係数
+	float Angle = 15.0f;	//角度
+	float Length = 20.0f;	//半径の長さ
+	float centerX = 0;		//中心座標x
+	float centerY = 0;		//中心座標y
 	XMFLOAT3 playerPos;
 	XMFLOAT3 playerScale;
 	XMFLOAT3 playerPos2;

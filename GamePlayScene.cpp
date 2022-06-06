@@ -38,13 +38,11 @@ void GamePlayScene::Initialize()
 	//playerPos2 = { -15, 0, 0 };
 
 	// 全ての球の初期値
-	playerPos2 = { 0, 15, 0 };
-	m = 1.f;
+	/*playerPos2 = { 0, 15, 0 };
+	m = 1.0f;
 	v = { 0, 0, 0 };
 	a = { 0, -g, 0 };
-	r = 1.0f;
-
-
+	r = 1.0f;*/
 }
 
 void GamePlayScene::Finalize()
@@ -66,15 +64,15 @@ void GamePlayScene::Update()
 	objPost->SetScale({ 1.5f, 1.5f, 1.5f });
 	objPost2->SetScale({ 3.0f, 3.0f, 3.0f });
 
-	/*自機の動き*/
-	r = Angle * 3.14f / 180.0f;	//度数法の角度を弧度法に変換
+	//円運動
+	r = Angle * 3.14f / 180.0f;
 
-	float addX = cos(r) * Length;		//三角関数を使用し、円の位置を割り出す。
+	float addX = cos(r) * Length;
 	float addY = sin(r) * Length;
 
-	playerPos.x = centerX + addX;						//結果で出てきた位置を中心位置に加算し、それを描画位置とする
+	playerPos.x = centerX + addX;
 	playerPos.y = centerY + addY;
-	Angle += 3.0f;							//角度更新、時計回り
+	Angle -= 3.0f;				
 	//// 値を更新(反発)
 	//v.y += a.y;
 	//playerPos2.y += v.y;

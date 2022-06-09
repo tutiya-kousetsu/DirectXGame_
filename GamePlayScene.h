@@ -12,7 +12,6 @@
 class GamePlayScene : public BaseScene
 {
 public:
-	GamePlayScene(SceneManager* sceneManager);
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>

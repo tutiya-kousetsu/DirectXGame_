@@ -6,11 +6,6 @@
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
 
-GamePlayScene::GamePlayScene(SceneManager* sceneManager)
-	:BaseScene(sceneManager)
-{
-}
-
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み

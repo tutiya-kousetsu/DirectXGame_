@@ -11,7 +11,8 @@ class BaseScene
 {
 	
 public:
-	BaseScene(SceneManager* sceneManager);
+	virtual ~BaseScene() = default;
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -32,6 +33,7 @@ public:
 	/// </summary>
 	virtual void Draw(DirectXCommon* dxCommon) = 0;
 
+	virtual void SetSceneManager(SceneManager* sceneManager) { this->sceneManager = sceneManager; }
 protected:
 	//シーンマネージャー(借りてくるもの)
 	SceneManager* sceneManager = nullptr;

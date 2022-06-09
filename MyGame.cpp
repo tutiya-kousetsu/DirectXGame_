@@ -7,7 +7,7 @@ void MyGame::Initialize()
 	Framework::Initialize();
 
 #pragma region シーン初期化処理
-	BaseScene* scene = new TitleScene(this->sceneManager);
+	BaseScene* scene = new TitleScene();
 	//シーンマネージャーに最初のシーンをセット
 	this->sceneManager->SetNextScene(scene);
 }

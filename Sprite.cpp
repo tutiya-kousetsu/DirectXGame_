@@ -3,17 +3,29 @@
 
 using namespace DirectX;
 
+Sprite::Sprite(UINT texNumber, XMFLOAT3 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+{
+	this->position = position;
+	this->size = size;
+	this->anchorpoint = anchorpoint;
+	this->color = color;
+	this->texNumber = texNumber;
+	this->isFlipX = isFlipX;
+	this->isFlipY = isFlipY;
+}
+
+
 Sprite* Sprite::Create(UINT texNumber, DirectX::XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
 {
 	//メモリ確保
-	Sprite* instance = new Sprite;
+	Sprite* instance = new Sprite(texNumber, { 0, 0, 0 }, { 100.0f, 100.0f }, { 1, 1, 1, 1 }, anchorpoint, isFlipX, isFlipY);
 	//インスタンス初期化
-	instance->Initialize(texNumber, anchorpoint, isFlipX, isFlipY);
+	instance->Initialize();
 	
 	return instance;
 }
 
-void Sprite::Initialize(UINT texNumber, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+void Sprite::Initialize()
 {
 	HRESULT result = S_FALSE;
 

@@ -36,6 +36,7 @@ public:
 private:
 	
 	Sprite* sprite = nullptr;
+	Sprite* sprite1 = nullptr;
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
@@ -43,5 +44,6 @@ private:
 
 	Fbx_Model* fbxmodel1 = nullptr;
 	Fbx_Object3d* fbxobject1 = nullptr;
+
 };
 

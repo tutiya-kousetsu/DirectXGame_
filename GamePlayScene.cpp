@@ -15,10 +15,14 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み
 	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
-
 	//スプライトの生成
 	sprite = Sprite::Create(1, { 0,0 }, false, false);
 	sprite->SetPosition({ 0,0,0 });
+
+	SpriteCommon::GetInstance()->LoadTexture(2, L"Resources/tex1.png");
+	//スプライトの生成
+	sprite1 = Sprite::Create(2, { 0,0 }, false, false);
+	sprite1->SetPosition({ 0,0,0 });
 
 	//OBJからモデルデータを読み込む
 	modelPost = Model::LoadFromObj("post");
@@ -38,9 +42,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
-	//camera->SetEye({ 0, 0, -50 });
-	camera->SetTarget({ 0,0,0 });
-	camera->SetDistance(100.0f);
+	camera->SetEye({ 0, 3.0f, -7.0f });
+	camera->SetTarget({ 0,2.5f,0 });
+	camera->SetDistance(8.0f);
 	//モデル名を指定してファイルを読み込む
 	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
@@ -63,6 +67,7 @@ void GamePlayScene::Finalize()
 	delete fbxmodel1;
 	delete camera;
 	//スプライト個別解放
+	delete sprite1;
 	delete sprite;
 	//3Dモデル解放
 	delete modelPost;
@@ -82,17 +87,17 @@ void GamePlayScene::Update()
 	}
 
 	//X座標,Y座標を指定して表示
-	DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
+	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
-	DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
-
+	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
+	
 	//更新
 	objPost->Update();
 	//objChr->Update();
 	camera->Update();
 	fbxobject1->Update();
 	sprite->Update();
-
+	sprite1->Update();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -100,8 +105,8 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
-	sprite->Draw();
-
+	//sprite->Draw();
+	sprite1->Draw();
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 

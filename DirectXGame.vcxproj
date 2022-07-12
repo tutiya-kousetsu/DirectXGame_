@@ -157,10 +157,14 @@
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\shaders\FBXVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\shaders\OBJPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -220,6 +224,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="Object3d.cpp" />
+    <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteCommon.cpp" />
@@ -248,6 +253,7 @@
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="PipelineSet.h" />
+    <ClInclude Include="PostEffect.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteCommon.h" />

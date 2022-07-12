@@ -10,6 +10,15 @@
 /// </summary>
 class Sprite
 {
+private: // エイリアス
+// Microsoft::WRL::を省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+
 public:
 
 	// 頂点データ
@@ -23,6 +32,12 @@ public:
 		DirectX::XMFLOAT4 color; // 色 (RGBA)
 		DirectX::XMMATRIX mat;   // ３Ｄ変換行列
 	};
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Sprite(UINT texNumber, XMFLOAT3 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+
 	/// <summary>
 	/// スプライト生成
 	/// </summary>
@@ -32,11 +47,10 @@ public:
 	/// <param name="isFlipY">Y反転するか</param>
 	static Sprite* Create(UINT texNumber, DirectX::XMFLOAT2 anchorpoint = { 0.5f,0.5f }, bool isFlipX = false, bool isFlipY = false);
 
-
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(UINT texNumber, DirectX::XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+	void Initialize();
 
 	/// <summary>
 	/// 頂点バッファの転送
@@ -63,7 +77,7 @@ public:
 
 	void SetTexSize(const DirectX::XMFLOAT2& texSize) { this->texSize = texSize; }
 
-private:
+protected:
 	//頂点バッファ;
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff;
 	//頂点バッファビュー;
@@ -81,9 +95,9 @@ private:
 	// テクスチャ番号
 	UINT texNumber = 0;
 	// 大きさ
-	DirectX::XMFLOAT2 size = { 100, 100 };
+	DirectX::XMFLOAT2 size = { 100.0f, 100.0f };
 	// アンカーポイント
-	DirectX::XMFLOAT2 anchorpoint = { 0.5f, 0.5f };
+	DirectX::XMFLOAT2 anchorpoint = { 0, 0 };
 	// 左右反転
 	bool isFlipX = false;
 	// 上下反転
@@ -91,8 +105,14 @@ private:
 	// テクスチャ左上座標
 	DirectX::XMFLOAT2 texLeftTop = { 0, 0 };
 	// テクスチャ切り出しサイズ
-	DirectX::XMFLOAT2 texSize = { 100, 100 };
+	DirectX::XMFLOAT2 texSize = { 100.0f, 100.0f };
 	//非表示
 	bool isInvisible = false;
+	// 射影行列
+	static XMMATRIX matProjection;
+	// デスクリプタヒープ
+	static ComPtr<ID3D12DescriptorHeap> descHeap;
+	// デスクリプタサイズ
+	static UINT descriptorHandleIncrementSize;
 };
 

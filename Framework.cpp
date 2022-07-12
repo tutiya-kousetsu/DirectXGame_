@@ -50,6 +50,10 @@ void Framework::Initialize()
 	input = Input::GetInstance();
 	input->Initialize(winApp);
 
+	SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+
 	//オーディオの初期化
 	/*audio = Audio::GetInstance();
 	audio->Initialize();*/
@@ -62,7 +66,7 @@ void Framework::Initialize()
 
 void Framework::Finalize()
 {
-
+	delete postEffect;
 	//シーンマネージャー解放
 	delete sceneManager;
 	//シングルトンにしたらdeleteダメ
@@ -100,9 +104,9 @@ void Framework::Draw()
 
 	//シーン描画
 	this->sceneManager->Draw(dxCommon);
-
+	postEffect->Draw(dxCommon->GetCmdList());
 	//デバックテキスト描画
-	debugText->DrawAll();
+	//debugText->DrawAll();
 
 	//描画後処理
 	dxCommon->PostDraw();

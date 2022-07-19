@@ -50,6 +50,7 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	Audio* audio = nullptr;
 	DebugText* debugText = nullptr;
+	SpriteCommon* spriteCommon = nullptr;
 	SceneManager* sceneManager = nullptr;
 
 };

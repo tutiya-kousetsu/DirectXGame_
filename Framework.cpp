@@ -31,14 +31,19 @@ void Framework::Initialize()
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(winApp);
 
+
+	//スプライト共通部分の初期化
+	spriteCommon = SpriteCommon::GetInstance();
+	spriteCommon->Initialize(dxCommon->GetDev(), dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
+
 	//デバックテキスト
 	debugText = DebugText::GetInstance();
 	//デバックテキスト用のテクスチャ番号を指定
-	const int debugTextTexNumber = 0;
+	const int debugTextTexNumber = 2;
 	//デバックテキスト用のテクスチャ読み込み
-	Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png");
+	spriteCommon->LoadTexture(debugTextTexNumber, L"Resources/debugfont.png");
 	//デバックテキスト初期化
-	debugText->Initialize(debugTextTexNumber);
+	debugText->Initialize(spriteCommon, debugTextTexNumber);
 
 	//入力の初期化
 	input = Input::GetInstance();

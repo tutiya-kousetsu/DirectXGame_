@@ -14,10 +14,10 @@ TitleScene::TitleScene(SceneManager* sceneManager)
 void TitleScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み
-	Sprite::LoadTexture(1, L"Resources/title.png");
+	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/title.png");
 
 	//スプライトの生成
-	sprite = Sprite::Create(1, { 0.0f,0.0f });
+	sprite = Sprite::Create(1, { 0,0 }, false, false);
 	sprite->SetPosition({ 0,0 });
 
 	//カメラの初期化
@@ -55,13 +55,13 @@ void TitleScene::Update()
 
 	//更新
 	camera->Update();
-	//sprite->Update();
+	sprite->Update();
 }
 
 void TitleScene::Draw(DirectXCommon* dxCommon)
 {
 	//スプライト共通コマンド
-	Sprite::PreDraw(dxCommon->GetCmdList());
+	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
 	sprite->Draw();
 }

@@ -24,13 +24,13 @@ public:
 	// 頂点データ
 	struct VertexPosUv
 	{
-		DirectX::XMFLOAT3 pos; // xyz座標
-		DirectX::XMFLOAT2 uv;  // uv座標
+		XMFLOAT3 pos; // xyz座標
+		XMFLOAT2 uv;  // uv座標
 	};
 	// 定数バッファ用データ構造体
 	struct ConstBufferData {
-		DirectX::XMFLOAT4 color; // 色 (RGBA)
-		DirectX::XMMATRIX mat;   // ３Ｄ変換行列
+		XMFLOAT4 color; // 色 (RGBA)
+		XMMATRIX mat;   // ３Ｄ変換行列
 	};
 
 	/// <summary>
@@ -67,45 +67,45 @@ public:
 	/// </summary>
 	void Draw();
 
-	void SetPosition(const DirectX::XMFLOAT2& position) { this->position = position; }
+	void SetPosition(const XMFLOAT2& position) { this->position = position; }
 
 	void SetRotation(float rotation) { this->rotation = rotation; }
 
-	void SetSize(const DirectX::XMFLOAT2& size) { this->size = size; }
+	void SetSize(const XMFLOAT2& size) { this->size = size; }
 
-	void SetTexLeftTop(const DirectX::XMFLOAT2& texLeftTop) { this->texLeftTop = texLeftTop; }
+	void SetTexLeftTop(const XMFLOAT2& texLeftTop) { this->texLeftTop = texLeftTop; }
 
-	void SetTexSize(const DirectX::XMFLOAT2& texSize) { this->texSize = texSize; }
+	void SetTexSize(const XMFLOAT2& texSize) { this->texSize = texSize; }
 
 protected:
 	//頂点バッファ;
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff;
 	//頂点バッファビュー;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	//定数バッファ;
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuff;
+	ComPtr<ID3D12Resource> constBuff;
 	// Z軸回りの回転角
 	float rotation = 0.0f;
 	// 座標
-	DirectX::XMFLOAT2 position = { 0,0 };
+	XMFLOAT2 position = { 0,0 };
 	// ワールド行列
-	DirectX::XMMATRIX matWorld;
+	XMMATRIX matWorld;
 	// 色(RGBA)
-	DirectX::XMFLOAT4 color = { 1, 1, 1, 1 };
+	XMFLOAT4 color = { 1, 1, 1, 1 };
 	// テクスチャ番号
 	UINT texNumber = 0;
 	// 大きさ
-	DirectX::XMFLOAT2 size = { 100.0f, 100.0f };
+	XMFLOAT2 size = { 100.0f, 100.0f };
 	// アンカーポイント
-	DirectX::XMFLOAT2 anchorpoint = { 0, 0 };
+	XMFLOAT2 anchorpoint = { 0, 0 };
 	// 左右反転
 	bool isFlipX = false;
 	// 上下反転
 	bool isFlipY = false;
 	// テクスチャ左上座標
-	DirectX::XMFLOAT2 texLeftTop = { 0, 0 };
+	XMFLOAT2 texLeftTop = { 0, 0 };
 	// テクスチャ切り出しサイズ
-	DirectX::XMFLOAT2 texSize = { 100.0f, 100.0f };
+	XMFLOAT2 texSize = { 100.0f, 100.0f };
 	//非表示
 	bool isInvisible = false;
 	// 射影行列

@@ -7,7 +7,9 @@ Sprite::Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color,
 {
 	this->position = position;
 	this->size = size;
+	this->texSize = size;
 	this->anchorpoint = anchorpoint;
+	this->matWorld = XMMatrixIdentity();
 	this->color = color;
 	this->texNumber = texNumber;
 	this->isFlipX = isFlipX;

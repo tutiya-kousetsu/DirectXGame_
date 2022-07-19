@@ -17,7 +17,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	//void Initialize();
+	void Initialize();
 
 	/// <summary>
 	/// 描画
@@ -26,6 +26,10 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 public:
+	//デバイス(借りてくる)
+	ID3D12Device* device = nullptr;
+	// パイプラインセット
+	PipelineSet pipelineSet;
 	ComPtr<ID3D12Resource> texBuff;
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 

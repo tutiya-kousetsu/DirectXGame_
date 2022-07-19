@@ -1,5 +1,6 @@
 #pragma once
 #include "Sprite.h"
+#include "PipelineSet.h"
 
 class PostEffect :
 	public Sprite
@@ -35,5 +36,12 @@ public:
 	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
 	//DSVデスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
+	//グラフィックスパイプライン
+	ComPtr<ID3D12PipelineState> pipelineState;
+	//ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+
+
+	PipelineSet* pipelineSet = nullptr;
 };
 

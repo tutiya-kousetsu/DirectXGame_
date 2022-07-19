@@ -14,17 +14,14 @@ GamePlayScene::GamePlayScene(SceneManager* sceneManager)
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み
-	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
+	Sprite::LoadTexture(1, L"Resources/gamePlay.png");
+	//SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
 	//スプライトの生成
-	sprite = Sprite::Create(1, { 0,0 }, false, false);
-	sprite->SetPosition({ 0,0 });
+	sprite = Sprite::Create(1, { 0.0f,0.0f });
 
-	SpriteCommon::GetInstance()->LoadTexture(2, L"Resources/tex1.png");
-	//スプライトの生成
-	sprite1 = Sprite::Create(2, { 0,0 }, false, false);
-	sprite1->SetPosition({ 0,0 });
+	Sprite::LoadTexture(2, L"Resources/tex1.png");
 
-	SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
+	Sprite::LoadTexture(100, L"Resources/white1x1.png");
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
@@ -104,19 +101,29 @@ void GamePlayScene::Update()
 	//objChr->Update();
 	camera->Update();
 	fbxobject1->Update();
-	sprite->Update();
-	sprite1->Update();
+	/*sprite->Update();
+	sprite1->Update();*/
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-	//スプライト共通コマンド
-	SpriteCommon::GetInstance()->PreDraw();
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(dxCommon->GetCmdList());
+	// 背景スプライト描画
+	sprite->Draw();
+	sprite1->Draw();
 	//スプライト描画
 	postEffect->Draw(dxCommon->GetCmdList());
 
-	sprite->Draw();
-	sprite1->Draw();
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma region 3D描画
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 
@@ -126,7 +133,4 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	fbxobject1->Draw(dxCommon->GetCmdList());
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
-
-	//スプライト共通コマンド
-	SpriteCommon::GetInstance()->PreDraw();
 }

@@ -51,7 +51,7 @@ public:
 
 	ID3D12GraphicsCommandList* GetCommandList() {return cmdList;}
 
-private:
+protected:
 	// パイプラインセット
 	PipelineSet pipelineSet;
 	// 射影行列
@@ -65,7 +65,7 @@ private:
 
 	ID3D12GraphicsCommandList* cmdList = nullptr;
 
-private:
+protected:
 	// パイプライン生成
 	void CreateGraphicsPipeline();
 

@@ -18,7 +18,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 
 	//スプライトの生成
 	sprite = Sprite::Create(1, { 0,0 }, false, false);
-	sprite->SetPosition({ 0,0,0 });
+	sprite->SetPosition({ 0,0 });
 
 	//カメラの初期化
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);

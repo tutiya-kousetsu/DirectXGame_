@@ -1,17 +1,15 @@
 #include "PostEffect.h"
 #include "PipelineSet.h"
-#include "SpriteCommon.h"
+#include "Sprite.h"
+
 #include <d3dx12.h>
 
 using namespace DirectX;
 
-XMMATRIX Sprite::matProjection;
-UINT Sprite::descriptorHandleIncrementSize;
-
 PostEffect::PostEffect()
 	:Sprite(
 		100,//テクスチャ番号
-		{ 0, 0, 0 },//座標
+		{ 0, 0 },//座標
 		{ 500.0f, 500.0f },//サイズ
 		{ 1, 1, 1, 1 },//色
 		{ 0.0f, 0.0f },//アンカーポイント
@@ -22,35 +20,43 @@ PostEffect::PostEffect()
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	// ワールド行列の更新3
-	this->matWorld = XMMatrixIdentity();
-	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
-	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	// 定数バッファにデータ転送
+	SpriteCommon* spriteCommon = SpriteCommon::GetInstance();
+
+	spriteCommon->GetCommandList();
+
+	// ワールド行列の更新
+	this->matWorld = XMMatrixIdentity();
+	// Z軸回転
+	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(this->rotation));
+	// 平行移動
+	this->matWorld *= XMMatrixTranslation(this->position.x, this->position.y, 0.0f);
+
+	// 定数バッファの転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
-	if (SUCCEEDED(result)) {
-		constMap->color = this->color;
-		constMap->mat = this->matWorld * matProjection;	// 行列の合成	
-		this->constBuff->Unmap(0, nullptr);
-	}
-	cmdList->SetPipelineState(pipelineSet.pipelinestate.Get());
+	constMap->mat = this->matWorld * spriteCommon->GetMatProjection();
+	constMap->color = this->color;
+	this->constBuff->Unmap(0, nullptr);
 
-	cmdList->SetGraphicsRootSignature(pipelineSet.rootsignature.Get());
+	spriteCommon->PreDraw();
 
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	// 頂点バッファの設定
+	// 頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &this->vbView);
 
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
-	// デスクリプタヒープをセット
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	// 定数バッファビューをセット
+	// ルートパラメータ0番に定数バッファをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuff->GetGPUVirtualAddress());
-	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), this->texNumber, descriptorHandleIncrementSize));
-	// 描画コマンド
+
+	// ルートパラメータ1番にシェーダリソースビューをセット
+	spriteCommon->SetGraphicsRootDescriptorTable(1, this->texNumber);
+	/*cmdList->SetPipelineState(pipelineSet->pipelinestate.Get());
+
+	cmdList->SetGraphicsRootSignature(pipelineSet->rootsignature.Get());
+
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);*/
+
+	// ポリゴンの描画（4頂点で四角形）
 	cmdList->DrawInstanced(4, 1, 0, 0);
+
 }

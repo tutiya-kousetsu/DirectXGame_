@@ -36,7 +36,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Sprite(UINT texNumber, XMFLOAT3 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+	Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
 
 	/// <summary>
 	/// スプライト生成
@@ -67,7 +67,7 @@ public:
 	/// </summary>
 	void Draw();
 
-	void SetPosition(const DirectX::XMFLOAT3& position) { this->position = position; }
+	void SetPosition(const DirectX::XMFLOAT2& position) { this->position = position; }
 
 	void SetRotation(float rotation) { this->rotation = rotation; }
 
@@ -87,7 +87,7 @@ protected:
 	// Z軸回りの回転角
 	float rotation = 0.0f;
 	// 座標
-	DirectX::XMFLOAT3 position = { 0,0,0 };
+	DirectX::XMFLOAT2 position = { 0,0 };
 	// ワールド行列
 	DirectX::XMMATRIX matWorld;
 	// 色(RGBA)
@@ -114,5 +114,7 @@ protected:
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
 	// デスクリプタサイズ
 	static UINT descriptorHandleIncrementSize;
+	// パイプラインセット
+	PipelineSet* pipelineSet = nullptr;
 };
 

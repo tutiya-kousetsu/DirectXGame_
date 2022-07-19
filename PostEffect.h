@@ -1,7 +1,8 @@
 #pragma once
 #include "Sprite.h"
+
 class PostEffect :
-    public Sprite
+	public Sprite
 {
 protected://エイリアス
 //Microsoft::WRL::を省略
@@ -34,10 +35,5 @@ public:
 	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
 	//DSVデスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
-
-
-private:
-	// パイプラインセット
-	PipelineSet pipelineSet;
 };
 

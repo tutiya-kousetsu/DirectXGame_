@@ -46,7 +46,7 @@ void DebugText::Print(const std::string& text, float x, float y, float scale)
 		int fontIndexX = fontIndex % fontLineCount;
 
 		//À•WŒvŽZ
-		this->sprites[this->spriteIndex]->SetPosition({ x + fontWidth * scale * i, y, 0 });
+		this->sprites[this->spriteIndex]->SetPosition({ x + fontWidth * scale * i, y});
 		this->sprites[this->spriteIndex]->SetTexLeftTop({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight });
 		this->sprites[this->spriteIndex]->SetTexSize({ fontWidth, fontHeight });
 		this->sprites[this->spriteIndex]->SetSize({ fontWidth * scale, fontHeight * scale });

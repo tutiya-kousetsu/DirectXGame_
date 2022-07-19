@@ -31,7 +31,6 @@ void Framework::Initialize()
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(winApp);
 
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
 	//スプライト共通部分の初期化
 	spriteCommon = SpriteCommon::GetInstance();
@@ -50,9 +49,6 @@ void Framework::Initialize()
 	input = Input::GetInstance();
 	input->Initialize(winApp);
 
-	SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
-	postEffect = new PostEffect();
-	postEffect->Initialize();
 
 	//オーディオの初期化
 	/*audio = Audio::GetInstance();
@@ -66,7 +62,7 @@ void Framework::Initialize()
 
 void Framework::Finalize()
 {
-	delete postEffect;
+	
 	//シーンマネージャー解放
 	delete sceneManager;
 	//シングルトンにしたらdeleteダメ
@@ -104,7 +100,7 @@ void Framework::Draw()
 
 	//シーン描画
 	this->sceneManager->Draw(dxCommon);
-	postEffect->Draw(dxCommon->GetCmdList());
+	
 	//デバックテキスト描画
 	//debugText->DrawAll();
 

@@ -6,6 +6,8 @@
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Fbx_Object3d.h"
+#include "PostEffect.h"
+
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -44,6 +46,7 @@ private:
 
 	Fbx_Model* fbxmodel1 = nullptr;
 	Fbx_Object3d* fbxobject1 = nullptr;
+	PostEffect* postEffect = nullptr;
 
 };
 

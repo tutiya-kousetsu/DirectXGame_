@@ -19,7 +19,7 @@ public://ƒƒ“ƒoŠÖ”
 
 	void Initialize(SpriteCommon* spriteCommon, UINT texnumber);
 
-	void Print(const std::string& text, float x, float y, float scale = 1.0f);
+	void Print(const std::string& text, float x, float y, float size);
 
 	void DrawAll();
 

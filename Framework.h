@@ -8,7 +8,6 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include "SceneManager.h"
-#include "PostEffect.h"
 
 /// <summary>
 /// フレームワーク
@@ -53,7 +52,6 @@ protected:
 	DebugText* debugText = nullptr;
 	SpriteCommon* spriteCommon = nullptr;
 	SceneManager* sceneManager = nullptr;
-	PostEffect* postEffect = nullptr;
 
 };
 

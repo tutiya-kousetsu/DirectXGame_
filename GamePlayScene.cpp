@@ -17,12 +17,19 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
 	//スプライトの生成
 	sprite = Sprite::Create(1, { 0,0 }, false, false);
-	sprite->SetPosition({ 0,0,0 });
+	sprite->SetPosition({ 0,0 });
 
 	SpriteCommon::GetInstance()->LoadTexture(2, L"Resources/tex1.png");
 	//スプライトの生成
 	sprite1 = Sprite::Create(2, { 0,0 }, false, false);
-	sprite1->SetPosition({ 0,0,0 });
+	sprite1->SetPosition({ 0,0 });
+
+	SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+
+
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
 	//OBJからモデルデータを読み込む
 	modelPost = Model::LoadFromObj("post");
@@ -42,7 +49,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
-	camera->SetEye({ 0, 3.0f, -7.0f });
+	//camera->SetEye({ 0, 3.0f, -7.0f });
 	camera->SetTarget({ 0,2.5f,0 });
 	camera->SetDistance(8.0f);
 	//モデル名を指定してファイルを読み込む
@@ -63,6 +70,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 void GamePlayScene::Finalize()
 {
+	delete postEffect;
 	delete fbxobject1;
 	delete fbxmodel1;
 	delete camera;
@@ -105,7 +113,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
-	//sprite->Draw();
+	postEffect->Draw(dxCommon->GetCmdList());
+
+	sprite->Draw();
 	sprite1->Draw();
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();

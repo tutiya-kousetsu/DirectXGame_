@@ -24,7 +24,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	sprite1 = Sprite::Create(2, { 0,0 }, false, false);
 	sprite1->SetPosition({ 0,0 });
 
-	SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/house.png");
+	SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
@@ -113,11 +113,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
-	
+	postEffect->Draw(dxCommon->GetCmdList());
 
 	sprite->Draw();
 	sprite1->Draw();
-	postEffect->Draw(dxCommon->GetCmdList());
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 

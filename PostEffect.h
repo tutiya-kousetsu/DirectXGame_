@@ -23,7 +23,7 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 
 public:
 	ComPtr<ID3D12Resource> texBuff;

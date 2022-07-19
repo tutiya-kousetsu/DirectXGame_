@@ -28,7 +28,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
-
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
 	//OBJからモデルデータを読み込む
@@ -51,7 +50,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//camera->SetEye({ 0, 3.0f, -7.0f });
 	camera->SetTarget({ 0,2.5f,0 });
-	camera->SetDistance(8.0f);
+	camera->SetDistance(-45.0f);
 	//モデル名を指定してファイルを読み込む
 	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
@@ -113,10 +112,11 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//スプライト共通コマンド
 	SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
-	postEffect->Draw(dxCommon->GetCmdList());
 
 	sprite->Draw();
 	sprite1->Draw();
+	postEffect->Draw();
+
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 

@@ -1,6 +1,4 @@
 #include "PostEffect.h"
-#include "PipelineSet.h"
-#include "Sprite.h"
 
 #include <d3dx12.h>
 
@@ -18,29 +16,15 @@ PostEffect::PostEffect()
 {
 }
 
-void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
+void PostEffect::Draw()
 {
-
 	SpriteCommon* spriteCommon = SpriteCommon::GetInstance();
 
-	spriteCommon->GetCommandList();
+	if (this->isInvisible) {
+		return;
+	}
 
-	// ワールド行列の更新
-	this->matWorld = XMMatrixIdentity();
-	// Z軸回転
-	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(this->rotation));
-	// 平行移動
-	this->matWorld *= XMMatrixTranslation(this->position.x, this->position.y, 0.0f);
-
-	// 定数バッファの転送
-	ConstBufferData* constMap = nullptr;
-	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
-	constMap->mat = this->matWorld * spriteCommon->GetMatProjection();
-	constMap->color = this->color;
-	this->constBuff->Unmap(0, nullptr);
-
-	spriteCommon->PreDraw();
-
+	ID3D12GraphicsCommandList* cmdList = spriteCommon->GetCommandList();
 
 	// 頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &this->vbView);
@@ -50,13 +34,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	// ルートパラメータ1番にシェーダリソースビューをセット
 	spriteCommon->SetGraphicsRootDescriptorTable(1, this->texNumber);
-	/*cmdList->SetPipelineState(pipelineSet->pipelinestate.Get());
-
-	cmdList->SetGraphicsRootSignature(pipelineSet->rootsignature.Get());
-
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);*/
 
 	// ポリゴンの描画（4頂点で四角形）
 	cmdList->DrawInstanced(4, 1, 0, 0);
-
 }

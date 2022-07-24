@@ -32,18 +32,20 @@ void Framework::Initialize()
 	dxCommon->Initialize(winApp);
 
 
-	//スプライト共通部分の初期化
-	spriteCommon = SpriteCommon::GetInstance();
-	spriteCommon->Initialize(dxCommon->GetDev(), dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
+	// スプライト静的初期化
+	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 
-	//デバックテキスト
-	debugText = DebugText::GetInstance();
+
 	//デバックテキスト用のテクスチャ番号を指定
 	const int debugTextTexNumber = 2;
-	//デバックテキスト用のテクスチャ読み込み
-	spriteCommon->LoadTexture(debugTextTexNumber, L"Resources/debugfont.png");
-	//デバックテキスト初期化
-	debugText->Initialize(spriteCommon, debugTextTexNumber);
+	// デバッグテキスト用テクスチャ読み込み
+	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png")) {
+		assert(0);
+		return;
+	}
+	//デバックテキスト
+	debugText = DebugText::GetInstance();
+	debugText->Initialize(debugTextTexNumber);
 
 	//入力の初期化
 	input = Input::GetInstance();
@@ -95,6 +97,7 @@ void Framework::Update()
 
 void Framework::Draw()
 {
+
 	//描画前処理
 	dxCommon->PreDraw();
 

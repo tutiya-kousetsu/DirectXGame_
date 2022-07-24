@@ -7,7 +7,7 @@
 #include "DirectXCommon.h"
 #include "Fbx_Object3d.h"
 #include "PostEffect.h"
-
+#include "Input.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -39,14 +39,14 @@ private:
 	
 	Sprite* sprite = nullptr;
 	Sprite* sprite1 = nullptr;
+	Sprite* spriteBG = nullptr;
 	Model* modelPost = nullptr;
 	Object3d* objPost = nullptr;
 	DebugCamera* camera = nullptr;
 	DirectXCommon* dxCommon = nullptr;
-
+	Input* input = nullptr;
 	Fbx_Model* fbxmodel1 = nullptr;
 	Fbx_Object3d* fbxobject1 = nullptr;
 	PostEffect* postEffect = nullptr;
 
 };
-

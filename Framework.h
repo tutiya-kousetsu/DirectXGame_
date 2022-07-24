@@ -8,6 +8,7 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include "SceneManager.h"
+#include "PostEffect.h"
 
 /// <summary>
 /// フレームワーク
@@ -50,8 +51,8 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	Audio* audio = nullptr;
 	DebugText* debugText = nullptr;
-	SpriteCommon* spriteCommon = nullptr;
 	SceneManager* sceneManager = nullptr;
+	PostEffect* postEffect = nullptr;
 
 };
 

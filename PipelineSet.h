@@ -3,9 +3,6 @@
 #include <wrl.h>
 #include <d3d12.h>
 
-/// <summary>
-/// パイプラインセット
-/// </summary>
 // パイプラインセット
 struct PipelineSet
 {

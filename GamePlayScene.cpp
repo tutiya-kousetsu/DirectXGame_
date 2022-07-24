@@ -14,17 +14,29 @@ GamePlayScene::GamePlayScene(SceneManager* sceneManager)
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライト共通テクスチャ読み込み
-	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
-	//スプライトの生成
-	sprite = Sprite::Create(1, { 0,0 }, false, false);
-	sprite->SetPosition({ 0,0 });
+	//SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
+	if (!Sprite::LoadTexture(1, L"Resources/background.png")) {
+		assert(0);
+		return;
+	}
+	// 背景スプライト生成
+	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 
-	SpriteCommon::GetInstance()->LoadTexture(2, L"Resources/tex1.png");
 	//スプライトの生成
-	sprite1 = Sprite::Create(2, { 0,0 }, false, false);
-	sprite1->SetPosition({ 0,0 });
+	//sprite = Sprite::Create(1, { 0,0 }, false, false);
+	//sprite->SetPosition({ 0,0 });
 
-	SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
+	//SpriteCommon::GetInstance()->LoadTexture(2, L"Resources/tex1.png");
+	//スプライトの生成
+	//sprite1 = Sprite::Create(2, { 0,0 }, false, false);
+	// テクスチャ2番に読み込み
+	Sprite::LoadTexture(2, L"Resources/tex1.png");
+	sprite = Sprite::Create(2, { 0.0f,0.0f });
+
+	//sprite1->SetPosition({ 0,0 });
+
+	//SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
+	//Sprite::LoadTexture(100, L"Resources/white1280x720.png");
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
@@ -69,7 +81,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 void GamePlayScene::Finalize()
 {
-	delete postEffect;
+
 	delete fbxobject1;
 	delete fbxmodel1;
 	delete camera;
@@ -80,6 +92,7 @@ void GamePlayScene::Finalize()
 	delete modelPost;
 	//3Dオブジェクト解放
 	delete objPost;
+	delete postEffect;
 }
 
 void GamePlayScene::Update()
@@ -93,29 +106,65 @@ void GamePlayScene::Update()
 		fbxobject1->PlayAnimation();
 	}
 
+	//if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
+	//{
+	//	fbxobject1->PlayAnimation();
+	//}
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
-	
+
 	//更新
 	objPost->Update();
 	//objChr->Update();
 	camera->Update();
 	fbxobject1->Update();
-	sprite->Update();
-	sprite1->Update();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
 	//スプライト共通コマンド
-	SpriteCommon::GetInstance()->PreDraw();
+	//SpriteCommon::GetInstance()->PreDraw();
 	//スプライト描画
+#pragma region 背景スプライト描画
+// 背景スプライト描画前処理
+	Sprite::PreDraw(dxCommon->GetCmdList());
+	// 背景スプライト描画
+	//spriteBG->Draw();
+	//sprite1->Draw();
+	
 
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
+#pragma endregion
+
+
+	#pragma region 前景スプライト描画
+// 前景スプライト描画前処理
+	Sprite::PreDraw(dxCommon->GetCmdList());
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
 	sprite->Draw();
-	sprite1->Draw();
-	postEffect->Draw();
+	postEffect->Draw(dxCommon->GetCmdList());
+
+	// デバッグテキストの描画
+	//debugText->DrawAll(cmdList);
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+#pragma endregion
+
+
+	postEffect->PreDrawScene(dxCommon->GetCmdList());
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
@@ -127,6 +176,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
-	//スプライト共通コマンド
-	SpriteCommon::GetInstance()->PreDraw();
+	postEffect->PostDrawScene(dxCommon->GetCmdList());
+
+
 }

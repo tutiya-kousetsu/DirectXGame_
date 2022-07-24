@@ -5,7 +5,7 @@
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Fbx_Object3d.h"
-
+#include "Input.h"
 class TitleScene : public BaseScene
 {
 public:
@@ -34,5 +34,6 @@ private:
 
 	Sprite* sprite = nullptr;
 	DebugCamera* camera = nullptr;
+	Input* input = nullptr;
 };
 

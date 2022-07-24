@@ -38,6 +38,10 @@ private:
 
 	void InitializeFence();
 
+public:
+	void ClearDepthBuffer(ID3D12GraphicsCommandList* cmdList);
+
+
 	//WindowsAPI
 	WinApp* winApp = nullptr;
 
@@ -55,6 +59,5 @@ private:
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
-
 };
 

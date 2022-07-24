@@ -1,5 +1,7 @@
 #pragma once
 #include "Sprite.h"
+#include "PipelineSet.h"
+#include "SpriteCommon.h"
 
 class PostEffect :
 	public Sprite
@@ -17,16 +19,35 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	//void Initialize();
+	void Initialize();
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void Draw();
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	/// シーン描画前処理
+	/// </summary>
+	/// <param name="cmdList">コマンドリスト</param>
+	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	/// シーン描画後処理
+	/// </summary>
+	/// <param name="cmdList">コマンドリスト</param>
+	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+/// パイプライン生成
+/// </summary>
+	void CreateGraphicsPipelineState();
 
 public:
-	ComPtr<ID3D12Resource> texBuff;
+	//テクスバッファ
+	ComPtr<ID3D12Resource> texBuff[2];
+	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
 	//深度バッファ
@@ -35,5 +56,13 @@ public:
 	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
 	//DSVデスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
+	//グラフィックスパイプライン
+	ComPtr<ID3D12PipelineState> pipelineState;
+	//ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+
+private:
+	static const float clearColor[4];
+
 };
 

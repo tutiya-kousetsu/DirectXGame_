@@ -115,6 +115,8 @@ void GamePlayScene::Update()
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
+
+
 	//更新
 	objPost->Update();
 	//objChr->Update();
@@ -124,8 +126,7 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-	//スプライト共通コマンド
-	//SpriteCommon::GetInstance()->PreDraw();
+	postEffect->PreDrawScene(dxCommon->GetCmdList());
 	//スプライト描画
 #pragma region 背景スプライト描画
 // 背景スプライト描画前処理
@@ -154,7 +155,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
-	postEffect->Draw(dxCommon->GetCmdList());
+	
 
 	// デバッグテキストの描画
 	//debugText->DrawAll(cmdList);
@@ -164,7 +165,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 #pragma endregion
 
 
-	postEffect->PreDrawScene(dxCommon->GetCmdList());
+	
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
@@ -178,5 +179,12 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 	postEffect->PostDrawScene(dxCommon->GetCmdList());
 
+	//描画前処理
+	dxCommon->PreDraw();
+
+	postEffect->Draw(dxCommon->GetCmdList());
+
+	//描画後処理
+	dxCommon->PostDraw();
 
 }

@@ -98,15 +98,10 @@ void Framework::Update()
 void Framework::Draw()
 {
 
-	//描画前処理
-	dxCommon->PreDraw();
-
 	//シーン描画
 	this->sceneManager->Draw(dxCommon);
 	
 	//デバックテキスト描画
 	//debugText->DrawAll();
 
-	//描画後処理
-	dxCommon->PostDraw();
 }

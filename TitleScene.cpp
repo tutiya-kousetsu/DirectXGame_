@@ -61,10 +61,16 @@ void TitleScene::Update()
 
 void TitleScene::Draw(DirectXCommon* dxCommon)
 {
+	//描画前処理
+	dxCommon->PreDraw();
+
 	//スプライト共通コマンド
 	//SpriteCommon::GetInstance()->PreDraw();
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//スプライト描画
 	sprite->Draw();
 	Sprite::PostDraw();
+		//描画後処理
+	dxCommon->PostDraw();
+
 }

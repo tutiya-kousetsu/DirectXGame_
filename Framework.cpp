@@ -100,7 +100,6 @@ void Framework::Draw()
 
 	//シーン描画
 	this->sceneManager->Draw(dxCommon);
-	
 	//デバックテキスト描画
 	//debugText->DrawAll();
 

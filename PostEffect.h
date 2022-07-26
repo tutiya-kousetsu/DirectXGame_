@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(const wchar_t* psName);
 
 	/// <summary>
 	/// 描画
@@ -40,9 +40,9 @@ public:
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
-/// パイプライン生成
-/// </summary>
-	void CreateGraphicsPipelineState();
+	/// パイプライン生成
+	/// </summary>
+	void CreateGraphicsPipelineState(const wchar_t* psName);
 
 public:
 	//テクスバッファ

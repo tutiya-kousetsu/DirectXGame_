@@ -65,7 +65,6 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	dxCommon->PreDraw();
 
 	//スプライト共通コマンド
-	//SpriteCommon::GetInstance()->PreDraw();
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//スプライト描画
 	sprite->Draw();

@@ -37,9 +37,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
 	//Sprite::LoadTexture(100, L"Resources/white1280x720.png");
-	postEffect = new PostEffect();
-	postEffect->Initialize();
-
+	for (int i = 0; i <= 1; i++) {
+	postEffect[i] = new PostEffect();
+	}
+	
+	postEffect[0]->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
+	
+	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
 	//OBJからモデルデータを読み込む
@@ -60,7 +64,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
-	//camera->SetEye({ 0, 3.0f, -7.0f });
+	camera->SetEye({ 0, 3.0f, -7.0f });
 	camera->SetTarget({ 0,2.5f,0 });
 	camera->SetDistance(-45.0f);
 	//モデル名を指定してファイルを読み込む
@@ -92,7 +96,8 @@ void GamePlayScene::Finalize()
 	delete modelPost;
 	//3Dオブジェクト解放
 	delete objPost;
-	delete postEffect;
+	delete postEffect[0];
+	delete postEffect[1];
 }
 
 void GamePlayScene::Update()
@@ -115,8 +120,6 @@ void GamePlayScene::Update()
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
-
-
 	//更新
 	objPost->Update();
 	//objChr->Update();
@@ -126,7 +129,7 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-	postEffect->PreDrawScene(dxCommon->GetCmdList());
+	postEffect[0]->PreDrawScene(dxCommon->GetCmdList());
 	//スプライト描画
 #pragma region 背景スプライト描画
 // 背景スプライト描画前処理
@@ -134,7 +137,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// 背景スプライト描画
 	//spriteBG->Draw();
 	//sprite1->Draw();
-	
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -143,19 +145,18 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
-	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
+	//dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
 
 
 	#pragma region 前景スプライト描画
-// 前景スプライト描画前処理
+	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
 
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
-	
 
 	// デバッグテキストの描画
 	//debugText->DrawAll(cmdList);
@@ -163,9 +164,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
-
-
-	
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
@@ -177,12 +175,16 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
-	postEffect->PostDrawScene(dxCommon->GetCmdList());
+	postEffect[0]->PostDrawScene(dxCommon->GetCmdList());
+
+	postEffect[1]->PreDrawScene(dxCommon->GetCmdList());
+	postEffect[0]->Draw(dxCommon->GetCmdList());
+	postEffect[1]->PostDrawScene(dxCommon->GetCmdList());
 
 	//描画前処理
 	dxCommon->PreDraw();
 
-	postEffect->Draw(dxCommon->GetCmdList());
+	postEffect[1]->Draw(dxCommon->GetCmdList());
 
 	//描画後処理
 	dxCommon->PostDraw();

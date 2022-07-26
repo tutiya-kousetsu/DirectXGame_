@@ -24,7 +24,7 @@ PostEffect::PostEffect()
 {
 }
 
-void PostEffect::Initialize()
+void PostEffect::Initialize(const wchar_t* psName)
 {
 	HRESULT result;
 
@@ -43,10 +43,10 @@ void PostEffect::Initialize()
 
 	//頂点データ
 	VertexPosUv vertices[vertNum] = {
-		{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f}},
-		{{-0.5f, +0.5f, 0.0f}, {0.0f, 0.0f}},
-		{{+0.5f, -0.5f, 0.0f}, {1.0f, 1.0f}},
-		{{+0.5f, +0.5f, 0.0f}, {1.0f, 0.0f}},
+		{{-1.0f, -1.0f, 0.0f}, {0.0f, 1.0f}},
+		{{-1.0f, +1.0f, 0.0f}, {0.0f, 0.0f}},
+		{{+1.0f, -1.0f, 0.0f}, {1.0f, 1.0f}},
+		{{+1.0f, +1.0f, 0.0f}, {1.0f, 0.0f}},
 	};
 
 	//頂点バッファへのデータ転送
@@ -189,7 +189,7 @@ void PostEffect::Initialize()
 		descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 
 	//パイプライン生成
-	CreateGraphicsPipelineState();
+	CreateGraphicsPipelineState(psName);
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -314,7 +314,7 @@ void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 	}
 }
 
-void PostEffect::CreateGraphicsPipelineState()
+void PostEffect::CreateGraphicsPipelineState(const wchar_t* psName)
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -347,7 +347,7 @@ void PostEffect::CreateGraphicsPipelineState()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/PostEffectPS.hlsl",	// シェーダファイル名
+		psName,	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定

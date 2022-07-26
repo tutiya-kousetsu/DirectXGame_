@@ -47,6 +47,6 @@ private:
 	Input* input = nullptr;
 	Fbx_Model* fbxmodel1 = nullptr;
 	Fbx_Object3d* fbxobject1 = nullptr;
-	PostEffect* postEffect = nullptr;
+	PostEffect* postEffect[2] = {};
 
 };

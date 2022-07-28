@@ -13,8 +13,6 @@ GamePlayScene::GamePlayScene(SceneManager* sceneManager)
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
-	//スプライト共通テクスチャ読み込み
-	//SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/gamePlay.png");
 	if (!Sprite::LoadTexture(1, L"Resources/background.png")) {
 		assert(0);
 		return;
@@ -26,7 +24,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//sprite = Sprite::Create(1, { 0,0 }, false, false);
 	//sprite->SetPosition({ 0,0 });
 
-	//SpriteCommon::GetInstance()->LoadTexture(2, L"Resources/tex1.png");
 	//スプライトの生成
 	//sprite1 = Sprite::Create(2, { 0,0 }, false, false);
 	// テクスチャ2番に読み込み
@@ -35,15 +32,16 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//sprite1->SetPosition({ 0,0 });
 
-	//SpriteCommon::GetInstance()->LoadTexture(100, L"Resources/white1x1.png");
-	//Sprite::LoadTexture(100, L"Resources/white1280x720.png");
+	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
 	postEffect[i] = new PostEffect();
 	}
-	
+	//シェーダーの挿入
 	postEffect[0]->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
 	
 	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
+	
+	//FBXの初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
 	//OBJからモデルデータを読み込む
@@ -145,9 +143,8 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
-	//dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
+	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
-
 
 	#pragma region 前景スプライト描画
 	// 前景スプライト描画前処理

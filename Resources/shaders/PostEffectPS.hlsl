@@ -24,10 +24,10 @@ struct PSOutput
 	float4 target1 : SV_TARGET1;
 };
 
-float4 Gaussian(float2 drawUV, float2 pickUV, float sigma)
+float4 Gaussian(float2 drawUv, float2 pickUv, float sigma)
 {
-	float d = distance(drawUV, pickUV);
-	return exp(-(d * d) / (2 * sigma / sigma));
+	float d = distance(drawUv, pickUv);
+	return exp(-(d * d) / (2 * sigma * sigma));
 }
 
 PSOutput main(VSOutput input) 
@@ -37,62 +37,24 @@ PSOutput main(VSOutput input)
 	float4 colortex0 = tex0.Sample(smp, input.uv);
 	float4 colortex1 = tex1.Sample(smp, input.uv);
 	float4 color = colortex0;
+	//反転
 	output.target1 = float4(1.0f - color.rgb, 1);
 
-	/*float u = 1.0f / 1280.0f;
-	float v = 1.0f / 720.0f;
-	int count = 10;
-	
-	for (int i = 0; i < count * 2 + 1; i++)
-	{
-		for (int j = 0; j < count * 2 + 1; j++)
-		{
-			color += tex0.Sample(smp,
-				input.uv - float2(u * count, v * count) + float2(u * i, v * j));
-		}
-	}
-	
-	output.target0 = float4(color.rgb / ((count * 2 + 1) * (count * 2 + 1)), 1);*/
-
-	/*モノクロ化*/
-	/*float Y = 0.299f * colortex0.r + 0.587f * colortex0.b + 0.114f * colortex0.b;
-
-	colortex0.r = Y;
-	colortex0.g = Y;
-	colortex0.b = Y;
-	output.target0 = colortex0;*/
-
-	/*平均ブラー*/
-	/*float offsetU = 1.0f / 1280.0f;
-	float offsetV = 1.0f / 720.0f;
-
-	colortex0 += tex0.Sample(smp, input.uv + float2(offsetU, 0.0f));
-	colortex0 += tex0.Sample(smp, input.uv + float2(-offsetU, 0.0f));
-	colortex0 += tex0.Sample(smp, input.uv + float2(0.0f, offsetV));
-	colortex0 += tex0.Sample(smp, input.uv + float2(0.0f, -offsetV));
-	colortex0 += tex0.Sample(smp, input.uv + float2(offsetU, offsetV));
-	colortex0 += tex0.Sample(smp, input.uv + float2(offsetU, -offsetV));
-	colortex0 += tex0.Sample(smp, input.uv + float2(-offsetU, offsetV));
-	colortex0 += tex0.Sample(smp, input.uv + float2(-offsetU, -offsetV));
-
-	colortex0 /= 9.0f;*/
-
-	float totalWeight = 0.0f, _Sigma = 0.005f, _StepWidth = 0.001f;
-	float4 col = float4(0, 0, 0, 0);
-	for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth) {
-		for (float px = -_Sigma * 2; px <= _Sigma * 2; px += _StepWidth) {
-			float2 pickUV = input.uv + float2(px, py);
-			float4 weight = Gaussian(input.uv, pickUV, _Sigma);
-			col += tex0.Sample(smp, pickUV) * weight;
+	float totalWeight = 0.0f, sigma = 0.005f, stepWidth = 0.001f;
+	float4 col = float4(0, 0, 0, 1);
+	for (float py = -sigma * 2; py <= sigma * 2; py += stepWidth) {
+		for (float px = -sigma * 2; px <= sigma * 2; px += stepWidth) {
+			float2 pickUv = input.uv + float2(px, py);
+			float4 weight = Gaussian(input.uv, pickUv, sigma);
+			col += tex0.Sample(smp, pickUv) * weight;
 			totalWeight += weight;
 		}
 	}
 
 	col.rgb = col.rgb / totalWeight;
-	
+
 	output.target0 = col;
 
-	//output.target0 = colortex0;
-	//アルファに1を入れて出力
 	return output;
+
 }

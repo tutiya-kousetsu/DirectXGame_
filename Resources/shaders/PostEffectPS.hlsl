@@ -5,19 +5,6 @@ Texture2D<float4> tex1 : register(t1);   // 0番スロットに設定されたテクスチャ
 
 SamplerState smp : register(s0);        // 0番スロットに設定されたサンプラー
 
-struct PSSIn
-{
-	float4 pos : SV_POSITION;	//スクリーン空間でのピクセルの座標
-	float3 normal : NORMAL;		//法線
-	float3 tangent : TANGENT;	//線ベクトル
-	float3 biNormal : BINORMAL;	//従法線ベクトル
-	float2 uv : TEXCOORD0;		//UV座標
-	float3 worldPos : TEXCOORD1;//ワールド空間でのピクセルの座標
-
-	float3 depthInview : TEXCOORD2;//カメラ空間でのZ値
-
-};
-
 struct PSOutput
 {
 	float4 target0 : SV_TARGET0;

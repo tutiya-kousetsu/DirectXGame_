@@ -51,8 +51,6 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	Audio* audio = nullptr;
 	DebugText* debugText = nullptr;
-	SceneManager* sceneManager = nullptr;
 	PostEffect* postEffect = nullptr;
-
 };
 

@@ -7,6 +7,13 @@ SceneManager::~SceneManager()
 	delete this->scene;
 }
 
+SceneManager* SceneManager::GetInstance()
+{
+	static SceneManager instance;
+
+	return &instance;
+}
+
 void SceneManager::Update(DirectXCommon* dxCommon)
 {
 	//ƒV[ƒ“‚ÌØ‚è‘Ö‚¦

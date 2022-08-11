@@ -26,7 +26,8 @@ PSOutput main(VSOutput input)
 	float4 color = colortex0;
 	//反転
 	output.target1 = float4(1.0f - color.rgb, 1);
-
+	
+	//ガウシアンブラー
 	float totalWeight = 0.0f, sigma = 0.005f, stepWidth = 0.001f;
 	float4 col = float4(0, 0, 0, 1);
 	for (float py = -sigma * 2; py <= sigma * 2; py += stepWidth) {
@@ -38,6 +39,13 @@ PSOutput main(VSOutput input)
 		}
 	}
 
+	/*モノクロ化*/
+	/*float Y = 0.299f * colortex0.r + 0.587f * colortex0.b + 0.114f * colortex0.b;
+
+	colortex0.r = Y;
+	colortex0.g = Y;
+	colortex0.b = Y;
+	output.target0 = colortex0;*/
 	col.rgb = col.rgb / totalWeight;
 
 	output.target0 = col;

@@ -5,19 +5,6 @@ Texture2D<float4> tex1 : register(t1);   // 0番スロットに設定されたテクスチャ
 
 SamplerState smp : register(s0);        // 0番スロットに設定されたサンプラー
 
-struct PSSIn
-{
-	float4 pos : SV_POSITION;	//スクリーン空間でのピクセルの座標
-	float3 normal : NORMAL;		//法線
-	float3 tangent : TANGENT;	//線ベクトル
-	float3 biNormal : BINORMAL;	//従法線ベクトル
-	float2 uv : TEXCOORD0;		//UV座標
-	float3 worldPos : TEXCOORD1;//ワールド空間でのピクセルの座標
-
-	float3 depthInview : TEXCOORD2;//カメラ空間でのZ値
-
-};
-
 struct PSOutput
 {
 	float4 target0 : SV_TARGET0;
@@ -39,7 +26,8 @@ PSOutput main(VSOutput input)
 	float4 color = colortex0;
 	//反転
 	output.target1 = float4(1.0f - color.rgb, 1);
-
+	
+	//ガウシアンブラー
 	float totalWeight = 0.0f, sigma = 0.005f, stepWidth = 0.001f;
 	float4 col = float4(0, 0, 0, 1);
 	for (float py = -sigma * 2; py <= sigma * 2; py += stepWidth) {
@@ -51,6 +39,13 @@ PSOutput main(VSOutput input)
 		}
 	}
 
+	/*モノクロ化*/
+	/*float Y = 0.299f * colortex0.r + 0.587f * colortex0.b + 0.114f * colortex0.b;
+
+	colortex0.r = Y;
+	colortex0.g = Y;
+	colortex0.b = Y;
+	output.target0 = colortex0;*/
 	col.rgb = col.rgb / totalWeight;
 
 	output.target0 = col;

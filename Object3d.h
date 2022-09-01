@@ -190,6 +190,8 @@ public: // メンバ関数
 	/// <param name="rotation">回転角</param>
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 
+	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+
 	/// <summary>
 	/// setter
 	/// </summary>

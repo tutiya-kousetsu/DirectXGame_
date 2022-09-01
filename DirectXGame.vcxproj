@@ -234,6 +234,7 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Fbx_Model.cpp" />
     <ClCompile Include="Fbx_Object3d.cpp" />
@@ -244,8 +245,10 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="Object3d.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Shoot.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WinApp.cpp" />
@@ -262,6 +265,7 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Fbx_Model.h" />
     <ClInclude Include="Fbx_Object3d.h" />
@@ -272,8 +276,10 @@
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="PipelineSet.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shoot.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="WinApp.h" />

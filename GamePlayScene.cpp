@@ -141,7 +141,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite->Draw();
+	//sprite->Draw();
 
 	// デバッグテキストの描画
 	//debugText->DrawAll(cmdList);
@@ -197,20 +197,22 @@ void GamePlayScene::Collision()
 		}
 		//弾と敵の当たり判定
 		//敵が存在すれば
-		if (enemy[i]->GetFlag()) {
-			//座標
-			XMFLOAT3 shootPosition = shoot->GetPosition();
-			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
+		if (enemy[i]->frameFlag == 1) {
+			if (enemy[i]->GetFlag()) {
+				//座標
+				XMFLOAT3 shootPosition = shoot->GetPosition();
+				XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
 
-			//差を求める
-			float dx = abs(enemyPosition.x - shootPosition.x);
-			float dy = abs(enemyPosition.y - shootPosition.y);
-			float dz = abs(enemyPosition.z - shootPosition.z);
+				//差を求める
+				float dx = abs(enemyPosition.x - shootPosition.x);
+				float dy = abs(enemyPosition.y - shootPosition.y);
+				float dz = abs(enemyPosition.z - shootPosition.z);
 
-			if (dx < 1 && dy < 1 && dz < 1) {
-				gameScore++;
-				enemy[i]->Hit();
-				shoot->Hit();
+				if (dx < 1 && dy < 1 && dz < 1) {
+					gameScore++;
+					enemy[i]->Hit();
+					shoot->Hit();
+				}
 			}
 		}
 	}

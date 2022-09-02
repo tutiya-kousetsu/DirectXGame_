@@ -39,7 +39,7 @@ void Enemy::Update()
 			if (frameFlag == 0) {
 				frameTimer++;
 			}
-			if (frameTimer >= 120) {
+			if (frameTimer >= 300) {
 				frameFlag = 1;
 			}
 			enemyTimer++;

@@ -28,15 +28,15 @@ public:
 	
 	//è’ìÀÇµÇΩèàóù
 	void Hit() { aliveFlag[0] = 0; }
-
+	int frameFlag = 0;
 	bool GetFlag() { return aliveFlag[0]; }
 private:
 	int enemyTimer = 0;
 	int frameTimer = 0;
-	int frameFlag = 0;
+	
 	Model* enemyModel = nullptr;
 	Model* frameModel = nullptr;
-	Object3d* enemyObj[3] = {};
-	Object3d* frameObj[3] = {};
+	Object3d* enemyObj[100] = {};
+	Object3d* frameObj[100] = {};
 };
 

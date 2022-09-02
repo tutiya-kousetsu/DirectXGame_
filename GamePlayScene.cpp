@@ -54,7 +54,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	camera->SetTarget({ 0,0,30 });
 	camera->SetDistance(0.0f);
 	//モデル名を指定してファイルを読み込む
-	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	//fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
@@ -111,11 +111,11 @@ void GamePlayScene::Update()
 	Input* input = Input::GetInstance();
 	//objPost->SetPosition({ 0, 15,10 });
 	//objPost->SetRotation({ -45, 0, 0 });
-	fbxobject1->SetRotation({ 0, 90, 0 });
-	if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
-	{
-		fbxobject1->PlayAnimation();
-	}
+	//fbxobject1->SetRotation({ 0, 90, 0 });
+	//if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
+	//{
+	//	fbxobject1->PlayAnimation();
+	//}
 
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
@@ -123,10 +123,10 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	//更新
-	objPost->Update();
+	//objPost->Update();
 	//objChr->Update();
 	camera->Update();
-	fbxobject1->Update();
+	//fbxobject1->Update();
 	//更新
 	camera->Update();
 	//sprite->Update();
@@ -185,7 +185,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクトの描画
 	//objPost->Draw();
 
-	fbxobject1->Draw(dxCommon->GetCmdList());
+	//fbxobject1->Draw(dxCommon->GetCmdList());
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 

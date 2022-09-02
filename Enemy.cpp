@@ -18,14 +18,14 @@ void Enemy::Initialize()
 {
 	for (int i = 0; i < 3; i++) {
 		//敵オブジェット
-		enemyObj[i] = Object3d::Create();
 		enemyModel = Model::LoadFromObj("BlueBox");
+		enemyObj[i] = Object3d::Create();
 		enemyObj[i]->SetModel(enemyModel);
 		enemyObj[i]->SetScale({ 0.65f, 0.65f, 0.65f });
 
 		//枠のオブジェット
-		frameObj[i] = Object3d::Create();
 		frameModel = Model::LoadFromObj("ClearBox");
+		frameObj[i] = Object3d::Create();
 		frameObj[i]->SetModel(frameModel);
 		frameObj[i]->SetScale({ 0.66f, 0.66f, 0.66f });
 	}

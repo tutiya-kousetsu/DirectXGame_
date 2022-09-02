@@ -16,8 +16,8 @@ void Player::Initialize(Input* input)
 	this->input = input;
 
 	//ƒf[ƒ^“Ç‚Ýž‚Ý
-	playerObj = Object3d::Create();
 	playerModel = Model::LoadFromObj("PlayerRed");
+	playerObj = Object3d::Create();
 	playerObj->SetModel(playerModel);
 	playerObj->SetScale({ 0.75f, 0.75f, 0.75f });
 }

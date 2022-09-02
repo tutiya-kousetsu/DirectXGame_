@@ -36,8 +36,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	
 	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
 	
-	//FBXの初期化
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
 	//音声読み込み
 	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
@@ -53,8 +51,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	camera->SetEye({ 0, 10, -15 });
 	camera->SetTarget({ 0,0,30 });
 	camera->SetDistance(0.0f);
-	//モデル名を指定してファイルを読み込む
-	//fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
@@ -62,11 +58,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	Fbx_Object3d::SetCamera(camera);
 	//グラフィックスパイプライン生成
 	Fbx_Object3d::CreateGraphicsPipeline();
-
-	//3Dオブジェクト生成とモデルのセット
-	fbxobject1 = new Fbx_Object3d;
-	fbxobject1->Initialize();
-	fbxobject1->SetModel(fbxmodel1);
 
 	//乱数の初期化
 	srand((unsigned)time(NULL));
@@ -85,16 +76,12 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 void GamePlayScene::Finalize()
 {
 
-	delete fbxobject1;
-	delete fbxmodel1;
 	delete camera;
 	//スプライト個別解放
 	delete sprite1;
 	delete sprite;
 	//3Dモデル解放
-	delete modelPost;
 	//3Dオブジェクト解放
-	delete objPost;
 	delete postEffect[0];
 	delete postEffect[1];
 
@@ -109,13 +96,6 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
-	//objPost->SetPosition({ 0, 15,10 });
-	//objPost->SetRotation({ -45, 0, 0 });
-	//fbxobject1->SetRotation({ 0, 90, 0 });
-	//if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
-	//{
-	//	fbxobject1->PlayAnimation();
-	//}
 
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
@@ -123,13 +103,8 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	//更新
-	//objPost->Update();
-	//objChr->Update();
 	camera->Update();
-	//fbxobject1->Update();
-	//更新
 	camera->Update();
-	//sprite->Update();
 	player->Update();
 	shoot->Update();
 	for (int i = 0; i < 3; i++) {
@@ -143,9 +118,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	postEffect[0]->PreDrawScene(dxCommon->GetCmdList());
 	//スプライト描画
 #pragma region 背景スプライト描画
-// 背景スプライト描画前処理
+	// 背景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
-	// 背景スプライト描画
+	//背景スプライト描画
 	//spriteBG->Draw();
 	//sprite1->Draw();
 
@@ -182,11 +157,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		shoot->Draw();
 		enemy[i]->Draw();
 	}
-	//3Dオブジェクトの描画
-	//objPost->Draw();
-
-	//fbxobject1->Draw(dxCommon->GetCmdList());
-	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
 	postEffect[0]->PostDrawScene(dxCommon->GetCmdList());

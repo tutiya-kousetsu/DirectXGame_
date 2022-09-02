@@ -34,8 +34,8 @@ void FbxLoader::Initialize(ID3D12Device* device)
 void FbxLoader::Finalize()
 {
 	//各種FBXインスタンスの破棄
-	fbxImporter->Destroy();
-	fbxManager->Destroy();
+	/*fbxImporter->Destroy();
+	fbxManager->Destroy();*/
 }
 
 Fbx_Model* FbxLoader::LoadModelFromFile(const string& modelName)

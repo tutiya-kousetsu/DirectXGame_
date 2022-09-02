@@ -5,12 +5,10 @@
 
 void GameOver::Initialize(DirectXCommon* dxCommon)
 {
-	//スプライト共通テクスチャ読み込み
-	SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/GameOver.png");
-
+	Sprite::LoadTexture(1, L"Resources/GameOver.png");
 	//スプライトの生成
-	sprite = Sprite::Create(1, { 0,0 }, false, false);
-	sprite->SetPosition({ 0,0,0 });
+	sprite = Sprite::Create(1, { 0.0f,0.0f });
+	sprite->SetPosition({ 0,0 });
 
 }
 
@@ -27,17 +25,24 @@ void GameOver::Update()
 	{
 		//シーン切り替え
 		BaseScene* scene = new TitleScene();
-		SceneManager::GetInstance()->SetNextScene(scene);
+		this->sceneManager->SetNextScene(scene);
 	}
 
 	//更新
-	sprite->Update();
+	//sprite->Update();
 }
 
 void GameOver::Draw(DirectXCommon* dxCommon)
 {
+	//描画前処理
+	dxCommon->PreDraw();
+
 	//スプライト共通コマンド
-	SpriteCommon::GetInstance()->PreDraw();
+	Sprite::PreDraw(dxCommon->GetCmdList());
 	//スプライト描画
 	sprite->Draw();
+	Sprite::PostDraw();
+	//描画後処理
+	dxCommon->PostDraw();
+
 }

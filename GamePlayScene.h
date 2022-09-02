@@ -8,6 +8,10 @@
 #include "Fbx_Object3d.h"
 #include "PostEffect.h"
 #include "Input.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Shoot.h"
+#include "GameOver.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -34,6 +38,7 @@ public:
 	/// </summary>
 	void Draw(DirectXCommon* dxCommon) override;
 
+	void Collision();
 private:
 	
 	Sprite* sprite = nullptr;
@@ -48,4 +53,10 @@ private:
 	Fbx_Object3d* fbxobject1 = nullptr;
 	PostEffect* postEffect[2] = {};
 
+	Player* player = nullptr;
+	Enemy* enemy[3] = {};
+	Shoot* shoot = nullptr;
+
+	int playerLife = 300;
+	int gameScore = 0;
 };

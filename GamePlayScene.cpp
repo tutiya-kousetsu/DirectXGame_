@@ -39,13 +39,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//FBXの初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 
-	//OBJからモデルデータを読み込む
-	modelPost = Model::LoadFromObj("post");
-
-	//3Dオブジェクト生成
-	objPost = Object3d::Create();
-	objPost->SetModel(modelPost);
-
 	//音声読み込み
 	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
 
@@ -57,9 +50,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
-	camera->SetEye({ 0, 3.0f, -7.0f });
-	camera->SetTarget({ 0,2.5f,0 });
-	camera->SetDistance(-45.0f);
+	camera->SetEye({ 0, 10, -15 });
+	camera->SetTarget({ 0,0,30 });
+	camera->SetDistance(0.0f);
 	//モデル名を指定してファイルを読み込む
 	fbxmodel1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
@@ -74,6 +67,19 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	fbxobject1 = new Fbx_Object3d;
 	fbxobject1->Initialize();
 	fbxobject1->SetModel(fbxmodel1);
+
+	//乱数の初期化
+	srand((unsigned)time(NULL));
+
+	player = new Player();
+	shoot = new Shoot();
+	for (int i = 0; i < 3; i++) {
+		enemy[i] = new Enemy();
+
+		player->Initialize(input);
+		shoot->Initialize(input, player);
+		enemy[i]->Initialize();
+	}
 }
 
 void GamePlayScene::Finalize()
@@ -91,6 +97,13 @@ void GamePlayScene::Finalize()
 	delete objPost;
 	delete postEffect[0];
 	delete postEffect[1];
+
+	//3Dオブジェクト解放
+	delete player;
+	delete shoot;
+	for (int i = 0; i < 3; i++) {
+		delete enemy[i];
+	}
 }
 
 void GamePlayScene::Update()
@@ -104,10 +117,6 @@ void GamePlayScene::Update()
 		fbxobject1->PlayAnimation();
 	}
 
-	//if (input->PushKey(DIK_SPACE))     // スペースキーが押されていたら
-	//{
-	//	fbxobject1->PlayAnimation();
-	//}
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
@@ -118,6 +127,15 @@ void GamePlayScene::Update()
 	//objChr->Update();
 	camera->Update();
 	fbxobject1->Update();
+	//更新
+	camera->Update();
+	//sprite->Update();
+	player->Update();
+	shoot->Update();
+	for (int i = 0; i < 3; i++) {
+		enemy[i]->Update();
+	}
+	Collision();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -159,7 +177,11 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
-
+	for (int i = 0; i < 3; i++) {
+		player->Draw();
+		shoot->Draw();
+		enemy[i]->Draw();
+	}
 	//3Dオブジェクトの描画
 	//objPost->Draw();
 
@@ -181,4 +203,52 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//描画後処理
 	dxCommon->PostDraw();
 
+}
+
+void GamePlayScene::Collision()
+{
+	for (int i = 0; i < 3; i++) {
+		//プレイヤーと敵の衝突判定
+		//敵が存在すれば
+		if (enemy[i]->GetFlag()) {
+			//座標
+			XMFLOAT3 playerPosition = player->GetPosition();
+			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
+
+			//差を求める
+			float dx = abs(playerPosition.x - enemyPosition.x);
+			float dy = abs(playerPosition.y - enemyPosition.y);
+			float dz = abs(playerPosition.z - enemyPosition.z);
+
+			if (enemyPosition.z <= -5) {
+				playerLife--;
+				enemy[i]->Hit();
+			}
+		}
+		//弾と敵の当たり判定
+		//敵が存在すれば
+		if (enemy[i]->GetFlag()) {
+			//座標
+			XMFLOAT3 shootPosition = shoot->GetPosition();
+			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
+
+			//差を求める
+			float dx = abs(enemyPosition.x - shootPosition.x);
+			float dy = abs(enemyPosition.y - shootPosition.y);
+			float dz = abs(enemyPosition.z - shootPosition.z);
+
+			if (dx < 1 && dy < 1 && dz < 1) {
+				gameScore++;
+				enemy[i]->Hit();
+				shoot->Hit();
+			}
+		}
+	}
+
+	//プレイヤーのHPが0になったら画面切り替え
+	if (playerLife == 0) {
+		//シーン切り替え
+		BaseScene* scene = new GameOver();
+		this->sceneManager->SetNextScene(scene);
+	}
 }

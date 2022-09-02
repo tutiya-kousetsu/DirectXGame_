@@ -21,6 +21,9 @@ void SceneManager::Update(DirectXCommon* dxCommon)
 		this->scene = this->nextScene;
 		this->nextScene = nullptr;
 
+		//シーンマネージャをセット
+		this->scene->SetSceneManager(this);
+		//新シーンの初期化
 		this->scene->Initialize(dxCommon);
 	}
 	this->scene->Update();

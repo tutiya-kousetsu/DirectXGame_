@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -228,10 +228,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="2d\DebugText.cpp" />
+    <ClCompile Include="2d\Sprite.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
-    <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
@@ -249,7 +250,6 @@
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shoot.cpp" />
-    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WinApp.cpp" />
   </ItemGroup>
@@ -259,11 +259,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="2d\DebugText.h" />
+    <ClInclude Include="2d\Sprite.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FbxLoader.h" />
@@ -281,7 +282,6 @@
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shoot.h" />
-    <ClInclude Include="Sprite.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="WinApp.h" />
   </ItemGroup>

@@ -155,6 +155,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (int i = 0; i < 3; i++) {
 		player->Draw();
 		shoot->Draw();
+
 		enemy[i]->Draw();
 	}
 	Object3d::PostDraw();

@@ -28,17 +28,47 @@
     <Filter Include="ヘッダー ファイル\3d">
       <UniqueIdentifier>{2ae63599-f8aa-4563-9079-a5ea03e347e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\audio">
-      <UniqueIdentifier>{436c3ed6-9154-4074-92ef-a5be5656feed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\audio">
-      <UniqueIdentifier>{7fd408bb-2b93-434e-ae58-c3e0e3c808bc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\scene">
       <UniqueIdentifier>{5aa1c67f-1040-4e7d-af08-0a4959b4be5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\scene">
       <UniqueIdentifier>{8c217052-477a-4935-961b-a88a3695a5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\camera">
+      <UniqueIdentifier>{ea317398-4a6c-4348-acd0-b054282843bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\camera">
+      <UniqueIdentifier>{60444213-e45a-4e39-a579-bb3df9b77d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\3d\Fbx">
+      <UniqueIdentifier>{918e07be-955a-4132-9710-d0b3b51b9aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\3d\Fbx">
+      <UniqueIdentifier>{50ee8435-d10c-4380-896d-34f56349169f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\base">
+      <UniqueIdentifier>{aec2c328-66d8-4770-ad25-4a5b51e13afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\base">
+      <UniqueIdentifier>{040de738-8e9a-4401-9cc6-4fcfdc13e5dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="h&amp;cpp">
+      <UniqueIdentifier>{c24fdafe-ce95-4bbc-ab05-9385c79d6dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="h&amp;cpp\audio">
+      <UniqueIdentifier>{436c3ed6-9154-4074-92ef-a5be5656feed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="h&amp;cpp\enemy">
+      <UniqueIdentifier>{82abdeb1-a0c6-4c2a-92bf-7542c62e8914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="h&amp;cpp\shoot">
+      <UniqueIdentifier>{ac164f0d-d393-434e-968a-cd613c9f027d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="h&amp;cpp\input">
+      <UniqueIdentifier>{f3f6c241-755c-4385-bc51-48702dcc42eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="h&amp;cpp\player">
+      <UniqueIdentifier>{9e696917-7bec-425b-bfb0-8d855e7f3091}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -74,37 +104,7 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="WinApp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="PostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Shoot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="2d\DebugText.cpp">
@@ -113,15 +113,6 @@
     <ClCompile Include="2d\Sprite.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="3d\Fbx_Model.cpp">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Fbx_Object3d.cpp">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\FbxLoader.cpp">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClCompile>
     <ClCompile Include="3d\Model.cpp">
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
@@ -129,7 +120,7 @@
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
     <ClCompile Include="audio\Audio.cpp">
-      <Filter>ソース ファイル\audio</Filter>
+      <Filter>h&amp;cpp\audio</Filter>
     </ClCompile>
     <ClCompile Include="scene\GameOver.cpp">
       <Filter>ソース ファイル\scene</Filter>
@@ -142,6 +133,45 @@
     </ClCompile>
     <ClCompile Include="scene\TitleScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\Camera.cpp">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\DebugCamera.cpp">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="input\Input.cpp">
+      <Filter>h&amp;cpp\input</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\Fbx_Model.cpp">
+      <Filter>ソース ファイル\3d\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\Fbx_Object3d.cpp">
+      <Filter>ソース ファイル\3d\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\FbxLoader.cpp">
+      <Filter>ソース ファイル\3d\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="player\Player.cpp">
+      <Filter>h&amp;cpp\player</Filter>
+    </ClCompile>
+    <ClCompile Include="shoot\Shoot.cpp">
+      <Filter>h&amp;cpp\shoot</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\Enemy.cpp">
+      <Filter>h&amp;cpp\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="base\DirectXCommon.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\Framework.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\MyGame.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\WinApp.cpp">
+      <Filter>ソース ファイル\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,40 +189,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectXCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PipelineSet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="WinApp.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Shoot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="2d\DebugText.h">
@@ -201,23 +201,11 @@
     <ClInclude Include="2d\Sprite.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
-    <ClInclude Include="3d\Fbx_Model.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Fbx_Object3d.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\FbxLoader.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
-    </ClInclude>
     <ClInclude Include="3d\Model.h">
       <Filter>ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Object3d.h">
       <Filter>ヘッダー ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="audio\Audio.h">
-      <Filter>ヘッダー ファイル\audio</Filter>
     </ClInclude>
     <ClInclude Include="scene\BaseScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
@@ -233,6 +221,48 @@
     </ClInclude>
     <ClInclude Include="scene\TitleScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\Camera.h">
+      <Filter>ヘッダー ファイル\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\DebugCamera.h">
+      <Filter>ヘッダー ファイル\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\Fbx_Model.h">
+      <Filter>ヘッダー ファイル\3d\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\Fbx_Object3d.h">
+      <Filter>ヘッダー ファイル\3d\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\FbxLoader.h">
+      <Filter>ヘッダー ファイル\3d\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="player\Player.h">
+      <Filter>h&amp;cpp\player</Filter>
+    </ClInclude>
+    <ClInclude Include="input\Input.h">
+      <Filter>h&amp;cpp\input</Filter>
+    </ClInclude>
+    <ClInclude Include="shoot\Shoot.h">
+      <Filter>h&amp;cpp\shoot</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\Enemy.h">
+      <Filter>h&amp;cpp\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="base\DirectXCommon.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Framework.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\MyGame.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\WinApp.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="audio\Audio.h">
+      <Filter>h&amp;cpp\audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

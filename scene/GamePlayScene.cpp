@@ -29,13 +29,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
-	postEffect[i] = new PostEffect();
+		postEffect[i] = new PostEffect();
 	}
 	//シェーダーの挿入
 	postEffect[0]->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
-	
+
 	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
-	
+
 
 	//音声読み込み
 	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
@@ -134,7 +134,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
 
-	#pragma region 前景スプライト描画
+#pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
 
@@ -152,10 +152,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
+	player->Draw();
+	shoot->Draw();
 	for (int i = 0; i < 3; i++) {
-		player->Draw();
-		shoot->Draw();
-
 		enemy[i]->Draw();
 	}
 	Object3d::PostDraw();

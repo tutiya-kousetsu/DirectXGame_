@@ -20,7 +20,7 @@ public:
 
 	void Draw();
 
-	XMFLOAT3 GetPosition() { return shootObj->GetPosition(); }
+	XMFLOAT3 GetPosition() { return shootObj[0]->GetPosition(); }
 
 	int aliveFlag = 0;
 
@@ -29,7 +29,7 @@ public:
 	void Hit() { aliveFlag = 0; }
 
 private:
-	Object3d* shootObj = nullptr;
+	Object3d* shootObj[5] = {};
 	Model* shootModel = nullptr;
 	Player* player = nullptr;
 	Input* input = nullptr;

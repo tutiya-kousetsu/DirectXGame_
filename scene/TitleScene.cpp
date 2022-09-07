@@ -9,8 +9,7 @@
 
 void TitleScene::Initialize(DirectXCommon* dxCommon)
 {
-	//スプライト共通テクスチャ読み込み
-	//SpriteCommon::GetInstance()->LoadTexture(1, L"Resources/title.png");
+	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/title.png");
 	//スプライトの生成
 	sprite = Sprite::Create(1, { 0.0f,0.0f });

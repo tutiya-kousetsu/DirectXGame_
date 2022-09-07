@@ -121,7 +121,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//背景スプライト描画
-	//spriteBG->Draw();
+	spriteBG->Draw();
 	//sprite1->Draw();
 
 	/// <summary>
@@ -129,25 +129,25 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 
 	// スプライト描画後処理
-	Sprite::PostDraw();
+	//Sprite::PostDraw();
 	// 深度バッファクリア
-	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
+	//dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
-	Sprite::PreDraw(dxCommon->GetCmdList());
+	//Sprite::PreDraw(dxCommon->GetCmdList());
 
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	//sprite->Draw();
-
+	//spriteBG->Draw();
 	// デバッグテキストの描画
 	//debugText->DrawAll(cmdList);
 
 	// スプライト描画後処理
-	Sprite::PostDraw();
+	
 #pragma endregion
 
 	//3Dオブジェクト描画前処理
@@ -158,6 +158,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		enemy[i]->Draw();
 	}
 	Object3d::PostDraw();
+	Sprite::PostDraw();
 
 	postEffect[0]->PostDrawScene(dxCommon->GetCmdList());
 

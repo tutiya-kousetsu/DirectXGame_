@@ -1,7 +1,7 @@
 #pragma once
 #include "Sprite.h"
 #include "PipelineSet.h"
-#include "SpriteCommon.h"
+//#include "SpriteCommon.h"
 
 class PostEffect :
 	public Sprite

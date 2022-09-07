@@ -21,7 +21,7 @@ public:
 	//•`‰æ
 	void Draw();
 
-	XMFLOAT3 GetPosition() { return enemyObj[0]->GetPosition(); }
+	inline XMFLOAT3 GetPosition() { return enemyObj[0]->GetPosition(); }
 	//XMFLOAT3 frameGetPos() { return frameObj[0]->GetPosition(); }
 
 public:
@@ -32,9 +32,9 @@ public:
 	
 	bool GetFlag() { return aliveFlag[0]; }
 
-	
 	int flashingFlag = 0;
 	int flashingEndFlag = 0;
+
 private:
 	int enemyTimer = 0;
 	int frameTimer = 0;

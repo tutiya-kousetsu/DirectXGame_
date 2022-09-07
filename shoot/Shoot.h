@@ -20,7 +20,7 @@ public:
 
 	void Draw();
 
-	XMFLOAT3 GetPosition() { return shootObj[0]->GetPosition(); }
+	inline XMFLOAT3 GetPosition() { return shootObj[0]->GetPosition(); }
 
 	int aliveFlag = 0;
 

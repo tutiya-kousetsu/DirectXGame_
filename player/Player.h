@@ -21,7 +21,7 @@ public:
 	//•`‰æ
 	void Draw();
 
-	XMFLOAT3 GetPosition() { return playerObj->GetPosition(); }
+	inline XMFLOAT3 GetPosition() { return playerObj->GetPosition(); }
 	//XMFLOAT3 GetRotation() { return playerObj->GetRotation(); }
 
 private:

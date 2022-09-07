@@ -12,6 +12,7 @@
 #include "Enemy.h"
 #include "Shoot.h"
 #include "GameOver.h"
+#include "CollisionPrimitive.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -39,6 +40,14 @@ public:
 	void Draw(DirectXCommon* dxCommon) override;
 
 	void Collision();
+
+	//当たり判定 弾
+	Sphere sphere;
+	//当たり判定 平面
+	Plane plane;
+
+	Triangle triangle;
+	Ray ray;
 private:
 	
 	Sprite* sprite = nullptr;

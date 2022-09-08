@@ -27,6 +27,16 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//sprite1->SetPosition({ 0,0 });
 
+	//ポストエフェクトの初期化
+	for (int i = 0; i <= 1; i++) {
+		postEffect[i] = new PostEffect();
+	}
+	//シェーダーの挿入
+	postEffect[0]->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
+
+	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
+
+
 	//音声読み込み
 	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
 
@@ -71,6 +81,9 @@ void GamePlayScene::Finalize()
 	delete sprite1;
 	delete sprite;
 	//3Dモデル解放
+	//3Dオブジェクト解放
+	delete postEffect[0];
+	delete postEffect[1];
 
 	//3Dオブジェクト解放
 	delete player;
@@ -102,8 +115,7 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-	//描画前処理
-	dxCommon->PreDraw();
+	postEffect[0]->PreDrawScene(dxCommon->GetCmdList());
 	//スプライト描画
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
@@ -117,13 +129,28 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 
 	// スプライト描画後処理
-	Sprite::PostDraw();
+	//Sprite::PostDraw();
 	// 深度バッファクリア
-	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
+	//dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
 
-#pragma endregion 3Dオブジェクトの描画
-//3Dオブジェクト描画前処理
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	//Sprite::PreDraw(dxCommon->GetCmdList());
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+	//sprite->Draw();
+	//spriteBG->Draw();
+	// デバッグテキストの描画
+	//debugText->DrawAll(cmdList);
+
+	// スプライト描画後処理
+	
+#pragma endregion
+
+	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
 	shoot->Draw();
@@ -131,21 +158,18 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		enemy[i]->Draw();
 	}
 	Object3d::PostDraw();
-#pragma endregion
-
-#pragma region 前景スプライト描画
-	// 前景スプライト描画前処理
-	Sprite::PreDraw(dxCommon->GetCmdList());
-
-	/// <summary>
-	/// ここに前景スプライトの描画処理を追加できる
-	/// </summary>
-	//sprite->Draw();
-	// デバッグテキストの描画
-	//debugText->DrawAll(cmdList);
-
-	// スプライト描画後処理
 	Sprite::PostDraw();
+
+	postEffect[0]->PostDrawScene(dxCommon->GetCmdList());
+
+	postEffect[1]->PreDrawScene(dxCommon->GetCmdList());
+	postEffect[0]->Draw(dxCommon->GetCmdList());
+	postEffect[1]->PostDrawScene(dxCommon->GetCmdList());
+
+	//描画前処理
+	dxCommon->PreDraw();
+
+	postEffect[1]->Draw(dxCommon->GetCmdList());
 
 	//描画後処理
 	dxCommon->PostDraw();

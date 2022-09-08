@@ -242,7 +242,6 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
-    <ClCompile Include="camera\TrackingCamera.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -274,7 +273,6 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
-    <ClInclude Include="camera\TrackingCamera.h" />
     <ClInclude Include="enemy\Enemy.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="PipelineSet.h" />

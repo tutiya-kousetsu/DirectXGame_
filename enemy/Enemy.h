@@ -25,7 +25,7 @@ public:
 	//XMFLOAT3 frameGetPos() { return frameObj[0]->GetPosition(); }
 
 public:
-	int aliveFlag[3] = {true, true, true};
+	int aliveFlag[4] = {true, true, true, true};
 	int frameFlag = 0;
 	//è’ìÀÇµÇΩèàóù
 	void Hit() { aliveFlag[0] = 0; }
@@ -41,7 +41,7 @@ private:
 	int flashingTimer = 0;
 	Model* enemyModel = nullptr;
 	Model* frameModel = nullptr;
-	Object3d* enemyObj[100] = {};
-	Object3d* frameObj[100] = {};
+	Object3d* enemyObj[4] = {};
+	Object3d* frameObj[4] = {};
 };
 

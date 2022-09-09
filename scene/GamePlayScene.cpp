@@ -64,7 +64,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	player = new Player();
 	shoot = new Shoot();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		enemy[i] = new Enemy();
 
 		player->Initialize(input);
@@ -88,7 +88,7 @@ void GamePlayScene::Finalize()
 	//3Dオブジェクト解放
 	delete player;
 	delete shoot;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		delete enemy[i];
 	}
 }
@@ -107,7 +107,7 @@ void GamePlayScene::Update()
 	camera->Update();
 	player->Update();
 	shoot->Update();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		enemy[i]->Update();
 	}
 	Collision();
@@ -115,7 +115,8 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-	postEffect[0]->PreDrawScene(dxCommon->GetCmdList());
+	//描画前処理
+	dxCommon->PreDraw();
 	//スプライト描画
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
@@ -129,14 +130,26 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 
 	// スプライト描画後処理
-	//Sprite::PostDraw();
+	Sprite::PostDraw();
 	// 深度バッファクリア
-	//dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
+	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
+
+#pragma endregion
+
+//3Dオブジェクト描画前処理
+	Object3d::PreDraw();
+	player->Draw();
+	shoot->Draw();
+	for (int i = 0; i < 4; i++) {
+		enemy[i]->Draw();
+	}
+	Object3d::PostDraw();
+
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
-	//Sprite::PreDraw(dxCommon->GetCmdList());
+	Sprite::PreDraw(dxCommon->GetCmdList());
 
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
@@ -148,28 +161,8 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 	// スプライト描画後処理
 	
-#pragma endregion
-
-	//3Dオブジェクト描画前処理
-	Object3d::PreDraw();
-	player->Draw();
-	shoot->Draw();
-	for (int i = 0; i < 3; i++) {
-		enemy[i]->Draw();
-	}
-	Object3d::PostDraw();
 	Sprite::PostDraw();
 
-	postEffect[0]->PostDrawScene(dxCommon->GetCmdList());
-
-	postEffect[1]->PreDrawScene(dxCommon->GetCmdList());
-	postEffect[0]->Draw(dxCommon->GetCmdList());
-	postEffect[1]->PostDrawScene(dxCommon->GetCmdList());
-
-	//描画前処理
-	dxCommon->PreDraw();
-
-	postEffect[1]->Draw(dxCommon->GetCmdList());
 
 	//描画後処理
 	dxCommon->PostDraw();
@@ -178,7 +171,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 void GamePlayScene::Collision()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		//プレイヤーと敵の衝突判定
 		//敵が存在すれば
 		if (enemy[i]->GetFlag()) {

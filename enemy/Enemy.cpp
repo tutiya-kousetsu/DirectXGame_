@@ -6,7 +6,7 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		delete(enemyObj[i]);
 		delete(frameObj[i]);
 	}
@@ -16,7 +16,7 @@ Enemy::~Enemy()
 
 void Enemy::Initialize()
 {
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		//敵オブジェット
 		enemyModel = Model::LoadFromObj("BlueBox");
 		enemyObj[i] = Object3d::Create();
@@ -34,19 +34,37 @@ void Enemy::Initialize()
 void Enemy::Update()
 {
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		if (aliveFlag[i] == 1) {
-
+			
 			if (frameFlag == 0) {
 				frameTimer++;
 
+					flashingTimer++;
+					//0以上120以下なら表示
+					if (flashingFlag == 0 && 0 < flashingTimer < 120) {
+						flashingFlag = 1;
+					}
+					//120以上240以下なら非表示
+					else if (flashingFlag == 1 && 120 < flashingTimer < 240) {
+						flashingFlag = 0;
+					}
+					else if (flashingFlag == 0 && 240 < flashingTimer < 360) {
+						flashingFlag = 1;
+					}
+					else if (flashingFlag == 1 && 360 < flashingTimer < 480) {
+						flashingFlag = 0;
+					}
+					else if (flashingFlag == 0 && 480 < flashingTimer < 600) {
+						flashingFlag = 1;
+					}
 			}
-
+			
 			if (frameTimer >= 600) {
 
 				frameFlag = 1;
 			}
-
+			
 			enemyTimer++;
 			// 現在の座標を取得
 			XMFLOAT3 position = enemyObj[i]->GetPosition();
@@ -71,6 +89,8 @@ void Enemy::Update()
 			float y2 = (float)y / 10 - 8;//8～-8の範囲
 			int z = rand() % 160;
 			float z2 = (float)z / 10 - 8;//8～-8の範囲
+			// 座標の変更を反映
+			XMFLOAT3 position = enemyObj[i]->GetPosition();
 			enemyObj[0]->SetPosition({ x2, y2, z2 });
 			enemyObj[1]->SetPosition({ x2, y2, z2 });
 			enemyObj[2]->SetPosition({ x2, y2, z2 });
@@ -87,10 +107,12 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		//フラグ0の時に枠だけ表示
 		if (frameFlag == 0) {
+			if (flashingFlag == 1) {
 				frameObj[i]->Draw();
+			}
 		}
 		//フラグ1で敵表示
 		if (frameFlag == 1) {

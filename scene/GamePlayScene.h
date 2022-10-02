@@ -50,7 +50,7 @@ private:
 	PostEffect* postEffect[2] = {};
 
 	Player* player = nullptr;
-	Enemy* enemy[4] = {};
+	Enemy* enemy[3] = {};
 	Shoot* shoot = nullptr;
 
 	int playerLife = 300;

@@ -31,10 +31,8 @@ void Framework::Initialize()
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(winApp);
 
-
 	// スプライト静的初期化
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
-
 
 	//デバックテキスト用のテクスチャ番号を指定
 	const int debugTextTexNumber = 2;

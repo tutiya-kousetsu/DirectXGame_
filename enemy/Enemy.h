@@ -2,6 +2,7 @@
 #include "Object3d.h"
 
 using namespace DirectX;
+using namespace std;
 
 class Enemy
 {
@@ -34,6 +35,7 @@ public:
 
 	int flashingFlag = 0;
 	int flashingEndFlag = 0;
+	//vector<Object3d *> enemyObj;
 
 private:
 	int enemyTimer = 0;

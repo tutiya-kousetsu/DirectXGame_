@@ -52,23 +52,20 @@
     <Filter Include="ヘッダー ファイル\base">
       <UniqueIdentifier>{040de738-8e9a-4401-9cc6-4fcfdc13e5dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\ソースとヘッダー">
-      <UniqueIdentifier>{c24fdafe-ce95-4bbc-ab05-9385c79d6dac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\ソースとヘッダー\audio">
+    <Filter Include="ソース ファイル\audio">
       <UniqueIdentifier>{436c3ed6-9154-4074-92ef-a5be5656feed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\ソースとヘッダー\enemy">
+    <Filter Include="ソース ファイル\enemy">
       <UniqueIdentifier>{82abdeb1-a0c6-4c2a-92bf-7542c62e8914}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\ソースとヘッダー\shoot">
-      <UniqueIdentifier>{ac164f0d-d393-434e-968a-cd613c9f027d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\ソースとヘッダー\input">
+    <Filter Include="ソース ファイル\input">
       <UniqueIdentifier>{f3f6c241-755c-4385-bc51-48702dcc42eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\ソースとヘッダー\player">
+    <Filter Include="ソース ファイル\player">
       <UniqueIdentifier>{9e696917-7bec-425b-bfb0-8d855e7f3091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\shoot">
+      <UniqueIdentifier>{ac164f0d-d393-434e-968a-cd613c9f027d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +114,7 @@
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
     <ClCompile Include="audio\Audio.cpp">
-      <Filter>ソース ファイル\ソースとヘッダー\audio</Filter>
+      <Filter>ソース ファイル\audio</Filter>
     </ClCompile>
     <ClCompile Include="scene\GameOver.cpp">
       <Filter>ソース ファイル\scene</Filter>
@@ -138,7 +135,7 @@
       <Filter>ソース ファイル\camera</Filter>
     </ClCompile>
     <ClCompile Include="input\Input.cpp">
-      <Filter>ソース ファイル\ソースとヘッダー\input</Filter>
+      <Filter>ソース ファイル\input</Filter>
     </ClCompile>
     <ClCompile Include="3d\Fbx_Model.cpp">
       <Filter>ソース ファイル\3d\Fbx</Filter>
@@ -150,13 +147,13 @@
       <Filter>ソース ファイル\3d\Fbx</Filter>
     </ClCompile>
     <ClCompile Include="player\Player.cpp">
-      <Filter>ソース ファイル\ソースとヘッダー\player</Filter>
+      <Filter>ソース ファイル\player</Filter>
     </ClCompile>
     <ClCompile Include="shoot\Shoot.cpp">
-      <Filter>ソース ファイル\ソースとヘッダー\shoot</Filter>
+      <Filter>ソース ファイル\shoot</Filter>
     </ClCompile>
     <ClCompile Include="enemy\Enemy.cpp">
-      <Filter>ソース ファイル\ソースとヘッダー\enemy</Filter>
+      <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
     <ClCompile Include="base\DirectXCommon.cpp">
       <Filter>ソース ファイル\base</Filter>
@@ -172,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="PostEffect.cpp">
       <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,16 +235,16 @@
       <Filter>ヘッダー ファイル\3d\Fbx</Filter>
     </ClInclude>
     <ClInclude Include="player\Player.h">
-      <Filter>ソース ファイル\ソースとヘッダー\player</Filter>
+      <Filter>ソース ファイル\player</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
-      <Filter>ソース ファイル\ソースとヘッダー\input</Filter>
+      <Filter>ソース ファイル\input</Filter>
     </ClInclude>
     <ClInclude Include="shoot\Shoot.h">
-      <Filter>ソース ファイル\ソースとヘッダー\shoot</Filter>
+      <Filter>ソース ファイル\shoot</Filter>
     </ClInclude>
     <ClInclude Include="enemy\Enemy.h">
-      <Filter>ソース ファイル\ソースとヘッダー\enemy</Filter>
+      <Filter>ソース ファイル\enemy</Filter>
     </ClInclude>
     <ClInclude Include="base\DirectXCommon.h">
       <Filter>ヘッダー ファイル\base</Filter>
@@ -259,10 +259,28 @@
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="audio\Audio.h">
-      <Filter>ソース ファイル\ソースとヘッダー\audio</Filter>
+      <Filter>ソース ファイル\audio</Filter>
     </ClInclude>
     <ClInclude Include="PostEffect.h">
       <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionTypes.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCollider.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

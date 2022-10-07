@@ -1,14 +1,16 @@
 ﻿#pragma once
-
-#include"Model.h"
-#include"Camera.h"
-#include"PipelineSet.h"
+#include "CollisionInfo.h"
+#include "Model.h"
+#include "Camera.h"
+#include "PipelineSet.h"
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include<string>
+
+class BaseCollider;
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -24,7 +26,7 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
-		// パイプラインセット
+	// パイプラインセット
 	struct PipelineSet
 	{
 		// ルートシグネチャ
@@ -122,8 +124,8 @@ private: // 静的メンバ変数
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState> pipelinestate;	
-	
+	static ComPtr<ID3D12PipelineState> pipelinestate;
+
 	// ビュー行列
 	static XMMATRIX matView;
 	// 射影行列
@@ -139,7 +141,7 @@ private: // 静的メンバ変数
 	// パイプライン
 	static PipelineSet pipelineSet;
 
-	
+
 private:// 静的メンバ関数
 
 	/// <summary>
@@ -161,16 +163,50 @@ private:// 静的メンバ関数
 	//static void UpdateViewMatrix();
 
 public: // メンバ関数
-	bool Initialize();
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Object3d() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~Object3d();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <returns>成否</returns>
+	virtual bool Initialize();
+
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	virtual void Update();
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	virtual void Draw();
+
+	/// <summary>
+	/// ワールド行列の取得
+	/// </summary>
+	/// <returns>ワールド行列</returns>
+	const XMMATRIX& GetMatWorld() { return matWorld; }
+
+	/// <summary>
+	/// コライダーセット
+	/// </summary>
+	/// <param name="collider">コライダー</param>
+	void SetCollider(BaseCollider* collider);
+
+	/// <summary>
+	/// 衝突時コールバック関数
+	/// </summary>
+	/// <param name="info"></param>
+	virtual void OnCollider(const CollisionInfo& info);
 
 	/// <summary>
 	/// 座標の取得
@@ -197,7 +233,11 @@ public: // メンバ関数
 	/// </summary>
 	void SetModel(Model* model) { this->model = model; }
 
-private: // メンバ変数
+protected: // メンバ変数
+	//クラス名
+	const char* name = nullptr;
+	//コライダー
+	BaseCollider* collider = nullptr;
 	//3Dモデル(借りてくる)
 	Model* model = nullptr;
 	// 行列用定数バッファ

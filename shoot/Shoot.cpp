@@ -41,7 +41,7 @@ void Shoot::Update()
 	}
 	if (aliveFlag == 0) {
 		//スペース押したら
-		if (input->PushKey(DIK_SPACE)) {
+		if (input->TriggerKey(DIK_SPACE)) {
 
 			XMFLOAT3 position = player->GetPosition();
 

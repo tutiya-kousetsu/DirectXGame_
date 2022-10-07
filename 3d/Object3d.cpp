@@ -1,11 +1,15 @@
 ﻿#include "Object3d.h"
+#include "Sprite.h"
+#include "BaseCollider.h"
+
 #include <d3dcompiler.h>
 #include <fstream>
 #include<sstream>
 #include<string>
 #include<vector>
-#include "Sprite.h"
+
 #pragma comment(lib, "d3dcompiler.lib")
+
 using namespace std;
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -236,6 +240,13 @@ bool Object3d::InitializeGraphicsPipeline()
 	return true;
 }
 
+Object3d::~Object3d()
+{
+	if (collider) {
+		delete collider;
+	}
+}
+
 bool Object3d::Initialize()
 {
 	// nullptrチェック
@@ -252,6 +263,8 @@ bool Object3d::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&this->constBuffB0));
 
+	//クラス名の文字を取得
+	name = typeid(*this).name();
 	return true;
 }
 
@@ -295,6 +308,11 @@ void Object3d::Update()
 	constMap->world = this->matWorld;
 	constMap->cameraPos = cameraPos;
 	this->constBuffB0->Unmap(0, nullptr);
+
+	//当たり判定
+	if (collider) {
+		collider->Update();
+	}
 }
 
 void Object3d::Draw()
@@ -317,4 +335,10 @@ void Object3d::Draw()
 
 	//モデルを描画
 	this->model->Draw(cmdList, 1);
+}
+
+void Object3d::SetCollider(BaseCollider* collider)
+{
+	collider->SetObject(this);
+	this->collider = collider;
 }

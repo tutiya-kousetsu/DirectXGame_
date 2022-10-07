@@ -1,4 +1,6 @@
 #include<windows.h>
+#include<cassert>
+
 #include"Input.h"
 //#include<wrl.h>
 //using namespace Microsoft::WRL;
@@ -63,8 +65,14 @@ bool Input::PushKey(BYTE keyNumber)
 
 bool Input::TriggerKey(BYTE keyNumber)
 {
-	if (keyPre[keyNumber]) {
+	// 異常な引数を検出
+	assert(0 <= keyNumber && keyNumber <= 256);
+
+	// 前回が0で、今回が0でなければトリガー
+	if (!keyPre[keyNumber] && key[keyNumber]) {
 		return true;
 	}
+
+	// トリガーでない
 	return false;
 }

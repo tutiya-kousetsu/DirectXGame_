@@ -1,4 +1,5 @@
 #include "Shoot.h"
+#include "Player.h"
 
 Shoot::Shoot()
 {

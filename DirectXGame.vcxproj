@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)input;$(ProjectDir)player;$(ProjectDir)shoot;$(ProjectDir)enemy;$(ProjectDir)base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)input;$(ProjectDir)player;$(ProjectDir)shoot;$(ProjectDir)enemy;$(ProjectDir)base;$(ProjectDir)collision;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -242,8 +242,9 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="collision\Collision.cpp" />
+    <ClCompile Include="collision\CollisionManager.cpp" />
+    <ClCompile Include="collision\SphereCollider.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -254,7 +255,6 @@
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
     <ClCompile Include="shoot\Shoot.cpp" />
-    <ClCompile Include="SphereCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
@@ -270,18 +270,19 @@
     <ClInclude Include="3d\Model.h" />
     <ClInclude Include="3d\Object3d.h" />
     <ClInclude Include="audio\Audio.h" />
-    <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\Framework.h" />
     <ClInclude Include="base\MyGame.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionInfo.h" />
-    <ClInclude Include="CollisionManager.h" />
-    <ClInclude Include="CollisionPrimitive.h" />
-    <ClInclude Include="CollisionTypes.h" />
+    <ClInclude Include="collision\BaseCollider.h" />
+    <ClInclude Include="collision\Collision.h" />
+    <ClInclude Include="collision\CollisionInfo.h" />
+    <ClInclude Include="collision\CollisionManager.h" />
+    <ClInclude Include="collision\CollisionPrimitive.h" />
+    <ClInclude Include="collision\CollisionTypes.h" />
+    <ClInclude Include="collision\SphereCollider.h" />
     <ClInclude Include="enemy\Enemy.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="PipelineSet.h" />
@@ -293,7 +294,6 @@
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="scene\TitleScene.h" />
     <ClInclude Include="shoot\Shoot.h" />
-    <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

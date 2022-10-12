@@ -1,8 +1,9 @@
 ﻿#pragma once
-#include "CollisionInfo.h"
+#include "collision/CollisionInfo.h"
 #include "Model.h"
 #include "Camera.h"
 #include "PipelineSet.h"
+#include "Shoot.h"
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -11,6 +12,7 @@
 #include<string>
 
 class BaseCollider;
+class Shoot;
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>

@@ -4,6 +4,9 @@
 #include "Enemy.h"
 using namespace DirectX;
 
+//前方宣言...名前だけ借りてくる = 処理を書かない場合使う
+class Shoot;
+
 class Player: public Object3d
 {
 private:
@@ -27,7 +30,7 @@ public:
 	bool Initialize() override;
 
 	//更新
-	void Update(Shoot* shootPos) override;
+	void Update() override;
 
 	void OnCollision(const CollisionInfo& info) override;
 

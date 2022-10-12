@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Shoot.h"
 #include "DebugText.h"
-#include "SphereCollider.h"
+#include "collision/SphereCollider.h"
 
 using namespace DirectX;
 
@@ -56,10 +56,10 @@ bool Player::Initialize()
 	return true;
 }
 
-void Player::Update(Shoot* shootPos)
+void Player::Update()
 {
 	Input* input = Input::GetInstance();
-	XMFLOAT3 playerPos;
+	//XMFLOAT3 Pos;
 	// ˆÚ“®Œã‚ÌÀ•W‚ðŒvŽZ
 	//ˆÚ“®
 	/*if (input->PushKey(DIK_RIGHT)) { position.x += 0.15f; }
@@ -92,8 +92,6 @@ void Player::Update(Shoot* shootPos)
 
 	// À•W‚Ì•ÏX‚ð”½‰f
 	playerObj->SetPosition(position);
-	
-	playerObj->Update();
 	Object3d::Update();
 }
 

@@ -1,7 +1,7 @@
 ﻿#include "Object3d.h"
 #include "Sprite.h"
-#include "BaseCollider.h"
-#include "CollisionManager.h"
+#include "collision/BaseCollider.h"
+#include "collision/CollisionManager.h"
 #include <d3dcompiler.h>
 #include <fstream>
 #include<sstream>

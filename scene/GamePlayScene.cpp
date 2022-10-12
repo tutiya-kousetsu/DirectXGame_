@@ -5,8 +5,8 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
-#include "SphereCollider.h"
-#include "CollisionManager.h"
+#include "collision/SphereCollider.h"
+#include "collision/CollisionManager.h"
 #include "Player.h"
 
 

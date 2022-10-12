@@ -67,6 +67,12 @@
     <Filter Include="ソース ファイル\shoot">
       <UniqueIdentifier>{ac164f0d-d393-434e-968a-cd613c9f027d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\collision">
+      <UniqueIdentifier>{ac901289-0c79-4341-9ef1-875b328e40ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\collision">
+      <UniqueIdentifier>{bc923e2d-8f1f-41a4-b895-a268efe842df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
@@ -170,14 +176,14 @@
     <ClCompile Include="PostEffect.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="collision\Collision.cpp">
+      <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="collision\CollisionManager.cpp">
+      <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="collision\SphereCollider.cpp">
+      <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,26 +276,26 @@
     <ClInclude Include="PostEffect.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="collision\SphereCollider.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="collision\CollisionTypes.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionTypes.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="collision\CollisionPrimitive.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="collision\CollisionManager.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionInfo.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="collision\CollisionInfo.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="collision\Collision.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="collision\BaseCollider.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

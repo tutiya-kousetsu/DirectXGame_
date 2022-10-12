@@ -1,9 +1,10 @@
 #pragma once
-#include "Player.h"
+//#include "Player.h"
 #include "Input.h"
 #include "Object3d.h"
 
 using namespace DirectX;
+class Player;
 
 class Shoot
 {
@@ -20,7 +21,9 @@ public:
 
 	void Draw();
 
-	inline XMFLOAT3 GetPosition() { return shootObj->GetPosition(); }
+	//inline XMFLOAT3 GetPosition() { return shootObj->GetPosition(); }
+
+	XMFLOAT3 SetPosition(XMFLOAT3 position) { this->player = player; }
 
 	int aliveFlag = 0;
 
@@ -31,7 +34,7 @@ public:
 private:
 	Object3d* shootObj = nullptr;
 	Model* shootModel = nullptr;
-	Object3d* player = nullptr;
+	Player* player = nullptr;
 	Input* input = nullptr;
 };
 

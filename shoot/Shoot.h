@@ -31,7 +31,7 @@ public:
 private:
 	Object3d* shootObj = nullptr;
 	Model* shootModel = nullptr;
-	Player* player = nullptr;
+	Object3d* player = nullptr;
 	Input* input = nullptr;
 };
 

@@ -5,6 +5,10 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
+#include "Player.h"
+
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
@@ -64,13 +68,22 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	player = new Player();
 	shoot = new Shoot();
+	player->Initialize();
+	shoot->Initialize(input, player);
+
 	for (int i = 0; i < 4; i++) {
 		enemy[i] = new Enemy();
-
-		player->Initialize(input);
-		shoot->Initialize(input, player);
 		enemy[i]->Initialize();
 	}
+
+	//データ読み込み
+	modelPlayer = Model::LoadFromObj("PlayerRed");
+	objPlayer = Player::Create(modelPlayer);
+	//objPlayer->SetModel((modelPlayer));
+	objPlayer->SetScale({ 0.75f, 0.75f, 0.75f });
+
+
+	collisionManager = CollisionManager::GetInstance();
 }
 
 void GamePlayScene::Finalize()
@@ -110,7 +123,9 @@ void GamePlayScene::Update()
 	for (int i = 0; i < 4; i++) {
 		enemy[i]->Update();
 	}
-	Collision();
+	//Collision();
+	//全ての衝突チェック
+	collisionManager->CheckAllCollision();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -169,52 +184,52 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 }
 
-void GamePlayScene::Collision()
-{
-	for (int i = 0; i < 4; i++) {
-		//プレイヤーと敵の衝突判定
-		//敵が存在すれば
-		if (enemy[i]->GetFlag()) {
-			//座標
-			XMFLOAT3 playerPosition = player->GetPosition();
-			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
-
-			//差を求める
-			float dx = abs(playerPosition.x - enemyPosition.x);
-			float dy = abs(playerPosition.y - enemyPosition.y);
-			float dz = abs(playerPosition.z - enemyPosition.z);
-
-			if (enemyPosition.z <= -5) {
-				playerLife--;
-				enemy[i]->Hit();
-			}
-		}
-		//弾と敵の当たり判定
-		//敵が存在すれば
-		if (enemy[i]->frameFlag == 1) {
-			if (enemy[i]->GetFlag()) {
-				//座標
-				XMFLOAT3 shootPosition = shoot->GetPosition();
-				XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
-
-				//差を求める
-				float dx = abs(enemyPosition.x - shootPosition.x);
-				float dy = abs(enemyPosition.y - shootPosition.y);
-				float dz = abs(enemyPosition.z - shootPosition.z);
-
-				if (dx < 1 && dy < 1 && dz < 1) {
-					gameScore++;
-					enemy[i]->Hit();
-					shoot->Hit();
-				}
-			}
-		}
-	}
-
-	//プレイヤーのHPが0になったら画面切り替え
-	if (playerLife == 0) {
-		//シーン切り替え
-		BaseScene* scene = new GameOver();
-		this->sceneManager->SetNextScene(scene);
-	}
-}
+//void GamePlayScene::Collision()
+//{
+//	for (int i = 0; i < 4; i++) {
+//		//プレイヤーと敵の衝突判定
+//		//敵が存在すれば
+//		if (enemy[i]->GetFlag()) {
+//			//座標
+//			XMFLOAT3 playerPosition = player->GetPosition();
+//			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
+//
+//			//差を求める
+//			float dx = abs(playerPosition.x - enemyPosition.x);
+//			float dy = abs(playerPosition.y - enemyPosition.y);
+//			float dz = abs(playerPosition.z - enemyPosition.z);
+//
+//			if (enemyPosition.z <= -5) {
+//				playerLife--;
+//				enemy[i]->Hit();
+//			}
+//		}
+//		//弾と敵の当たり判定
+//		//敵が存在すれば
+//		if (enemy[i]->frameFlag == 1) {
+//			if (enemy[i]->GetFlag()) {
+//				//座標
+//				XMFLOAT3 shootPosition = shoot->GetPosition();
+//				XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
+//
+//				//差を求める
+//				float dx = abs(enemyPosition.x - shootPosition.x);
+//				float dy = abs(enemyPosition.y - shootPosition.y);
+//				float dz = abs(enemyPosition.z - shootPosition.z);
+//
+//				if (dx < 1 && dy < 1 && dz < 1) {
+//					gameScore++;
+//					enemy[i]->Hit();
+//					shoot->Hit();
+//				}
+//			}
+//		}
+//	}
+//
+//	//プレイヤーのHPが0になったら画面切り替え
+//	if (playerLife == 0) {
+//		//シーン切り替え
+//		BaseScene* scene = new GameOver();
+//		this->sceneManager->SetNextScene(scene);
+//	}
+//}

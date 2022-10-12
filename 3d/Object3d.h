@@ -205,8 +205,8 @@ public: // メンバ関数
 	/// <summary>
 	/// 衝突時コールバック関数
 	/// </summary>
-	/// <param name="info"></param>
-	virtual void OnCollider(const CollisionInfo& info);
+	/// <param name="info">衝突情報</param>
+	virtual void OnCollision(const CollisionInfo& info) {}
 
 	/// <summary>
 	/// 座標の取得

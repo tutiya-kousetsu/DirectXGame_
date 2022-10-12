@@ -36,6 +36,14 @@ public:
 		triangle, DirectX::XMVECTOR* inter = nullptr);
 
 	/// <summary>
+	/// ‹…“¯m‚Ì“–‚½‚è”»’è
+	/// </summary>
+	/// <param name="sphere1">‹…</param>
+	/// <param name="sphere2">‹…</param>
+	/// <returns>Õ“Ë‚µ‚Ä‚¢‚é‚©”Û‚©</returns>
+	static bool CheckSphere2Sphere(const Sphere& sphere1, const Sphere& sphere2, DirectX::XMVECTOR* inter);
+
+	/// <summary>
 	/// ƒŒƒC‚Æ•½–Ê‚Ì“–‚½‚è”»’è
 	/// </summary>
 	/// <param name="lay">‚ê‚¢</param>

@@ -75,7 +75,24 @@ void DirectXCommon::InitializeDevice()
 		D3D_FEATURE_LEVEL_11_0,
 	};
 
-	 
+	D3D_FEATURE_LEVEL featureLevel;
+	for (int i = 0; i < adapters.size(); i++) {
+		// デバイスを生成
+		for (int levelIndex = 0; levelIndex < _countof(levels); levelIndex++) {
+			result =
+				D3D12CreateDevice(adapters[i].Get(), levels[levelIndex], IID_PPV_ARGS(&dev));
+			if (SUCCEEDED(result)) {
+				// デバイスを生成できた時点でループを抜ける
+				featureLevel = levels[levelIndex];
+				break;
+			}
+		}
+
+		// このアダプタで生成できてたら完了
+		if (SUCCEEDED(result)) {
+			break;
+		}
+	}
 }
 
 

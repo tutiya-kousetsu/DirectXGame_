@@ -1,7 +1,7 @@
 ﻿#include "Object3d.h"
 #include "Sprite.h"
 #include "BaseCollider.h"
-
+#include "CollisionManager.h"
 #include <d3dcompiler.h>
 #include <fstream>
 #include<sstream>
@@ -243,6 +243,8 @@ bool Object3d::InitializeGraphicsPipeline()
 Object3d::~Object3d()
 {
 	if (collider) {
+		//コリジョンマネージャから登録を解除する
+		CollisionManager::GetInstance()->RemoveCollider(collider);
 		delete collider;
 	}
 }
@@ -251,6 +253,9 @@ bool Object3d::Initialize()
 {
 	// nullptrチェック
 	assert(device);
+
+	//クラス名の文字を取得
+	name = typeid(*this).name();
 
 	HRESULT result;
 
@@ -263,8 +268,7 @@ bool Object3d::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&this->constBuffB0));
 
-	//クラス名の文字を取得
-	name = typeid(*this).name();
+	
 	return true;
 }
 
@@ -341,4 +345,8 @@ void Object3d::SetCollider(BaseCollider* collider)
 {
 	collider->SetObject(this);
 	this->collider = collider;
+	//コリジョンマネージャに登録
+	CollisionManager::GetInstance()->AddCollider(collider);
+	//コライダーを更新しておく
+	collider->Update();
 }

@@ -4,7 +4,7 @@
 /// Õ“Ë”»’è—pŠÖ˜A‚ÌŒ^’è‹`
 /// </summary>
 
-enum CollisionSphereType
+enum CollisionShapeType
 {
 	SHAPE_UNKNOWN = -1,//–¢İ’è
 

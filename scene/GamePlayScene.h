@@ -8,13 +8,16 @@
 #include "Fbx_Object3d.h"
 #include "PostEffect.h"
 #include "Input.h"
-#include "Player.h"
 #include "Enemy.h"
 #include "Shoot.h"
 #include "GameOver.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
+
+class CollisionManager;
+class Player;
+
 class GamePlayScene : public BaseScene
 {
 public:
@@ -50,8 +53,12 @@ private:
 	PostEffect* postEffect[2] = {};
 
 	Player* player = nullptr;
+	Player* objPlayer = nullptr;
+	Model* modelPlayer = nullptr;
+
 	Enemy* enemy[4] = {};
 	Shoot* shoot = nullptr;
+	CollisionManager* collisionManager = nullptr;
 
 	int playerLife = 300;
 	int gameScore = 0;

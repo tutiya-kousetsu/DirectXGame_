@@ -2,8 +2,7 @@
 
 using namespace DirectX;
 
-bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane&
-	plane, DirectX::XMVECTOR* inter)
+bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, DirectX::XMVECTOR* inter)
 {
 	//座標系の原点から球の中心座標への距離
 	XMVECTOR distV = XMVector3Dot(sphere.center, plane.normal);
@@ -112,6 +111,19 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 		*inter = p;
 	}
 	return true;
+}
+
+bool Collision::CheckSphere2Sphere(const Sphere& sphere1, const Sphere& sphere2, DirectX::XMVECTOR* inter) {
+	const XMVECTOR length = sphere1.center - sphere2.center;
+
+	const float sqLength =
+		length.m128_f32[0] * length.m128_f32[0] +
+		length.m128_f32[1] * length.m128_f32[1] +
+		length.m128_f32[2] * length.m128_f32[2];
+
+	const float sumRadius = sphere1.radius + sphere2.radius;
+
+	return sumRadius * sumRadius > sqLength;
 }
 
 bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, DirectX::XMVECTOR* inter)

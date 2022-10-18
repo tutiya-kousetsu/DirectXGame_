@@ -49,8 +49,12 @@ private:
 
 	Object3d* playerObj = nullptr;
 
+	Object3d* object3d = nullptr;
+
 	Enemy* enemy[4] = {};
 
- 	Input* input = nullptr;
+	Input* input = nullptr;
+
+	//XMFLOAT3 position;
 };
 

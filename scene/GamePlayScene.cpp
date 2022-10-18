@@ -118,11 +118,12 @@ void GamePlayScene::Update()
 	//更新
 	camera->Update();
 	camera->Update();
-	player->Update();
-	shoot->Update();
 	for (int i = 0; i < 4; i++) {
 		enemy[i]->Update();
 	}
+	shoot->Update();
+	player->Update();
+
 	//Collision();
 	//全ての衝突チェック
 	collisionManager->CheckAllCollision();

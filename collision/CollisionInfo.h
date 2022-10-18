@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 
 #include <DirectXMath.h>
 
@@ -6,7 +6,7 @@ class Object3d;
 class BaseCollider;
 
 /// <summary>
-/// è¡çªæƒ…å ±
+/// Õ“Ëî•ñ
 /// </summary>
 struct CollisionInfo
 {
@@ -17,11 +17,11 @@ public:
 		this->inter = inter;
 	}
 
-	// è¡çªç›¸æ‰‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	// Õ“Ë‘Šè‚ÌƒIƒuƒWƒFƒNƒg
 	Object3d* object = nullptr;
-	// è¡çªç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	// Õ“Ë‘Šè‚ÌƒRƒ‰ƒCƒ_[
 	BaseCollider* collider = nullptr;
-	// è¡çªç‚¹
+	// Õ“Ë“_
 	DirectX::XMVECTOR inter;
 };
 

@@ -61,20 +61,19 @@ void Player::Update()
 	Input* input = Input::GetInstance();
 	//XMFLOAT3 Pos;
 	// ˆÚ“®Œã‚ÌÀ•W‚ðŒvŽZ
-	position = Object3d::GetPosition();
 	//ˆÚ“®
 	/*if (input->PushKey(DIK_RIGHT)) { position.x += 0.15f; }
 	if (input->PushKey(DIK_LEFT)) { position.x -= 0.15f; }
 	if (input->PushKey(DIK_UP)) { position.y += 0.15f; }
 	if (input->PushKey(DIK_DOWN)) { position.y -= 0.15f; }*/
+	//‰ñ“]
+	if (input->PushKey(DIK_A)) { rotation.y -= 2.0f; }
+	if (input->PushKey(DIK_D)) { rotation.y += 2.0f; }
 	
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðYŽ²‰ñ‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0,0,0.1f,0 };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
-		//‰ñ“]
-	if (input->PushKey(DIK_A)) { rotation.y -= 2.0f; }
-	if (input->PushKey(DIK_D)) { rotation.y += 2.0f; }
 
 	if (input->PushKey(DIK_S)) {
 		position.x -= move.m128_f32[0];

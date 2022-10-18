@@ -1,11 +1,11 @@
-ï»¿#pragma once
+#pragma once
 
 #include "CollisionTypes.h"
 #include "CollisionInfo.h"
 #include "Object3d.h"
 
 /// <summary>
-/// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŸºåº•ã‚¯ãƒ©ã‚¹
+/// ƒRƒ‰ƒCƒ_[Šî’êƒNƒ‰ƒX
 /// </summary>
 class BaseCollider
 {
@@ -22,23 +22,23 @@ public:
 	}
 
 	/// <summary>
-	/// æ›´æ–°
+	/// XV
 	/// </summary>
 	virtual void Update() = 0;
 
 	inline CollisionShapeType GetShapeType() { return shapeType; }
-	
+
 	/// <summary>
-	/// è¡çªæ™‚ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
+	/// Õ“ËƒR[ƒ‹ƒoƒbƒNŠÖ”
 	/// </summary>
-	/// <param name="info">è¡çªæƒ…å ±</param>
+	/// <param name="info">Õ“Ëî•ñ</param>
 	inline void OnCollision(const CollisionInfo& info) {
 		object3d->OnCollision(info);
 	}
 
 protected:
 	Object3d* object3d = nullptr;
-	// å½¢çŠ¶ã‚¿ã‚¤ãƒ—
+	// Œ`óƒ^ƒCƒv
 	CollisionShapeType shapeType = SHAPE_UNKNOWN;
 };
 

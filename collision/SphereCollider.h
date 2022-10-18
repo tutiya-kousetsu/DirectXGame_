@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 
 #include "BaseCollider.h"
 #include "CollisionPrimitive.h"
@@ -6,33 +6,33 @@
 #include <DirectXMath.h>
 
 /// <summary>
-/// çƒè¡çªåˆ¤å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+/// ‹…Õ“Ë”»’èƒIƒuƒWƒFƒNƒg
 /// </summary>
 class SphereCollider : public BaseCollider, public Sphere
 {
-private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
-	// DirectX::ã‚’çœç•¥
+private: // ƒGƒCƒŠƒAƒX
+	// DirectX::‚ğÈ—ª
 	using XMVECTOR = DirectX::XMVECTOR;
 public:
-	SphereCollider(XMVECTOR offset = {0,0,0,0}, float radius = 1.0f) :
+	SphereCollider(XMVECTOR offset = { 0,0,0,0 }, float radius = 1.0f) :
 		offset(offset),
 		radius(radius)
 	{
-		// çƒå½¢çŠ¶ã‚’ã‚»ãƒƒãƒˆ
+		// ‹…Œ`ó‚ğƒZƒbƒg
 		shapeType = COLLISIONSHAPE_SPHERE;
 	}
 
 	/// <summary>
-	/// æ›´æ–°
+	/// XV
 	/// </summary>
 	void Update() override;
 
 	inline void SetRadius(float radius) { this->radius = radius; }
 
 private:
-	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä¸­å¿ƒã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+	// ƒIƒuƒWƒFƒNƒg’†S‚©‚ç‚ÌƒIƒtƒZƒbƒg
 	XMVECTOR offset;
-	// åŠå¾„
+	// ”¼Œa
 	float radius;
 };
 

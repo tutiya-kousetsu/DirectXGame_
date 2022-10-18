@@ -175,7 +175,7 @@ public: // メンバ関数
 	/// デストラクタ
 	/// </summary>
 	virtual ~Object3d();
-
+	
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -199,22 +199,16 @@ public: // メンバ関数
 	const XMMATRIX& GetMatWorld() { return matWorld; }
 
 	/// <summary>
-	/// コライダーセット
-	/// </summary>
-	/// <param name="collider">コライダー</param>
-	void SetCollider(BaseCollider* collider);
-
-	/// <summary>
-	/// 衝突時コールバック関数
-	/// </summary>
-	/// <param name="info">衝突情報</param>
-	virtual void OnCollision(const CollisionInfo& info) {}
-
-	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
 	const XMFLOAT3& GetPosition() { return this->position; }
+
+	/// <summary>
+	///  X,Y,Z軸回りの取得
+	/// </summary>
+	/// <returns>座標</returns>
+	const XMFLOAT3& GetRotation() { return this->rotation; }
 
 	/// <summary>
 	/// 座標の設定
@@ -234,6 +228,19 @@ public: // メンバ関数
 	/// setter
 	/// </summary>
 	void SetModel(Model* model) { this->model = model; }
+
+	/// <summary>
+	/// コライダーセット
+	/// </summary>
+	/// <param name="collider">コライダー</param>
+	void SetCollider(BaseCollider* collider);
+
+	/// <summary>
+	/// 衝突時コールバック関数
+	/// </summary>
+	/// <param name="info">衝突情報</param>
+	virtual void OnCollision(const CollisionInfo& info) {}
+
 
 protected: // メンバ変数
 	//クラス名

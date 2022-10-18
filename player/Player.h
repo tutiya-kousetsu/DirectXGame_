@@ -38,7 +38,7 @@ public:
 	void Draw() override;
 
 	//setter
-	void SetPosition(XMFLOAT3 position) { this->playerObj = playerObj; }
+	//void SetPosition(XMFLOAT3 position) { this->playerObj = playerObj; }
 
 	//getter
 	//inline XMFLOAT3 GetPosition() { return playerObj->GetPosition(); }

@@ -59,7 +59,7 @@ bool Player::Initialize()
 void Player::Update()
 {
 	Input* input = Input::GetInstance();
-	//XMFLOAT3 Pos;
+	//XMFLOAT3 playerPos = Object3d::GetPosition();
 	// ˆÚ“®Œã‚ÌÀ•W‚ðŒvŽZ
 	//ˆÚ“®
 	/*if (input->PushKey(DIK_RIGHT)) { position.x += 0.15f; }
@@ -80,7 +80,7 @@ void Player::Update()
 		position.z -= move.m128_f32[1];
 		position.x -= move.m128_f32[2];
 	}
-	if (input->PushKey(DIK_W)) {
+	else if (input->PushKey(DIK_W)) {
 		position.x += move.m128_f32[0];
 		position.z += move.m128_f32[1];
 		position.x += move.m128_f32[2];
@@ -91,7 +91,7 @@ void Player::Update()
 	if (position.x < -40) position.x = -40;
 
 	// À•W‚Ì•ÏX‚ð”½‰f
-	playerObj->SetPosition(position);
+	//playerObj->SetPosition(position);
 	Object3d::Update();
 }
 
@@ -99,11 +99,11 @@ void Player::OnCollision(const CollisionInfo& info)
 {
 	for (int i = 0; i < 4; i++) {
 
-		enemy[i]->Hit();
+		//enemy[i]->Hit();
 	}
 }
 
 void Player::Draw()
 {
-	playerObj->Draw();
+	Object3d::Draw();
 }

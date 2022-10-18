@@ -1,14 +1,14 @@
-#include "SphereCollider.h"
+ï»¿#include "SphereCollider.h"
 //#include "Object3d.h"
 
 using namespace DirectX;
 
 void SphereCollider::Update()
 {
-	// ƒ[ƒ‹ƒhs—ñ‚©‚çÀ•W‚ğ’Šo
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‹ã‚‰åº§æ¨™ã‚’æŠ½å‡º
 	const XMMATRIX& matWorld = object3d->GetMatWorld();
 
-	// ‹…‚Ìƒƒ“ƒo•Ï”‚ğXV
+	// çƒã®ãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’æ›´æ–°
 	Sphere::center = matWorld.r[3] + offset;
 	Sphere::radius = radius;
 }

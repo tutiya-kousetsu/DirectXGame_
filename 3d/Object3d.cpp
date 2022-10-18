@@ -345,7 +345,7 @@ void Object3d::SetCollider(BaseCollider* collider)
 {
 	collider->SetObject(this);
 	this->collider = collider;
-	//コリジョンマネージャに登録
+	// コリジョンマネージャに追加
 	CollisionManager::GetInstance()->AddCollider(collider);
 	//コライダーを更新しておく
 	collider->Update();

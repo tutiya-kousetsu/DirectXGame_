@@ -12,6 +12,7 @@
 #include "Enemy.h"
 #include "Shoot.h"
 #include "GameOver.h"
+#include "GameClear.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>

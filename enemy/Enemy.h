@@ -34,7 +34,7 @@ public:
 
 	int flashingFlag = 0;
 	int flashingEndFlag = 0;
-
+	UINT clearFlag = 12;
 private:
 	int enemyTimer = 0;
 	int frameTimer = 0;

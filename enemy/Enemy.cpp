@@ -39,17 +39,16 @@ void Enemy::Update()
 
 			if (frameFlag == 0) {
 				frameTimer++;
-
 			}
 
 			if (frameTimer >= 600) {
-
 				frameFlag = 1;
 			}
 
 			enemyTimer++;
 			// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
 			XMFLOAT3 position = enemyObj[i]->GetPosition();
+			position.z = 5;
 			// À•W‚Ì•ÏX‚ð”½‰f
 			enemyObj[i]->SetPosition(position);
 			frameObj[i]->SetPosition(position);
@@ -71,9 +70,11 @@ void Enemy::Update()
 			float y2 = (float)y / 10 - 8;//8`-8‚Ì”ÍˆÍ
 			int z = rand() % 160;
 			float z2 = (float)z / 10 - 8;//8`-8‚Ì”ÍˆÍ
-			enemyObj[0]->SetPosition({ x2, y2, z2 });
-			enemyObj[1]->SetPosition({ x2, y2, z2 });
-			enemyObj[2]->SetPosition({ x2, y2, z2 });
+			enemyObj[0]->SetPosition({ x2, y2, 5 });
+			enemyObj[1]->SetPosition({ x2, y2, 5 });
+			enemyObj[2]->SetPosition({ x2, y2, 5 });
+			enemyObj[3]->SetPosition({ x2, y2, 5 });
+
 			enemyTimer = 0;
 			flashingTimer = 0;
 			flashingFlag = 0;

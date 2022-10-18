@@ -243,6 +243,7 @@
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player\Player.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
     <ClInclude Include="enemy\Enemy.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="PipelineSet.h" />
     <ClInclude Include="player\Player.h" />

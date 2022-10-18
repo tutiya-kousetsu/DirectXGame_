@@ -217,4 +217,9 @@ void GamePlayScene::Collision()
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
 	}
+	if (gameScore == 12) {
+		//ƒV[ƒ“Ø‚è‘Ö‚¦
+		BaseScene* scene = new GameClear();
+		this->sceneManager->SetNextScene(scene);
+	}
 }

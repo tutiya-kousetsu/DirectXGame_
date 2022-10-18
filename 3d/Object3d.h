@@ -3,7 +3,6 @@
 #include "Model.h"
 #include "Camera.h"
 #include "PipelineSet.h"
-#include "Shoot.h"
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -12,7 +11,6 @@
 #include<string>
 
 class BaseCollider;
-class Shoot;
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -197,7 +195,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>ワールド行列</returns>
 	const XMMATRIX& GetMatWorld() { return matWorld; }
-
+	inline const XMMATRIX& GetMatRot() { return matRot; }
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
@@ -261,5 +259,6 @@ protected: // メンバ変数
 	XMMATRIX matWorld;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
+	XMMATRIX matRot;
 };
 

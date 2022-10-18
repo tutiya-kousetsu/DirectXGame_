@@ -76,13 +76,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		enemy[i]->Initialize();
 	}
 
-	//データ読み込み
-	modelPlayer = Model::LoadFromObj("PlayerRed");
-	objPlayer = Player::Create(modelPlayer);
-	//objPlayer->SetModel((modelPlayer));
-	objPlayer->SetScale({ 0.75f, 0.75f, 0.75f });
-
-
 	collisionManager = CollisionManager::GetInstance();
 }
 
@@ -114,10 +107,10 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
-
+	//player->OnCollision(enemy[i]);
 	//更新
 	camera->Update();
-	camera->Update();
+	//camera->Update();
 	player->Update();
 	shoot->Update();
 	for (int i = 0; i < 4; i++) {

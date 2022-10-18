@@ -4,8 +4,13 @@
 using namespace DirectX;
 using namespace std;
 
-class Enemy
+class Enemy : public Object3d
 {
+private:
+	using XMMATRIX = DirectX::XMMATRIX;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+
+
 public:
 	//コンストラクタ
 	Enemy();
@@ -14,24 +19,30 @@ public:
 	~Enemy();
 
 	//初期化
-	void Initialize();
+	bool Initialize() override;
 
 	//更新
-	void Update();
+	void Update() override;
+
+	void OnCollision(const CollisionInfo& info) override;
 
 	//描画
-	void Draw();
+	void Draw() override;
 
 	//inline XMFLOAT3 GetPosition() { return enemyObj[0]->GetPosition(); }
 	//XMFLOAT3 frameGetPos() { return frameObj[0]->GetPosition(); }
 
 public:
-	int aliveFlag = true;
+	//int aliveFlag = true;
 	int frameFlag = 0;
 	//衝突した処理
-	void Hit() { aliveFlag = 0; }
+	//void Hit() { aliveFlag = 0; }
 	
-	bool GetFlag() { return aliveFlag; }
+	//bool GetFlag() { return aliveFlag; }
+
+	bool aliveFlag = true;
+
+	void Hit() { aliveFlag = false; }
 
 	int flashingFlag = 0;
 	int flashingEndFlag = 0;

@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "Shoot.h"
 #include "GameOver.h"
+#include "collision/CollisionPrimitive.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>

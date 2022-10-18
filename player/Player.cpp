@@ -3,7 +3,7 @@
 #include "Shoot.h"
 #include "DebugText.h"
 #include "collision/SphereCollider.h"
-
+#include "Enemy.h"
 using namespace DirectX;
 
 Player* Player::Create(Model* model)
@@ -43,6 +43,17 @@ bool Player::Initialize()
 	////メンバ変数にコピー
 	//this->input = input;
 
+	//データ読み込み
+	playerModel = Model::LoadFromObj("PlayerRed");
+	playerObj = Object3d::Create();
+	playerObj->SetModel((playerModel));
+	playerObj->SetScale({ 0.75f, 0.75f, 0.75f });
+
+	//データ読み込み
+	shootModel = Model::LoadFromObj("sphere");
+	shootObj = Object3d::Create();
+	shootObj->SetModel(shootModel);
+	shootObj->SetScale({ 0.5f, 0.5f, 0.5f });
 
 	if (!Object3d::Initialize()) {
 		return false;
@@ -56,22 +67,15 @@ bool Player::Initialize()
 	return true;
 }
 
-void Player::Update()
-{
+//移動処理
+void Player::Move() {
 	Input* input = Input::GetInstance();
-	//XMFLOAT3 playerPos = Object3d::GetPosition();
-	// 移動後の座標を計算
-	//移動
-	/*if (input->PushKey(DIK_RIGHT)) { position.x += 0.15f; }
-	if (input->PushKey(DIK_LEFT)) { position.x -= 0.15f; }
-	if (input->PushKey(DIK_UP)) { position.y += 0.15f; }
-	if (input->PushKey(DIK_DOWN)) { position.y -= 0.15f; }*/
 	//回転
 	if (input->PushKey(DIK_A)) { rotation.y -= 2.0f; }
 	if (input->PushKey(DIK_D)) { rotation.y += 2.0f; }
-	
+
 	//移動ベクトルをY軸回りの角度で回転
-	XMVECTOR move = { 0,0,0.1f,0 };
+	XMVECTOR move = { 0,0,0.5f,0 };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
@@ -91,19 +95,23 @@ void Player::Update()
 	if (position.x < -40) position.x = -40;
 
 	// 座標の変更を反映
-	//playerObj->SetPosition(position);
-	Object3d::Update();
+	playerObj->SetPosition(position);
 }
+
+void Player::Update()
+{
+	Move();
+	playerObj->Update();
+
+}
+
 
 void Player::OnCollision(const CollisionInfo& info)
 {
-	for (int i = 0; i < 4; i++) {
-
-		//enemy[i]->Hit();
-	}
+	playerHp--;
 }
 
 void Player::Draw()
 {
-	Object3d::Draw();
+	playerObj->Draw();
 }

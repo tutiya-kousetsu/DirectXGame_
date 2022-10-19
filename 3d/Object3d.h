@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "collision/CollisionInfo.h"
 #include "Model.h"
 #include "Camera.h"
 #include "PipelineSet.h"
@@ -227,19 +226,7 @@ public: // メンバ関数
 	/// </summary>
 	void SetModel(Model* model) { this->model = model; }
 
-	/// <summary>
-	/// コライダーセット
-	/// </summary>
-	/// <param name="collider">コライダー</param>
-	void SetCollider(BaseCollider* collider);
-
-	/// <summary>
-	/// 衝突時コールバック関数
-	/// </summary>
-	/// <param name="info">衝突情報</param>
-	virtual void OnCollision(const CollisionInfo& info) {}
-
-
+  
 protected: // メンバ変数
 	//クラス名
 	const char* name = nullptr;

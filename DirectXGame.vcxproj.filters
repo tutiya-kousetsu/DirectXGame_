@@ -179,10 +179,7 @@
     <ClCompile Include="collision\Collision.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
-    <ClCompile Include="collision\CollisionManager.cpp">
-      <Filter>ソース ファイル\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\SphereCollider.cpp">
+    <ClCompile Include="collision\CollisionPrimitive.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
   </ItemGroup>
@@ -276,25 +273,10 @@
     <ClInclude Include="PostEffect.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="collision\SphereCollider.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionTypes.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
     <ClInclude Include="collision\CollisionPrimitive.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="collision\CollisionManager.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionInfo.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
     <ClInclude Include="collision\Collision.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\BaseCollider.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
   </ItemGroup>

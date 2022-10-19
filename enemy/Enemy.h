@@ -24,8 +24,6 @@ public:
 	//XV
 	void Update() override;
 
-	void OnCollision(const CollisionInfo& info) override;
-
 	//•`‰æ
 	void Draw() override;
 

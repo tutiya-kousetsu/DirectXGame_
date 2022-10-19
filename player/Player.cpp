@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "Shoot.h"
 #include "DebugText.h"
-#include "collision/SphereCollider.h"
 #include "Enemy.h"
 using namespace DirectX;
 
@@ -55,41 +54,43 @@ bool Player::Initialize()
 	shootObj->SetModel(shootModel);
 	shootObj->SetScale({ 0.5f, 0.5f, 0.5f });
 
-	if (!Object3d::Initialize()) {
-		return false;
-	}
-
-	//コライダーの追加
-	float radius = 0.6f;
-	//半径分だけ足元から浮いた座標を球の中心にする
-	SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
-
-	return true;
 }
 
 //移動処理
 void Player::Move() {
 	Input* input = Input::GetInstance();
 	//回転
-	if (input->PushKey(DIK_A)) { rotation.y -= 2.0f; }
-	if (input->PushKey(DIK_D)) { rotation.y += 2.0f; }
+	XMFLOAT3 playerRot = playerObj->GetRotation();
+	playerRot = { 0,90,0 };
 
+	if (input->PushKey(DIK_RIGHT)) { rotation.y -= 2.0f; }
+	if (input->PushKey(DIK_LEFT)) { rotation.y += 2.0f; }
+	playerObj->SetRotation(rotation);
 	//移動ベクトルをY軸回りの角度で回転
 	XMVECTOR move = { 0,0,0.5f,0 };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
-	if (input->PushKey(DIK_S)) {
+	if (input->PushKey(DIK_A)) {
 		position.x -= move.m128_f32[0];
 		position.z -= move.m128_f32[1];
 		position.x -= move.m128_f32[2];
 	}
-	else if (input->PushKey(DIK_W)) {
+	else if (input->PushKey(DIK_D)) {
 		position.x += move.m128_f32[0];
 		position.z += move.m128_f32[1];
 		position.x += move.m128_f32[2];
 	}
-
+	if (input->PushKey(DIK_S)) {
+		position.y -= move.m128_f32[0];
+		position.z -= move.m128_f32[1];
+		position.y -= move.m128_f32[2];
+	}
+	else if (input->PushKey(DIK_W)) {
+		position.y += move.m128_f32[0];
+		position.z += move.m128_f32[1];
+		position.y += move.m128_f32[2];
+	}
 	//移動範囲の制限
 	if (position.x > 40) position.x = 40;
 	if (position.x < -40) position.x = -40;
@@ -103,12 +104,6 @@ void Player::Update()
 	Move();
 	playerObj->Update();
 
-}
-
-
-void Player::OnCollision(const CollisionInfo& info)
-{
-	playerHp--;
 }
 
 void Player::Draw()

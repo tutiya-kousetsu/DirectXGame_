@@ -1,7 +1,5 @@
 ﻿#include "Object3d.h"
 #include "Sprite.h"
-#include "collision/BaseCollider.h"
-#include "collision/CollisionManager.h"
 #include <d3dcompiler.h>
 #include <fstream>
 #include<sstream>
@@ -242,11 +240,6 @@ bool Object3d::InitializeGraphicsPipeline()
 
 Object3d::~Object3d()
 {
-	if (collider) {
-		//コリジョンマネージャから登録を解除する
-		CollisionManager::GetInstance()->RemoveCollider(collider);
-		delete collider;
-	}
 }
 
 bool Object3d::Initialize()
@@ -313,10 +306,6 @@ void Object3d::Update()
 	constMap->cameraPos = cameraPos;
 	this->constBuffB0->Unmap(0, nullptr);
 
-	//当たり判定
-	if (collider) {
-		collider->Update();
-	}
 }
 
 void Object3d::Draw()
@@ -339,14 +328,4 @@ void Object3d::Draw()
 
 	//モデルを描画
 	this->model->Draw(cmdList, 1);
-}
-
-void Object3d::SetCollider(BaseCollider* collider)
-{
-	collider->SetObject(this);
-	this->collider = collider;
-	// コリジョンマネージャに追加
-	CollisionManager::GetInstance()->AddCollider(collider);
-	//コライダーを更新しておく
-	collider->Update();
 }

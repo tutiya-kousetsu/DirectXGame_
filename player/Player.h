@@ -11,7 +11,7 @@ class Player: public Object3d
 {
 private:
 	using XMMATRIX = DirectX::XMMATRIX;
-	using XMFLOAT3 = DirectX::XMMATRIX;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
 public:
 	/// <summary>
 	/// 3Dオブジェクトの生成
@@ -34,8 +34,6 @@ public:
 
 	//移動
 	void Move();
-
-	void OnCollision(const CollisionInfo& info) override;
 
 	//描画
 	void Draw() override;

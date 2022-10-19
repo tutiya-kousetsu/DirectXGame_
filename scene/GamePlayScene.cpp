@@ -5,10 +5,7 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
-#include "collision/SphereCollider.h"
-#include "collision/CollisionManager.h"
 #include "Player.h"
-
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
@@ -76,7 +73,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		enemy[i]->Initialize();
 	}
 
-	collisionManager = CollisionManager::GetInstance();
 }
 
 void GamePlayScene::Finalize()
@@ -118,7 +114,6 @@ void GamePlayScene::Update()
 	}
 	//Collision();
 	//全ての衝突チェック
-	collisionManager->CheckAllCollision();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)

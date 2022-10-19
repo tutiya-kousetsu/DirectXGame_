@@ -8,7 +8,7 @@
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
-	if (!Sprite::LoadTexture(1, L"Resources/background.png")) {
+	if (!Sprite::LoadTexture(1, L"Resources/gamePlay.png")) {
 		assert(0);
 		return;
 	}

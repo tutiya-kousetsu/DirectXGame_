@@ -27,6 +27,8 @@ public:
 	//•`‰æ
 	void Draw() override;
 
+	inline XMFLOAT3 GetScale() { return enemyObj->GetScale(); }
+
 	//inline XMFLOAT3 GetPosition() { return enemyObj[0]->GetPosition(); }
 	//XMFLOAT3 frameGetPos() { return frameObj[0]->GetPosition(); }
 
@@ -36,7 +38,7 @@ public:
 	//Õ“Ë‚µ‚½ˆ—
 	//void Hit() { aliveFlag = 0; }
 	
-	//bool GetFlag() { return aliveFlag; }
+	bool GetFlag() { return aliveFlag; }
 
 	bool aliveFlag = true;
 

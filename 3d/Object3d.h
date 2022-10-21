@@ -207,6 +207,8 @@ public: // メンバ関数
 	/// <returns>座標</returns>
 	const XMFLOAT3& GetRotation() { return this->rotation; }
 
+	const XMFLOAT3& GetScale() { return this->scale; }
+
 	/// <summary>
 	/// 座標の設定
 	/// </summary>

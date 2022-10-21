@@ -22,7 +22,7 @@ public:
 	void Draw();
 
 	inline XMFLOAT3 GetPosition() { return playerObj->GetPosition(); }
-	//XMFLOAT3 GetRotation() { return playerObj->GetRotation(); }
+	inline XMFLOAT3 GetRotation() { return playerObj->GetRotation(); }
 
 private:
 	Model* playerModel = nullptr;
@@ -31,5 +31,10 @@ private:
 
 	//WinApp* winApp = nullptr;
 	Input* input = nullptr;
+
+	// ƒWƒƒƒ“ƒv
+	bool jumpFlag = false;
+	float jumpSpead = 0;
+	DirectX::XMFLOAT3 jumpStartPos{ 0.f,0.f,0.f };
 };
 

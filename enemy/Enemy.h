@@ -21,16 +21,16 @@ public:
 	//ï`âÊ
 	void Draw();
 
-	inline XMFLOAT3 GetPosition() { return enemyObj[0]->GetPosition(); }
-	//XMFLOAT3 frameGetPos() { return frameObj[0]->GetPosition(); }
+	inline XMFLOAT3 GetPosition() { return enemyObj->GetPosition(); }
+	XMFLOAT3 frameGetPos() { return frameObj->GetPosition(); }
 
 public:
-	int aliveFlag[4] = {true, true, true, true};
+	int aliveFlag = 1;
 	int frameFlag = 0;
 	//è’ìÀÇµÇΩèàóù
-	void Hit() { aliveFlag[0] = 0; }
+	void Hit() { aliveFlag = 0; }
 	
-	bool GetFlag() { return aliveFlag[0]; }
+	bool GetFlag() { return aliveFlag; }
 
 	int flashingFlag = 0;
 	int flashingEndFlag = 0;
@@ -41,7 +41,8 @@ private:
 	int flashingTimer = 0;
 	Model* enemyModel = nullptr;
 	Model* frameModel = nullptr;
-	Object3d* enemyObj[4] = {};
-	Object3d* frameObj[4] = {};
+	Object3d* enemyObj = nullptr;
+	Object3d* frameObj = nullptr;
+	XMFLOAT3 position;
 };
 

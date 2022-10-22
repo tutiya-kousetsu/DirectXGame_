@@ -243,11 +243,11 @@
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
-    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="scene\GameClear.cpp" />
     <ClCompile Include="scene\GameOver.cpp" />
     <ClCompile Include="scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\SceneManager.cpp" />
@@ -275,12 +275,12 @@
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
     <ClInclude Include="enemy\Enemy.h" />
-    <ClInclude Include="GameClear.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="PipelineSet.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="scene\BaseScene.h" />
+    <ClInclude Include="scene\GameClear.h" />
     <ClInclude Include="scene\GameOver.h" />
     <ClInclude Include="scene\GamePlayScene.h" />
     <ClInclude Include="scene\SceneManager.h" />

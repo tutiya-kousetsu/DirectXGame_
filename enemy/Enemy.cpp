@@ -25,6 +25,18 @@ void Enemy::Initialize()
 	frameObj = Object3d::Create();
 	frameObj->SetModel(frameModel);
 	frameObj->SetScale({ 0.66f, 0.66f, 0.66f });
+
+	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
+	position = enemyObj->GetPosition();
+	int x = rand() % 200;
+	float x2 = (float)x / 10 - 10;//10`-10‚Ì”ÍˆÍ
+	int y = rand() % 60;
+	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	position = { x2, y2, 5 };
+	// À•W‚Ì•ÏX‚ð”½‰f
+	enemyObj->SetPosition(position);
+	frameObj->SetPosition(position);
+
 }
 
 void Enemy::Update()
@@ -36,19 +48,13 @@ void Enemy::Update()
 			frameTimer++;
 		}
 
-		if (frameTimer >= 240) {
+		if (frameTimer >= 180) {
 			frameFlag = 1;
 		}
 
 		enemyTimer++;
-		// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
-		position = enemyObj->GetPosition();
-		position.z = 5;
-		// À•W‚Ì•ÏX‚ð”½‰f
-		enemyObj->SetPosition(position);
-		frameObj->SetPosition(position);
 		//‰æ–Ê‚ÍŽŸ‚Ü‚Ås‚Á‚½‚ç
-		if (enemyTimer >= 540) {
+		if (enemyTimer >= 480) {
 			aliveFlag = 0;
 			frameFlag = 0;
 			frameTimer = 0;
@@ -59,10 +65,10 @@ void Enemy::Update()
 
 	if (aliveFlag == 0) {
 		//—”‚ÅˆÊ’uŽw’è
-		int x = rand() % 160;
-		float x2 = (float)x / 10 - 8;//8`-8‚Ì”ÍˆÍ
-		int y = rand() % 160;
-		float y2 = (float)y / 10 - 8;//8`-8‚Ì”ÍˆÍ
+		int x = rand() % 200;
+		float x2 = (float)x / 10 - 10;//10`-10‚Ì”ÍˆÍ
+		int y = rand() % 60;
+		float y2 = (float)y / 10;//6`0‚Ì”ÍˆÍ
 		enemyObj->SetPosition({ x2, y2, 5 });
 		enemyTimer = 0;
 		flashingTimer = 0;

@@ -173,8 +173,8 @@
     <ClCompile Include="PostEffect.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
-    <ClCompile Include="GameClear.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="scene\GameClear.cpp">
+      <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -267,8 +267,8 @@
     <ClInclude Include="PostEffect.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="GameClear.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="scene\GameClear.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

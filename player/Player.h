@@ -18,6 +18,9 @@ public:
 	//更新
 	void Update();
 
+	//移動
+	void move();
+
 	//描画
 	void Draw();
 
@@ -34,7 +37,8 @@ private:
 
 	// ジャンプ
 	bool jumpFlag = false;
-	float jumpSpead = 0;
-	DirectX::XMFLOAT3 jumpStartPos{ 0.f,0.f,0.f };
+	bool secondFlag = false;
+	float g = 0.25;//重力
+	float jumpSpeed = 0;
 };
 

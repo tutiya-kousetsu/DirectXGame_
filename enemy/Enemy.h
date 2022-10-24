@@ -31,8 +31,8 @@ public:
 	void Hit() { aliveFlag = 0; }
 	
 	bool GetFlag() { return aliveFlag; }
-
-	int flashingFlag = 0;
+	bool GetFrameFlag() { return frameFlag; }
+	bool flashingFlag = false;
 	int flashingEndFlag = 0;
 	UINT clearFlag = 12;
 private:

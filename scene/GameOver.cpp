@@ -27,9 +27,6 @@ void GameOver::Update()
 		BaseScene* scene = new TitleScene();
 		this->sceneManager->SetNextScene(scene);
 	}
-
-	//XV
-	//sprite->Update();
 }
 
 void GameOver::Draw(DirectXCommon* dxCommon)

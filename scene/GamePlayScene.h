@@ -50,6 +50,13 @@ private:
 	Input* input = nullptr;
 	PostEffect* postEffect[2] = {};
 
+	Object3d* groundObj = nullptr;
+	Model* groundModel = nullptr;
+
+	Object3d* skyObj = nullptr;
+	Model* skyModel = nullptr;
+
+
 	Player* player = nullptr;
 	Enemy* enemy[4] = {};
 	Shoot* shoot = nullptr;

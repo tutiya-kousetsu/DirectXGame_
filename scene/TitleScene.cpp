@@ -32,9 +32,6 @@ void TitleScene::Update()
 		BaseScene* scene = new GamePlayScene();
 		this->sceneManager->SetNextScene(scene);
 	}
-
-	//XV
-	//sprite->Update();
 }
 
 void TitleScene::Draw(DirectXCommon* dxCommon)

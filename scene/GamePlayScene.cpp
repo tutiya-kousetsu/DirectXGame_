@@ -71,6 +71,17 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		shoot->Initialize(input, player);
 		enemy[i]->Initialize();
 	}
+
+	//データ読み込み
+	groundModel = Model::LoadFromObj("ground");
+	groundObj = Object3d::Create();
+	groundObj->SetModel(groundModel);
+
+	//データ読み込み
+	skyModel = Model::LoadFromObj("skydome");
+	skyObj = Object3d::Create();
+	skyObj->SetModel(skyModel);
+
 }
 
 void GamePlayScene::Finalize()
@@ -86,6 +97,10 @@ void GamePlayScene::Finalize()
 	delete postEffect[1];
 
 	//3Dオブジェクト解放
+	delete skyModel;
+	delete skyObj;
+	delete groundModel;
+	delete groundObj;
 	delete player;
 	delete shoot;
 	for (int i = 0; i < 4; i++) {
@@ -102,6 +117,8 @@ void GamePlayScene::Update()
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
+
+
 	//更新
 	camera->Update();
 	camera->Update();
@@ -110,6 +127,8 @@ void GamePlayScene::Update()
 	for (int i = 0; i < 4; i++) {
 		enemy[i]->Update();
 	}
+	groundObj->Update();
+	skyObj->Update();
 	Collision();
 }
 
@@ -144,8 +163,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (int i = 0; i < 4; i++) {
 		enemy[i]->Draw();
 	}
+	skyObj->Draw();
+	groundObj->Draw();
 	Object3d::PostDraw();
-
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
@@ -162,7 +182,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// スプライト描画後処理
 	
 	Sprite::PostDraw();
-
 
 	//描画後処理
 	dxCommon->PostDraw();
@@ -191,7 +210,7 @@ void GamePlayScene::Collision()
 		}
 		//弾と敵の当たり判定
 		//敵が存在すれば
-		if (enemy[i]->frameFlag == 1) {
+		if (enemy[i]->GetFrameFlag()) {
 			if (enemy[i]->GetFlag()) {
 				//座標
 				XMFLOAT3 shootPosition = shoot->GetPosition();
@@ -204,6 +223,7 @@ void GamePlayScene::Collision()
 
 				if (dx < 1 && dy < 1 && dz < 1) {
 					gameScore++;
+					enemy[i]->frameFlag = 0;
 					enemy[i]->Hit();
 					shoot->Hit();
 				}

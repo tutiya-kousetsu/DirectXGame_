@@ -38,7 +38,9 @@ private:
 	// ƒWƒƒƒ“ƒv
 	bool jumpFlag = false;
 	bool secondFlag = false;
+	int jumpCount = 2;
 	float g = 0.25;//d—Í
 	float jumpSpeed = 0;
+
 };
 

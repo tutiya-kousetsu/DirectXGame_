@@ -70,9 +70,10 @@ void Enemy::Update()
 		int y = rand() % 60;
 		float y2 = (float)y / 10;//6`0‚Ì”ÍˆÍ
 		enemyObj->SetPosition({ x2, y2, 5 });
+		frameObj->SetPosition({ x2, y2, 5 });
 		enemyTimer = 0;
-		flashingTimer = 0;
-		flashingFlag = 0;
+		frameFlag = 0;
+		frameTimer = 0;
 		aliveFlag = 1;
 	}
 	enemyObj->Update();

@@ -18,6 +18,8 @@ public:
 	//XV
 	void Update();
 
+	void UpdateAliveFlag();
+
 	//•`‰æ
 	void Draw();
 

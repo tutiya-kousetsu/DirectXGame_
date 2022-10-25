@@ -25,6 +25,7 @@ void Player::Initialize(Input* input)
 void Player::Update()
 {
 	move();
+	jump();
 	playerObj->Update();
 }
 
@@ -34,19 +35,26 @@ void Player::move()
 	// 現在の座標を取得
 	XMFLOAT3 position = playerObj->GetPosition();
 	XMFLOAT3 rotation = playerObj->GetRotation();
-	rotation.y += 90;
-	//重力
-	position.y -= g;
 	// 移動後の座標を計算
 	if (input->PushKey(DIK_D)) { position.x += 0.2f; }
 	if (input->PushKey(DIK_A)) { position.x -= 0.2f; }
 	if (input->PushKey(DIK_W)) { position.z += 0.2f; }
 	if (input->PushKey(DIK_S)) { position.z -= 0.2f; }
 
-	//移動範囲の制限
-	if (position.x > 10) position.x = 10;
-	if (position.x < -10) position.x = -10;
+	// 座標の変更を反映
+	playerObj->SetPosition(position);
+	playerObj->SetRotation(rotation);
+}
+
+void Player::jump()
+{
+	Input* input = Input::GetInstance();
+	// 現在の座標を取得
+	XMFLOAT3 position = playerObj->GetPosition();
+	//重力
+	position.y -= g;
 	if (position.y <= 0) position.y += g;
+
 	//ジャンプ
 	if (input->TriggerKey(DIK_SPACE) && !jumpFlag) {
 		jumpFlag = true;
@@ -54,10 +62,10 @@ void Player::move()
 		jumpSpeed = 1.0f;
 	}
 	//ジャンプフラグが1になったら
-	if (jumpFlag ) {
+	if (jumpFlag) {
 		position.y += jumpSpeed;
 		//ジャンプの速度を0.04ずつ下げていく
-		jumpSpeed -= 0.04;
+		jumpSpeed -= 0.04f;
 	}
 
 	//ポジションが0になったらジャンプフラグを切る
@@ -66,8 +74,8 @@ void Player::move()
 	}
 	// 座標の変更を反映
 	playerObj->SetPosition(position);
-	playerObj->SetRotation(rotation);
 }
+
 
 void Player::Draw()
 {

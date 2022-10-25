@@ -48,7 +48,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
-	camera->SetEye({ 0, 10, -15 });
+	camera->SetEye({ 0, 10, -30 });
 	camera->SetTarget({ 0,0,30 });
 	camera->SetDistance(0.0f);
 
@@ -63,14 +63,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	srand((unsigned)time(NULL));
 
 	player = new Player();
-	shoot = new Shoot();
+	playerBullet = new PlayerBullet();
 	for (int i = 0; i < 4; i++) {
 		enemy[i] = new Enemy();
-
-		player->Initialize(input);
-		shoot->Initialize(input, player);
 		enemy[i]->Initialize();
 	}
+		player->Initialize(input);
+		playerBullet->Initialize(input, player);
 
 	//データ読み込み
 	groundModel = Model::LoadFromObj("ground");
@@ -102,7 +101,7 @@ void GamePlayScene::Finalize()
 	delete groundModel;
 	delete groundObj;
 	delete player;
-	delete shoot;
+	delete playerBullet;
 	for (int i = 0; i < 4; i++) {
 		delete enemy[i];
 	}
@@ -117,13 +116,11 @@ void GamePlayScene::Update()
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
-
-
 	//更新
 	camera->Update();
 	camera->Update();
 	player->Update();
-	shoot->Update();
+	playerBullet->Update();
 	for (int i = 0; i < 4; i++) {
 		enemy[i]->Update();
 	}
@@ -159,7 +156,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 //3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
-	shoot->Draw();
+	playerBullet->Draw();
 	for (int i = 0; i < 4; i++) {
 		enemy[i]->Draw();
 	}
@@ -213,7 +210,7 @@ void GamePlayScene::Collision()
 		if (enemy[i]->GetFrameFlag()) {
 			if (enemy[i]->GetFlag()) {
 				//座標
-				XMFLOAT3 shootPosition = shoot->GetPosition();
+				XMFLOAT3 shootPosition = playerBullet->GetPosition();
 				XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
 
 				//差を求める
@@ -225,7 +222,7 @@ void GamePlayScene::Collision()
 					gameScore++;
 					enemy[i]->frameFlag = 0;
 					enemy[i]->Hit();
-					shoot->Hit();
+					playerBullet->Hit();
 				}
 			}
 		}

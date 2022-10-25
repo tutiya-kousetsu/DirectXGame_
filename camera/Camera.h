@@ -43,6 +43,10 @@ public: // メンバ関数
 	/// </summary>
 	void UpdateProjectionMatrix();
 
+	inline const XMMATRIX& GetViewPortMatrix() {
+		return matViewPort;
+	}
+
 	/// <summary>
 	/// ビュー行列の取得
 	/// </summary>
@@ -138,6 +142,10 @@ public: // メンバ関数
 	void MoveVector(const XMVECTOR& move);
 
 protected: // メンバ変数
+	virtual void startUpdate() {};
+
+	XMMATRIX matViewPort = DirectX::XMMatrixIdentity();
+
 	// ビュー行列
 	XMMATRIX matView = DirectX::XMMatrixIdentity();
 	// ビルボード行列

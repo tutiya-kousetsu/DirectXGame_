@@ -274,10 +274,6 @@ void Object3d::Update()
 	this->matWorld *= matRot; // ワールド行列に回転を反映
 	this->matWorld *= matTrans; // ワールド行列に平行移動を反映
 
-	this->rotation.y = -90;//Y軸に対して回転
-	this->rotation.x = 0;//X軸に対して回転
-	//rotation.z = 50;//z軸に対して回転
-
 	// 親オブジェクトがあれば
 	if (this->parent != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける

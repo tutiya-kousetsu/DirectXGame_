@@ -28,11 +28,13 @@ void Enemy::Initialize()
 
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
 	position = enemyObj->GetPosition();
-	int x = rand() % 200;
-	float x2 = (float)x / 10 - 10;//10`-10‚Ì”ÍˆÍ
-	int y = rand() % 60;
+	int x = rand() % 400;
+	float x2 = (float)x / 10 - 20;//10`-10‚Ì”ÍˆÍ
+	int y = rand() % 70;
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	position = { x2, y2, 5 };
+	int z = rand() % 400;
+	float z2 = (float)z / 10 - 20;//6~0‚Ì”ÍˆÍ
+	position = { x2, y2, z2 };
 	// À•W‚Ì•ÏX‚ð”½‰f
 	enemyObj->SetPosition(position);
 	frameObj->SetPosition(position);
@@ -41,9 +43,15 @@ void Enemy::Initialize()
 
 void Enemy::Update()
 {
+	UpdateAliveFlag();
 
+	enemyObj->Update();
+	frameObj->Update();
+}
+
+void Enemy::UpdateAliveFlag()
+{
 	if (aliveFlag == 1) {
-
 		if (frameFlag == 0) {
 			frameTimer++;
 		}
@@ -53,13 +61,12 @@ void Enemy::Update()
 		}
 
 		enemyTimer++;
-		//‰æ–Ê‚ÍŽŸ‚Ü‚Ås‚Á‚½‚ç
+		//”ª•b‚½‚Á‚½‚ç
 		if (enemyTimer >= 480) {
 			aliveFlag = 0;
 			frameFlag = 0;
 			frameTimer = 0;
 			flashingTimer = 0;
-			//flashingFlag = 0;
 		}
 	}
 
@@ -76,8 +83,6 @@ void Enemy::Update()
 		frameTimer = 0;
 		aliveFlag = 1;
 	}
-	enemyObj->Update();
-	frameObj->Update();
 }
 
 void Enemy::Draw()

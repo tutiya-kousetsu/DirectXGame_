@@ -72,7 +72,7 @@ public: // 静的メンバ関数
 	static void SetCamera(Camera* camera) {
 		Object3d::camera = camera;
 	}
-
+	static inline Camera* GetCamera() { return camera; }
 	/// <summary>
 	/// 描画後処理
 	/// </summary>
@@ -180,6 +180,7 @@ public: // メンバ関数
 
 	const XMFLOAT3& GetRotation() { return this->rotation; }
 
+	const XMFLOAT3& GetScale() { return this->scale; }
 	/// <summary>
 	/// 座標の設定
 	/// </summary>

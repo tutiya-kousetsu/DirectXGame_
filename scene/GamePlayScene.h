@@ -10,7 +10,7 @@
 #include "Input.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "Shoot.h"
+#include "PlayerBullet.h"
 #include "GameOver.h"
 #include "GameClear.h"
 /// <summary>
@@ -59,8 +59,8 @@ private:
 
 	Player* player = nullptr;
 	Enemy* enemy[4] = {};
-	Shoot* shoot = nullptr;
+	PlayerBullet* playerBullet = nullptr;
 
-	int playerLife = 300;
+	int playerLife = 3;
 	int gameScore = 0;
 };

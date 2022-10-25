@@ -5,14 +5,14 @@
 
 using namespace DirectX;
 
-class Shoot
+class PlayerBullet
 {
 public:
 	//コンストラクタ
-	Shoot();
+	PlayerBullet();
 
 	//デストラクタ
-	~Shoot();
+	~PlayerBullet();
 
 	void Initialize(Input* input, Player* player);
 
@@ -20,7 +20,7 @@ public:
 
 	void Draw();
 
-	inline XMFLOAT3 GetPosition() { return shootObj->GetPosition(); }
+	inline XMFLOAT3 GetPosition() { return playerBulletObj->GetPosition(); }
 
 	int aliveFlag = 0;
 
@@ -29,8 +29,8 @@ public:
 	void Hit() { aliveFlag = 0; }
 
 private:
-	Object3d* shootObj = nullptr;
-	Model* shootModel = nullptr;
+	Object3d* playerBulletObj = nullptr;
+	Model* playerBulletModel = nullptr;
 	Player* player = nullptr;
 	Input* input = nullptr;
 };

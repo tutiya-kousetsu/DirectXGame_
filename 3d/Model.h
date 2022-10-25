@@ -60,6 +60,9 @@ public:
 	/// <returns>モデル</returns>
 	static Model* LoadFromObj(const std::string& modelname);
 
+	/// <summary>
+	/// マテリアルの読み込み
+	/// </summary>
 	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
 
 	/// <summary>

@@ -21,6 +21,9 @@ public:
 	//ˆÚ“®
 	void move();
 
+	//ƒWƒƒƒ“ƒv
+	void jump();
+
 	//•`‰æ
 	void Draw();
 

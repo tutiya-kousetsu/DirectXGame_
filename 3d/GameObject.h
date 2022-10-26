@@ -11,8 +11,6 @@ protected:
 	std::unique_ptr<Object3d> object;
 	bool alive = true;
 
-	DirectX::XMFLOAT2 float2ScreenPos{};
-
 public:
 
 	inline bool GetAlive() const { return  alive; }
@@ -27,11 +25,7 @@ public:
 	inline void SetRotation(const DirectX::XMFLOAT3& rotation) { object->SetRotation(rotation); }
 	inline const DirectX::XMFLOAT3& GetRotation() const { return object->GetRotation(); }
 
-	//inline const DirectX::XMMATRIX& GetMatRotation() const { return object->GetMatRot(); }
-
-
-	inline const DirectX::XMFLOAT2& GetFloat2ScreenPos() const { return float2ScreenPos; }
-
+	inline const DirectX::XMMATRIX& GetMatRotation() const { return object->GetMatRot(); }
 
 	GameObject(Model* model,const DirectX::XMFLOAT3& position = { 0,0,0 });
 

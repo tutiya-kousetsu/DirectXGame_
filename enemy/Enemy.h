@@ -1,4 +1,5 @@
 #pragma once
+#include "GameObject.h"
 #include "Object3d.h"
 
 using namespace DirectX;
@@ -8,9 +9,6 @@ class Enemy
 public:
 	//コンストラクタ
 	Enemy();
-
-	//デストラクタ
-	~Enemy();
 
 	//初期化
 	void Initialize();
@@ -46,5 +44,7 @@ private:
 	Object3d* enemyObj = nullptr;
 	Object3d* frameObj = nullptr;
 	XMFLOAT3 position;
+
+	//std::unique_ptr<Object3d>enemyObj;
 };
 

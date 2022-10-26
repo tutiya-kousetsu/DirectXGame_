@@ -39,7 +39,7 @@ public:
 	/// </summary>
 	void Draw(DirectXCommon* dxCommon) override;
 
-	void Collision();
+	//void Collision();
 private:
 	
 	Sprite* sprite = nullptr;
@@ -63,4 +63,6 @@ private:
 
 	int playerLife = 3;
 	int gameScore = 0;
+
+	bool flag = true;
 };

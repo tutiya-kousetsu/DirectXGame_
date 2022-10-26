@@ -137,9 +137,6 @@
     <ClCompile Include="3d\Fbx_Object3d.cpp">
       <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="3d\FbxLoader.cpp">
       <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
@@ -181,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="player\PlayerBullet.cpp">
       <Filter>ソース ファイル\player</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\GameObject.cpp">
+      <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -234,9 +237,6 @@
     <ClInclude Include="3d\FbxLoader.h">
       <Filter>ソース ファイル\3d\.h</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClInclude>
     <ClInclude Include="base\DirectXCommon.h">
       <Filter>ソース ファイル\base\.h</Filter>
     </ClInclude>
@@ -276,8 +276,14 @@
     <ClInclude Include="camera\DebugCamera.h">
       <Filter>ソース ファイル\camera\.h</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClInclude>
     <ClInclude Include="player\PlayerBullet.h">
       <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\GameObject.h">
+      <Filter>ソース ファイル\3d\.h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

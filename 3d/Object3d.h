@@ -181,6 +181,8 @@ public: // メンバ関数
 	const XMFLOAT3& GetRotation() { return this->rotation; }
 
 	const XMFLOAT3& GetScale() { return this->scale; }
+
+	inline const XMMATRIX& GetMatRot() { return this->matRot; }
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
@@ -213,6 +215,7 @@ private: // メンバ変数
 	XMFLOAT3 position = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
+	XMMATRIX matRot;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
 };

@@ -1,37 +1,38 @@
 #pragma once
-#include "Player.h"
 #include "Input.h"
 #include "Object3d.h"
-
+#include "GameObject.h"
+#include <DirectXMath.h>
 using namespace DirectX;
 
-class PlayerBullet
+class PlayerBullet : public GameObject
 {
 public:
+	//エイリアス、関数の継承など
+	using GameObject::GameObject;
+
 	//コンストラクタ
 	PlayerBullet();
 
-	//デストラクタ
-	~PlayerBullet();
+	void Initialize();
 
-	void Initialize(Input* input, Player* player);
+	void Update() override;
 
-	void Update();
+	//描画
+	void Draw() override;
 
-	void Draw();
+	inline const XMFLOAT3& GetVelocity() { return velocity; }
+	inline void SetVelocity(const XMFLOAT3& velocity) { this->velocity = velocity; }
 
-	inline XMFLOAT3 GetPosition() { return playerBulletObj->GetPosition(); }
+	//弾が消える時間
+	UINT disappearTime = 60 * 2;
 
-	int aliveFlag = 0;
-
-	int GetFlag() { return aliveFlag; }
-
-	void Hit() { aliveFlag = 0; }
+	UINT frameNum = 0;
+	//Model* bulletModel = nullptr;
 
 private:
-	Object3d* playerBulletObj = nullptr;
-	Model* playerBulletModel = nullptr;
-	Player* player = nullptr;
-	Input* input = nullptr;
+	Model* bulletModel = nullptr;
+	Object3d* bulletObj = nullptr;
+	DirectX::XMFLOAT3 velocity;
 };
 

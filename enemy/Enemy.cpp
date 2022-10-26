@@ -4,13 +4,6 @@ Enemy::Enemy()
 {
 }
 
-Enemy::~Enemy()
-{
-	delete(enemyObj);
-	delete(frameObj);
-	delete(enemyModel);
-	delete(frameModel);
-}
 
 void Enemy::Initialize()
 {

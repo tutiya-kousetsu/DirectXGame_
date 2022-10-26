@@ -1,43 +1,42 @@
 #pragma once
 #include "Object3d.h"
-#include"Input.h"
+#include "PlayerBullet.h"
+#include "GameObject.h"
+#include <memory>
+#include <list>
+
 using namespace DirectX;
 
-class Player
+class Player : public GameObject
 {
 public:
+	using GameObject::GameObject;
+
 	//コンストラクタ
 	Player();
 
-	//デストラクタ
-	~Player();
-
-	//初期化
-	void Initialize(Input* input);
-
 	//更新
-	void Update();
+	void Update() override;
 
 	//移動
-	void move();
+	void move(float speed = 0.2f);
 
 	//ジャンプ
 	void jump();
 
 	//描画
-	void Draw();
+	void Draw() override;
 
-	inline XMFLOAT3 GetPosition() { return playerObj->GetPosition(); }
-	inline XMFLOAT3 GetRotation() { return playerObj->GetRotation(); }
+	//攻撃
+	void Shoot();
 
 private:
-	Model* playerModel = nullptr;
+	//std::list<std::unique_ptr<PlayerBullet>> bullet;
+	XMFLOAT3 position;
 
-	Object3d* playerObj = nullptr;
-
-	//WinApp* winApp = nullptr;
-	Input* input = nullptr;
-
+	// 標的
+	//GameObject* shotTarget;
+	PlayerBullet* bullet = nullptr;
 	// ジャンプ
 	bool jumpFlag = false;
 	bool secondFlag = false;

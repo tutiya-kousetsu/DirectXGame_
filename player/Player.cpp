@@ -13,7 +13,7 @@ void Player::Update()
 	move();
 	jump();
 	Shoot();
-	if (bullet) {
+	for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
 		bullet->Update();
 	}
 	//std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -74,12 +74,21 @@ void Player::jump()
 void Player::Shoot() 
 {
 	Input* input = Input::GetInstance();
+	
 	if (input->TriggerKey(DIK_SPACE)) {
-		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize();
-		bullet = newBullet;
-	}
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
 
+			bulPos = position;
+			bullet->SetPosition(bulPos);
+		}
+		//bulPos = bullet->GetPosition();
+		//bulPos.z += 0.2f;
+
+		//’e‚ð“o˜^‚·‚é
+		bullet.push_back(std::move(newBullet));
+	}
+	
 }
 
 void Player::Draw()
@@ -87,8 +96,8 @@ void Player::Draw()
 	if (alive) {
 		object->Draw();
 	}
-	if (bullet) {
+	for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
 		bullet->Draw();
 	}
-
+	
 }

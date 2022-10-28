@@ -28,11 +28,8 @@ public:
 	UINT disappearTime = 60 * 2;
 
 	UINT frameNum = 0;
-	//Model* bulletModel = nullptr;
 
 private:
-	Model* bulletModel = nullptr;
-	Object3d* bulletObj = nullptr;
 	DirectX::XMFLOAT3 velocity;
 };
 

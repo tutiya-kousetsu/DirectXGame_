@@ -31,12 +31,9 @@ public:
 	void Shoot();
 
 private:
-	//std::list<std::unique_ptr<PlayerBullet>> bullet;
+	std::list<std::unique_ptr<PlayerBullet>> bullet;
 	XMFLOAT3 position;
-
-	// 標的
-	//GameObject* shotTarget;
-	PlayerBullet* bullet = nullptr;
+	XMFLOAT3 bulPos;
 	// ジャンプ
 	bool jumpFlag = false;
 	bool secondFlag = false;

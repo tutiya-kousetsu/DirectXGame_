@@ -17,7 +17,7 @@ public:
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
 	inline void SetPosition(const DirectX::XMFLOAT3& position) { object->SetPosition(position); }
-	inline const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
+	inline const DirectX::XMFLOAT3& GetPosition() const { return object->GetPosition(); }
 
 	inline void SetScale(const DirectX::XMFLOAT3& scale) { object->SetScale(scale); }
 	inline const DirectX::XMFLOAT3& GetScale() const { return object->GetScale(); }

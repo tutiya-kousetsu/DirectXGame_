@@ -14,7 +14,7 @@ public:
 	//コンストラクタ
 	PlayerBullet();
 
-	void Initialize();
+	void Initialize(XMFLOAT3 pos);
 
 	void Update() override;
 
@@ -24,12 +24,15 @@ public:
 	inline const XMFLOAT3& GetVelocity() { return velocity; }
 	inline void SetVelocity(const XMFLOAT3& velocity) { this->velocity = velocity; }
 
+	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
+
 	//弾が消える時間
-	UINT disappearTime = 60 * 2;
+	UINT disappearTime = 60 * 5;
 
 	UINT frameNum = 0;
 
 private:
-	DirectX::XMFLOAT3 velocity;
+	XMFLOAT3 position;
+	XMFLOAT3 velocity;
 };
 

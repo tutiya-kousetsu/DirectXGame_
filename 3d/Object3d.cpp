@@ -261,12 +261,12 @@ void Object3d::Update()
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(this->scale.x, this->scale.y, this->scale.z);
+	matScale = XMMatrixScaling(scale.x,scale.y,scale.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(this->rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(this->rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(this->rotation.y));
-	matTrans = XMMatrixTranslation(this->position.x, this->position.y, this->position.z);
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	matTrans = XMMatrixTranslation(position.x,position.y,position.z);
 
 	// ワールド行列の合成
 	this->matWorld = XMMatrixIdentity(); // 変形をリセット

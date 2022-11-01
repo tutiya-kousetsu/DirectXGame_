@@ -141,7 +141,7 @@ bool Input::TriggerMouseMiddle()
 
 Input::MouseMove Input::GetMouseMove()
 {
-	MouseMove tmp;
+	MouseMove tmp{};
 	tmp.lX = mouseState.lX;
 	tmp.lY = mouseState.lY;
 	tmp.lZ = mouseState.lZ;

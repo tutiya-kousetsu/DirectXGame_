@@ -52,6 +52,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	camera->SetTarget({ 0,0,30 });
 	camera->SetDistance(0.0f);
 
+	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
+	ShowCursor(FALSE);
+
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
 	//カメラをセット
@@ -114,14 +117,7 @@ void GamePlayScene::Update()
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
-	/*if (flag) {
-		if (input->PushMouseLeft()) {
-			player->Shoot();
-		}
-	}*/
-
 	//更新
-	camera->Update();
 	camera->Update();
 	player->Update();
 	//playerBullet->Update();

@@ -12,16 +12,16 @@ void Player::Update()
 	Input* input = Input::GetInstance();
 	move();
 	jump();
-	Shoot();
+
+	if (input->TriggerKey(DIK_SPACE)) {
+		Shoot();	
+	}
+
+	
 	for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
+		
 		bullet->Update();
 	}
-	//std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-
-	//マウスの左クリックを押したとき
-	if (input->PushMouseLeft()) {
-	}
-
 	object->Update();
 }
 
@@ -73,22 +73,15 @@ void Player::jump()
 
 void Player::Shoot() 
 {
-	Input* input = Input::GetInstance();
-	
-	if (input->TriggerKey(DIK_SPACE)) {
+	//コンストラクタ呼ぶよ
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
-
-			bulPos = position;
-			bullet->SetPosition(bulPos);
-		}
-		//bulPos = bullet->GetPosition();
-		//bulPos.z += 0.2f;
-
+		//初期化行くよ
+		newBullet->Initialize(position);
 		//弾を登録する
+		//bullet.push_front(std::move(newBullet));
 		bullet.push_back(std::move(newBullet));
-	}
-	
+
+
 }
 
 void Player::Draw()

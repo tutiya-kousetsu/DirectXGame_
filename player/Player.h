@@ -30,6 +30,12 @@ public:
 	//UŒ‚
 	void Shoot();
 
+	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
+	void OnCollision();
+
+	//’eƒŠƒXƒgæ“¾
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullet; }
+
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullet;
 	XMFLOAT3 position;

@@ -5,6 +5,7 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
+#include "FollowingCamera.h"
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
@@ -44,13 +45,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//audio->SoundPlayWave("Alarm01.wav", true);
 
 	//カメラの初期化
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
+	camera = new FollowingCamera();
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera);
 
 	camera->SetEye({ 0, 10, -30 });
 	camera->SetTarget({ 0,0,30 });
-	camera->SetDistance(0.0f);
+	//camera->SetDistance(0.0f);
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
 	ShowCursor(FALSE);
@@ -66,12 +67,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	srand((unsigned)time(NULL));
 
 	player = new Player();
-
-	for (int i = 0; i < 4; i++) {
+	floor = new Floor();
+	playerBullet = new PlayerBullet();
+	for (int i = 0; i < 7; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
 	}
-	//player->Initialize(input);
+	
 	//データ読み込み
 	groundModel = Model::LoadFromObj("ground");
 	groundObj = Object3d::Create();
@@ -103,7 +105,7 @@ void GamePlayScene::Finalize()
 	delete groundObj;
 	delete player;
 	delete playerBullet;
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 7; i++) {
 		delete enemy[i];
 	}
 }
@@ -120,13 +122,23 @@ void GamePlayScene::Update()
 	//更新
 	camera->Update();
 	player->Update();
+	floor->Update();
 	//playerBullet->Update();
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 7; i++) {
 		enemy[i]->Update();
 	}
 	groundObj->Update();
 	skyObj->Update();
+
+	// カメラをプレイヤーのX軸に合わせる
+	{
+		XMFLOAT3 playerPos = player->GetPosition();
+
+		camera->SetEye({ playerPos.x, 5, -20 });
+		camera->SetTarget({ playerPos.x, 0, 50 });
+	}
 	//Collision();
+	CheckAllCollision();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -157,11 +169,12 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	Object3d::PreDraw();
 	player->Draw();
 	//playerBullet->Draw();
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 7; i++) {
 		enemy[i]->Draw();
 	}
 	skyObj->Draw();
-	groundObj->Draw();
+	//groundObj->Draw();
+	floor->Draw();
 	Object3d::PostDraw();
 
 #pragma region 前景スプライト描画
@@ -185,57 +198,105 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 }
 
-//void GamePlayScene::Collision()
-//{
-//	for (int i = 0; i < 4; i++) {
-//		//プレイヤーと敵の衝突判定
-//		//敵が存在すれば
-//		if (enemy[i]->GetFlag()) {
-//			//座標
-//			XMFLOAT3 playerPosition = player->GetPosition();
-//			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
-//
-//			//差を求める
-//			float dx = abs(playerPosition.x - enemyPosition.x);
-//			float dy = abs(playerPosition.y - enemyPosition.y);
-//			float dz = abs(playerPosition.z - enemyPosition.z);
-//
-//			if (enemyPosition.z <= -5) {
-//				playerLife--;
-//				enemy[i]->Hit();
-//			}
-//		}
-//		//弾と敵の当たり判定
-//		//敵が存在すれば
-//		if (enemy[i]->GetFrameFlag()) {
-//			if (enemy[i]->GetFlag()) {
-//				//座標
-//				//XMFLOAT3 shootPosition = playerBullet->GetPosition();
-//				XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
-//
-//				//差を求める
-//				/*float dx = abs(enemyPosition.x - shootPosition.x);
-//				float dy = abs(enemyPosition.y - shootPosition.y);
-//				float dz = abs(enemyPosition.z - shootPosition.z);*/
-//
-//				/*if (dx < 1 && dy < 1 && dz < 1) {
-//					gameScore++;
-//					enemy[i]->frameFlag = 0;
-//					enemy[i]->Hit();
-//				}*/
-//			}
-//		}
-//	}
-//
-//	//プレイヤーのHPが0になったら画面切り替え
-//	if (playerLife == 0) {
-//		//シーン切り替え
-//		BaseScene* scene = new GameOver();
-//		this->sceneManager->SetNextScene(scene);
-//	}
-//	if (gameScore == 5) {
-//		//シーン切り替え
-//		BaseScene* scene = new GameClear();
-//		this->sceneManager->SetNextScene(scene);
-//	}
-//}
+void GamePlayScene::Collision()
+{
+	//for (auto i = 0; i < 7; i++) {
+	//	//プレイヤーと敵の衝突判定
+	//	//敵が存在すれば
+	//	if (enemy[i]->GetFrameFlag()) {
+	//		if (enemy[i]->GetFlag()) {
+	//			//座標
+	//			XMFLOAT3 playerPosition = player->GetPosition();
+	//			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
+
+	//			//差を求める
+	//			float dx = abs(playerPosition.x - enemyPosition.x);
+	//			float dy = abs(playerPosition.y - enemyPosition.y);
+	//			float dz = abs(playerPosition.z - enemyPosition.z);
+
+	//			if (dx < 1 && dy < 1 && dz < 1) {
+	//				playerLife--;
+	//				enemy[i]->frameFlag = 0;
+	//				enemy[i]->Hit();
+	//			}
+	//		}
+	//	}
+	//	//弾と敵の当たり判定
+	//	//敵が存在すれば
+	//	if (enemy[i]->GetFrameFlag()) {
+	//		if (enemy[i]->GetFlag()) {
+	//			//座標
+	//			XMFLOAT3 shootPosition = playerBullet->GetPos();
+	//			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
+
+	//			//差を求める
+	//			float dx = abs(shootPosition.x - enemyPosition.x);
+	//			float dy = abs(shootPosition.y - enemyPosition.y);
+	//			float dz = abs(shootPosition.z - enemyPosition.z);
+
+	//			if (dx < 1 && dy < 1 && dz < 1) {
+	//				gameScore++;
+	//				enemy[i]->frameFlag = 0;
+	//				enemy[i]->Hit();
+	//			}
+	//		}
+	//	}
+	//}
+
+	//プレイヤーのHPが0になったら画面切り替え
+	if (playerLife == 0) {
+		//シーン切り替え
+		BaseScene* scene = new GameOver();
+		this->sceneManager->SetNextScene(scene);
+	}
+	if (gameScore == 5) {
+		//シーン切り替え
+		BaseScene* scene = new GameClear();
+		this->sceneManager->SetNextScene(scene);
+	}
+}
+
+void GamePlayScene::CheckAllCollision()
+{
+	//判定の対象
+	XMFLOAT3 posA, posB;
+
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
+
+	//const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = Enemy->GetBullet();
+	for (auto i = 0; i < 7; i++) {
+#pragma region 自弾と敵の当たり判定
+		posA = enemy[i]->GetPosition();
+
+		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+ 			posB = bullet->GetPos();
+
+			float dx = abs(posB.x - posA.x);
+			float dy = abs(posB.y - posA.y);
+			float dz = abs(posB.z - posA.z);
+
+			if (dx < 1 && dy < 1 && dz < 1) {
+				enemy[i]->frameFlag = 0;
+				enemy[i]->Hit();
+				bullet->OnCollision();
+			}
+		}
+#pragma endregion
+
+#pragma region 敵と自機の当たり判定
+		posA = enemy[i]->GetPosition();
+
+			posB = player->GetPosition();
+
+			float dx = abs(posB.x - posA.x);
+			float dy = abs(posB.y - posA.y);
+			float dz = abs(posB.z - posA.z);
+
+			if (dx < 1 && dy < 1 && dz < 1) {
+				enemy[i]->frameFlag = 0;
+				enemy[i]->Hit();
+				player->OnCollision();
+			}
+#pragma endregion
+	}
+}

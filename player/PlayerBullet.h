@@ -20,19 +20,19 @@ public:
 
 	//•`‰æ
 	void Draw() override;
-
-	inline const XMFLOAT3& GetVelocity() { return velocity; }
-	inline void SetVelocity(const XMFLOAT3& velocity) { this->velocity = velocity; }
-
+	
+	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
 	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
 
+	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
+	void OnCollision();
+
 	//’e‚ªÁ‚¦‚éŠÔ
-	UINT disappearTime = 60 * 5;
+	UINT disappearTime = 60 * 1.5f;
 
 	UINT frameNum = 0;
-
+	UINT power = 1;
 private:
 	XMFLOAT3 position;
-	XMFLOAT3 velocity;
 };
 

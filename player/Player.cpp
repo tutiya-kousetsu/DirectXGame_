@@ -1,10 +1,10 @@
 #include "Player.h"
 #include "Input.h"
 
-Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
+Player::Player() :Player(Model::LoadFromObj("chr_sword"))
 {
 	//ƒf[ƒ^“Ç‚Ýž‚Ý
-	object->SetScale({ 1.0f, 1.0f, 1.0f });
+	object->SetScale({ 2.5f, 2.5f, 1.5f });
 }
 
 void Player::Update()
@@ -16,7 +16,6 @@ void Player::Update()
 	if (input->TriggerKey(DIK_SPACE)) {
 		Shoot();	
 	}
-
 	
 	for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
 		
@@ -29,7 +28,7 @@ void Player::move(float speed)
 {
 	Input* input = Input::GetInstance();
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
-	XMFLOAT3 position = object->GetPosition();
+	position = object->GetPosition();
 	//XMFLOAT3 rotation = playerObj->GetRotation();
 	// ˆÚ“®Œã‚ÌÀ•W‚ðŒvŽZ
 	if (input->PushKey(DIK_D)) { position.x += speed; }
@@ -78,10 +77,7 @@ void Player::Shoot()
 		//‰Šú‰»s‚­‚æ
 		newBullet->Initialize(position);
 		//’e‚ð“o˜^‚·‚é
-		//bullet.push_front(std::move(newBullet));
 		bullet.push_back(std::move(newBullet));
-
-
 }
 
 void Player::Draw()
@@ -93,4 +89,10 @@ void Player::Draw()
 		bullet->Draw();
 	}
 	
+}
+
+
+void Player::OnCollision()
+{
+
 }

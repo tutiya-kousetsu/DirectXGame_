@@ -21,7 +21,19 @@ void PlayerBullet::Update()
 		alive = false;
 	}
 	//奥に進むよ
-	position.z++;
+	//if (input->TriggerKey(DIK_SPACE)) {
+		//apower++;
+		position.z++;
+	//}
+	/*if (power == 1) {
+		position.z++;
+	}
+	else if (power == 2) {
+		position.z++;
+	}
+	else{
+		position.z++;
+	}*/
 
 	//動かした値をゲームオブジェクトに渡すよ
 	object->SetPosition(position);
@@ -34,4 +46,9 @@ void PlayerBullet::Draw()
 	if (alive) {
 		object->Draw();
 	}
+}
+
+void PlayerBullet::OnCollision()
+{
+	alive = false;
 }

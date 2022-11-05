@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)input;$(ProjectDir)player;$(ProjectDir)enemy;$(ProjectDir)base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)input;$(ProjectDir)player;$(ProjectDir)enemy;$(ProjectDir)base;$(ProjectDir)Floor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -245,6 +245,8 @@
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
+    <ClCompile Include="Floor\Floor.cpp" />
+    <ClCompile Include="FollowingCamera.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player\Player.cpp" />
@@ -279,6 +281,8 @@
     <ClInclude Include="camera\DebugCamera.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="enemy\Enemy.h" />
+    <ClInclude Include="Floor\Floor.h" />
+    <ClInclude Include="FollowingCamera.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="PipelineSet.h" />
     <ClInclude Include="player\Player.h" />

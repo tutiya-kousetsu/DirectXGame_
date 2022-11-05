@@ -91,3 +91,8 @@ void Enemy::Draw()
 		}
 	}
 }
+
+void Enemy::OnCollision()
+{
+	aliveFlag = 0;
+}

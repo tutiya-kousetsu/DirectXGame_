@@ -21,8 +21,14 @@ public:
 	//•`‰æ
 	void Draw();
 
+	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
+	void OnCollision();
+
 	inline XMFLOAT3 GetPosition() { return enemyObj->GetPosition(); }
 	XMFLOAT3 frameGetPos() { return frameObj->GetPosition(); }
+
+	//’eƒŠƒXƒgæ“¾
+	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullet; }
 
 public:
 	int aliveFlag = 1;

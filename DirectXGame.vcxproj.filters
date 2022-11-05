@@ -73,6 +73,9 @@
     <Filter Include="ソース ファイル\camera\.h">
       <UniqueIdentifier>{d77bb0c6-6c49-4d39-bbd3-fd8c83b08662}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Floor">
+      <UniqueIdentifier>{7f4e8aad-70d7-476f-bf7c-ebc64acb9307}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
@@ -185,6 +188,12 @@
     <ClCompile Include="3d\GameObject.cpp">
       <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
+    <ClCompile Include="Floor\Floor.cpp">
+      <Filter>ソース ファイル\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowingCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -284,6 +293,12 @@
     </ClInclude>
     <ClInclude Include="3d\GameObject.h">
       <Filter>ソース ファイル\3d\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor\Floor.h">
+      <Filter>ソース ファイル\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowingCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

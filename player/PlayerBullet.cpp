@@ -8,6 +8,10 @@ PlayerBullet::PlayerBullet() :PlayerBullet(Model::LoadFromObj("sphere"))
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 }
 
+PlayerBullet::~PlayerBullet()
+{
+}
+
 void PlayerBullet::Initialize(XMFLOAT3 pos)
 {
 	//プレイヤーの座標渡すよ
@@ -16,7 +20,6 @@ void PlayerBullet::Initialize(XMFLOAT3 pos)
 
 void PlayerBullet::Update()
 {
-	Input* input = Input::GetInstance();
 	if (disappearTime < ++frameNum) {
 		alive = false;
 	}

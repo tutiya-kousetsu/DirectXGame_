@@ -1,12 +1,16 @@
 #pragma once
 #include "GameObject.h"
 #include "Object3d.h"
+#include "EnemyBullet.h"
+#include <memory>
 
 using namespace DirectX;
 
-class Enemy
+class Enemy : public GameObject
 {
 public:
+	using GameObject::GameObject;
+
 	//コンストラクタ
 	Enemy();
 
@@ -14,43 +18,44 @@ public:
 	void Initialize();
 
 	//更新
-	void Update();
+	void Update() override;
 
 	void UpdateAliveFlag();
 
 	//描画
-	void Draw();
+	void Draw() override;
+
+	void Shoot();
 
 	//衝突時に呼び出される関数
 	void OnCollision();
 
-	inline XMFLOAT3 GetPosition() { return enemyObj->GetPosition(); }
-	XMFLOAT3 frameGetPos() { return frameObj->GetPosition(); }
+	//inline XMFLOAT3 GetPosition() { return enemyObj->GetPosition(); }
+	//XMFLOAT3 frameGetPos() { return frameObj->GetPosition(); }
 
 	//弾リスト取得
 	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullet; }
 
 public:
 	int aliveFlag = 1;
-	int frameFlag = 0;
 	//衝突した処理
 	void Hit() { aliveFlag = 0; }
 	
-	bool GetFlag() { return aliveFlag; }
-	bool GetFrameFlag() { return frameFlag; }
-	bool flashingFlag = false;
-	int flashingEndFlag = 0;
-	UINT clearFlag = 12;
-private:
-	int enemyTimer = 0;
-	int frameTimer = 0;
-	int flashingTimer = 0;
-	Model* enemyModel = nullptr;
-	Model* frameModel = nullptr;
-	Object3d* enemyObj = nullptr;
-	Object3d* frameObj = nullptr;
-	XMFLOAT3 position;
+	inline bool GetFlag() { return aliveFlag; }
 
+	static const int kShootInterval = 60;
+
+	void AccessPhase();
+private:
+	int32_t shootTimer = 0;
+	int enemyTimer = 0;
+	//Model* enemyModel = nullptr;
+	//Model* frameModel = nullptr;
+	//Object3d* enemyObj = nullptr;
+	//Object3d* frameObj = nullptr;
+	XMFLOAT3 position; 
+	std::list<std::unique_ptr<Object3d>> enemy;
+	std::unique_ptr<EnemyBullet> bullet;
 	//std::unique_ptr<Object3d>enemyObj;
 };
 

@@ -1,37 +1,37 @@
 #pragma once
-#include "Enemy.h"
 #include "Input.h"
 #include "Object3d.h"
 #include "GameObject.h"
+#include <DirectXMath.h>
 using namespace DirectX;
 
 class EnemyBullet : public GameObject
 {
 public:
+	//エイリアス、関数の継承など
+	using GameObject::GameObject;
+
 	//コンストラクタ
 	EnemyBullet();
 
-	//デストラクタ
-	~EnemyBullet();
+	void Initialize(XMFLOAT3 pos);
 
-	void Initialize(Input* input, Enemy* enemy);
+	void Update() override;
 
-	void Update();
+	//描画
+	void Draw() override;
 
-	void Draw();
+	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
+	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
 
-	inline XMFLOAT3 GetPosition() { return enemyBulletObj->GetPosition(); }
+	//衝突時に呼び出される関数
+	void OnCollision();
 
-	int aliveFlag = 0;
+	//弾が消える時間
+	UINT disappearTime = 60 * 1.5f;
 
-	int GetFlag() { return aliveFlag; }
-
-	void Hit() { aliveFlag = 0; }
-
+	UINT frameNum = 0;
+	UINT power = 1;
 private:
-	Object3d* enemyBulletObj = nullptr;
-	Model* enemyBulletModel = nullptr;
-	Enemy* enemy = nullptr;
-	Input* input = nullptr;
+	XMFLOAT3 position;
 };
-

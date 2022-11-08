@@ -41,8 +41,6 @@ public:
 	/// </summary>
 	void Draw(DirectXCommon* dxCommon) override;
 
-	void Collision();
-
 	void CheckAllCollision();
 private:
 	

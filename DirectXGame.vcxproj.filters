@@ -70,11 +70,11 @@
     <Filter Include="ソース ファイル\camera\.cpp">
       <UniqueIdentifier>{2c441dc7-d0ca-4566-ad9a-e3d76fafab65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\camera\.h">
-      <UniqueIdentifier>{d77bb0c6-6c49-4d39-bbd3-fd8c83b08662}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Floor">
       <UniqueIdentifier>{7f4e8aad-70d7-476f-bf7c-ebc64acb9307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\camera\.h">
+      <UniqueIdentifier>{d77bb0c6-6c49-4d39-bbd3-fd8c83b08662}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -182,16 +182,16 @@
     <ClCompile Include="player\PlayerBullet.cpp">
       <Filter>ソース ファイル\player</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBullet.cpp">
-      <Filter>ソース ファイル\enemy</Filter>
-    </ClCompile>
     <ClCompile Include="3d\GameObject.cpp">
       <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="Floor\Floor.cpp">
       <Filter>ソース ファイル\Floor</Filter>
     </ClCompile>
-    <ClCompile Include="FollowingCamera.cpp">
+    <ClCompile Include="enemy\EnemyBullet.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\FollowingCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,9 +285,6 @@
     <ClInclude Include="camera\DebugCamera.h">
       <Filter>ソース ファイル\camera\.h</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBullet.h">
-      <Filter>ソース ファイル\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="player\PlayerBullet.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
@@ -297,7 +294,10 @@
     <ClInclude Include="Floor\Floor.h">
       <Filter>ソース ファイル\Floor</Filter>
     </ClInclude>
-    <ClInclude Include="FollowingCamera.h">
+    <ClInclude Include="enemy\EnemyBullet.h">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\FollowingCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

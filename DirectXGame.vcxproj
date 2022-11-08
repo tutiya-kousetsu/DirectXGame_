@@ -243,10 +243,10 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
-    <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="camera\FollowingCamera.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
+    <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="Floor\Floor.cpp" />
-    <ClCompile Include="FollowingCamera.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player\Player.cpp" />
@@ -279,10 +279,10 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
-    <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="camera\FollowingCamera.h" />
     <ClInclude Include="enemy\Enemy.h" />
+    <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="Floor\Floor.h" />
-    <ClInclude Include="FollowingCamera.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="PipelineSet.h" />
     <ClInclude Include="player\Player.h" />

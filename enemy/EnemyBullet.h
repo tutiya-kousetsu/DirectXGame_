@@ -5,16 +5,14 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
-class PlayerBullet : public GameObject
+class EnemyBullet : public GameObject
 {
 public:
 	//エイリアス、関数の継承など
 	using GameObject::GameObject;
 
 	//コンストラクタ
-	PlayerBullet();
-
-	~PlayerBullet();
+	EnemyBullet();
 
 	void Initialize(XMFLOAT3 pos);
 
@@ -22,11 +20,9 @@ public:
 
 	//描画
 	void Draw() override;
-	
+
 	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
 	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
-
-	inline bool DisappearFlag() { return alive = false; }
 
 	//衝突時に呼び出される関数
 	void OnCollision();

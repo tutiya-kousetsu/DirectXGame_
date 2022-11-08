@@ -14,7 +14,7 @@ public:
 
 	//コンストラクタ
 	Player();
-
+	~Player();
 	//更新
 	void Update() override;
 
@@ -34,10 +34,10 @@ public:
 	void OnCollision();
 
 	//弾リスト取得
-	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullet; }
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
 private:
-	std::list<std::unique_ptr<PlayerBullet>> bullet;
+	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	XMFLOAT3 position;
 	XMFLOAT3 bulPos;
 	// ジャンプ

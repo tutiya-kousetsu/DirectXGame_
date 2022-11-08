@@ -137,7 +137,7 @@ void GamePlayScene::Update()
 		camera->SetEye({ playerPos.x, 5, -20 });
 		camera->SetTarget({ playerPos.x, 0, 50 });
 	}
-	//Collision();
+	
 	CheckAllCollision();
 }
 
@@ -198,63 +198,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 }
 
-void GamePlayScene::Collision()
-{
-	//for (auto i = 0; i < 7; i++) {
-	//	//プレイヤーと敵の衝突判定
-	//	//敵が存在すれば
-	//	if (enemy[i]->GetFrameFlag()) {
-	//		if (enemy[i]->GetFlag()) {
-	//			//座標
-	//			XMFLOAT3 playerPosition = player->GetPosition();
-	//			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
-
-	//			//差を求める
-	//			float dx = abs(playerPosition.x - enemyPosition.x);
-	//			float dy = abs(playerPosition.y - enemyPosition.y);
-	//			float dz = abs(playerPosition.z - enemyPosition.z);
-
-	//			if (dx < 1 && dy < 1 && dz < 1) {
-	//				playerLife--;
-	//				enemy[i]->frameFlag = 0;
-	//				enemy[i]->Hit();
-	//			}
-	//		}
-	//	}
-	//	//弾と敵の当たり判定
-	//	//敵が存在すれば
-	//	if (enemy[i]->GetFrameFlag()) {
-	//		if (enemy[i]->GetFlag()) {
-	//			//座標
-	//			XMFLOAT3 shootPosition = playerBullet->GetPos();
-	//			XMFLOAT3 enemyPosition = enemy[i]->GetPosition();
-
-	//			//差を求める
-	//			float dx = abs(shootPosition.x - enemyPosition.x);
-	//			float dy = abs(shootPosition.y - enemyPosition.y);
-	//			float dz = abs(shootPosition.z - enemyPosition.z);
-
-	//			if (dx < 1 && dy < 1 && dz < 1) {
-	//				gameScore++;
-	//				enemy[i]->frameFlag = 0;
-	//				enemy[i]->Hit();
-	//			}
-	//		}
-	//	}
-	//}
-
-	//プレイヤーのHPが0になったら画面切り替え
-	if (playerLife == 0) {
-		//シーン切り替え
-		BaseScene* scene = new GameOver();
-		this->sceneManager->SetNextScene(scene);
-	}
-	if (gameScore == 5) {
-		//シーン切り替え
-		BaseScene* scene = new GameClear();
-		this->sceneManager->SetNextScene(scene);
-	}
-}
 
 void GamePlayScene::CheckAllCollision()
 {
@@ -266,21 +209,22 @@ void GamePlayScene::CheckAllCollision()
 	//const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = Enemy->GetBullet();
 	for (auto i = 0; i < 7; i++) {
 #pragma region 自弾と敵の当たり判定
-		posA = enemy[i]->GetPosition();
+		//if (enemy[i]->GetFrameFlag()) {
+			posA = enemy[i]->GetPosition();
 
-		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
- 			posB = bullet->GetPos();
+			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+				posB = bullet->GetPos();
 
-			float dx = abs(posB.x - posA.x);
-			float dy = abs(posB.y - posA.y);
-			float dz = abs(posB.z - posA.z);
+				float dx = abs(posB.x - posA.x);
+				float dy = abs(posB.y - posA.y);
+				float dz = abs(posB.z - posA.z);
 
-			if (dx < 1 && dy < 1 && dz < 1) {
-				enemy[i]->frameFlag = 0;
-				enemy[i]->Hit();
-				bullet->OnCollision();
+				if (dx < 1 && dy < 1 && dz < 1) {
+					enemy[i]->Hit();
+					bullet->OnCollision();
+				}
 			}
-		}
+		//}
 #pragma endregion
 
 #pragma region 敵と自機の当たり判定
@@ -293,10 +237,20 @@ void GamePlayScene::CheckAllCollision()
 			float dz = abs(posB.z - posA.z);
 
 			if (dx < 1 && dy < 1 && dz < 1) {
-				enemy[i]->frameFlag = 0;
 				enemy[i]->Hit();
 				player->OnCollision();
 			}
 #pragma endregion
+	}
+	//プレイヤーのHPが0になったら画面切り替え
+	if (playerLife == 0) {
+		//シーン切り替え
+		BaseScene* scene = new GameOver();
+		this->sceneManager->SetNextScene(scene);
+	}
+	if (gameScore == 5) {
+		//シーン切り替え
+		BaseScene* scene = new GameClear();
+		this->sceneManager->SetNextScene(scene);
 	}
 }

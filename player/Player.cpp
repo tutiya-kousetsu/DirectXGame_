@@ -7,18 +7,27 @@ Player::Player() :Player(Model::LoadFromObj("chr_sword"))
 	object->SetScale({ 2.5f, 2.5f, 1.5f });
 }
 
+Player::~Player()
+{
+}
+
 void Player::Update()
 {
 	Input* input = Input::GetInstance();
+
 	move();
 	jump();
 
 	if (input->TriggerKey(DIK_SPACE)) {
-		Shoot();	
+		Shoot();
+		bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+			return !bullet->GetAlive();
+			});
 	}
+
 	
-	for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
-		
+
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Update();
 	}
 	object->Update();
@@ -77,7 +86,8 @@ void Player::Shoot()
 		//‰Šú‰»s‚­‚æ
 		newBullet->Initialize(position);
 		//’e‚ð“o˜^‚·‚é
-		bullet.push_back(std::move(newBullet));
+		bullets.push_back(std::move(newBullet));
+
 }
 
 void Player::Draw()
@@ -85,7 +95,7 @@ void Player::Draw()
 	if (alive) {
 		object->Draw();
 	}
-	for (std::unique_ptr<PlayerBullet>& bullet : this->bullet) {
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw();
 	}
 	

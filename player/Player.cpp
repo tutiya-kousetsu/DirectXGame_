@@ -7,9 +7,6 @@ Player::Player() :Player(Model::LoadFromObj("chr_sword"))
 	object->SetScale({ 2.5f, 2.5f, 1.5f });
 }
 
-Player::~Player()
-{
-}
 
 void Player::Update()
 {
@@ -20,9 +17,9 @@ void Player::Update()
 
 	if (input->TriggerKey(DIK_SPACE)) {
 		Shoot();
-		bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		/*bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 			return !bullet->GetAlive();
-			});
+			});*/
 	}
 
 	

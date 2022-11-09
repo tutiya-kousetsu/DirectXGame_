@@ -6,7 +6,7 @@
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
 #include "FollowingCamera.h"
-
+#include "Enemy/EnemyBullet.h"
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	if (!Sprite::LoadTexture(1, L"Resources/gamePlay.png")) {
@@ -69,11 +69,12 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	player = new Player();
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
+	enemyBullet = new EnemyBullet();
 	for (int i = 0; i < 7; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
 	}
-	
+
 	//データ読み込み
 	groundModel = Model::LoadFromObj("ground");
 	groundObj = Object3d::Create();
@@ -105,6 +106,7 @@ void GamePlayScene::Finalize()
 	delete groundObj;
 	delete player;
 	delete playerBullet;
+	delete enemyBullet;
 	for (int i = 0; i < 7; i++) {
 		delete enemy[i];
 	}
@@ -137,7 +139,7 @@ void GamePlayScene::Update()
 		camera->SetEye({ playerPos.x, 5, -20 });
 		camera->SetTarget({ playerPos.x, 0, 50 });
 	}
-	
+
 	CheckAllCollision();
 }
 
@@ -165,7 +167,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 #pragma endregion
 
-//3Dオブジェクト描画前処理
+	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
 	//playerBullet->Draw();
@@ -190,7 +192,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//debugText->DrawAll(cmdList);
 
 	// スプライト描画後処理
-	
+
 	Sprite::PostDraw();
 
 	//描画後処理
@@ -205,32 +207,15 @@ void GamePlayScene::CheckAllCollision()
 	XMFLOAT3 posA, posB;
 
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-
-	//const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = Enemy->GetBullet();
 	for (auto i = 0; i < 7; i++) {
+
+	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy[i]->GetBullet();
 #pragma region 自弾と敵の当たり判定
 		//if (enemy[i]->GetFrameFlag()) {
-			posA = enemy[i]->GetPosition();
-
-			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-				posB = bullet->GetPos();
-
-				float dx = abs(posB.x - posA.x);
-				float dy = abs(posB.y - posA.y);
-				float dz = abs(posB.z - posA.z);
-
-				if (dx < 1 && dy < 1 && dz < 1) {
-					enemy[i]->Hit();
-					bullet->OnCollision();
-				}
-			}
-		//}
-#pragma endregion
-
-#pragma region 敵と自機の当たり判定
 		posA = enemy[i]->GetPosition();
 
-			posB = player->GetPosition();
+		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+			posB = bullet->GetPos();
 
 			float dx = abs(posB.x - posA.x);
 			float dy = abs(posB.y - posA.y);
@@ -238,10 +223,46 @@ void GamePlayScene::CheckAllCollision()
 
 			if (dx < 1 && dy < 1 && dz < 1) {
 				enemy[i]->Hit();
+				bullet->OnCollision();
+			}
+		}
+		//}
+#pragma endregion
+
+#pragma region 敵と自機の当たり判定
+		posA = enemy[i]->GetPosition();
+
+		posB = player->GetPosition();
+
+		float dx = abs(posB.x - posA.x);
+		float dy = abs(posB.y - posA.y);
+		float dz = abs(posB.z - posA.z);
+
+		if (dx < 1 && dy < 1 && dz < 1) {
+			enemy[i]->Hit();
+			player->OnCollision();
+		}
+#pragma endregion
+
+#pragma region 敵弾と自機の当たり判定
+		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+			posA = player->GetPosition();
+
+			posB = bullet->GetPosition();
+
+			float dx = abs(posB.x - posA.x);
+			float dy = abs(posB.y - posA.y);
+			float dz = abs(posB.z - posA.z);
+
+			if (dx < 1 && dy < 1 && dz < 1) {
+				bullet->OnCollision();
 				player->OnCollision();
 			}
+		}
 #pragma endregion
+
 	}
+
 	//プレイヤーのHPが0になったら画面切り替え
 	if (playerLife == 0) {
 		//シーン切り替え

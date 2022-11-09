@@ -62,7 +62,7 @@ private:
 	Player* player = nullptr;
 	Enemy* enemy[7] = {};
 	PlayerBullet* playerBullet = nullptr;
-
+	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
 
 	int playerLife = 300;

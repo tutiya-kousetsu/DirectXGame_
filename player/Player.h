@@ -14,7 +14,6 @@ public:
 
 	//コンストラクタ
 	Player();
-	~Player();
 	//更新
 	void Update() override;
 

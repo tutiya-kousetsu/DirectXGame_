@@ -5,12 +5,13 @@ Enemy::Enemy() :Enemy(Model::LoadFromObj("BlueBox"))
 	object->SetScale({ 0.65f, 0.65f, 0.65f });
 }
 
+Enemy::~Enemy()
+{
+
+}
 
 void Enemy::Initialize()
 {
-	//Shoot();
-
-	
 	AccessPhase();
 
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
@@ -19,29 +20,29 @@ void Enemy::Initialize()
 	float x2 = (float)x / 10 - 20;//10`-10‚Ì”ÍˆÍ
 	int y = rand() % 70;
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	int z = rand() % 400;
-	float z2 = (float)z / 10 - 20;//6~0‚Ì”ÍˆÍ
-	position = { x2, y2, z2 };
+	position = { x2, y2, 5 };
+
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
-	//frameObj->SetPosition(position);
 	}
 
 void Enemy::Update()
 {
-
 	shootTimer--;
 
 	if (shootTimer < 0) {
 		Shoot();
 
 		shootTimer = kShootInterval;
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+			bullet->SetPos(position);
+		}
 	}
 
+	//bullet.get_deleter();
+
 	UpdateAliveFlag();
-	if (bullet) {
-		bullet->Update();
-	}
+	
 	object->Update();
 }
 
@@ -50,8 +51,11 @@ void Enemy::UpdateAliveFlag()
 	if (aliveFlag == 1) {
 		enemyTimer++;
 		//”ª•b‚½‚Á‚½‚ç
-		if (enemyTimer >= 480) {
+		if (enemyTimer >= 300) {
 			aliveFlag = 0;
+		}
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+			bullet->Update();
 		}
 	}
 
@@ -64,6 +68,9 @@ void Enemy::UpdateAliveFlag()
 		object->SetPosition({ x2, y2, 5 });
 		enemyTimer = 0;
 		aliveFlag = 1;
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+			bullet->SetPos({ x2, y2, 5 });
+		}
 	}
 }
 
@@ -72,25 +79,20 @@ void Enemy::Draw()
 	//ƒtƒ‰ƒO1‚Å“G•\Ž¦
 		if (aliveFlag == 1) {
 			object->Draw();
-			
 		}
-		if (bullet) {
+		for (std::unique_ptr<EnemyBullet>&bullet : bullets) {
 			bullet->Draw();
 		}
 }
 
 void Enemy::Shoot()
 {
-	EnemyBullet* newBullet = new EnemyBullet();
-	newBullet->Initialize(position);
-	
-	bullet.reset(newBullet);
-
 	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ô‚æ
-	//bullet = new EnemyBullet();
-	////‰Šú‰»s‚­‚æ
-	//bullet->Initialize(position);
-
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	//‰Šú‰»s‚­‚æ
+	newBullet->Initialize(position);
+	//’e‚ð“o˜^‚·‚é
+	bullets.push_back(std::move(newBullet));
 }
 
 void Enemy::OnCollision()

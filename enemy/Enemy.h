@@ -3,6 +3,7 @@
 #include "Object3d.h"
 #include "EnemyBullet.h"
 #include <memory>
+#include <list>
 
 using namespace DirectX;
 
@@ -13,6 +14,8 @@ public:
 
 	//コンストラクタ
 	Enemy();
+
+	~Enemy();
 
 	//初期化
 	void Initialize();
@@ -45,6 +48,9 @@ public:
 
 	static const int kShootInterval = 60;
 
+	//弾リスト取得
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
+
 	void AccessPhase();
 private:
 	int32_t shootTimer = 0;
@@ -55,7 +61,7 @@ private:
 	//Object3d* frameObj = nullptr;
 	XMFLOAT3 position; 
 	std::list<std::unique_ptr<Object3d>> enemy;
-	std::unique_ptr<EnemyBullet> bullet;
+	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	//std::unique_ptr<Object3d>enemyObj;
 };
 

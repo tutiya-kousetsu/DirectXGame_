@@ -22,7 +22,7 @@ public:
 	void Draw() override;
 
 	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
-	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
+  	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
 
 	//Õ“ËŽž‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
 	void OnCollision();

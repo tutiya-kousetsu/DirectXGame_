@@ -55,6 +55,7 @@ public:
 private:
 	int32_t shootTimer = 0;
 	int enemyTimer = 0;
+	int enemyPopFlag = 0;
 	//Model* enemyModel = nullptr;
 	//Model* frameModel = nullptr;
 	//Object3d* enemyObj = nullptr;

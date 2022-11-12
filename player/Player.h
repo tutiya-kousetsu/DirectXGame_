@@ -32,6 +32,8 @@ public:
 	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
 	void OnCollision();
 
+	void FloorCollision();
+
 	//’eƒŠƒXƒgæ“¾
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 

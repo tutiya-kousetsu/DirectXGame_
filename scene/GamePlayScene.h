@@ -15,6 +15,7 @@
 #include "GameClear.h"
 #include "Floor/Floor.h"
 #include <memory>
+#include <sstream>
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -40,6 +41,10 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(DirectXCommon* dxCommon) override;
+	
+	//void LoadEnemyPopData();
+
+	//void UpdataEnemyPopCommand();
 
 	void CheckAllCollision();
 private:
@@ -60,13 +65,15 @@ private:
 
 	//std::unique_ptr<PlayerBullet> playerBullet;
 	Player* player = nullptr;
-	Enemy* enemy[7] = {};
+	Enemy* enemy[9] = {};
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
+	XMFLOAT3 enePos;
+	std::stringstream enemyPopCommands;
 
 	int playerLife = 300;
 	int gameScore = 0;
 
-	bool flag = true;
+	bool flag [9] = {true,false,false,false,false,false,false,false,false };
 };

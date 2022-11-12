@@ -53,7 +53,8 @@ void Player::jump()
 	position = object->GetPosition();
 	//èdóÕ
 	position.y -= g;
-	if (position.y <= 0) position.y += g;
+	if (position.y <= 0 && position.x <=25 && position.x >= -25
+		&& position.z <= 25 && position.z >= -25) position.y += g;
 
 	//ÉWÉÉÉìÉv
 	if (input->TriggerKey(DIK_SPACE) && !jumpFlag) {
@@ -103,3 +104,7 @@ void Player::OnCollision()
 {
 
 }
+
+//void Player::FloorCollision() {
+//	jumpFlag = false;
+//}

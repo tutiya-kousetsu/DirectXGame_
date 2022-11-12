@@ -7,6 +7,9 @@
 #include "Fbx_Object3d.h"
 #include "FollowingCamera.h"
 #include "Enemy/EnemyBullet.h"
+
+#include <fstream>
+#include <cassert>
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	if (!Sprite::LoadTexture(1, L"Resources/gamePlay.png")) {
@@ -70,7 +73,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
-	for (int i = 0; i < 7; i++) {
+	for (auto i = 0; i < 9; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
 	}
@@ -107,7 +110,7 @@ void GamePlayScene::Finalize()
 	delete player;
 	delete playerBullet;
 	delete enemyBullet;
-	for (int i = 0; i < 7; i++) {
+	for (auto i = 0; i < 9; i++) {
 		delete enemy[i];
 	}
 }
@@ -126,18 +129,23 @@ void GamePlayScene::Update()
 	player->Update();
 	floor->Update();
 	//playerBullet->Update();
-	for (int i = 0; i < 7; i++) {
-		enemy[i]->Update();
+	
+	
+	for (auto i = 0; i < 9; i++) {
+		enePos = enemy[i]->GetPosition();
+		enePos = { 5.0f * i,5.0f * i ,5 };
+		enemy[i]->SetPosition(enePos);
+		if(flag[0 + i]){ enemy[0 + i]->Update(); }
 	}
 	groundObj->Update();
 	skyObj->Update();
 
-	// カメラをプレイヤーのX軸に合わせる
+	// カメラをプレイヤーのX,z軸に合わせる
 	{
 		XMFLOAT3 playerPos = player->GetPosition();
 
-		camera->SetEye({ playerPos.x, 5, -20 });
-		camera->SetTarget({ playerPos.x, 0, 50 });
+		camera->SetEye({ playerPos.x, 5, playerPos.z -20 });
+		camera->SetTarget({ playerPos.x, 0, playerPos.z + 50 });
 	}
 
 	CheckAllCollision();
@@ -171,8 +179,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	Object3d::PreDraw();
 	player->Draw();
 	//playerBullet->Draw();
-	for (int i = 0; i < 7; i++) {
-		enemy[i]->Draw();
+	for (auto i = 0; i < 9; i++) {
+		if (flag[i]) {
+			enemy[i]->Draw();
+		}
 	}
 	skyObj->Draw();
 	//groundObj->Draw();
@@ -207,7 +217,7 @@ void GamePlayScene::CheckAllCollision()
 	XMFLOAT3 posA, posB;
 
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-	for (auto i = 0; i < 7; i++) {
+	for (auto i = 0; i < 9; i++) {
 
 	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy[i]->GetBullet();
 #pragma region 自弾と敵の当たり判定
@@ -263,6 +273,21 @@ void GamePlayScene::CheckAllCollision()
 
 	}
 
+#pragma region yukaと自機の当たり判定
+	//posA = floor->GetPosition();
+
+	//posB = player->GetPosition();
+
+	//float dx = abs(posB.x - posA.x);
+	//float dy = abs(posB.y - posA.y);
+	//float dz = abs(posB.z - posA.z);
+
+	//if (dx < 1 && dy < 1 && dz < 1) {
+	//	//player->FloorCollision();
+	//}
+#pragma endregion
+
+
 	//プレイヤーのHPが0になったら画面切り替え
 	if (playerLife == 0) {
 		//シーン切り替え
@@ -275,3 +300,56 @@ void GamePlayScene::CheckAllCollision()
 		this->sceneManager->SetNextScene(scene);
 	}
 }
+
+//void GamePlayScene::LoadEnemyPopData()
+//{
+//	//ファイルを開く
+//	std::ifstream file;
+//	file.open("Resources/enemyPop.csv");
+//	assert(file.is_open());
+//
+//	//ファイルの内容を文字列ストリームにコピー
+//	enemyPopCommands << file.rdbuf();
+//
+//	//ファイルを閉じる
+//	file.close();
+//}
+
+//void GamePlayScene::UpdataEnemyPopCommand()
+//{
+//	//1行分の文字行列を入れる変数
+//	std::string line;
+//	//コマンド実行ループ
+//	while (getline(enemyPopCommands, line)) {
+//		//1行分の文字列をストリームに変換して解析しやすくする
+//		std::istringstream line_stream(line);
+//
+//		std::string word;
+//		//,区切りで行の先頭文字を取得
+//		getline(line_stream, word, ',');
+//
+//		//"//"から始まる行はコメント
+//		if (word.find("//") == 0) {
+//			//コメントの行を飛ばす
+//			continue;
+//		}
+//
+//		//POPコマンド
+//		if (word.find("POP") == 0) {
+//			//x座標
+//			getline(line_stream, word, ',');
+//			float x = (float)std::atof(word.c_str());
+//
+//			//y座標
+//			getline(line_stream, word, ',');
+//			float y = (float)std::atof(word.c_str());
+//			
+//			//z座標
+//			getline(line_stream, word, ',');
+//			float z = (float)std::atof(word.c_str());
+//
+//			//敵を発生させる
+//
+//		}
+//	}
+//}

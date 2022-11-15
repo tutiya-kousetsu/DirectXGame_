@@ -26,11 +26,11 @@ void FollowingCamera::startUpdata()
 
 		// yŽ²‰ñ“]‚ð”½‰f‚µ‚½ˆÊ’u
 		XMFLOAT3 tempPosition2 = {
-			cosNum * tempPosition.x - sinNum * tempPosition.y,
-			tempPosition.z,
+			cosNum * tempPosition.x - sinNum * tempPosition.y,tempPosition.z,
 			sinNum * tempPosition.x + cosNum * tempPosition.y
 		};
 
+		//ƒ^[ƒQƒbƒg‚É”½‰f‚µ‚½ˆÊ’u‚ð‘«‚·
 		XMFLOAT3 eye = {
 		target.x + tempPosition2.x,
 		target.y + tempPosition2.y,
@@ -50,9 +50,7 @@ void FollowingCamera::startUpdata()
 
 		XMFLOAT3 Destination;//s‚«æ‚«
 		XMStoreFloat3(&Destination, XMVector3Transform(XMVectorSet(
-			CameraTarget.x,
-			CameraTarget.y,
-			CameraTarget.z, 1),
+			CameraTarget.x,CameraTarget.y,CameraTarget.z, 1),
 			followingTarget->GetMatRotation()));
 
 		target.x += Destination.x;

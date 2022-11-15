@@ -23,7 +23,12 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
 	sprite = Sprite::Create(2, { 0,0 });
 	sprite->SetPosition({ 0,0 });
-
+	Sprite::LoadTexture(3, L"Resources/Life.png");
+	LifeSprite = Sprite::Create(3, { 0,0 });
+	Sprite::LoadTexture(4, L"Resources/Life.png");
+	LifeSprite2 = Sprite::Create(4, { 26,0 });
+	Sprite::LoadTexture(5, L"Resources/Life.png");
+	LifeSprite3 = Sprite::Create(5, { 52,0 });
 	// テクスチャ2番に読み込み
 	/*Sprite::LoadTexture(2, L"Resources/tex1.png");
 	sprite = Sprite::Create(2, { 0.0f,0.0f });*/
@@ -50,7 +55,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera.get());
 
-	
+
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
 	//カメラをセット
@@ -66,7 +71,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	obstacle = new Obstacle();
-	for (auto i = 0; i < 9; i++) {
+	for (auto i = 0; i < 14; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
 	}
@@ -83,6 +88,10 @@ void GamePlayScene::Finalize()
 
 	//スプライト個別解放
 	delete sprite;
+	delete LifeSprite;
+	delete LifeSprite2;
+	delete LifeSprite3;
+
 	//3Dモデル解放
 	//3Dオブジェクト解放
 	delete postEffect[0];
@@ -93,7 +102,7 @@ void GamePlayScene::Finalize()
 	delete skyObj;
 	delete playerBullet;
 	delete enemyBullet;
-	for (auto i = 0; i < 9; i++) {
+	for (auto i = 0; i < 14; i++) {
 		delete enemy[i];
 	}
 }
@@ -101,7 +110,7 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
-	
+
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
@@ -119,24 +128,37 @@ void GamePlayScene::Update()
 
 
 	for (auto i = 0; i < 9; i++) {
-		flag[i] = enemy[i]->GetAlive();
-		
-	}
-	if (flag[0] == true) {
-		enemy[0]->Updata();
-	}
-	if (flag[0] == false) {
-		flagTimer++;
-	}
-	if (flagTimer >= 300) {
-		//flag[0] = true;
-		flag[1] = true;
+		//enemy[i]->Updata();
+
 	}
 
-	if (flag[1] && !flag[0] && flagTimer >= 300) {
+	if (!eneFlag[0]) {
+		enemy[0]->Updata();
+	}
+	if (eneFlag[0]) {
 		enemy[1]->Updata();
 		enemy[2]->Updata();
 	}
+	if (eneFlag[1] && eneFlag[2]) {
+		enemy[3]->Updata();
+		enemy[4]->Updata();
+		enemy[5]->Updata();
+	}
+	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
+		enemy[6]->Updata();
+		enemy[7]->Updata();
+		enemy[8]->Updata();
+		enemy[9]->Updata();
+	}
+	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
+		enemy[10]->Updata();
+		enemy[11]->Updata();
+		enemy[12]->Updata();
+		enemy[13]->Updata();
+		enemy[15]->Updata();
+	}
+
+
 	skyObj->Updata();
 	obstacle->Updata();
 
@@ -153,7 +175,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//背景スプライト描画
 	spriteBG->Draw();
-	
+
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -172,23 +194,36 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	player->Draw();
 	//playerBullet->Draw();
 	for (auto i = 0; i < 9; i++) {
-		flag[i] = enemy[i]->GetAlive();
-		if (flag[0] == true) {
-			enemy[0]->Draw();
-		}
-		if (flag[0] == false) {
-			flagTimer++;
-		}
-		if (flagTimer >= 300) {
-			flag[1] = true;
-		}
+		//enemy[i]->Draw();
 
-		if (flag[1] && !flag[0] && flagTimer >= 300) {
-			enemy[1]->Draw();
-			enemy[2]->Draw();
-		}
 	}
-	obstacle->Draw();
+	if (!eneFlag[0]) {
+		enemy[0]->Draw();
+	}
+	if (eneFlag[0]) {
+		enemy[1]->Draw();
+		enemy[2]->Draw();
+	}
+	if (eneFlag[1] && eneFlag[2]) {
+		enemy[3]->Draw();
+		enemy[4]->Draw();
+		enemy[5]->Draw();
+	}
+	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
+		enemy[6]->Draw();
+		enemy[7]->Draw();
+		enemy[8]->Draw();
+		enemy[9]->Draw();
+	}
+	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
+		enemy[10]->Draw();
+		enemy[11]->Draw();
+		enemy[12]->Draw();
+		enemy[13]->Draw();
+		enemy[15]->Draw();
+	}
+
+	//obstacle->Draw();
 	skyObj->Draw();
 	//groundObj->Draw();
 	floor->Draw();
@@ -202,6 +237,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
+	if (playerLife >= 3){ LifeSprite3->Draw(); }
+	if (playerLife >= 2) { LifeSprite2->Draw(); }
+	if (playerLife >= 1) { LifeSprite->Draw(); }
 	//spriteBG->Draw();
 	// デバッグテキストの描画
 	//debugText->DrawAll(cmdList);
@@ -221,7 +259,7 @@ void GamePlayScene::CheckAllCollision()
 	//判定の対象
 	XMFLOAT3 posA, posB;
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-	for (auto i = 0; i < 9; i++) {
+	for (auto i = 0; i < 14; i++) {
 
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy[i]->GetBullet();
 #pragma region 自弾と敵の当たり判定
@@ -229,16 +267,21 @@ void GamePlayScene::CheckAllCollision()
 		posA = enemy[i]->GetPosition();
 
 		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-			posB = bullet->GetPos();
+			bulFlag = bullet->GetAlive();
+			if (bulFlag) {
+				posB = bullet->GetPosition();
 
-			float dx = abs(posB.x - posA.x);
-			float dy = abs(posB.y - posA.y);
-			float dz = abs(posB.z - posA.z);
+				float dx = abs(posB.x - posA.x);
+				float dy = abs(posB.y - posA.y);
+				float dz = abs(posB.z - posA.z);
 
-			if (dx < 1 && dy < 1 && dz < 1) {
-				enemy[i]->OnCollision();
+				if (dx < 1 && dy < 1 && dz < 1) {
+					enemy[i]->OnCollision();
+					eneFlag[i] = true;
 
-				bullet->OnCollision();
+					bullet->OnCollision();
+					gameScore++;
+				}
 			}
 		}
 #pragma endregion
@@ -261,7 +304,7 @@ void GamePlayScene::CheckAllCollision()
 
 #pragma region 敵弾と自機の当たり判定
 		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-			
+
 			bulFlag = bullet->GetAlive();
 			if (bulFlag) {
 				posA = player->GetPosition();
@@ -275,6 +318,7 @@ void GamePlayScene::CheckAllCollision()
 				if (dx < 1 && dy < 1 && dz < 1) {
 					bullet->OnCollision();
 					player->OnCollision();
+					playerLife--;
 				}
 			}
 		}
@@ -296,14 +340,15 @@ void GamePlayScene::CheckAllCollision()
 	//}
 #pragma endregion
 
-
+	playerPos = player->GetPosition();
+	player->SetPosition(playerPos);
 	//プレイヤーのHPが0になったら画面切り替え
-	if (playerLife == 0) {
+	if (playerLife == 0 || playerPos.y <= -5) {
 		//シーン切り替え
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
 	}
-	if (gameScore == 5) {
+	if (gameScore == 15) {
 		//シーン切り替え
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);

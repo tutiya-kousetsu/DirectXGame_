@@ -52,6 +52,9 @@ public:
 private:
 	
 	Sprite* sprite = nullptr;
+	Sprite* LifeSprite = nullptr;
+	Sprite* LifeSprite2 = nullptr;
+	Sprite* LifeSprite3 = nullptr;
 	Sprite* spriteBG = nullptr;
 	//Camera* camera = nullptr;
 	// ÉJÉÅÉâ
@@ -68,16 +71,19 @@ private:
 	//std::unique_ptr<PlayerBullet> playerBullet;
 	//Player* player = nullptr;
 	std::unique_ptr<Player> player;
-	Enemy* enemy[9] = {};
+	Enemy* enemy[15] = {};
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
 	XMFLOAT3 enePos;
+	XMFLOAT3 playerPos;
+	XMFLOAT2 spPos;
 	std::stringstream enemyPopCommands;
 	XMFLOAT3 bulPos;
-	int playerLife = 300;
+	int playerLife = 3;
 	int gameScore = 0;
 	float flagTimer = 0;
 	bool bulFlag = true;
-	bool flag [9] = {true,false,false,false,false,false,false,false,false };
+	int flag = 0;
+	bool eneFlag[15] = {};
 };

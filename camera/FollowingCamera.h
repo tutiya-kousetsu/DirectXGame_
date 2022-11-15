@@ -7,8 +7,10 @@ class FollowingCamera : public Camera
 public:
 	using Camera::Camera;
 
+	//コンストラクタ
 	FollowingCamera();
 
+	//プレイヤーにセットする
 	inline void SetFollowingTarget(GameObject* followingTarget) { this->followingTarget = followingTarget; }
 
 	void startUpdata()override;
@@ -16,7 +18,7 @@ public:
 private:
 	GameObject* followingTarget;
 
-	// トラッキングターゲットからのカメラの高さ
+	// ターゲットからのカメラの高さ
 	float CameraTargetHeight = 5;
 
 	XMFLOAT3 CameraTarget = { 0,5,0 };

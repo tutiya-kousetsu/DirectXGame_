@@ -115,4 +115,6 @@ void Player::OnCollision()
 		speed2 -= t;
 	}
 	object->SetPosition(position);
+
+
 }

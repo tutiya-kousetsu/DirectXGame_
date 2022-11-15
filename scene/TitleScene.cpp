@@ -26,7 +26,7 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
-	if (input->PushMouseLeft())     // マウスの左クリックが押されていたら
+	if (input->TriggerKey(DIK_SPACE))     // マウスの左クリックが押されていたら
 	{
 		//シーン切り替え
 		BaseScene* scene = new GamePlayScene();

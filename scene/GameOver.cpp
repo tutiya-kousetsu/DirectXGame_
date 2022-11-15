@@ -21,7 +21,7 @@ void GameOver::Finalize()
 void GameOver::Update()
 {
 	Input* input = Input::GetInstance();
-	if (input->TriggerKey(DIK_R))     // スペースキーが押されていたら
+	if (input->TriggerKey(DIK_SPACE))     // スペースキーが押されていたら
 	{
 		//シーン切り替え
 		BaseScene* scene = new TitleScene();

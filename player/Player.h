@@ -51,6 +51,6 @@ private:
 	float jumpSpeed = 0;
 	float speed = 7.0f;	//‘¬“x
 	float t = 0.01f;		//ŽžŠÔ
-	float speed2 = 1.55f;	//‘¬“x
+	float speed2 = 2.55f;	//‘¬“x
 };
 

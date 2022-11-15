@@ -2,7 +2,7 @@
 
 Enemy::Enemy() :Enemy(Model::LoadFromObj("BlueBox"))
 {
-	object->SetScale({ 0.65f, 0.65f, 0.65f });
+	object->SetScale({ 1.65f, 1.65f, 1.65f });
 }
 
 Enemy::~Enemy()
@@ -23,7 +23,7 @@ void Enemy::Initialize()
 	//position = { 5, 5, 5 };
 
 	// 座標の変更を反映
-	//object->SetPosition(position);
+	object->SetPosition(position);
 	}
 
 void Enemy::Update()
@@ -73,7 +73,7 @@ void Enemy::UpdateAliveFlag()
 void Enemy::Draw()
 {
 	//フラグ1で敵表示
-		if (aliveFlag == 1) {
+		if (alive) {
 			object->Draw();
 			for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 				bullet->Draw();
@@ -94,7 +94,7 @@ void Enemy::Shoot()
 
 void Enemy::OnCollision()
 {
-	aliveFlag = 0;
+	alive = false;
 }
 
 void Enemy::AccessPhase()

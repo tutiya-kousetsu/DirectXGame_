@@ -71,9 +71,9 @@ private:
 	Floor* floor = nullptr;
 	XMFLOAT3 enePos;
 	std::stringstream enemyPopCommands;
-
+	XMFLOAT3 bulPos;
 	int playerLife = 300;
 	int gameScore = 0;
-
+	float flagTimer = 0;
 	bool flag [9] = {true,false,false,false,false,false,false,false,false };
 };

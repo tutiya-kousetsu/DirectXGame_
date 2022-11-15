@@ -40,11 +40,11 @@ public:
 	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullet; }
 
 public:
-	int aliveFlag = 1;
+	//int aliveFlag = 1;
 	//Õ“Ë‚µ‚½ˆ—
-	void Hit() { aliveFlag = 0; }
+	//void Hit() { aliveFlag = 0; }
 	
-	inline bool GetFlag() { return aliveFlag; }
+	//inline bool GetFlag() { return aliveFlag; }
 
 	static const int kShootInterval = 60;
 

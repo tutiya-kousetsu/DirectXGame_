@@ -73,6 +73,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
+
 	for (auto i = 0; i < 9; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
@@ -129,13 +130,19 @@ void GamePlayScene::Update()
 	player->Update();
 	floor->Update();
 	//playerBullet->Update();
-	
-	
+
+
 	for (auto i = 0; i < 9; i++) {
-		enePos = enemy[i]->GetPosition();
-		enePos = { 5.0f * i,5.0f * i ,5 };
-		enemy[i]->SetPosition(enePos);
-		if(flag[0 + i]){ enemy[0 + i]->Update(); }
+		flag[i] = enemy[i]->GetAlive();
+		if (flag[i]) {
+			enePos = enemy[i]->GetPosition();
+			enePos = { 5.0f * i,5.0f,30 };
+			enemy[i]->SetPosition(enePos);
+			bulPos = enemyBullet->GetPos();
+			enemyBullet->SetPos(enePos);
+				
+		}
+		if (flag[i]) { enemy[i]->Update(); }
 	}
 	groundObj->Update();
 	skyObj->Update();
@@ -144,7 +151,7 @@ void GamePlayScene::Update()
 	{
 		XMFLOAT3 playerPos = player->GetPosition();
 
-		camera->SetEye({ playerPos.x, 5, playerPos.z -20 });
+		camera->SetEye({ playerPos.x, 7, playerPos.z - 20 });
 		camera->SetTarget({ playerPos.x, 0, playerPos.z + 50 });
 	}
 
@@ -180,9 +187,25 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	player->Draw();
 	//playerBullet->Draw();
 	for (auto i = 0; i < 9; i++) {
-		if (flag[i]) {
-			enemy[i]->Draw();
+		//flag[i] = enemy[i]->GetFlag();
+		flag[i] = enemy[i]->GetAlive();
+		if (flag[0] == true) {
+			enemy[0]->Draw();
 		}
+		if (flag[0] == false) {
+			flagTimer++;
+		}
+		if (flagTimer >= 300) {
+			//flag[0] = true;
+			flag[1] = true;
+		}
+
+		if (flag[1] && !flag[0] && flagTimer >= 300) {
+			enemy[1]->Draw();
+			enemy[2]->Draw();
+			//flagTimer = 0;
+		}
+		//if(!flag[1] && !flag[2])
 	}
 	skyObj->Draw();
 	//groundObj->Draw();
@@ -215,11 +238,10 @@ void GamePlayScene::CheckAllCollision()
 {
 	//îªíËÇÃëŒè€
 	XMFLOAT3 posA, posB;
-
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 	for (auto i = 0; i < 9; i++) {
-
-	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy[i]->GetBullet();
+		
+		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy[i]->GetBullet();
 #pragma region é©íeÇ∆ìGÇÃìñÇΩÇËîªíË
 		//if (enemy[i]->GetFrameFlag()) {
 		posA = enemy[i]->GetPosition();
@@ -232,7 +254,12 @@ void GamePlayScene::CheckAllCollision()
 			float dz = abs(posB.z - posA.z);
 
 			if (dx < 1 && dy < 1 && dz < 1) {
-				enemy[i]->Hit();
+				//flag[i] = enemy[i]->GetFlag();
+				//enemy[i]->Hit();
+				enemy[i]->OnCollision();
+				/*if (flag[0] == false) {
+					flag[1] = true;
+				}*/
 				bullet->OnCollision();
 			}
 		}
@@ -249,7 +276,8 @@ void GamePlayScene::CheckAllCollision()
 		float dz = abs(posB.z - posA.z);
 
 		if (dx < 1 && dy < 1 && dz < 1) {
-			enemy[i]->Hit();
+			//enemy[i]->Hit();
+			enemy[i]->OnCollision();
 			player->OnCollision();
 		}
 #pragma endregion

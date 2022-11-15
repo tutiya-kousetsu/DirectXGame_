@@ -30,7 +30,7 @@ public:
 	void OnCollision();
 
 	//’e‚ªÁ‚¦‚éŠÔ
-	UINT disappearTime = 60 * 1.5f;
+	UINT disappearTime = 40;
 
 	UINT frameNum = 0;
 	UINT power = 1;

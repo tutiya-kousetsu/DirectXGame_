@@ -47,6 +47,8 @@ private:
 	int jumpCount = 2;
 	float g = 0.25;//d—Í
 	float jumpSpeed = 0;
-
+	float speed = 1.0f;	//‘¬“x
+	float t = 0.01f;		//ŠÔ
+	float speed2 = 0.55f;	//‘¬“x
 };
 

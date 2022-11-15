@@ -15,7 +15,7 @@ void Player::Update()
 	move();
 	jump();
 
-	if (input->TriggerKey(DIK_SPACE)) {
+	if (input->TriggerMouseLeft()) {
 		Shoot();
 		/*bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 			return !bullet->GetAlive();
@@ -53,8 +53,11 @@ void Player::jump()
 	position = object->GetPosition();
 	//èdóÕ
 	position.y -= g;
-	if (position.y <= 0 && position.x <=25 && position.x >= -25
-		&& position.z <= 25 && position.z >= -25) position.y += g;
+	//è∞ÇÃîÕàÕ
+	if (position.y >= -1  && position.y <= 0 && position.x <= 25 && position.x >= -25
+		&& position.z <= 25 && position.z >= -25) {
+		position.y += g;
+	}
 
 	//ÉWÉÉÉìÉv
 	if (input->TriggerKey(DIK_SPACE) && !jumpFlag) {
@@ -102,7 +105,14 @@ void Player::Draw()
 
 void Player::OnCollision()
 {
-
+	position.z -= speed;
+	position.y += speed2;
+	//speed2 -= t;
+	if (position.y >= -1 && position.y <= 0 && position.x <= 25 && position.x >= -25
+		&& position.z <= 25 && position.z >= -25) {
+		speed2 -= t;
+	}
+	object->SetPosition(position);
 }
 
 //void Player::FloorCollision() {

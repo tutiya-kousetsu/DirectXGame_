@@ -155,7 +155,7 @@ void GamePlayScene::Update()
 		enemy[11]->Updata();
 		enemy[12]->Updata();
 		enemy[13]->Updata();
-		enemy[15]->Updata();
+		enemy[14]->Updata();
 	}
 
 
@@ -220,7 +220,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		enemy[11]->Draw();
 		enemy[12]->Draw();
 		enemy[13]->Draw();
-		enemy[15]->Draw();
+		enemy[14]->Draw();
 	}
 
 	//obstacle->Draw();
@@ -277,10 +277,9 @@ void GamePlayScene::CheckAllCollision()
 
 				if (dx < 1 && dy < 1 && dz < 1) {
 					enemy[i]->OnCollision();
-					eneFlag[i] = true;
-
 					bullet->OnCollision();
 					gameScore++;
+					eneFlag[i] = true;
 				}
 			}
 		}
@@ -348,7 +347,7 @@ void GamePlayScene::CheckAllCollision()
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
 	}
-	if (gameScore == 15) {
+	if (gameScore >= 15) {
 		//ƒV[ƒ“Ø‚è‘Ö‚¦
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);

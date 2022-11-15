@@ -15,8 +15,8 @@ void FollowingCamera::startUpdata()
 	if (followingTarget) {
 		XMFLOAT3 target = followingTarget->GetPosition();
 
-		float sinNum = sinf(XMConvertToRadians(followingTarget->GetRotation().x - 80));
-		float cosNum = cosf(XMConvertToRadians(followingTarget->GetRotation().x - 80));
+		float sinNum = sinf(XMConvertToRadians(followingTarget->GetRotation().x - 75));
+		float cosNum = cosf(XMConvertToRadians(followingTarget->GetRotation().x - 75));
 
 		// xŽ²‰ñ“]‚ð”½‰f‚µ‚½ˆÊ’u
 		XMFLOAT3 tempPosition = { 0,sinNum * CameraTargetLength ,cosNum * CameraTargetLength };

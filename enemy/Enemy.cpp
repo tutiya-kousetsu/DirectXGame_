@@ -2,7 +2,7 @@
 
 Enemy::Enemy() :Enemy(Model::LoadFromObj("BlueBox"))
 {
-	object->SetScale({ 1.65f, 1.65f, 1.65f });
+	object->SetScale({ 1.3f, 1.3f, 1.3f });
 }
 
 Enemy::~Enemy()

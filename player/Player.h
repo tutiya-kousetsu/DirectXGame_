@@ -19,7 +19,7 @@ public:
 	void Updata() override;
 
 	//ˆÚ“®
-	void move(float speed = 0.2f);
+	void move(float speed = 0.3f);
 
 	//ƒWƒƒƒ“ƒv
 	void jump();

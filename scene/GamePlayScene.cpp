@@ -20,12 +20,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 
 	//スプライトの生成
-	//sprite = Sprite::Create(1, { 0,0 }, false, false);
-	//sprite->SetPosition({ 0,0 });
+	Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
+	sprite = Sprite::Create(2, { 0,0 });
+	sprite->SetPosition({ 0,0 });
 
 	// テクスチャ2番に読み込み
-	Sprite::LoadTexture(2, L"Resources/tex1.png");
-	sprite = Sprite::Create(2, { 0.0f,0.0f });
+	/*Sprite::LoadTexture(2, L"Resources/tex1.png");
+	sprite = Sprite::Create(2, { 0.0f,0.0f });*/
 
 
 	//ポストエフェクトの初期化
@@ -49,9 +50,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera.get());
 
-	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
-	ShowCursor(FALSE);
-
+	
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
 	//カメラをセット
@@ -107,9 +106,10 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
-	// カメラをプレイヤーのX,z軸に合わせる
-
-
+	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
+	ShowCursor(FALSE);
+	// 座標の変更を反映
+	SetCursorPos(960, 540);
 	camera->SetFollowingTarget(player.get());
 	//更新
 	camera->Updata();
@@ -120,9 +120,22 @@ void GamePlayScene::Update()
 
 	for (auto i = 0; i < 9; i++) {
 		flag[i] = enemy[i]->GetAlive();
-		if (flag[i] == true) {
-			enemy[i]->Updata();
-		}
+		
+	}
+	if (flag[0] == true) {
+		enemy[0]->Updata();
+	}
+	if (flag[0] == false) {
+		flagTimer++;
+	}
+	if (flagTimer >= 300) {
+		//flag[0] = true;
+		flag[1] = true;
+	}
+
+	if (flag[1] && !flag[0] && flagTimer >= 300) {
+		enemy[1]->Updata();
+		enemy[2]->Updata();
 	}
 	skyObj->Updata();
 	obstacle->Updata();
@@ -140,7 +153,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//背景スプライト描画
 	spriteBG->Draw();
-	//sprite1->Draw();
+	
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -159,7 +172,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	player->Draw();
 	//playerBullet->Draw();
 	for (auto i = 0; i < 9; i++) {
-		//flag[i] = enemy[i]->GetFlag();
 		flag[i] = enemy[i]->GetAlive();
 		if (flag[0] == true) {
 			enemy[0]->Draw();
@@ -168,7 +180,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 			flagTimer++;
 		}
 		if (flagTimer >= 300) {
-			//flag[0] = true;
 			flag[1] = true;
 		}
 
@@ -190,7 +201,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	//sprite->Draw();
+	sprite->Draw();
 	//spriteBG->Draw();
 	// デバッグテキストの描画
 	//debugText->DrawAll(cmdList);

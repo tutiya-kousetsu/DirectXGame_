@@ -191,11 +191,11 @@
     <ClCompile Include="enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="camera\FollowingCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Obstacle.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\FollowingCamera.cpp">
+      <Filter>ソース ファイル\camera\.cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,9 +213,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PipelineSet.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="player\Player.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
@@ -300,11 +297,14 @@
     <ClInclude Include="enemy\EnemyBullet.h">
       <Filter>ソース ファイル\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="camera\FollowingCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Obstacle.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\FollowingCamera.h">
+      <Filter>ソース ファイル\camera\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineSet.h">
+      <Filter>ソース ファイル\3d\.h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

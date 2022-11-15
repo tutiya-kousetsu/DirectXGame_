@@ -1,5 +1,6 @@
 #include "Framework.h"
 #include "FbxLoader.h"
+#include "Input.h"
 
 void Framework::Run()
 {
@@ -10,6 +11,11 @@ void Framework::Run()
 	{
 		//毎フレーム更新
 		Update();
+		Input* input = Input::GetInstance();
+		if (input->PushKey(DIK_ESCAPE)) {
+			break;
+		}
+
 		//終了リクエストが来たら抜ける
 		if (IsEndRequst()) {
 			break;

@@ -255,7 +255,7 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update()
+void Object3d::Updata()
 {
 	HRESULT result;
 	XMMATRIX matScale, matRot, matTrans;

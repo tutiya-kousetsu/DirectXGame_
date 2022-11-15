@@ -165,7 +165,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Updata();
 
 	/// <summary>
 	/// 描画

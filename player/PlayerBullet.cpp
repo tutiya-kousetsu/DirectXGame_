@@ -6,6 +6,7 @@ PlayerBullet::PlayerBullet() :PlayerBullet(Model::LoadFromObj("sphere"))
 {
 	//データ読み込み
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
+
 }
 
 void PlayerBullet::Initialize(XMFLOAT3 pos)
@@ -14,15 +15,19 @@ void PlayerBullet::Initialize(XMFLOAT3 pos)
 	position = pos;
 }
 
-void PlayerBullet::Update()
+void PlayerBullet::Updata()
 {
-	if (disappearTime < ++frameNum) {
+	if (disappearTime <= ++frameNum) {
 		alive = false;
 	}
 	//奥に進むよ
 	//if (input->TriggerKey(DIK_SPACE)) {
 		//apower++;
+	if (alive) {
+
 		position.z++;
+	}
+
 	//}
 	/*if (power == 1) {
 		position.z++;
@@ -37,7 +42,7 @@ void PlayerBullet::Update()
 	//動かした値をゲームオブジェクトに渡すよ
 	object->SetPosition(position);
 	//ゲームオブジェクト更新
-	object->Update();
+	object->Updata();
 }
 
 void PlayerBullet::Draw()

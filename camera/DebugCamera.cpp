@@ -14,11 +14,11 @@ DebugCamera::DebugCamera(int window_width, int window_height)
 	scaleY = 1.0f / (float)window_height;
 }
 
-void DebugCamera::Update()
+void DebugCamera::Updata()
 {
 	bool dirty = false;
 	float angleX = 0;
 	float angleY = 0;
 
-	Camera::Update();
+	Camera::Updata();
 }

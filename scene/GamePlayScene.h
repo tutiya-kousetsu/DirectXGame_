@@ -14,6 +14,8 @@
 #include "GameOver.h"
 #include "GameClear.h"
 #include "Floor/Floor.h"
+#include "Obstacle.h"
+#include "FollowingCamera.h"
 #include <memory>
 #include <sstream>
 /// <summary>
@@ -50,21 +52,22 @@ public:
 private:
 	
 	Sprite* sprite = nullptr;
-	Sprite* sprite1 = nullptr;
 	Sprite* spriteBG = nullptr;
-	Camera* camera = nullptr;
+	//Camera* camera = nullptr;
+	// ÉJÉÅÉâ
+	std::unique_ptr<FollowingCamera> camera;
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
 	PostEffect* postEffect[2] = {};
 
-	Object3d* groundObj = nullptr;
-	Model* groundModel = nullptr;
+	Obstacle* obstacle = nullptr;
 
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 
 	//std::unique_ptr<PlayerBullet> playerBullet;
-	Player* player = nullptr;
+	//Player* player = nullptr;
+	std::unique_ptr<Player> player;
 	Enemy* enemy[9] = {};
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
@@ -75,5 +78,6 @@ private:
 	int playerLife = 300;
 	int gameScore = 0;
 	float flagTimer = 0;
+	bool bulFlag = true;
 	bool flag [9] = {true,false,false,false,false,false,false,false,false };
 };

@@ -2,6 +2,7 @@
 #include "Object3d.h"
 #include "PlayerBullet.h"
 #include "GameObject.h"
+
 #include <memory>
 #include <list>
 
@@ -15,7 +16,7 @@ public:
 	//コンストラクタ
 	Player();
 	//更新
-	void Update() override;
+	void Updata() override;
 
 	//移動
 	void move(float speed = 0.2f);
@@ -32,14 +33,15 @@ public:
 	//衝突時に呼び出される関数
 	void OnCollision();
 
-	void FloorCollision();
-
 	//弾リスト取得
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
 private:
+
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
+	bool bulFlag = true;
 	XMFLOAT3 position;
+	XMFLOAT3 rotation;
 	XMFLOAT3 bulPos;
 	// ジャンプ
 	bool jumpFlag = false;
@@ -47,8 +49,8 @@ private:
 	int jumpCount = 2;
 	float g = 0.25;//重力
 	float jumpSpeed = 0;
-	float speed = 1.0f;	//速度
+	float speed = 7.0f;	//速度
 	float t = 0.01f;		//時間
-	float speed2 = 0.55f;	//速度
+	float speed2 = 1.55f;	//速度
 };
 

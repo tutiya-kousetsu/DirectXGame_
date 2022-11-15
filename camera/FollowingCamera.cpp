@@ -10,16 +10,16 @@ FollowingCamera::FollowingCamera() :Camera(WinApp::window_width, WinApp::window_
 
 }
 
-void FollowingCamera::startUpdate()
+void FollowingCamera::startUpdata()
 {
 	if (followingTarget) {
 		XMFLOAT3 target = followingTarget->GetPosition();
 
-		float sinNum = sinf(XMConvertToRadians(followingTarget->GetRotation().x + 20));
-		float cosNum = cosf(XMConvertToRadians(followingTarget->GetRotation().x + 20));
+		float sinNum = sinf(XMConvertToRadians(followingTarget->GetRotation().x - 80));
+		float cosNum = cosf(XMConvertToRadians(followingTarget->GetRotation().x - 80));
 
 		// x軸回転を反映した位置
-		XMFLOAT3 tempPosition = { 0,sinNum * CameraTargetLength ,-cosNum * CameraTargetLength };
+		XMFLOAT3 tempPosition = { 0,sinNum * CameraTargetLength ,cosNum * CameraTargetLength };
 
 		sinNum = sinf(XMConvertToRadians(-followingTarget->GetRotation().y));
 		cosNum = cosf(XMConvertToRadians(-followingTarget->GetRotation().y));
@@ -40,9 +40,9 @@ void FollowingCamera::startUpdate()
 		XMFLOAT3 old = GetEye();
 		// 移動幅 = 移動後の座標 - 移動前の座標
 		XMFLOAT3 velocity =
-		{ (eye.x - old.x) * 0.3f,
+		{ (eye.x - old.x) * 1.5f,
 		(eye.y - old.y) * 0.3f,
-		(eye.z - old.z) * 0.3f };
+		(eye.z - old.z) * 1.5f };
 		// 移動後の座標 = 移動前の座標 + 移動幅
 		eye = { old.x + velocity.x,old.y + velocity.y ,old.z + velocity.z };
 		// 移動後の座標を適用

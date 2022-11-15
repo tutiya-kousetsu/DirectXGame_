@@ -21,7 +21,7 @@ public:
 	void Initialize();
 
 	//çXêV
-	void Update() override;
+	void Updata() override;
 
 	void UpdateAliveFlag();
 
@@ -63,6 +63,7 @@ private:
 	XMFLOAT3 position; 
 	std::list<std::unique_ptr<Object3d>> enemy;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
+	bool bulFlag = true;
 	//std::unique_ptr<Object3d>enemyObj;
 };
 

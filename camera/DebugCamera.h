@@ -18,7 +18,7 @@ public:
 	DebugCamera(int window_width, int window_height);
 
 	// XV
-	void Update() override;
+	void Updata() override;
 
 	void SetDistance(float distance) {
 		this->distance = distance; viewDirty = true;

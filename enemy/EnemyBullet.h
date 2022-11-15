@@ -16,7 +16,7 @@ public:
 
 	void Initialize(XMFLOAT3 pos);
 
-	void Update() override;
+	void Updata() override;
 
 	//•`‰æ
 	void Draw() override;

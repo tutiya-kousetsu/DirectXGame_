@@ -16,7 +16,7 @@ public:
 
 	void Initialize(XMFLOAT3 pos);
 
-	void Update() override;
+	void Updata() override;
 
 	//•`‰æ
 	void Draw() override;
@@ -30,8 +30,8 @@ public:
 	void OnCollision();
 
 	//’e‚ªÁ‚¦‚éŠÔ
-	UINT disappearTime = 40;
-
+	UINT disappearTime = 25;
+	
 	UINT frameNum = 0;
 	UINT power = 1;
 private:

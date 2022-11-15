@@ -15,33 +15,37 @@ void Enemy::Initialize()
 	AccessPhase();
 
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
-	//position = object->GetPosition();
-	//int x = rand() % 400;
-	//float x2 = (float)x / 10 - 20;//10`-10‚Ì”ÍˆÍ
-	//int y = rand() % 70;
-	//float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	//position = { 5, 5, 5 };
+	position = object->GetPosition();
+	int x = rand() % 400;
+	float x2 = (float)x / 10 - 20;//10`-10‚Ì”ÍˆÍ
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	position = { x2, y2, 30 };
 
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
-	}
+}
 
-void Enemy::Update()
+void Enemy::Updata()
 {
-	shootTimer--;
+	if (alive) {
+		shootTimer--;
+		if (shootTimer < 0) {
+			Shoot();
 
-	if (shootTimer < 0) {
-		Shoot();
-
-		shootTimer = kShootInterval;
+			shootTimer = kShootInterval;
+			for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+				bullet->SetPosition(position);
+			}
+		}
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->SetPos(position);
+			bulFlag = bullet->GetAlive();
+			if (bulFlag) {
+				bullet->Updata();
+			}
 		}
 	}
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-		bullet->Update();
-	}
-	object->Update();
+	object->Updata();
 }
 
 void Enemy::UpdateAliveFlag()
@@ -95,6 +99,10 @@ void Enemy::Shoot()
 void Enemy::OnCollision()
 {
 	alive = false;
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		bulFlag = bullet->GetAlive();
+		bulFlag = false;
+	}
 }
 
 void Enemy::AccessPhase()

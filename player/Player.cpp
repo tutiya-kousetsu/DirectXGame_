@@ -1,14 +1,15 @@
 #include "Player.h"
 #include "Input.h"
 
-Player::Player() :Player(Model::LoadFromObj("chr_sword"))
+Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
 {
 	//ƒf[ƒ^“Ç‚Ýž‚Ý
-	object->SetScale({ 2.5f, 2.5f, 1.5f });
+	object->SetScale({ 1.35f, 1.35f, 1.35f });
+	object->SetPosition({ 0, 5.0f, 0 });
 }
 
 
-void Player::Update()
+void Player::Updata()
 {
 	Input* input = Input::GetInstance();
 
@@ -25,9 +26,9 @@ void Player::Update()
 	
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Update();
+		bullet->Updata();
 	}
-	object->Update();
+	object->Updata();
 }
 
 void Player::move(float speed)
@@ -41,9 +42,10 @@ void Player::move(float speed)
 	if (input->PushKey(DIK_A)) { position.x -= speed; }
 	if (input->PushKey(DIK_W)) { position.z += speed; }
 	if (input->PushKey(DIK_S)) { position.z -= speed; }
-
+	if (input->PushKey(DIK_RIGHT)) { rotation.y += speed +1; }
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
+	object->SetRotation(rotation);
 }
 
 void Player::jump()
@@ -53,7 +55,7 @@ void Player::jump()
 	position = object->GetPosition();
 	//d—Í
 	position.y -= g;
-	//°‚Ì”ÍˆÍ
+	//°‚Ì”ÍˆÍ 
 	if (position.y >= -1  && position.y <= 0 && position.x <= 25 && position.x >= -25
 		&& position.z <= 25 && position.z >= -25) {
 		position.y += g;
@@ -86,6 +88,7 @@ void Player::Shoot()
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		//‰Šú‰»s‚­‚æ
 		newBullet->Initialize(position);
+		
 		//’e‚ð“o˜^‚·‚é
 		bullets.push_back(std::move(newBullet));
 
@@ -108,13 +111,8 @@ void Player::OnCollision()
 	position.z -= speed;
 	position.y += speed2;
 	//speed2 -= t;
-	if (position.y >= -1 && position.y <= 0 && position.x <= 25 && position.x >= -25
-		&& position.z <= 25 && position.z >= -25) {
+	if (position.y >= -1 && position.y <= 0 ) {
 		speed2 -= t;
 	}
 	object->SetPosition(position);
 }
-
-//void Player::FloorCollision() {
-//	jumpFlag = false;
-//}

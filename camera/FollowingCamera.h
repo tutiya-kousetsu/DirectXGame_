@@ -11,7 +11,7 @@ public:
 
 	inline void SetFollowingTarget(GameObject* followingTarget) { this->followingTarget = followingTarget; }
 
-	void startUpdate()override;
+	void startUpdata()override;
 
 private:
 	GameObject* followingTarget;

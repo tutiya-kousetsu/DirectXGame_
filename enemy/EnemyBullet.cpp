@@ -14,17 +14,20 @@ void EnemyBullet::Initialize(XMFLOAT3 pos)
 	position = pos;
 }
 
-void EnemyBullet::Update()
+void EnemyBullet::Updata()
 {
 	if (disappearTime < ++frameNum) {
 		alive = false;
 	}
-	//奥に進むよ
-	position.z--;
-	//敵が動いた値をゲームオブジェクトに渡すよ
+
+	if (alive) {
+		position.z--;
+	
+	//敵が動いた値をゲームオブジェクトに渡す
 	object->SetPosition(position);
 	//ゲームオブジェクト更新
-	object->Update();
+	object->Updata();
+	}
 }
 
 void EnemyBullet::Draw()

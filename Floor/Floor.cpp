@@ -5,12 +5,12 @@ Floor::Floor() :Floor(Model::LoadFromObj("FloorBox"))
 	object->SetScale({ 15.0f, 5.0f, 15.0f });
 }
 
-void Floor::Update()
+void Floor::Updata()
 {
 	position = object->GetPosition();
-	position = {0,-16.3f,0};
+	position = {0,-18.5f,0};
 	object->SetPosition(position);
-	object->Update();
+	object->Updata();
 }
 
 void Floor::Draw()

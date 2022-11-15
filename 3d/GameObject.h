@@ -29,7 +29,7 @@ public:
 
 	GameObject(Model* model,const DirectX::XMFLOAT3& position = { 0,0,0 });
 
-	virtual void Update();
+	virtual void Updata();
 
 	virtual void Draw();
 

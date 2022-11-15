@@ -249,6 +249,7 @@
     <ClCompile Include="Floor\Floor.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="Floor\Floor.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PipelineSet.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="player\PlayerBullet.h" />

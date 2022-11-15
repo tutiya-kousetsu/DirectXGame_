@@ -31,7 +31,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	virtual void Update();
+	virtual void Updata();
 
 	/// <summary>
 	/// ビュー行列を更新
@@ -142,7 +142,7 @@ public: // メンバ関数
 	void MoveVector(const XMVECTOR& move);
 
 protected: // メンバ変数
-	virtual void startUpdate() {};
+	virtual void startUpdata() {};
 
 	XMMATRIX matViewPort = DirectX::XMMatrixIdentity();
 

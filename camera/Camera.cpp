@@ -135,10 +135,10 @@ void Camera::UpdateProjectionMatrix()
 	);
 }
 
-void Camera::MoveEyeVector(const XMVECTOR& move)
+void Camera::MoveEyeVector(const XMFLOAT3& move)
 {
 	// 視点座標を移動し、反映
-	XMVECTOR eye_moved = GetEye();
+	XMFLOAT3 eye_moved = GetEye();
 
 	eye_moved.x += move.x;
 	eye_moved.y += move.y;
@@ -150,7 +150,7 @@ void Camera::MoveEyeVector(const XMVECTOR& move)
 void Camera::MoveEyeVector(const XMVECTOR& move)
 {
 	// 視点座標を移動し、反映
-	XMVECTOR eye_moved = GetEye();
+	XMFLOAT3 eye_moved = GetEye();
 
 	eye_moved.x += move.m128_f32[0];
 	eye_moved.y += move.m128_f32[1];
@@ -159,11 +159,11 @@ void Camera::MoveEyeVector(const XMVECTOR& move)
 	SetEye(eye_moved);
 }
 
-void Camera::MoveVector(const XMVECTOR& move)
+void Camera::MoveVector(const XMFLOAT3& move)
 {
 	// 視点と注視点座標を移動し、反映
-	XMVECTOR eye_moved = GetEye();
-	XMVECTOR target_moved = GetTarget();
+	XMFLOAT3 eye_moved = GetEye();
+	XMFLOAT3 target_moved = GetTarget();
 
 	eye_moved.x += move.x;
 	eye_moved.y += move.y;
@@ -180,8 +180,8 @@ void Camera::MoveVector(const XMVECTOR& move)
 void Camera::MoveVector(const XMVECTOR& move)
 {
 	// 視点と注視点座標を移動し、反映
-	XMVECTOR eye_moved = GetEye();
-	XMVECTOR target_moved = GetTarget();
+	XMFLOAT3 eye_moved = GetEye();
+	XMFLOAT3 target_moved = GetTarget();
 
 	eye_moved.x += move.m128_f32[0];
 	eye_moved.y += move.m128_f32[1];

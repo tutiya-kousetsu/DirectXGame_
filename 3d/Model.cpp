@@ -142,8 +142,8 @@ void Model::LoadFromOBJInternal(const std::string& modelname)
 		assert(0);
 	}
 
-	std::vector<XMVECTOR>positions;//頂点座標
-	std::vector<XMVECTOR>normals;//法線ベクトル
+	std::vector<XMFLOAT3>positions;//頂点座標
+	std::vector<XMFLOAT3>normals;//法線ベクトル
 	std::vector<XMFLOAT2>texcoords;//テクスチャUV
 	//1行ずつ読み込む
 
@@ -158,7 +158,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname)
 		//先頭文字がvなら頂点座標
 		if (key == "v") {
 			//X,Y,Z座標読み込み
-			XMVECTOR position{};
+			XMFLOAT3 position{};
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
@@ -184,7 +184,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname)
 		//先頭文字列がvnなら法線ベクトル
 		if (key == "vn") {
 			//XYZ成分読み込み
-			XMVECTOR normal{};
+			XMFLOAT3 normal{};
 			line_stream >> normal.x;
 			line_stream >> normal.y;
 			line_stream >> normal.z;

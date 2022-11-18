@@ -19,9 +19,9 @@ ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 XMMATRIX Object3d::matView{};
 XMMATRIX Object3d::matProjection{};
-XMVECTOR Object3d::eye = { 0, 5.0f, -50.0f };
-XMVECTOR Object3d::target = { 0, 0, 0 };
-XMVECTOR Object3d::up = { 0, 1, 0 };
+XMFLOAT3 Object3d::eye = { 0, 5.0f, -50.0f };
+XMFLOAT3 Object3d::target = { 0, 0, 0 };
+XMFLOAT3 Object3d::up = { 0, 1, 0 };
 Object3d::PipelineSet Object3d::pipelineSet;
 Camera* Object3d::camera = nullptr;
 
@@ -281,7 +281,7 @@ void Object3d::Updata()
 	}
 
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
-	const XMVECTOR& cameraPos = camera->GetEye();
+	const XMFLOAT3& cameraPos = camera->GetEye();
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;

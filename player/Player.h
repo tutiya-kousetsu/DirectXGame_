@@ -40,10 +40,9 @@ private:
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	bool bulFlag = true;
-	XMVECTOR position;
-	//XMVECTOR velocity;
-	XMVECTOR rotation;
-	XMVECTOR bulPos;
+	XMFLOAT3 position;
+	XMFLOAT3 rotation;
+	XMFLOAT3 bulPos;
 	// ƒWƒƒƒ“ƒv
 	bool jumpFlag = false;
 	bool secondFlag = false;

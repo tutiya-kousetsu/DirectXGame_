@@ -18,19 +18,19 @@ public:
 	// 頂点データ構造体
 	struct VertexPosNormalUv
 	{
-		DirectX::XMVECTOR pos; // xyz座標
-		DirectX::XMVECTOR normal; // 法線ベクトル
+		DirectX::XMFLOAT3 pos; // xyz座標
+		DirectX::XMFLOAT3 normal; // 法線ベクトル
 		DirectX::XMFLOAT2 uv;  // uv座標
 	};
 
 	//定数バッファ用データ構造体B1
 	struct ConstBufferDataB1
 	{
-		DirectX::XMVECTOR ambient;
+		DirectX::XMFLOAT3 ambient;
 		float pad1;
-		DirectX::XMVECTOR diffuse;
+		DirectX::XMFLOAT3 diffuse;
 		float pad2;
-		DirectX::XMVECTOR specular;
+		DirectX::XMFLOAT3 specular;
 		float alpha;
 	};
 
@@ -38,9 +38,9 @@ public:
 	struct Material
 	{
 		std::string name;//マテリアル名
-		DirectX::XMVECTOR ambient;//アンビエント影響度
-		DirectX::XMVECTOR diffuse;//ディヒューズ影響度
-		DirectX::XMVECTOR specular;//スペキュラ影響度
+		DirectX::XMFLOAT3 ambient;//アンビエント影響度
+		DirectX::XMFLOAT3 diffuse;//ディヒューズ影響度
+		DirectX::XMFLOAT3 specular;//スペキュラ影響度
 		float alpha;//
 		std::string textureFilename;//テクスチャファイル名
 		//コンストラクタ

@@ -9,25 +9,24 @@ PlayerBullet::PlayerBullet() :PlayerBullet(Model::LoadFromObj("sphere"))
 
 }
 
-void PlayerBullet::Initialize(const XMVECTOR& pos, const XMVECTOR& velocity)
+void PlayerBullet::Initialize(XMFLOAT3 pos)
 {
 	//プレイヤーの座標渡すよ
 	position = pos;
-	this->velocity = velocity;
 }
 
 void PlayerBullet::Updata()
 {
-	/*if (disappearTime <= ++frameNum) {
+	if (disappearTime <= ++frameNum) {
 		alive = false;
-	}*/
+	}
 	//奥に進むよ
 	//if (input->TriggerKey(DIK_SPACE)) {
-	//	//apower++;
-	//if (alive) {
+		//apower++;
+	if (alive) {
 
-	//	position.z++;
-	//}
+		position.z++;
+	}
 
 	//}
 	/*if (power == 1) {

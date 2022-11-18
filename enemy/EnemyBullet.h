@@ -14,15 +14,15 @@ public:
 	//コンストラクタ
 	EnemyBullet();
 
-	void Initialize(XMVECTOR pos);
+	void Initialize(XMFLOAT3 pos);
 
 	void Updata() override;
 
 	//描画
 	void Draw() override;
 
-	const DirectX::XMVECTOR& GetPos() const { return object->GetPosition(); }
-  	void SetPos(const XMVECTOR& pos) { this->position = pos; }
+	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
+  	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
 
 	//衝突時に呼び出される関数
 	void OnCollision();
@@ -33,6 +33,6 @@ public:
 	UINT frameNum = 0;
 	UINT power = 1;
 private:
-	XMVECTOR position;
+	XMFLOAT3 position;
 };
 

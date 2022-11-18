@@ -16,5 +16,5 @@ public:
 	void Draw() override;
 
 private:
-	XMVECTOR position;
+	XMFLOAT3 position;
 };

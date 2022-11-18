@@ -15,7 +15,7 @@ private: // エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMVECTOR = DirectX::XMVECTOR;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
@@ -25,7 +25,7 @@ public: // サブクラス
 	/// </summary>
 	struct VertexPosUv
 	{
-		XMVECTOR pos; // xyz座標
+		XMFLOAT3 pos; // xyz座標
 		XMFLOAT2 uv;  // uv座標
 	};
 

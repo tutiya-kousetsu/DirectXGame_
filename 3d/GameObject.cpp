@@ -2,7 +2,7 @@
 
 using namespace DirectX;
 
-GameObject::GameObject(Model* model, const DirectX::XMVECTOR& position) :object(std::move(Object3d::Create()))
+GameObject::GameObject(Model* model, const DirectX::XMFLOAT3& position) :object(std::move(Object3d::Create()))
 {
 	object->SetModel(model);
 	object->SetPosition(position);

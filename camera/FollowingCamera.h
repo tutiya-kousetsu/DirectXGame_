@@ -21,7 +21,7 @@ private:
 	// ターゲットからのカメラの高さ
 	float CameraTargetHeight = 5;
 
-	XMVECTOR CameraTarget = { 0,5,0 };
+	XMFLOAT3 CameraTarget = { 0,5,0 };
 
 	// カメラの視点から注視点までの距離
 	float CameraTargetLength = 20;

@@ -10,7 +10,7 @@ class Camera
 protected: // エイリアス
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMVECTOR = DirectX::XMVECTOR;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
@@ -83,7 +83,7 @@ public: // メンバ関数
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	inline const XMVECTOR& GetEye() {
+	inline const XMFLOAT3& GetEye() {
 		return eye;
 	}
 
@@ -91,7 +91,7 @@ public: // メンバ関数
 	/// 視点座標の設定
 	/// </summary>
 	/// <param name="eye">座標</param>
-	inline void SetEye(XMVECTOR eye) {
+	inline void SetEye(XMFLOAT3 eye) {
 		this->eye = eye; viewDirty = true;
 	}
 
@@ -99,7 +99,7 @@ public: // メンバ関数
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	inline const XMVECTOR& GetTarget() {
+	inline const XMFLOAT3& GetTarget() {
 		return target;
 	}
 
@@ -107,7 +107,7 @@ public: // メンバ関数
 	/// 注視点座標の設定
 	/// </summary>
 	/// <param name="target">座標</param>
-	inline void SetTarget(XMVECTOR target) {
+	inline void SetTarget(XMFLOAT3 target) {
 		this->target = target; viewDirty = true;
 	}
 
@@ -115,7 +115,7 @@ public: // メンバ関数
 	/// 上方向ベクトルの取得
 	/// </summary>
 	/// <returns>上方向ベクトル</returns>
-	inline const XMVECTOR& GetUp() {
+	inline const XMFLOAT3& GetUp() {
 		return up;
 	}
 
@@ -123,7 +123,7 @@ public: // メンバ関数
 	/// 上方向ベクトルの設定
 	/// </summary>
 	/// <param name="up">上方向ベクトル</param>
-	inline void SetUp(XMVECTOR up) {
+	inline void SetUp(XMFLOAT3 up) {
 		this->up = up; viewDirty = true;
 	}
 
@@ -131,14 +131,14 @@ public: // メンバ関数
 	/// ベクトルによる視点移動
 	/// </summary>
 	/// <param name="move">移動量</param>
-	void MoveEyeVector(const XMVECTOR& move);
+	void MoveEyeVector(const XMFLOAT3& move);
 	void MoveEyeVector(const XMVECTOR& move);
 
 	/// <summary>
 	/// ベクトルによる移動
 	/// </summary>
 	/// <param name="move">移動量</param>
-	void MoveVector(const XMVECTOR& move);
+	void MoveVector(const XMFLOAT3& move);
 	void MoveVector(const XMVECTOR& move);
 
 protected: // メンバ変数
@@ -161,11 +161,11 @@ protected: // メンバ変数
 	// 射影行列ダーティフラグ
 	bool projectionDirty = false;
 	// 視点座標
-	XMVECTOR eye = { 0, 0, -20 };
+	XMFLOAT3 eye = { 0, 0, -20 };
 	// 注視点座標
-	XMVECTOR target = { 0, 0, 0 };
+	XMFLOAT3 target = { 0, 0, 0 };
 	// 上方向ベクトル
-	XMVECTOR up = { 0, 1, 0 };
+	XMFLOAT3 up = { 0, 1, 0 };
 	// アスペクト比
 	float aspectRatio = 1.0f;
 };

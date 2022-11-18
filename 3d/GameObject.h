@@ -16,18 +16,18 @@ public:
 	inline bool GetAlive() const { return  alive; }
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
-	inline void SetPosition(const DirectX::XMVECTOR& position) { object->SetPosition(position); }
-	inline const DirectX::XMVECTOR& GetPosition() const { return object->GetPosition(); }
+	inline void SetPosition(const DirectX::XMFLOAT3& position) { object->SetPosition(position); }
+	inline const DirectX::XMFLOAT3& GetPosition() const { return object->GetPosition(); }
 
-	inline void SetScale(const DirectX::XMVECTOR& scale) { object->SetScale(scale); }
-	inline const DirectX::XMVECTOR& GetScale() const { return object->GetScale(); }
+	inline void SetScale(const DirectX::XMFLOAT3& scale) { object->SetScale(scale); }
+	inline const DirectX::XMFLOAT3& GetScale() const { return object->GetScale(); }
 
-	inline void SetRotation(const DirectX::XMVECTOR& rotation) { object->SetRotation(rotation); }
-	inline const DirectX::XMVECTOR& GetRotation() const { return object->GetRotation(); }
+	inline void SetRotation(const DirectX::XMFLOAT3& rotation) { object->SetRotation(rotation); }
+	inline const DirectX::XMFLOAT3& GetRotation() const { return object->GetRotation(); }
 
 	inline const DirectX::XMMATRIX& GetMatRotation() const { return object->GetMatRot(); }
 
-	GameObject(Model* model,const DirectX::XMVECTOR& position = { 0,0,0 });
+	GameObject(Model* model,const DirectX::XMFLOAT3& position = { 0,0,0 });
 
 	virtual void Updata();
 

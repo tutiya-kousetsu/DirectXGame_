@@ -36,14 +36,13 @@ void Player::move(float speed)
 	Input* input = Input::GetInstance();
 	// 現在の座標を取得
 	position = object->GetPosition();
-	//XMVECTOR rotation = playerObj->GetRotation();
+	//XMFLOAT3 rotation = playerObj->GetRotation();
 	// 移動後の座標を計算
-	if (input->PushKey(DIK_D)) { position.m128_f32[0] += speed; }
-	if (input->PushKey(DIK_A)) { position.m128_f32[0] -= speed; }
-	if (input->PushKey(DIK_W)) { position.m128_f32[2] += speed; }
-	if (input->PushKey(DIK_S)) { position.m128_f32[2] -= speed; }
+	if (input->PushKey(DIK_D)) { position.x += speed; }
+	if (input->PushKey(DIK_A)) { position.x -= speed; }
+	if (input->PushKey(DIK_W)) { position.z += speed; }
+	if (input->PushKey(DIK_S)) { position.z -= speed; }
 	if (input->PushKey(DIK_RIGHT)) { rotation.y += speed +1; }
-	if(input->PushKey(DIK_LEFT)) { rotation.y -= speed + 1; }
 	// 座標の変更を反映
 	object->SetPosition(position);
 	object->SetRotation(rotation);
@@ -55,12 +54,11 @@ void Player::jump()
 	// 現在の座標を取得
 	position = object->GetPosition();
 	//重力
-	position.m128_f32[1] -= g;
+	position.y -= g;
 	//床の範囲 
-	if (position.m128_f32[1] >= -1  && position.m128_f32[1] <= 0 &&
-		position.m128_f32[0] <= 25 && position.m128_f32[0] >= -25 &&
-		position.m128_f32[2] <= 25 && position.m128_f32[2] >= -25) {
-		position.m128_f32[1] += g;
+	if (position.y >= -1  && position.y <= 0 && position.x <= 25 && position.x >= -25
+		&& position.z <= 25 && position.z >= -25) {
+		position.y += g;
 	}
 
 	//ジャンプ
@@ -71,7 +69,7 @@ void Player::jump()
 	}
 	//ジャンプフラグが1になったら
 	if (jumpFlag) {
-		position.m128_f32[1] += jumpSpeed;
+		position.y += jumpSpeed;
 		//ジャンプの速度を0.04ずつ下げていく
 		jumpSpeed -= 0.04f;
 	}
@@ -86,13 +84,10 @@ void Player::jump()
 
 void Player::Shoot() 
 {
-	const float kBulletSpeed = 1.0f;
-	XMVECTOR velocity(0, 0, kBulletSpeed);
-
 	//コンストラクタ呼ぶよ
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		//初期化行くよ
-		newBullet->Initialize(position, velocity);
+		newBullet->Initialize(position);
 		
 		//弾を登録する
 		bullets.push_back(std::move(newBullet));
@@ -113,10 +108,10 @@ void Player::Draw()
 
 void Player::OnCollision()
 {
-	position.m128_f32[2] -= speed;
-	position.m128_f32[1] += speed2;
+	position.z -= speed;
+	position.y += speed2;
 	//speed2 -= t;
-	if (position.m128_f32[1] >= -1 && position.m128_f32[1] <= 0 ) {
+	if (position.y >= -1 && position.y <= 0 ) {
 		speed2 -= t;
 	}
 	object->SetPosition(position);

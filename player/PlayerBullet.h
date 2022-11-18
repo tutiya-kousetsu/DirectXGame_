@@ -14,15 +14,15 @@ public:
 	//コンストラクタ
 	PlayerBullet();
 
-	void Initialize(const XMVECTOR& pos, const XMVECTOR& velocity);
+	void Initialize(XMFLOAT3 pos);
 
 	void Updata() override;
 
 	//描画
 	void Draw() override;
 	
-	const DirectX::XMVECTOR& GetPos() const { return object->GetPosition(); }
-	void SetPos(const XMVECTOR& pos) { this->position = pos; }
+	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
+	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
 
 	inline bool DisappearFlag() { return alive = false; }
 
@@ -35,7 +35,6 @@ public:
 	UINT frameNum = 0;
 	UINT power = 1;
 private:
-	XMVECTOR position;
-	XMVECTOR velocity;
+	XMFLOAT3 position;
 };
 

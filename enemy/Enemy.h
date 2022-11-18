@@ -33,8 +33,8 @@ public:
 	//Õ“ËŽž‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
 	void OnCollision();
 
-	//inline XMFLOAT3 GetPosition() { return enemyObj->GetPosition(); }
-	//XMFLOAT3 frameGetPos() { return frameObj->GetPosition(); }
+	//inline XMVECTOR GetPosition() { return enemyObj->GetPosition(); }
+	//XMVECTOR frameGetPos() { return frameObj->GetPosition(); }
 
 	//’eƒŠƒXƒgŽæ“¾
 	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullet; }
@@ -60,7 +60,7 @@ private:
 	//Model* frameModel = nullptr;
 	//Object3d* enemyObj = nullptr;
 	//Object3d* frameObj = nullptr;
-	XMFLOAT3 position; 
+	XMVECTOR position; 
 	std::list<std::unique_ptr<Object3d>> enemy;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;

@@ -33,7 +33,7 @@ private://エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMVECTOR = DirectX::XMVECTOR;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 	using TexMetadata = DirectX::TexMetadata;
@@ -54,8 +54,8 @@ public://サブクラス
 	//頂点データ構造体
 	struct VertexPosNormalUvSkin
 	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 normal;
+		DirectX::XMVECTOR pos;
+		DirectX::XMVECTOR normal;
 		DirectX::XMFLOAT2 uv;
 		UINT boneIndex[MAX_BONE_INDICES];//影響を受けるボーン番号
 		float boneWeight[MAX_BONE_INDICES];//ボーン重み
@@ -107,9 +107,9 @@ private://メンバ変数
 	//ボーン配列
 	std::vector<Bone> bones;
 	//アンビエント係数
-	DirectX::XMFLOAT3 ambient = { 1, 1, 1 };
+	DirectX::XMVECTOR ambient = { 1, 1, 1 };
 	//ディフューズ係数
-	DirectX::XMFLOAT3 diffuse = { 1, 1, 1 };
+	DirectX::XMVECTOR diffuse = { 1, 1, 1 };
 	//テクスチャメタデータ
 	DirectX::TexMetadata metadata = {};
 	//スクラッチイメージ

@@ -16,7 +16,7 @@ protected://エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMVECTOR = DirectX::XMVECTOR;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
@@ -30,7 +30,7 @@ public://サブクラス
 	{
 		XMMATRIX viewproj;	//ビュープロジェクション行列
 		XMMATRIX world;		//ワールド行列
-		XMFLOAT3 cameraPos;	//カメラ座標
+		XMVECTOR cameraPos;	//カメラ座標
 	};
 
 	//定数バッファ用データ構造体(スキニング)
@@ -92,18 +92,18 @@ public://静的メンバ関数
 	/// <param name="model">モデル</param>
 	void SetModel(Fbx_Model* fbx_model) { this->fbx_model = fbx_model; }
 
-	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+	void SetRotation(XMVECTOR rotation) { this->rotation = rotation; }
 private://静的メンバ変数
 	// コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
 	//定数バッファ(スキン)
 	ComPtr<ID3D12Resource> constBuffSkin;
 	//ローカルスケール
-	XMFLOAT3 scale = { 1, 1, 1 };
+	XMVECTOR scale = { 1, 1, 1 };
 	//x, y, z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0, 0, 0 };
+	XMVECTOR rotation = { 0, 0, 0 };
 	//ローカル座標
-	XMFLOAT3 position = { 0, 0, 0 };
+	XMVECTOR position = { 0, 0, 0 };
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
 	//ルートシグネチャ

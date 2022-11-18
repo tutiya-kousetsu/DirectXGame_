@@ -234,7 +234,7 @@ void Fbx_Object3d::Update()
 	//モデルのメッシュトランスフォーム
 	const XMMATRIX& modelTransform = fbx_model->GetModelTransform();
 	//カメラ座標
-	const XMFLOAT3& cameraPos = camera->GetEye();
+	const XMVECTOR& cameraPos = camera->GetEye();
 
 	HRESULT result;
 	//定数バッファへのデータ転送

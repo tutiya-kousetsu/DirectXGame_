@@ -127,7 +127,7 @@ void GamePlayScene::Update()
 	//playerBullet->Update();
 
 
-	for (auto i = 0; i < 9; i++) {
+	for (auto i = 0; i < 14; i++) {
 		//enemy[i]->Updata();
 
 	}
@@ -150,14 +150,13 @@ void GamePlayScene::Update()
 		enemy[8]->Updata();
 		enemy[9]->Updata();
 	}
-	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
+	/*if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
 		enemy[10]->Updata();
 		enemy[11]->Updata();
 		enemy[12]->Updata();
 		enemy[13]->Updata();
 		enemy[14]->Updata();
-	}
-
+	}*/
 
 	skyObj->Updata();
 	obstacle->Updata();
@@ -193,36 +192,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	Object3d::PreDraw();
 	player->Draw();
 	//playerBullet->Draw();
-	for (auto i = 0; i < 9; i++) {
-		//enemy[i]->Draw();
-
+	for (auto i = 0; i < 14; i++) {
+		enemy[i]->Draw();
 	}
-	if (!eneFlag[0]) {
-		enemy[0]->Draw();
-	}
-	if (eneFlag[0]) {
-		enemy[1]->Draw();
-		enemy[2]->Draw();
-	}
-	if (eneFlag[1] && eneFlag[2]) {
-		enemy[3]->Draw();
-		enemy[4]->Draw();
-		enemy[5]->Draw();
-	}
-	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
-		enemy[6]->Draw();
-		enemy[7]->Draw();
-		enemy[8]->Draw();
-		enemy[9]->Draw();
-	}
-	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
-		enemy[10]->Draw();
-		enemy[11]->Draw();
-		enemy[12]->Draw();
-		enemy[13]->Draw();
-		enemy[14]->Draw();
-	}
-
+	
 	//obstacle->Draw();
 	skyObj->Draw();
 	//groundObj->Draw();
@@ -257,7 +230,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 void GamePlayScene::CheckAllCollision()
 {
 	//îªíËÇÃëŒè€
-	XMFLOAT3 posA, posB;
+	XMVECTOR posA, posB;
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 	for (auto i = 0; i < 14; i++) {
 
@@ -347,7 +320,7 @@ void GamePlayScene::CheckAllCollision()
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
 	}
-	if (gameScore >= 15) {
+	if (gameScore >= 10) {
 		//ÉVÅ[ÉìêÿÇËë÷Ç¶
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);

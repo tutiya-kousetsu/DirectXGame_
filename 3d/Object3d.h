@@ -19,7 +19,7 @@ private: // エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMVECTOR = DirectX::XMVECTOR;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
@@ -39,7 +39,7 @@ public: // サブクラス
 		//XMMATRIX mat;	// ３Ｄ変換行列
 		XMMATRIX viewproj;
 		XMMATRIX world;
-		XMFLOAT3 cameraPos;
+		XMVECTOR cameraPos;
 	};
 private: // 定数
 
@@ -88,31 +88,31 @@ public: // 静的メンバ関数
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetEye() { return eye; }
+	static const XMVECTOR& GetEye() { return eye; }
 
 	/// <summary>
 	/// 視点座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	static void SetEye(XMFLOAT3 eye);
+	static void SetEye(XMVECTOR eye);
 
 	/// <summary>
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetTarget() { return target; }
+	static const XMVECTOR& GetTarget() { return target; }
 
 	/// <summary>
 	/// 注視点座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	static void SetTarget(XMFLOAT3 target);
+	static void SetTarget(XMVECTOR target);
 
 	/// <summary>
 	/// ベクトルによる移動
 	/// </summary>
 	/// <param name="move">移動量</param>
-	static void CameraMoveVector(XMFLOAT3 move);
+	static void CameraMoveVector(XMVECTOR move);
 
 private: // 静的メンバ変数
 	// デバイス
@@ -129,11 +129,11 @@ private: // 静的メンバ変数
 	// 射影行列
 	static XMMATRIX matProjection;
 	// 視点座標
-	static XMFLOAT3 eye;
+	static XMVECTOR eye;
 	// 注視点座標
-	static XMFLOAT3 target;
+	static XMVECTOR target;
 	// 上方向ベクトル
-	static XMFLOAT3 up;
+	static XMVECTOR up;
 	// カメラ
 	static Camera* camera;
 	// パイプライン
@@ -176,26 +176,26 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() { return this->position; }
+	const XMVECTOR& GetPosition() { return this->position; }
 
-	const XMFLOAT3& GetRotation() { return this->rotation; }
+	const XMVECTOR& GetRotation() { return this->rotation; }
 
-	const XMFLOAT3& GetScale() { return this->scale; }
+	const XMVECTOR& GetScale() { return this->scale; }
 
 	inline const XMMATRIX& GetMatRot() { return this->matRot; }
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	void SetPosition(XMVECTOR position) { this->position = position; }
 
 	/// <summary>
 	///  X,Y,Z軸回りの回転角
 	/// </summary>
 	/// <param name="rotation">回転角</param>
-	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+	void SetRotation(XMVECTOR rotation) { this->rotation = rotation; }
 
-	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+	void SetScale(XMVECTOR scale) { this->scale = scale; }
 
 	/// <summary>
 	/// setter
@@ -208,11 +208,11 @@ private: // メンバ変数
 	// 行列用定数バッファ
 	ComPtr<ID3D12Resource> constBuffB0;
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMVECTOR scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	XMVECTOR rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMVECTOR position = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	XMMATRIX matRot;

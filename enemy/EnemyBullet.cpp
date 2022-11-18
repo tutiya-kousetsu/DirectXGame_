@@ -8,7 +8,7 @@ EnemyBullet::EnemyBullet() :EnemyBullet(Model::LoadFromObj("sphere"))
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 }
 
-void EnemyBullet::Initialize(XMFLOAT3 pos)
+void EnemyBullet::Initialize(XMVECTOR pos)
 {
 	//ìGÇÃç¿ïWìnÇ∑ÇÊ
 	position = pos;

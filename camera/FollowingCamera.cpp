@@ -26,7 +26,8 @@ void FollowingCamera::startUpdata()
 
 		// y軸回転を反映した位置
 		XMFLOAT3 tempPosition2 = {
-			cosNum * tempPosition.x - sinNum * tempPosition.y,tempPosition.z,
+			cosNum * tempPosition.x - sinNum * tempPosition.y,
+			tempPosition.z,
 			sinNum * tempPosition.x + cosNum * tempPosition.y
 		};
 
@@ -39,18 +40,15 @@ void FollowingCamera::startUpdata()
 		// 移動前の座標
 		XMFLOAT3 old = GetEye();
 		// 移動幅 = 移動後の座標 - 移動前の座標
-		XMFLOAT3 velocity =
-		{ (eye.x - old.x) * 1.5f,
-		(eye.y - old.y) * 0.3f,
-		(eye.z - old.z) * 1.5f };
+		XMFLOAT3 velocity ={ (eye.x - old.x),(eye.y - old.y),(eye.z - old.z) };
 		// 移動後の座標 = 移動前の座標 + 移動幅
 		eye = { old.x + velocity.x,old.y + velocity.y ,old.z + velocity.z };
 		// 移動後の座標を適用
 		SetEye(eye);
 
 		XMFLOAT3 Destination;//行き先き
-		XMStoreFloat3(&Destination, XMVector3Transform(XMVectorSet(
-			CameraTarget.x,CameraTarget.y,CameraTarget.z, 1),
+		XMStoreFloat3(&Destination,
+			XMVector3Transform(XMVectorSet(CameraTarget.x,CameraTarget.y,CameraTarget.z, 1),
 			followingTarget->GetMatRotation()));
 
 		target.x += Destination.x;

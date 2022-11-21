@@ -4,7 +4,7 @@
 Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
 {
 	//データ読み込み
-	object->SetScale({ 1.35f, 1.35f, 1.35f });
+	object->SetScale({ 1.0f, 1.0f, 1.0f });
 	object->SetPosition({ 0, 5.0f, 0 });
 }
 
@@ -36,15 +36,57 @@ void Player::move(float speed)
 	Input* input = Input::GetInstance();
 	// 現在の座標を取得
 	position = object->GetPosition();
-	//XMFLOAT3 rotation = playerObj->GetRotation();
-	// 移動後の座標を計算
-	if (input->PushKey(DIK_D)) { position.x += speed; }
-	if (input->PushKey(DIK_A)) { position.x -= speed; }
-	if (input->PushKey(DIK_W)) { position.z += speed; }
-	if (input->PushKey(DIK_S)) { position.z -= speed; }
-	if (input->PushKey(DIK_RIGHT)) { rotation.y += speed +1; }
+	float moveSpeed = 0.3f;
+	// 前方向と横方向の単位ベクトルを作る
+	XMVECTOR forwardVec = XMVectorSet(0, 0, 1, 1);
+	XMVECTOR horizontalVec = XMVectorSet(1, 0, 0, 1);
+	// プレイヤーの回転に合わせて回転させる(前後)
+	forwardVec = XMVector3Rotate(forwardVec, XMQuaternionRotationRollPitchYaw(
+		XMConvertToRadians(object->GetRotation().x),
+		XMConvertToRadians(object->GetRotation().y),
+		XMConvertToRadians(object->GetRotation().z)));
+	// プレイヤーの回転に合わせて回転させる(横)
+	horizontalVec = XMVector3Rotate(horizontalVec, XMQuaternionRotationRollPitchYaw(
+		XMConvertToRadians(object->GetRotation().x),
+		XMConvertToRadians(object->GetRotation().y),
+		XMConvertToRadians(object->GetRotation().z)));
+	// 大きさをmoveSpeedにする
+	forwardVec = XMVectorScale(forwardVec, moveSpeed);
+	horizontalVec = XMVectorScale(horizontalVec, moveSpeed);
+
+	XMFLOAT3 forward;
+	XMStoreFloat3(&forward, forwardVec);
+
+	XMFLOAT3 horizontal;
+	XMStoreFloat3(&horizontal, horizontalVec);
+
+	if (input->PushKey(DIK_W)) {
+		position.x += forward.x;
+		position.y += forward.y;
+		position.z += forward.z;
+	}
+	else if (input->PushKey(DIK_S)) {
+		position.x -= forward.x;
+		position.y -= forward.y;
+		position.z -= forward.z;
+	}
+
+	if (input->PushKey(DIK_D)) {
+		position.x += horizontal.x;
+		position.y += horizontal.y;
+		position.z += horizontal.z;
+	}
+	else if (input->PushKey(DIK_A)) {
+		position.x -= horizontal.x;
+		position.y -= horizontal.y;
+		position.z -= horizontal.z;
+	}
 	// 座標の変更を反映
 	object->SetPosition(position);
+
+	if (input->PushKey(DIK_RIGHT)) { rotation.y += speed + 1; }
+	if (input->PushKey(DIK_LEFT)) { rotation.y -= speed + 1; }
+
 	object->SetRotation(rotation);
 }
 
@@ -85,12 +127,12 @@ void Player::jump()
 void Player::Shoot() 
 {
 	//コンストラクタ呼ぶよ
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		//初期化行くよ
-		newBullet->Initialize(position);
-		
-		//弾を登録する
-		bullets.push_back(std::move(newBullet));
+	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	//初期化行くよ
+	newBullet->Initialize(position);
+
+	//弾を登録する
+	bullets.push_back(std::move(newBullet));
 
 }
 

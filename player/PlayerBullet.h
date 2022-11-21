@@ -14,7 +14,7 @@ public:
 	//コンストラクタ
 	PlayerBullet();
 
-	void Initialize(XMFLOAT3 pos);
+	void Initialize(XMFLOAT3 posz);
 
 	void Updata() override;
 
@@ -30,11 +30,15 @@ public:
 	void OnCollision();
 
 	//弾が消える時間
-	UINT disappearTime = 25;
+	UINT disappearTime = 50;
 	
 	UINT frameNum = 0;
 	UINT power = 1;
 private:
 	XMFLOAT3 position;
+	XMFLOAT3 scale;
+	XMFLOAT3 rotation;
+	// 速度
+	XMFLOAT3 vel;
 };
 

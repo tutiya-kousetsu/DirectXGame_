@@ -119,17 +119,17 @@ void GamePlayScene::Update()
 	ShowCursor(FALSE);
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
+	player->Updata();
 	camera->SetFollowingTarget(player.get());
 	//更新
 	camera->Updata();
-	player->Updata();
+	
 	floor->Updata();
 	//playerBullet->Update();
 
 
 	for (auto i = 0; i < 9; i++) {
 		//enemy[i]->Updata();
-
 	}
 
 	if (!eneFlag[0]) {
@@ -193,34 +193,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	Object3d::PreDraw();
 	player->Draw();
 	//playerBullet->Draw();
-	for (auto i = 0; i < 9; i++) {
-		//enemy[i]->Draw();
+	for (auto i = 0; i < 14; i++) {
+		enemy[i]->Draw();
 
-	}
-	if (!eneFlag[0]) {
-		enemy[0]->Draw();
-	}
-	if (eneFlag[0]) {
-		enemy[1]->Draw();
-		enemy[2]->Draw();
-	}
-	if (eneFlag[1] && eneFlag[2]) {
-		enemy[3]->Draw();
-		enemy[4]->Draw();
-		enemy[5]->Draw();
-	}
-	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
-		enemy[6]->Draw();
-		enemy[7]->Draw();
-		enemy[8]->Draw();
-		enemy[9]->Draw();
-	}
-	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
-		enemy[10]->Draw();
-		enemy[11]->Draw();
-		enemy[12]->Draw();
-		enemy[13]->Draw();
-		enemy[14]->Draw();
 	}
 
 	//obstacle->Draw();
@@ -342,12 +317,12 @@ void GamePlayScene::CheckAllCollision()
 	playerPos = player->GetPosition();
 	player->SetPosition(playerPos);
 	//プレイヤーのHPが0になったら画面切り替え
-	if (playerLife == 0 || playerPos.y <= -5) {
+	if (playerLife <= 0 || playerPos.y <= -5) {
 		//シーン切り替え
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
 	}
-	if (gameScore >= 15) {
+	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
 		//シーン切り替え
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);

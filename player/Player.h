@@ -37,7 +37,6 @@ public:
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
 private:
-
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	bool bulFlag = true;
 	XMFLOAT3 position;

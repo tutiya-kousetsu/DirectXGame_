@@ -20,26 +20,11 @@ void PlayerBullet::Updata()
 	if (disappearTime <= ++frameNum) {
 		alive = false;
 	}
-	//奥に進むよ
-	//if (input->TriggerKey(DIK_SPACE)) {
-		//apower++;
+
 	if (alive) {
-
-		position.z++;
+		position.z ++;
 	}
-
-	//}
-	/*if (power == 1) {
-		position.z++;
-	}
-	else if (power == 2) {
-		position.z++;
-	}
-	else{
-		position.z++;
-	}*/
-
-	//動かした値をゲームオブジェクトに渡すよ
+	// 座標の変更を反映
 	object->SetPosition(position);
 	//ゲームオブジェクト更新
 	object->Updata();

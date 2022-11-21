@@ -290,7 +290,7 @@ void Object3d::Updata()
 	constMap->viewproj = matViewProjection;
 	constMap->world = this->matWorld;
 	constMap->cameraPos = cameraPos;
-	this->constBuffB0->Unmap(0, nullptr);
+ 	this->constBuffB0->Unmap(0, nullptr);
 }
 
 void Object3d::Draw()

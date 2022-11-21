@@ -2,7 +2,7 @@
 
 Enemy::Enemy() :Enemy(Model::LoadFromObj("BlueBox"))
 {
-	object->SetScale({ 1.3f, 1.3f, 1.3f });
+	object->SetScale({ 1.0f, 1.0f, 1.0f });
 }
 
 Enemy::~Enemy()
@@ -20,7 +20,7 @@ void Enemy::Initialize()
 	float x2 = (float)x / 10 - 20;//10`-10‚Ì”ÍˆÍ
 	int y = rand() % 70;
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	position = { x2, y2, 30 };
+	position = { x2, y2, 35 };
 
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);

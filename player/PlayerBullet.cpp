@@ -9,10 +9,11 @@ PlayerBullet::PlayerBullet() :PlayerBullet(Model::LoadFromObj("sphere"))
 
 }
 
-void PlayerBullet::Initialize(XMFLOAT3 pos)
+void PlayerBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
 {
 	//プレイヤーの座標渡すよ
 	position = pos;
+	velocity = vel;
 }
 
 void PlayerBullet::Updata()
@@ -22,7 +23,9 @@ void PlayerBullet::Updata()
 	}
 
 	if (alive) {
-		position.z ++;
+		
+		position.x += velocity.m128_f32[0];
+		position.z += velocity.m128_f32[2];
 	}
 	// 座標の変更を反映
 	object->SetPosition(position);

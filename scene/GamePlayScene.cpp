@@ -12,13 +12,6 @@
 #include <cassert>
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
-	if (!Sprite::LoadTexture(1, L"Resources/gamePlay.png")) {
-		assert(0);
-		return;
-	}
-	// 背景スプライト生成
-	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
-
 	//スプライトの生成
 	Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
 	sprite = Sprite::Create(2, { 0,0 });
@@ -29,10 +22,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	LifeSprite2 = Sprite::Create(4, { 26,0 });
 	Sprite::LoadTexture(5, L"Resources/Life.png");
 	LifeSprite3 = Sprite::Create(5, { 52,0 });
-	// テクスチャ2番に読み込み
-	/*Sprite::LoadTexture(2, L"Resources/tex1.png");
-	sprite = Sprite::Create(2, { 0.0f,0.0f });*/
-
 
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
@@ -85,7 +74,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 void GamePlayScene::Finalize()
 {
-
 	//スプライト個別解放
 	delete sprite;
 	delete LifeSprite;
@@ -125,12 +113,6 @@ void GamePlayScene::Update()
 	camera->Updata();
 	
 	floor->Updata();
-	//playerBullet->Update();
-
-
-	for (auto i = 0; i < 9; i++) {
-		//enemy[i]->Updata();
-	}
 
 	if (!eneFlag[0]) {
 		enemy[0]->Updata();
@@ -174,8 +156,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//背景スプライト描画
-	spriteBG->Draw();
-
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -195,12 +175,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//playerBullet->Draw();
 	for (auto i = 0; i < 14; i++) {
 		enemy[i]->Draw();
-
 	}
 
-	//obstacle->Draw();
 	skyObj->Draw();
-	//groundObj->Draw();
 	floor->Draw();
 	Object3d::PostDraw();
 
@@ -328,56 +305,3 @@ void GamePlayScene::CheckAllCollision()
 		this->sceneManager->SetNextScene(scene);
 	}
 }
-
-//void GamePlayScene::LoadEnemyPopData()
-//{
-//	//ファイルを開く
-//	std::ifstream file;
-//	file.open("Resources/enemyPop.csv");
-//	assert(file.is_open());
-//
-//	//ファイルの内容を文字列ストリームにコピー
-//	enemyPopCommands << file.rdbuf();
-//
-//	//ファイルを閉じる
-//	file.close();
-//}
-
-//void GamePlayScene::UpdataEnemyPopCommand()
-//{
-//	//1行分の文字行列を入れる変数
-//	std::string line;
-//	//コマンド実行ループ
-//	while (getline(enemyPopCommands, line)) {
-//		//1行分の文字列をストリームに変換して解析しやすくする
-//		std::istringstream line_stream(line);
-//
-//		std::string word;
-//		//,区切りで行の先頭文字を取得
-//		getline(line_stream, word, ',');
-//
-//		//"//"から始まる行はコメント
-//		if (word.find("//") == 0) {
-//			//コメントの行を飛ばす
-//			continue;
-//		}
-//
-//		//POPコマンド
-//		if (word.find("POP") == 0) {
-//			//x座標
-//			getline(line_stream, word, ',');
-//			float x = (float)std::atof(word.c_str());
-//
-//			//y座標
-//			getline(line_stream, word, ',');
-//			float y = (float)std::atof(word.c_str());
-//			
-//			//z座標
-//			getline(line_stream, word, ',');
-//			float z = (float)std::atof(word.c_str());
-//
-//			//敵を発生させる
-//
-//		}
-//	}
-//}

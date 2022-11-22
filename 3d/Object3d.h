@@ -183,6 +183,9 @@ public: // メンバ関数
 	const XMFLOAT3& GetScale() { return this->scale; }
 
 	inline const XMMATRIX& GetMatRot() { return this->matRot; }
+	
+	inline const XMMATRIX& GetMatWorld() { return this->matWorld; }
+	
 	/// <summary>
 	/// 座標の設定
 	/// </summary>

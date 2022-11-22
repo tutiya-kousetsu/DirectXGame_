@@ -14,7 +14,7 @@ public:
 	//コンストラクタ
 	PlayerBullet();
 
-	void Initialize(XMFLOAT3 posz);
+	void Initialize(XMFLOAT3 pos, const XMVECTOR& vel);
 
 	void Updata() override;
 
@@ -37,7 +37,7 @@ public:
 private:
 	XMFLOAT3 position;
 	XMFLOAT3 scale;
-	XMFLOAT3 rotation;
+	XMVECTOR velocity;
 	// 速度
 	XMFLOAT3 vel;
 };

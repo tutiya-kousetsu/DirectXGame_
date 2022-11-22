@@ -5,7 +5,7 @@ Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
 {
 	//データ読み込み
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
-	object->SetPosition({ 0, 5.0f, 0 });
+	object->SetPosition({ 0, 0.0f, 0 });
 }
 
 
@@ -18,12 +18,7 @@ void Player::Updata()
 
 	if (input->TriggerMouseLeft()) {
 		Shoot();
-		/*bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
-			return !bullet->GetAlive();
-			});*/
 	}
-
-	
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Updata();
@@ -61,25 +56,25 @@ void Player::move(float speed)
 	XMStoreFloat3(&horizontal, horizontalVec);
 
 	if (input->PushKey(DIK_W)) {
-		position.x += forward.x;
-		position.y += forward.y;
-		position.z += forward.z;
+		position.x += forwardVec.m128_f32[0];
+		//position.y += forwardVec.m128_f32[1];
+		position.z += forwardVec.m128_f32[2];
 	}
 	else if (input->PushKey(DIK_S)) {
-		position.x -= forward.x;
-		position.y -= forward.y;
-		position.z -= forward.z;
+		position.x -= forwardVec.m128_f32[0];
+		//position.y -= forwardVec.m128_f32[1];
+		position.z -= forwardVec.m128_f32[2];
 	}
 
 	if (input->PushKey(DIK_D)) {
-		position.x += horizontal.x;
-		position.y += horizontal.y;
-		position.z += horizontal.z;
+		position.x += horizontalVec.m128_f32[0];
+		//position.y += horizontalVec.m128_f32[1];
+		position.z += horizontalVec.m128_f32[2];
 	}
 	else if (input->PushKey(DIK_A)) {
-		position.x -= horizontal.x;
-		position.y -= horizontal.y;
-		position.z -= horizontal.z;
+		position.x -= horizontalVec.m128_f32[0];
+		//position.y -= horizontalVec.m128_f32[1];
+		position.z -= horizontalVec.m128_f32[2];
 	}
 	// 座標の変更を反映
 	object->SetPosition(position);
@@ -126,10 +121,14 @@ void Player::jump()
 
 void Player::Shoot() 
 {
+	const float kBulletSpeed = 1.0f;
+	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
+	
+	velocity = XMVector3TransformNormal(velocity, object->GetMatWorld());
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化行くよ
-	newBullet->Initialize(position);
+	newBullet->Initialize(position, velocity);
 
 	//弾を登録する
 	bullets.push_back(std::move(newBullet));

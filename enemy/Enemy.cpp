@@ -3,6 +3,12 @@
 Enemy::Enemy() :Enemy(Model::LoadFromObj("BlueBox"))
 {
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
+	XMVECTOR worldPos;
+
+	worldPos.m128_f32[0] = object->GetPosition().x;
+	worldPos.m128_f32[1] = object->GetPosition().y;
+	worldPos.m128_f32[2] = object->GetPosition().z;
+
 }
 
 Enemy::~Enemy()
@@ -77,11 +83,17 @@ void Enemy::Draw()
 			bullet->Draw();
 		}
 	}
-
 }
 
 void Enemy::Shoot()
 {
+	assert(this->player);
+
+	//弾の速度
+	const float kBulletSpeed = 1.0f;
+
+	
+
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 	//初期化行くよ

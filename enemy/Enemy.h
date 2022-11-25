@@ -6,6 +6,8 @@
 #include <list>
 
 using namespace DirectX;
+//playerの前方宣言
+class Player;
 
 class Enemy : public GameObject
 {
@@ -52,18 +54,20 @@ public:
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
 
 	void AccessPhase();
+
+	void SetPlayer(Player* player) { this->player = player; }
+
+	//ワールド座標を取得
+	XMVECTOR GetWorldPosition();
+
 private:
 	int32_t shootTimer = 0;
 	int enemyTimer = 0;
 	int enemyPopFlag = 0;
-	//Model* enemyModel = nullptr;
-	//Model* frameModel = nullptr;
-	//Object3d* enemyObj = nullptr;
-	//Object3d* frameObj = nullptr;
+	Player* player = nullptr;
 	XMFLOAT3 position; 
 	std::list<std::unique_ptr<Object3d>> enemy;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;
-	//std::unique_ptr<Object3d>enemyObj;
 };
 

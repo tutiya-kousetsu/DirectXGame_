@@ -63,6 +63,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	for (auto i = 0; i < 14; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
+
+		//敵に自機のアドレスを渡して敵が自機を使えるようにする
+		enemy[i]->SetPlayer(player.get());
 	}
 
 	//データ読み込み

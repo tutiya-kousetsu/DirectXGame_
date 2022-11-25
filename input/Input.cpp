@@ -128,6 +128,17 @@ bool Input::TriggerMouseLeft()
 	return false;
 }
 
+bool Input::TriggerMouseRight()
+{
+	// 前回が0で、今回が0でなければトリガー
+	if (!mouseStatePre.rgbButtons[1] && mouseState.rgbButtons[1]) {
+		return true;
+	}
+
+	// トリガーでない
+	return false;
+}
+
 bool Input::TriggerMouseMiddle()
 {
 	// 前回が0で、今回が0でなければトリガー

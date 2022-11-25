@@ -36,12 +36,16 @@ public:
 	//弾リスト取得
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
+	//ワールド座標を取得
+	XMVECTOR GetWorldPosition();
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	bool bulFlag = true;
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	XMFLOAT3 bulPos;
+	// マウス
+	POINT mousePos{};
 	// ジャンプ
 	bool jumpFlag = false;
 	bool secondFlag = false;

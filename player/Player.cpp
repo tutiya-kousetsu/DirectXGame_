@@ -6,13 +6,19 @@ Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
 	//データ読み込み
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 	object->SetPosition({ 0, 0.0f, 0 });
+	XMVECTOR worldPos;
+	
+	worldPos.m128_f32[0] = object->GetPosition().x;
+	worldPos.m128_f32[1] = object->GetPosition().y;
+	worldPos.m128_f32[2] = object->GetPosition().z;
+
 }
 
 
 void Player::Updata()
 {
 	Input* input = Input::GetInstance();
-
+	
 	move();
 	jump();
 
@@ -49,35 +55,26 @@ void Player::move(float speed)
 	forwardVec = XMVectorScale(forwardVec, moveSpeed);
 	horizontalVec = XMVectorScale(horizontalVec, moveSpeed);
 
-	XMFLOAT3 forward;
-	XMStoreFloat3(&forward, forwardVec);
-
-	XMFLOAT3 horizontal;
-	XMStoreFloat3(&horizontal, horizontalVec);
-
 	if (input->PushKey(DIK_W)) {
 		position.x += forwardVec.m128_f32[0];
-		//position.y += forwardVec.m128_f32[1];
 		position.z += forwardVec.m128_f32[2];
 	}
 	else if (input->PushKey(DIK_S)) {
 		position.x -= forwardVec.m128_f32[0];
-		//position.y -= forwardVec.m128_f32[1];
 		position.z -= forwardVec.m128_f32[2];
 	}
 
 	if (input->PushKey(DIK_D)) {
 		position.x += horizontalVec.m128_f32[0];
-		//position.y += horizontalVec.m128_f32[1];
 		position.z += horizontalVec.m128_f32[2];
 	}
 	else if (input->PushKey(DIK_A)) {
 		position.x -= horizontalVec.m128_f32[0];
-		//position.y -= horizontalVec.m128_f32[1];
 		position.z -= horizontalVec.m128_f32[2];
 	}
 	// 座標の変更を反映
 	object->SetPosition(position);
+
 
 	if (input->PushKey(DIK_RIGHT)) { rotation.y += speed + 1; }
 	if (input->PushKey(DIK_LEFT)) { rotation.y -= speed + 1; }
@@ -98,8 +95,8 @@ void Player::jump()
 		position.y += g;
 	}
 
-	//ジャンプ
-	if (input->TriggerKey(DIK_SPACE) && !jumpFlag) {
+	//マウスの右をクリックしたらジャンプ
+	if (input->TriggerMouseRight() && !jumpFlag) {
 		jumpFlag = true;
 		//ジャンプの高さ
 		jumpSpeed = 1.0f;
@@ -119,7 +116,7 @@ void Player::jump()
 	object->SetPosition(position);
 }
 
-void Player::Shoot() 
+void Player::Shoot()
 {
 	const float kBulletSpeed = 1.0f;
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
@@ -145,7 +142,6 @@ void Player::Draw()
 	}
 	
 }
-
 
 void Player::OnCollision()
 {

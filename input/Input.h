@@ -58,6 +58,12 @@ public://メンバー関数
 	bool TriggerMouseLeft();
 
 	/// <summary>
+	/// キーの左ボタントリガーをチェック
+	/// </summary>
+	/// <returns>トリガーか</returns>
+	bool TriggerMouseRight();
+
+	/// <summary>
 	/// キーの中ボタントリガーをチェック
 	/// </summary>
 	/// <returns>トリガーか</returns>
@@ -69,9 +75,15 @@ public://メンバー関数
 	/// <returns>マウス移動量</returns>
 	MouseMove GetMouseMove();
 
-
 	inline POINT GetMousePos() { return mousePos; };
-
+	inline void SetMousePos(const POINT& pos) {
+		mousePos = pos;
+		// クライアント座標(ゲームウィンドウの座標)からスクリーン座標(パソコンの画面)に変換
+		ClientToScreen(winApp->GetHwnd(), &mousePos);
+		// 変換後の座標の位置にマウスカーソルの位置をセット
+		SetCursorPos(mousePos.x, mousePos.y);
+		mousePos = pos;
+	}
 private://メンバー変数
 	//キーボードのデバイス
 	ComPtr<IDirectInputDevice8> devKeyboard;

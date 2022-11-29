@@ -32,7 +32,7 @@ void Enemy::Initialize()
 	object->SetPosition(position);
 }
 
-void Enemy::Updata()
+void Enemy::Update()
 {
 	if (alive) {
 		shootTimer--;
@@ -42,10 +42,10 @@ void Enemy::Updata()
 			shootTimer = kShootInterval;
 		}
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-				bullet->Updata();
+				bullet->Update();
 		}
 	}
-	object->Updata();
+	object->Update();
 }
 
 void Enemy::UpdateAliveFlag()

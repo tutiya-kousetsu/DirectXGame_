@@ -15,7 +15,7 @@ Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
 }
 
 
-void Player::Updata()
+void Player::Update()
 {
 	Input* input = Input::GetInstance();
 	
@@ -27,9 +27,9 @@ void Player::Updata()
 	}
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Updata();
+		bullet->Update();
 	}
-	object->Updata();
+	object->Update();
 }
 
 void Player::move(float speed)
@@ -96,7 +96,7 @@ void Player::jump()
 	}
 
 	//マウスの右をクリックしたらジャンプ
-	if (input->TriggerMouseRight() && !jumpFlag) {
+	if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE) && !jumpFlag) {
 		jumpFlag = true;
 		//ジャンプの高さ
 		jumpSpeed = 1.0f;

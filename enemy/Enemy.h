@@ -23,7 +23,7 @@ public:
 	void Initialize();
 
 	//XV
-	void Updata() override;
+	void Update() override;
 
 	void UpdateAliveFlag();
 

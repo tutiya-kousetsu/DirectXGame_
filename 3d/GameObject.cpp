@@ -8,9 +8,9 @@ GameObject::GameObject(Model* model, const DirectX::XMFLOAT3& position) :object(
 	object->SetPosition(position);
 }
 
-void GameObject::Updata()
+void GameObject::Update()
 {
-	object->Updata();
+	object->Update();
 }
 
 void GameObject::Draw()

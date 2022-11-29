@@ -16,7 +16,7 @@ public:
 	//コンストラクタ
 	Player();
 	//更新
-	void Updata() override;
+	void Update() override;
 
 	//移動
 	void move(float speed = 0.3f);

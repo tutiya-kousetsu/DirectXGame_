@@ -11,7 +11,7 @@ public:
 
 	Floor();
 
-	void Updata() override;
+	void Update() override;
 
 	void Draw() override;
 

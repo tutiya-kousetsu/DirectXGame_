@@ -10,7 +10,7 @@ public:
 
 	Obstacle();
 
-	void Updata() override;
+	void Update() override;
 
 	void Draw() override;
 

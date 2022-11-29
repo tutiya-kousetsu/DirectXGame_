@@ -16,7 +16,7 @@ void PlayerBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
 	velocity = vel;
 }
 
-void PlayerBullet::Updata()
+void PlayerBullet::Update()
 {
 	if (disappearTime <= ++frameNum) {
 		alive = false;
@@ -30,7 +30,7 @@ void PlayerBullet::Updata()
 	// 座標の変更を反映
 	object->SetPosition(position);
 	//ゲームオブジェクト更新
-	object->Updata();
+	object->Update();
 }
 
 void PlayerBullet::Draw()

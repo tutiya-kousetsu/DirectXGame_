@@ -110,42 +110,42 @@ void GamePlayScene::Update()
 	ShowCursor(FALSE);
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
-	player->Updata();
+	player->Update();
 	camera->SetFollowingTarget(player.get());
 	//更新
-	camera->Updata();
+	camera->Update();
 	
-	floor->Updata();
+	floor->Update();
 
 	if (!eneFlag[0]) {
-		enemy[0]->Updata();
+		enemy[0]->Update();
 	}
 	if (eneFlag[0]) {
-		enemy[1]->Updata();
-		enemy[2]->Updata();
+		enemy[1]->Update();
+		enemy[2]->Update();
 	}
 	if (eneFlag[1] && eneFlag[2]) {
-		enemy[3]->Updata();
-		enemy[4]->Updata();
-		enemy[5]->Updata();
+		enemy[3]->Update();
+		enemy[4]->Update();
+		enemy[5]->Update();
 	}
 	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
-		enemy[6]->Updata();
-		enemy[7]->Updata();
-		enemy[8]->Updata();
-		enemy[9]->Updata();
+		enemy[6]->Update();
+		enemy[7]->Update();
+		enemy[8]->Update();
+		enemy[9]->Update();
 	}
 	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
-		enemy[10]->Updata();
-		enemy[11]->Updata();
-		enemy[12]->Updata();
-		enemy[13]->Updata();
-		enemy[14]->Updata();
+		enemy[10]->Update();
+		enemy[11]->Update();
+		enemy[12]->Update();
+		enemy[13]->Update();
+		enemy[14]->Update();
 	}
 
 
-	skyObj->Updata();
-	obstacle->Updata();
+	skyObj->Update();
+	obstacle->Update();
 
 	CheckAllCollision();
 }

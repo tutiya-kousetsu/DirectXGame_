@@ -14,7 +14,7 @@ void EnemyBullet::Initialize(XMFLOAT3 pos)
 	position = pos;
 }
 
-void EnemyBullet::Updata()
+void EnemyBullet::Update()
 {
 	if (disappearTime < ++frameNum) {
 		alive = false;
@@ -26,7 +26,7 @@ void EnemyBullet::Updata()
 	//敵が動いた値をゲームオブジェクトに渡す
 	object->SetPosition(position);
 	//ゲームオブジェクト更新
-	object->Updata();
+	object->Update();
 	}
 }
 

@@ -10,7 +10,7 @@ FollowingCamera::FollowingCamera() :Camera(WinApp::window_width, WinApp::window_
 
 }
 
-void FollowingCamera::startUpdata()
+void FollowingCamera::startUpdate()
 {
 	if (followingTarget) {
 		XMFLOAT3 target = followingTarget->GetPosition();

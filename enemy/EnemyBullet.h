@@ -24,11 +24,6 @@ public:
 	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
   	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
 
-	// ‘¬“x‚ğİ’è
-	//inline void SetVel(const DirectX::XMFLOAT3& vel) { this->velocity = vel; }
-	// ‘¬“x‚ğæ“¾
-	//inline const DirectX::XMFLOAT3& GetVel() { return velocity; }
-
 	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
 	void OnCollision();
 

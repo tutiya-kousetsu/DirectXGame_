@@ -24,6 +24,9 @@ public:
 	//ジャンプ
 	void jump();
 
+	//回転
+	void playerRot();
+
 	//描画
 	void Draw() override;
 
@@ -55,5 +58,6 @@ private:
 	float speed = 7.0f;	//速度
 	float t = 0.01f;		//時間
 	float speed2 = 2.55f;	//速度
+
 };
 

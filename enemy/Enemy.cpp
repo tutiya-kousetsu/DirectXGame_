@@ -45,7 +45,7 @@ void Enemy::Update()
 			shootTimer = kShootInterval;
 		}
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-				bullet->Update();
+			bullet->Update();
 		}
 		object->SetRotation(rotation);
 	}
@@ -91,33 +91,29 @@ void Enemy::Draw()
 
 void Enemy::Shoot()
 {
-	assert(this->player);
+	//playerに向かって弾発射
+	{
+		assert(this->player);
 
-	//弾の速度
-	const float kBulletSpeed = 1.0f;
-	XMVECTOR playerPos = player->GetWorldPosition();
-	XMVECTOR enemyPos = GetWorldPosition();
+		XMVECTOR playerPos = player->GetWorldPosition();
+		XMVECTOR enemyPos = GetWorldPosition();
 
-	// 速度を計算
-		// 自分から標的までのベクトル
-	velocity = {
-		playerPos.m128_f32[0] - enemyPos.m128_f32[0],
-		playerPos.m128_f32[1] - enemyPos.m128_f32[1],
-		playerPos.m128_f32[2] - enemyPos.m128_f32[2]
-	};
-	// XMVECTORに変換
-	//XMVECTOR vectorVel = XMLoadFloat3(&velocity);
-	// 大きさを1にする
-	velocity = XMVector3Normalize(velocity);
-	// 大きさを任意の値にする
-	velocity = XMVectorScale(velocity, 0.8f);
-	// FLOAT3に変換
-	//XMStoreFloat3(&vel, vectorVel);
+		//速度を計算
+		//自分から標的までのベクトル
+		velocity = {
+			playerPos.m128_f32[0] - enemyPos.m128_f32[0],
+			playerPos.m128_f32[1] - enemyPos.m128_f32[1],
+			playerPos.m128_f32[2] - enemyPos.m128_f32[2]
+		};
+		//大きさを1にする(ベクトルを正規化して返してあげる関数)
+		velocity = XMVector3Normalize(velocity);
+		//大きさを任意の値にする
+		velocity = XMVectorScale(velocity, 0.6f);
 
-	// 標的に向ける
-	float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
-	float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
-
+		//標的に向ける
+		float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
+		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
+	}
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 	//初期化行くよ
@@ -140,9 +136,10 @@ void Enemy::AccessPhase()
 	shootTimer = kShootInterval;
 }
 
-XMVECTOR Enemy::GetWorldPosition() {
+XMVECTOR Enemy::GetWorldPosition()
+{
 	XMVECTOR worldPos;
-
+	//worldPosにplayerのpositionをいれる
 	worldPos.m128_f32[0] = position.x;
 	worldPos.m128_f32[1] = position.y;
 	worldPos.m128_f32[2] = position.z;

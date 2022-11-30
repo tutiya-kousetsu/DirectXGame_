@@ -13,7 +13,7 @@ public:
 	//プレイヤーにセットする
 	inline void SetFollowingTarget(GameObject* followingTarget) { this->followingTarget = followingTarget; }
 
-	void startUpdata()override;
+	void startUpdate()override;
 
 private:
 	GameObject* followingTarget;

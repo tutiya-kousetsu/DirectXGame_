@@ -21,7 +21,7 @@ void Player::Update()
 	
 	move();
 	jump();
-
+	playerRot();
 	if (input->TriggerMouseLeft()) {
 		Shoot();
 	}
@@ -75,11 +75,6 @@ void Player::move(float speed)
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
 
-
-	if (input->PushKey(DIK_RIGHT)) { rotation.y += speed + 1; }
-	if (input->PushKey(DIK_LEFT)) { rotation.y -= speed + 1; }
-
-	object->SetRotation(rotation);
 }
 
 void Player::jump()
@@ -114,6 +109,19 @@ void Player::jump()
 	}
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
+}
+
+void Player::playerRot()
+{
+	//Input* input = Input::GetInstance();
+	//Input::MouseMove mouseMove = input->GetMouseMove();
+	//float dy = mouseMove.lX * scaleY;
+	//angleY = -dy * XM_PI;
+
+	//if (angleY) { rotation.y += speed + 1; }
+	//if (-angleY) { rotation.y -= speed + 1; }
+
+	//object->SetRotation(rotation);
 }
 
 void Player::Shoot()
@@ -156,7 +164,6 @@ void Player::OnCollision()
 
 XMVECTOR Player::GetWorldPosition() 
 {
-	
 	XMVECTOR worldPos;
 
 	worldPos.m128_f32[0] = position.x;

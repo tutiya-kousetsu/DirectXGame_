@@ -86,4 +86,15 @@ private:
 	bool bulFlag = true;
 	int flag = 0;
 	bool eneFlag[15] = {};
+
+	// ÉJÉÅÉâä÷åW
+	bool dirty = false;
+	float angleX = 0;
+	float angleY = 0;
+	float scaleX = 1.0f / (float)WinApp::window_width;
+	float scaleY = 1.0f / (float)WinApp::window_height;
+	bool viewDirty = false;
+	float distance = 20.0f;
+	XMMATRIX matRot = DirectX::XMMatrixIdentity();
+
 };

@@ -142,8 +142,8 @@ public: // メンバ関数
 	void MoveVector(const XMVECTOR& move);
 
 protected: // メンバ変数
-	virtual void startUpdata() {};
-
+	virtual void startUpdate() {};
+	virtual void debugUpdate() {};
 	XMMATRIX matViewPort = DirectX::XMMatrixIdentity();
 
 	// ビュー行列

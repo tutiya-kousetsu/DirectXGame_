@@ -8,10 +8,11 @@ EnemyBullet::EnemyBullet() :EnemyBullet(Model::LoadFromObj("sphere"))
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 }
 
-void EnemyBullet::Initialize(XMFLOAT3 pos)
+void EnemyBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
 {
 	//“G‚ÌÀ•W“n‚·‚æ
 	position = pos;
+	velocity = vel;
 }
 
 void EnemyBullet::Update()
@@ -21,7 +22,9 @@ void EnemyBullet::Update()
 	}
 
 	if (alive) {
-		position.z--;
+		position.x += velocity.m128_f32[0];
+		position.y += velocity.m128_f32[1];
+		position.z += velocity.m128_f32[2];
 	
 	//“G‚ª“®‚¢‚½’l‚ðƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚É“n‚·
 	object->SetPosition(position);

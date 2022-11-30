@@ -96,7 +96,7 @@ void Player::jump()
 	}
 
 	//マウスの右をクリックしたらジャンプ
-	if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE) && !jumpFlag) {
+	if (input->TriggerMouseRight() && !jumpFlag || input->TriggerKey(DIK_SPACE) && !jumpFlag) {
 		jumpFlag = true;
 		//ジャンプの高さ
 		jumpSpeed = 1.0f;
@@ -152,6 +152,16 @@ void Player::OnCollision()
 		speed2 -= t;
 	}
 	object->SetPosition(position);
+}
 
+XMVECTOR Player::GetWorldPosition() 
+{
+	
+	XMVECTOR worldPos;
 
+	worldPos.m128_f32[0] = position.x;
+	worldPos.m128_f32[1] = position.y;
+	worldPos.m128_f32[2] = position.z;
+
+	return worldPos;
 }

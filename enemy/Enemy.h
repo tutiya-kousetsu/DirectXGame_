@@ -66,6 +66,7 @@ private:
 	int enemyPopFlag = 0;
 	Player* player = nullptr;
 	XMFLOAT3 position; 
+	XMVECTOR velocity;
 	std::list<std::unique_ptr<Object3d>> enemy;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;

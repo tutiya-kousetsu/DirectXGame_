@@ -4,11 +4,6 @@ Enemy::Enemy() :Enemy(Model::LoadFromObj("BlueBox"))
 {
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 	XMVECTOR worldPos;
-
-	worldPos.m128_f32[0] = object->GetPosition().x;
-	worldPos.m128_f32[1] = object->GetPosition().y;
-	worldPos.m128_f32[2] = object->GetPosition().z;
-
 }
 
 Enemy::~Enemy()
@@ -120,15 +115,6 @@ void Enemy::Shoot()
 	newBullet->Initialize(position, velocity);
 	//’e‚ð“o˜^‚·‚é
 	bullets.push_back(std::move(newBullet));
-}
-
-void Enemy::OnCollision()
-{
-	alive = false;
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-		bulFlag = bullet->GetAlive();
-		bulFlag = false;
-	}
 }
 
 void Enemy::AccessPhase()

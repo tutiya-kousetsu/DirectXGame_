@@ -1,8 +1,8 @@
 #include "Obstacle.h"
-
 Obstacle::Obstacle() :Obstacle(Model::LoadFromObj("obstacle"))
 {
 	object->SetScale({ 1.65f, 1.65f, 1.65f });
+
 }
 
 void Obstacle::Update()
@@ -15,5 +15,7 @@ void Obstacle::Update()
 
 void Obstacle::Draw()
 {
-	object->Draw();
+	if (alive) {
+		object->Draw();
+	}
 }

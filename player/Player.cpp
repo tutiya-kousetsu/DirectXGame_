@@ -6,14 +6,7 @@ Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
 	//データ読み込み
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 	object->SetPosition({ 0, 0.0f, 0 });
-	XMVECTOR worldPos;
-	
-	worldPos.m128_f32[0] = object->GetPosition().x;
-	worldPos.m128_f32[1] = object->GetPosition().y;
-	worldPos.m128_f32[2] = object->GetPosition().z;
-
 }
-
 
 void Player::Update()
 {
@@ -57,19 +50,23 @@ void Player::move(float speed)
 
 	if (input->PushKey(DIK_W)) {
 		position.x += forwardVec.m128_f32[0];
+		position.x += forwardVec.m128_f32[1];
 		position.z += forwardVec.m128_f32[2];
 	}
 	else if (input->PushKey(DIK_S)) {
 		position.x -= forwardVec.m128_f32[0];
+		position.x -= forwardVec.m128_f32[1];
 		position.z -= forwardVec.m128_f32[2];
 	}
 
 	if (input->PushKey(DIK_D)) {
 		position.x += horizontalVec.m128_f32[0];
+		position.x += horizontalVec.m128_f32[1];
 		position.z += horizontalVec.m128_f32[2];
 	}
 	else if (input->PushKey(DIK_A)) {
 		position.x -= horizontalVec.m128_f32[0];
+		position.x -= horizontalVec.m128_f32[1];
 		position.z -= horizontalVec.m128_f32[2];
 	}
 	// 座標の変更を反映
@@ -149,17 +146,6 @@ void Player::Draw()
 		bullet->Draw();
 	}
 	
-}
-
-void Player::OnCollision()
-{
-	position.z -= speed;
-	position.y += speed2;
-	//speed2 -= t;
-	if (position.y >= -1 && position.y <= 0 ) {
-		speed2 -= t;
-	}
-	object->SetPosition(position);
 }
 
 XMVECTOR Player::GetWorldPosition() 

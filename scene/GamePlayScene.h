@@ -8,7 +8,6 @@
 #include "Fbx_Object3d.h"
 #include "PostEffect.h"
 #include "Input.h"
-#include "Player.h"
 #include "Enemy.h"
 #include "PlayerBullet.h"
 #include "GameOver.h"
@@ -18,6 +17,8 @@
 #include "FollowingCamera.h"
 #include <memory>
 #include <sstream>
+
+class Player;
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -64,13 +65,13 @@ private:
 	PostEffect* postEffect[2] = {};
 
 	Obstacle* obstacle = nullptr;
-
+	//Object3d* playerObj = nullptr;
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 
 	//std::unique_ptr<PlayerBullet> playerBullet;
-	//Player* player = nullptr;
-	std::unique_ptr<Player> player;
+	Player* player = nullptr;
+	//std::unique_ptr<Player> player;
 	Enemy* enemy[15] = {};
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;

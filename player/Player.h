@@ -15,6 +15,7 @@ public:
 
 	//コンストラクタ
 	Player();
+
 	//更新
 	void Update() override;
 
@@ -33,8 +34,6 @@ public:
 	//攻撃
 	void Shoot();
 
-	//衝突時に呼び出される関数
-	void OnCollision();
 
 	//弾リスト取得
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }

@@ -197,6 +197,9 @@
     <ClCompile Include="camera\FollowingCamera.cpp">
       <Filter>ソース ファイル\camera\.cpp</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -305,6 +308,12 @@
     </ClInclude>
     <ClInclude Include="PipelineSet.h">
       <Filter>ソース ファイル\3d\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

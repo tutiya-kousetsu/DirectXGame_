@@ -9,6 +9,7 @@
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include<string>
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -161,16 +162,30 @@ private:// 静的メンバ関数
 	//static void UpdateViewMatrix();
 
 public: // メンバ関数
-	bool Initialize();
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Object3d() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual~Object3d();
+
+
+	//bool Initialize();
+	virtual bool Initialize();
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
-
+	//void Update();
+	virtual void Update();
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	//void Draw();
+	virtual void Draw();
 
 	/// <summary>
 	/// 座標の取得
@@ -186,6 +201,18 @@ public: // メンバ関数
 	
 	inline const XMMATRIX& GetMatWorld() { return this->matWorld; }
 	
+	/// <summary>
+	/// コライダーのセット
+	/// </summary>
+	/// <param name="collider">コライダー</param>
+	//void SetCollider(BaseCollider* collider);
+
+	/// <summary>
+	/// 衝突時コールバック関数
+	/// </summary>
+	/// <param name="info">衝突情報</param>
+	//virtual void OnCollision(const CollisionInfo& info){}
+
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
@@ -205,7 +232,7 @@ public: // メンバ関数
 	/// </summary>
 	void SetModel(Model* model) { this->model = model; }
 
-private: // メンバ変数
+protected: // メンバ変数
 	//3Dモデル(借りてくる)
 	Model* model = nullptr;
 	// 行列用定数バッファ

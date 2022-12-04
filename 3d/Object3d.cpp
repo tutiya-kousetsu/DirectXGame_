@@ -236,6 +236,15 @@ bool Object3d::InitializeGraphicsPipeline()
 	return true;
 }
 
+Object3d::~Object3d()
+{
+	//if (collider) {
+	//	//コリジョンマネージャから登録を解除
+	//	CollisionManager::GetInstance()->RemoveCollider(collider);
+	//	delete collider;
+	//}
+}
+
 bool Object3d::Initialize()
 {
 	// nullptrチェック
@@ -251,6 +260,8 @@ bool Object3d::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&this->constBuffB0));
+
+
 
 	return true;
 }
@@ -291,6 +302,7 @@ void Object3d::Update()
 	constMap->world = this->matWorld;
 	constMap->cameraPos = cameraPos;
  	this->constBuffB0->Unmap(0, nullptr);
+	
 }
 
 void Object3d::Draw()
@@ -314,3 +326,13 @@ void Object3d::Draw()
 	//モデルを描画
 	this->model->Draw(cmdList, 1);
 }
+
+//void Object3d::SetCollider(BaseCollider* collider)
+//{
+//	collider->SetObject(this);
+//	this->collider = collider;
+//	//コリジョンマネージャに登録
+//	CollisionManager::GetInstance()->AddCollider(collider);
+//	//コライダーを更新していく
+//	collider->Update();
+//}

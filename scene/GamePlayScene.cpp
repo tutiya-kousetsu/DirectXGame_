@@ -5,7 +5,7 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
-
+#include "Player.h"
 #include "Enemy/EnemyBullet.h"
 
 #include <fstream>
@@ -55,17 +55,18 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//乱数の初期化
 	srand((unsigned)time(NULL));
 
-	player.reset(new Player());
+	player = new Player();
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	obstacle = new Obstacle();
+
 	for (auto i = 0; i < 14; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
 
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		enemy[i]->SetPlayer(player.get());
+		enemy[i]->SetPlayer(player);
 	}
 
 	//データ読み込み
@@ -90,8 +91,10 @@ void GamePlayScene::Finalize()
 
 	//3Dオブジェクト解放
 	delete skyModel;
+	delete player;
 	delete skyObj;
 	delete playerBullet;
+	delete obstacle;
 	delete enemyBullet;
 	for (auto i = 0; i < 14; i++) {
 		delete enemy[i];
@@ -101,6 +104,12 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
+
+	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
+	ShowCursor(FALSE);
+	// 座標の変更を反映
+	SetCursorPos(960, 540);
+
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
 	float dy = mouseMove.lX * scaleY;
@@ -136,15 +145,12 @@ void GamePlayScene::Update()
 
 		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
 		XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
-		vecF = XMVectorScale(vecF, 0.8f);
 		// FLOAT3に変換
 		XMStoreFloat3(&fTargetEye, vecF);
 		XMVECTOR vecTarget = XMLoadFloat3(&target2);
-		vecTarget = XMVectorScale(vecTarget, 0.8f);
 		// FLOAT3に変換
 		XMStoreFloat3(&target2, vecTarget);
 		XMVECTOR vecEye = XMLoadFloat3(&eye);
-		vecEye = XMVectorScale(vecEye, 0.8f);
 		// FLOAT3に変換
 		XMStoreFloat3(&eye, vecEye);
 		// 大きさ計算
@@ -152,10 +158,6 @@ void GamePlayScene::Update()
 		fTargetEye.x = eye.x - target2.x;
 		fTargetEye.y = eye.y - target2.y;
 		fTargetEye.z = eye.z - target2.z;
-
-		fTargetEye.x /= length;
-		fTargetEye.y /= length;
-		fTargetEye.z /= length;
 
 		XMFLOAT3 playerRot = player->GetRotation();
 		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
@@ -166,12 +168,9 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
 	//X座標,Y座標,縮尺を指定して表情
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
-	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
-	ShowCursor(FALSE);
-	// 座標の変更を反映
-	SetCursorPos(960, 540);
+
 	player->Update();
-	camera->SetFollowingTarget(player.get());
+	camera->SetFollowingTarget(player);
 	//更新
 	camera->Update();
 
@@ -203,11 +202,9 @@ void GamePlayScene::Update()
 		enemy[14]->Update();
 	}
 
-
 	skyObj->Update();
 	obstacle->Update();
 
-	CheckAllCollision();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -239,7 +236,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto i = 0; i < 14; i++) {
 		enemy[i]->Draw();
 	}
-
+	obstacle->Draw();
 	skyObj->Draw();
 	floor->Draw();
 	Object3d::PostDraw();
@@ -269,102 +266,102 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 }
 
 
-void GamePlayScene::CheckAllCollision()
-{
-	//判定の対象
-	XMFLOAT3 posA, posB;
-	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-	for (auto i = 0; i < 14; i++) {
-
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy[i]->GetBullet();
-#pragma region 自弾と敵の当たり判定
-		//if (enemy[i]->GetFrameFlag()) {
-		posA = enemy[i]->GetPosition();
-
-		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-			bulFlag = bullet->GetAlive();
-			if (bulFlag) {
-				posB = bullet->GetPosition();
-
-				float dx = abs(posB.x - posA.x);
-				float dy = abs(posB.y - posA.y);
-				float dz = abs(posB.z - posA.z);
-
-				if (dx < 1 && dy < 1 && dz < 1) {
-					enemy[i]->OnCollision();
-					bullet->OnCollision();
-					gameScore++;
-					eneFlag[i] = true;
-				}
-			}
-		}
-#pragma endregion
-
-#pragma region 敵と自機の当たり判定
-		posA = enemy[i]->GetPosition();
-
-		posB = player->GetPosition();
-
-		float dx = abs(posB.x - posA.x);
-		float dy = abs(posB.y - posA.y);
-		float dz = abs(posB.z - posA.z);
-
-		if (dx < 1 && dy < 1 && dz < 1) {
-			//enemy[i]->Hit();
-			enemy[i]->OnCollision();
-			player->OnCollision();
-		}
-#pragma endregion
-
-#pragma region 敵弾と自機の当たり判定
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-
-			bulFlag = bullet->GetAlive();
-			if (bulFlag) {
-				posA = player->GetPosition();
-
-				posB = bullet->GetPosition();
-
-				float dx = abs(posB.x - posA.x);
-				float dy = abs(posB.y - posA.y);
-				float dz = abs(posB.z - posA.z);
-
-				if (dx < 1 && dy < 1 && dz < 1) {
-					bullet->OnCollision();
-					player->OnCollision();
-					playerLife--;
-				}
-			}
-		}
-#pragma endregion
-
-	}
-
-#pragma region yukaと自機の当たり判定
-	//posA = floor->GetPosition();
-
-	//posB = player->GetPosition();
-
-	//float dx = abs(posB.x - posA.x);
-	//float dy = abs(posB.y - posA.y);
-	//float dz = abs(posB.z - posA.z);
-
-	//if (dx < 1 && dy < 1 && dz < 1) {
-	//	//player->FloorCollision();
-	//}
-#pragma endregion
-
-	playerPos = player->GetPosition();
-	player->SetPosition(playerPos);
-	//プレイヤーのHPが0になったら画面切り替え
-	if (playerLife <= 0 || playerPos.y <= -5) {
-		//シーン切り替え
-		BaseScene* scene = new GameOver();
-		this->sceneManager->SetNextScene(scene);
-	}
-	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
-		//シーン切り替え
-		BaseScene* scene = new GameClear();
-		this->sceneManager->SetNextScene(scene);
-	}
-}
+//void GamePlayScene::CheckAllCollision()
+//{
+//	//判定の対象
+//	XMFLOAT3 posA, posB;
+//	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
+//	for (auto i = 0; i < 14; i++) {
+//
+//		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy[i]->GetBullet();
+//#pragma region 自弾と敵の当たり判定
+//		//if (enemy[i]->GetFrameFlag()) {
+//		posA = enemy[i]->GetPosition();
+//
+//		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+//			bulFlag = bullet->GetAlive();
+//			if (bulFlag) {
+//				posB = bullet->GetPosition();
+//
+//				float dx = abs(posB.x - posA.x);
+//				float dy = abs(posB.y - posA.y);
+//				float dz = abs(posB.z - posA.z);
+//
+//				if (dx < 1 && dy < 1 && dz < 1) {
+//					enemy[i]->OnCollision();
+//					bullet->OnCollision();
+//					gameScore++;
+//					eneFlag[i] = true;
+//				}
+//			}
+//		}
+//#pragma endregion
+//
+//#pragma region 敵と自機の当たり判定
+//		posA = enemy[i]->GetPosition();
+//
+//		posB = player->GetPosition();
+//
+//		float dx = abs(posB.x - posA.x);
+//		float dy = abs(posB.y - posA.y);
+//		float dz = abs(posB.z - posA.z);
+//
+//		if (dx < 1 && dy < 1 && dz < 1) {
+//			//enemy[i]->Hit();
+//			enemy[i]->OnCollision();
+//			player->OnCollision();
+//		}
+//#pragma endregion
+//
+//#pragma region 敵弾と自機の当たり判定
+//		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+//
+//			bulFlag = bullet->GetAlive();
+//			if (bulFlag) {
+//				posA = player->GetPosition();
+//
+//				posB = bullet->GetPosition();
+//
+//				float dx = abs(posB.x - posA.x);
+//				float dy = abs(posB.y - posA.y);
+//				float dz = abs(posB.z - posA.z);
+//
+//				if (dx < 1 && dy < 1 && dz < 1) {
+//					bullet->OnCollision();
+//					player->OnCollision();
+//					playerLife--;
+//				}
+//			}
+//		}
+//#pragma endregion
+//
+//	}
+//
+//#pragma region yukaと自機の当たり判定
+//	//posA = floor->GetPosition();
+//
+//	//posB = player->GetPosition();
+//
+//	//float dx = abs(posB.x - posA.x);
+//	//float dy = abs(posB.y - posA.y);
+//	//float dz = abs(posB.z - posA.z);
+//
+//	//if (dx < 1 && dy < 1 && dz < 1) {
+//	//	//player->FloorCollision();
+//	//}
+//#pragma endregion
+//
+//	playerPos = player->GetPosition();
+//	player->SetPosition(playerPos);
+//	//プレイヤーのHPが0になったら画面切り替え
+//	if (playerLife <= 0 || playerPos.y <= -5) {
+//		//シーン切り替え
+//		BaseScene* scene = new GameOver();
+//		this->sceneManager->SetNextScene(scene);
+//	}
+//	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
+//		//シーン切り替え
+//		BaseScene* scene = new GameClear();
+//		this->sceneManager->SetNextScene(scene);
+//	}
+//}

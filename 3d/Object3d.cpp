@@ -326,13 +326,3 @@ void Object3d::Draw()
 	//モデルを描画
 	this->model->Draw(cmdList, 1);
 }
-
-//void Object3d::SetCollider(BaseCollider* collider)
-//{
-//	collider->SetObject(this);
-//	this->collider = collider;
-//	//コリジョンマネージャに登録
-//	CollisionManager::GetInstance()->AddCollider(collider);
-//	//コライダーを更新していく
-//	collider->Update();
-//}

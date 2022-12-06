@@ -84,7 +84,7 @@ void Player::jump()
 	//床の範囲 
 	if (position.y >= -1  && position.y <= 0 && position.x <= 25 && position.x >= -25
 		&& position.z <= 25 && position.z >= -25) {
-		position.y += g;
+		//position.y += g;
 	}
 
 	//マウスの右をクリックしたらジャンプ
@@ -135,6 +135,12 @@ void Player::Shoot()
 	//弾を登録する
 	bullets.push_back(std::move(newBullet));
 
+}
+
+void Player::OnCollision()
+{
+	position.y += g;
+	object->SetPosition(position);
 }
 
 void Player::Draw()

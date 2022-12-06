@@ -73,6 +73,7 @@ private:
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;
 	Enemy* enemy[15] = {};
+	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;

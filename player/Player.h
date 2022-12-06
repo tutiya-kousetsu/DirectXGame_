@@ -34,9 +34,12 @@ public:
 	//攻撃
 	void Shoot();
 
+	void OnCollision();
 
 	//弾リスト取得
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
+
+
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();

@@ -174,18 +174,15 @@ public: // メンバ関数
 	virtual~Object3d();
 
 
-	//bool Initialize();
-	virtual bool Initialize();
+	bool Initialize();
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	//void Update();
-	virtual void Update();
+	void Update();
 	/// <summary>
 	/// 描画
 	/// </summary>
-	//void Draw();
-	virtual void Draw();
+	void Draw();
 
 	/// <summary>
 	/// 座標の取得
@@ -201,18 +198,6 @@ public: // メンバ関数
 	
 	inline const XMMATRIX& GetMatWorld() { return this->matWorld; }
 	
-	/// <summary>
-	/// コライダーのセット
-	/// </summary>
-	/// <param name="collider">コライダー</param>
-	//void SetCollider(BaseCollider* collider);
-
-	/// <summary>
-	/// 衝突時コールバック関数
-	/// </summary>
-	/// <param name="info">衝突情報</param>
-	//virtual void OnCollision(const CollisionInfo& info){}
-
 	/// <summary>
 	/// 座標の設定
 	/// </summary>

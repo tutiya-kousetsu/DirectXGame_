@@ -22,9 +22,6 @@
     <Filter Include="ソース ファイル\3d">
       <UniqueIdentifier>{6a6c4718-65fe-49f3-80fb-ddc981580065}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\scene">
-      <UniqueIdentifier>{5aa1c67f-1040-4e7d-af08-0a4959b4be5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\camera">
       <UniqueIdentifier>{ea317398-4a6c-4348-acd0-b054282843bf}</UniqueIdentifier>
     </Filter>
@@ -34,14 +31,8 @@
     <Filter Include="ソース ファイル\audio">
       <UniqueIdentifier>{436c3ed6-9154-4074-92ef-a5be5656feed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\enemy">
-      <UniqueIdentifier>{82abdeb1-a0c6-4c2a-92bf-7542c62e8914}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\input">
       <UniqueIdentifier>{f3f6c241-755c-4385-bc51-48702dcc42eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\player">
-      <UniqueIdentifier>{9e696917-7bec-425b-bfb0-8d855e7f3091}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\2d\.h">
       <UniqueIdentifier>{9da3ffb7-eb3b-4dfa-a3d8-576aec4e9920}</UniqueIdentifier>
@@ -61,20 +52,35 @@
     <Filter Include="ソース ファイル\base\.h">
       <UniqueIdentifier>{982fe784-f72d-4e57-be79-ab76cd798fb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\scene\.cpp">
-      <UniqueIdentifier>{fcde9c41-b058-4d36-bd31-4ee611969be8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\scene\.h">
-      <UniqueIdentifier>{60de1f0e-904b-4565-b2d8-a50f9651e0b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\camera\.cpp">
       <UniqueIdentifier>{2c441dc7-d0ca-4566-ad9a-e3d76fafab65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Floor">
-      <UniqueIdentifier>{7f4e8aad-70d7-476f-bf7c-ebc64acb9307}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\camera\.h">
       <UniqueIdentifier>{d77bb0c6-6c49-4d39-bbd3-fd8c83b08662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game">
+      <UniqueIdentifier>{132cf5ff-a490-47c6-b259-302761cea30a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\player">
+      <UniqueIdentifier>{9e696917-7bec-425b-bfb0-8d855e7f3091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene">
+      <UniqueIdentifier>{5aa1c67f-1040-4e7d-af08-0a4959b4be5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\.cpp">
+      <UniqueIdentifier>{fcde9c41-b058-4d36-bd31-4ee611969be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\.h">
+      <UniqueIdentifier>{60de1f0e-904b-4565-b2d8-a50f9651e0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\enemy">
+      <UniqueIdentifier>{82abdeb1-a0c6-4c2a-92bf-7542c62e8914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\Floor">
+      <UniqueIdentifier>{7f4e8aad-70d7-476f-bf7c-ebc64acb9307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\collision">
+      <UniqueIdentifier>{20aea93f-537e-41f0-bd2a-fb432eb11f7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +111,15 @@
     <FxCompile Include="Resources\shaders\PixelShader.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleGS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -117,10 +132,10 @@
       <Filter>ソース ファイル\input</Filter>
     </ClCompile>
     <ClCompile Include="player\Player.cpp">
-      <Filter>ソース ファイル\player</Filter>
+      <Filter>ソース ファイル\game\player</Filter>
     </ClCompile>
     <ClCompile Include="enemy\Enemy.cpp">
-      <Filter>ソース ファイル\enemy</Filter>
+      <Filter>ソース ファイル\game\enemy</Filter>
     </ClCompile>
     <ClCompile Include="2d\DebugText.cpp">
       <Filter>ソース ファイル\2d\.cpp</Filter>
@@ -159,19 +174,19 @@
       <Filter>ソース ファイル\base\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="scene\GameClear.cpp">
-      <Filter>ソース ファイル\scene\.cpp</Filter>
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="scene\GameOver.cpp">
-      <Filter>ソース ファイル\scene\.cpp</Filter>
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="scene\GamePlayScene.cpp">
-      <Filter>ソース ファイル\scene\.cpp</Filter>
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="scene\SceneManager.cpp">
-      <Filter>ソース ファイル\scene\.cpp</Filter>
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="scene\TitleScene.cpp">
-      <Filter>ソース ファイル\scene\.cpp</Filter>
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="camera\Camera.cpp">
       <Filter>ソース ファイル\camera\.cpp</Filter>
@@ -180,28 +195,28 @@
       <Filter>ソース ファイル\camera\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="player\PlayerBullet.cpp">
-      <Filter>ソース ファイル\player</Filter>
+      <Filter>ソース ファイル\game\player</Filter>
     </ClCompile>
     <ClCompile Include="3d\GameObject.cpp">
       <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="Floor\Floor.cpp">
-      <Filter>ソース ファイル\Floor</Filter>
+      <Filter>ソース ファイル\game\Floor</Filter>
     </ClCompile>
     <ClCompile Include="enemy\EnemyBullet.cpp">
-      <Filter>ソース ファイル\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\game\enemy</Filter>
     </ClCompile>
     <ClCompile Include="camera\FollowingCamera.cpp">
       <Filter>ソース ファイル\camera\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>ソース ファイル\game</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\game\collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,16 +232,19 @@
     <None Include="Resources\shaders\PostEffect.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
+    <None Include="Resources\shaders\Particle.hlsli">
+      <Filter>シェーダーファイル</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player\Player.h">
-      <Filter>ソース ファイル\player</Filter>
+      <Filter>ソース ファイル\game\player</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
       <Filter>ソース ファイル\input</Filter>
     </ClInclude>
     <ClInclude Include="enemy\Enemy.h">
-      <Filter>ソース ファイル\enemy</Filter>
+      <Filter>ソース ファイル\game\enemy</Filter>
     </ClInclude>
     <ClInclude Include="audio\Audio.h">
       <Filter>ソース ファイル\audio</Filter>
@@ -268,22 +286,22 @@
       <Filter>ソース ファイル\base\.h</Filter>
     </ClInclude>
     <ClInclude Include="scene\BaseScene.h">
-      <Filter>ソース ファイル\scene\.h</Filter>
+      <Filter>ソース ファイル\game\scene\.h</Filter>
     </ClInclude>
     <ClInclude Include="scene\GameClear.h">
-      <Filter>ソース ファイル\scene\.h</Filter>
+      <Filter>ソース ファイル\game\scene\.h</Filter>
     </ClInclude>
     <ClInclude Include="scene\GameOver.h">
-      <Filter>ソース ファイル\scene\.h</Filter>
+      <Filter>ソース ファイル\game\scene\.h</Filter>
     </ClInclude>
     <ClInclude Include="scene\GamePlayScene.h">
-      <Filter>ソース ファイル\scene\.h</Filter>
+      <Filter>ソース ファイル\game\scene\.h</Filter>
     </ClInclude>
     <ClInclude Include="scene\SceneManager.h">
-      <Filter>ソース ファイル\scene\.h</Filter>
+      <Filter>ソース ファイル\game\scene\.h</Filter>
     </ClInclude>
     <ClInclude Include="scene\TitleScene.h">
-      <Filter>ソース ファイル\scene\.h</Filter>
+      <Filter>ソース ファイル\game\scene\.h</Filter>
     </ClInclude>
     <ClInclude Include="camera\Camera.h">
       <Filter>ソース ファイル\camera\.h</Filter>
@@ -292,19 +310,16 @@
       <Filter>ソース ファイル\camera\.h</Filter>
     </ClInclude>
     <ClInclude Include="player\PlayerBullet.h">
-      <Filter>ソース ファイル\player</Filter>
+      <Filter>ソース ファイル\game\player</Filter>
     </ClInclude>
     <ClInclude Include="3d\GameObject.h">
       <Filter>ソース ファイル\3d\.h</Filter>
     </ClInclude>
     <ClInclude Include="Floor\Floor.h">
-      <Filter>ソース ファイル\Floor</Filter>
+      <Filter>ソース ファイル\game\Floor</Filter>
     </ClInclude>
     <ClInclude Include="enemy\EnemyBullet.h">
-      <Filter>ソース ファイル\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Obstacle.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\game\enemy</Filter>
     </ClInclude>
     <ClInclude Include="camera\FollowingCamera.h">
       <Filter>ソース ファイル\camera\.h</Filter>
@@ -312,14 +327,17 @@
     <ClInclude Include="PipelineSet.h">
       <Filter>ソース ファイル\3d\.h</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>ソース ファイル\game</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

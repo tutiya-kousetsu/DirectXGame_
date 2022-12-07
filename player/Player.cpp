@@ -139,7 +139,17 @@ void Player::Shoot()
 
 void Player::OnCollision()
 {
-	position.y += g;
+	
+}
+
+void Player::FloorCollision()
+{
+	//”ÍˆÍ‘I‘ð
+	if (position.x <= 25 && position.x >= -25
+		&& position.z <= 25 && position.z >= -25) {
+		position.y += g;
+	}
+
 	object->SetPosition(position);
 }
 

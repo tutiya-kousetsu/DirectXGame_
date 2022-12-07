@@ -7,18 +7,22 @@
 #include "DirectXCommon.h"
 #include "Fbx_Object3d.h"
 #include "PostEffect.h"
-#include "Input.h"
-#include "Enemy.h"
 #include "PlayerBullet.h"
 #include "GameOver.h"
 #include "GameClear.h"
-#include "Floor/Floor.h"
-#include "Obstacle.h"
 #include "FollowingCamera.h"
+#include "Input.h"
+#include "Enemy.h"
+#include "Obstacle.h"
+#include "Floor/Floor.h"
+
 #include <memory>
 #include <sstream>
 
+//前方宣言
 class Player;
+class ParticleManager;
+
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -57,7 +61,6 @@ private:
 	Sprite* LifeSprite2 = nullptr;
 	Sprite* LifeSprite3 = nullptr;
 	Sprite* spriteBG = nullptr;
-	//Camera* camera = nullptr;
 	// カメラ
 	std::unique_ptr<FollowingCamera> camera;
 	DirectXCommon* dxCommon = nullptr;
@@ -65,7 +68,6 @@ private:
 	PostEffect* postEffect[2] = {};
 
 	Obstacle* obstacle = nullptr;
-	//Object3d* playerObj = nullptr;
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 
@@ -77,6 +79,8 @@ private:
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
+	ParticleManager* particleMan = nullptr;
+
 	XMFLOAT3 enePos;
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;
@@ -94,9 +98,9 @@ private:
 	float angleX = 0;
 	float angleY = 0;
 	float scaleX = 1.0f / (float)WinApp::window_width;
-	float scaleY = 1.0f / (float)WinApp::window_height;
+	float scaleY = 0.35f / (float)WinApp::window_height;
 	bool viewDirty = false;
-	float distance = 20.0f;
+	float distance = 1.0f;
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
 
 };

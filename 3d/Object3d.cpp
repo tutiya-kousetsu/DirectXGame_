@@ -261,8 +261,6 @@ bool Object3d::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&this->constBuffB0));
 
-
-
 	return true;
 }
 

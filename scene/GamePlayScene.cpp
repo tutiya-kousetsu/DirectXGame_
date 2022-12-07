@@ -1,13 +1,13 @@
 #include "GamePlayScene.h"
 #include "SceneManager.h"
 #include "Audio.h"
-#include "Input.h"
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
 #include "Player.h"
 #include "Enemy/EnemyBullet.h"
 #include "Collision.h"
+#include "ParticleManager.h"
 #include <fstream>
 #include <cassert>
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
@@ -109,6 +109,28 @@ void GamePlayScene::Update()
 	ShowCursor(FALSE);
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
+
+	//for (int i = 0; i < 100; i++) {
+	//	//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
+	//	const float md_pos = 10.0f;
+	//	XMFLOAT3 pos{};
+	//	pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+	//	pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+	//	pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+	//	//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+	//	const float md_vel = 0.1f;
+	//	XMFLOAT3 vel{};
+	//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+	//	XMFLOAT3 acc{};
+	//	const float rnd_acc = 0.001f;
+	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+	//	//追加
+	//	particleMan->Add(60, pos, vel, acc);
+	//}
 
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
@@ -297,7 +319,7 @@ void GamePlayScene::CheckAllCollision()
 #pragma endregion
 
 #pragma region 敵と自機の当たり判定
-		/*まだ使う予定なし*/
+		/*まだ使う予定なし(使うならボス)*/
 		//posA = enemy[i]->GetPosition();
 
 		//posB = player->GetPosition();
@@ -344,21 +366,18 @@ void GamePlayScene::CheckAllCollision()
 
 #pragma region 床と自機の当たり判定
 	Plane floorShape;
-
-	floorShape.normal = XMVectorSet(floor->GetPosition().x, 1, floor->GetPosition().z, 0);
+	floorShape.normal = XMVectorSet(0, 1, 0, 0);
 	floorShape.distance = -1.0f;
 
-		Sphere playerShape;
-		playerShape.center = XMLoadFloat3(&player->GetPosition());
-		playerShape.radius = player->GetScale().z;
+	Sphere playerShape;
+	playerShape.center = XMLoadFloat3(&player->GetPosition());
+	playerShape.radius = player->GetScale().z;
 
-		if (Collision::CheckSphere2Plane(playerShape, floorShape)) {
-			player->OnCollision();
-			//XMFLOAT3 playerPos = player->GetPosition();
-			//playerPos.y += 0.25f;
-			//playerLife--;
-		}
+	if (Collision::CheckSphere2Plane(playerShape, floorShape)) {
+		player->FloorCollision();
+	}
 #pragma endregion
+	XMFLOAT3 playerPos = player->GetPosition();
 
 	//プレイヤーのHPが0になったら画面切り替え
 	if (playerLife <= 0 || playerPos.y <= -5) {

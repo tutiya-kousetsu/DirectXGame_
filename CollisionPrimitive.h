@@ -1,8 +1,6 @@
 #pragma once
-
-// 当たり判定プリミティブ
-
 #include <DirectXMath.h>
+// 当たり判定プリミティブ
 
 // 球
 struct Sphere {

@@ -217,6 +217,8 @@ public: // メンバ関数
 	/// </summary>
 	void SetModel(Model* model) { this->model = model; }
 
+	void SetMatRotation(XMMATRIX matRot) { this->matRot = matRot; }
+
 protected: // メンバ変数
 	//3Dモデル(借りてくる)
 	Model* model = nullptr;

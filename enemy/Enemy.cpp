@@ -20,7 +20,9 @@ void Enemy::Initialize()
 	float x2 = (float)x / 10 - 20;//10`-10‚Ì”ÍˆÍ
 	int y = rand() % 70;
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	position = { x2, y2, 35 };
+	int z = rand() % 900;
+	float z2 = (float)z / 10 - 45;//6~0‚Ì”ÍˆÍ
+	position = { x2, y2, z2 };
 
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);

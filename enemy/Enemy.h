@@ -48,7 +48,7 @@ public:
 	
 	//inline bool GetFlag() { return aliveFlag; }
 
-	static const int kShootInterval = 60;
+	static const int kShootInterval = 70;
 
 	//’eƒŠƒXƒgæ“¾
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }

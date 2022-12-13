@@ -60,7 +60,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	obstacle = new Obstacle();
-
+	particleMan = new ParticleManager();
+	particleMan->Initialize(dxCommon->GetDev());
+	particleMan->SetCamera(camera.get());
 	for (auto i = 0; i < 14; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
@@ -73,7 +75,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	skyModel = Model::LoadFromObj("skydome");
 	skyObj = Object3d::Create();
 	skyObj->SetModel(skyModel);
-
 }
 
 void GamePlayScene::Finalize()
@@ -110,30 +111,13 @@ void GamePlayScene::Update()
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
 
-	//for (int i = 0; i < 100; i++) {
-	//	//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
-	//	const float md_pos = 10.0f;
-	//	XMFLOAT3 pos{};
-	//	pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-	//	pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-	//	pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-	//	//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-	//	const float md_vel = 0.1f;
-	//	XMFLOAT3 vel{};
-	//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-	//	XMFLOAT3 acc{};
-	//	const float rnd_acc = 0.001f;
-	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-	//	//追加
-	//	particleMan->Add(60, pos, vel, acc);
-	//}
+	camera->SetFollowingTarget(player);
 
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
+	float dx = mouseMove.lY * scaleX;
+	angleX = dx * XM_PI;
 	float dy = mouseMove.lX * scaleY;
 	angleY = -dy * XM_PI;
 
@@ -167,7 +151,7 @@ void GamePlayScene::Update()
 
 		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
 		XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
-		// FLOAT3に変換
+		// FLOAT3に変換//
 		XMStoreFloat3(&fTargetEye, vecF);
 		XMVECTOR vecTarget = XMLoadFloat3(&target2);
 		// FLOAT3に変換
@@ -185,6 +169,7 @@ void GamePlayScene::Update()
 		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
 		playerRot.y *= 180 / XM_PI;
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
+
 	}
 	//X座標,Y座標を指定して表示
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
@@ -192,7 +177,8 @@ void GamePlayScene::Update()
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	player->Update();
-	camera->SetFollowingTarget(player);
+
+	particleMan->Update();
 	//更新
 	camera->Update();
 
@@ -216,13 +202,13 @@ void GamePlayScene::Update()
 		enemy[8]->Update();
 		enemy[9]->Update();
 	}
-	if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
-		enemy[10]->Update();
-		enemy[11]->Update();
-		enemy[12]->Update();
-		enemy[13]->Update();
-		enemy[14]->Update();
-	}
+	//if (eneFlag[6] && eneFlag[7] && eneFlag[8] && eneFlag[9]) {
+	//	enemy[10]->Update();
+	//	enemy[11]->Update();
+	//	enemy[12]->Update();
+	//	enemy[13]->Update();
+	//	enemy[14]->Update();
+	//}
 
 	skyObj->Update();
 	obstacle->Update();
@@ -258,9 +244,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto i = 0; i < 14; i++) {
 		enemy[i]->Draw();
 	}
-	obstacle->Draw();
+	//obstacle->Draw();
 	skyObj->Draw();
 	floor->Draw();
+	particleMan->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
 
 #pragma region 前景スプライト描画
@@ -287,7 +274,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 
 }
 
-
 void GamePlayScene::CheckAllCollision()
 {
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
@@ -311,6 +297,8 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						enemy[i]->OnCollision();
 						eneFlag[i] = true;
+						//XMFLOAT3 pos = enemy[i]->GetPosition();
+						//particleMan->CreateParticle(pos, 70, 4, 1.65f);
 					}
 				}
 			}
@@ -353,6 +341,33 @@ void GamePlayScene::CheckAllCollision()
 						if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 							eb->OnCollision();
 							player->OnCollision();
+							XMFLOAT3 pos;
+							pos.x = player->GetPosition().x;
+							pos.y = player->GetPosition().y;
+							pos.z = player->GetPosition().z;
+							//particleMan->CreateParticle(pos, 70, 4, 1.65f);
+							for (int i = 0; i < 70; i++) {
+								//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
+								const float md_pos = 5.0f;
+								XMFLOAT3 pos = player->GetPosition();
+								pos.x = player->GetPosition().x;
+								pos.y = player->GetPosition().y;
+								pos.z = player->GetPosition().z;
+								//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+								const float md_vel = 0.1f;
+								XMFLOAT3 vel{};
+								vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+								vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+								vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+								//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+								XMFLOAT3 acc{};
+								const float rnd_acc = 0.005f;
+								acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+								//追加
+								particleMan->Add(60, pos, vel, acc);
+
+							}
 							playerLife--;
 						}
 					}

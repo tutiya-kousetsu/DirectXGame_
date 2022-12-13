@@ -25,6 +25,7 @@ void PlayerBullet::Update()
 	if (alive) {
 		
 		position.x += velocity.m128_f32[0];
+		position.y += velocity.m128_f32[1];
 		position.z += velocity.m128_f32[2];
 	}
 	// À•W‚Ì•ÏX‚ğ”½‰f

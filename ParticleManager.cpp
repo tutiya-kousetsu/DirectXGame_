@@ -301,7 +301,7 @@ void ParticleManager::InitializeDescriptorHeap()
 	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
-void ParticleManager::Initialize()
+void ParticleManager::Initialize(ID3D12Device* device)
 {
 	// nullptrチェック
 	assert(device);
@@ -348,17 +348,14 @@ void ParticleManager::Update()
 		it++) {
 		// 経過フレーム数をカウント
 		it->frame++;
-		// 進行度を0～1の範囲に換算
-		float f = (float)it->num_frame / it->frame;
-
 		// 速度に加速度を加算
 		it->velocity = it->velocity + it->accel;
-
 		// 速度による移動
 		it->position = it->position + it->velocity;
 	}
 
 	// 頂点バッファへデータ転送
+	int vertCount = 0;
 	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
@@ -370,7 +367,7 @@ void ParticleManager::Update()
 			vertMap->pos = it->position;
 			// 次の頂点へ
 			vertMap++;
-			if (vertexCount >= 1024) {
+			if (++vertCount >= vertexCount) {
 				break;
 			}
 		}
@@ -386,7 +383,7 @@ void ParticleManager::Update()
 
 }
 
-void ParticleManager::Draw()
+void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	// nullptrチェック
 	assert(cmdList);
@@ -416,13 +413,31 @@ void ParticleManager::Draw()
 
 void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel)
 {
-	//リストに要素追加
+	// リストに要素を追加
 	particles.emplace_front();
-	//追加した要素の参照
+	// 追加した要素の参照
 	Particle& p = particles.front();
-	//値のセット
 	p.position = position;
 	p.velocity = velocity;
 	p.accel = accel;
+	/*p.s_scale = start_scale;
+	p.e_scale = end_scale;*/
 	p.num_frame = life;
 }
+
+//void ParticleManager::CreateParticle(const XMFLOAT3& pos, UINT particleNum, float startScale, float vel)
+//{
+//	for (UINT i = 0; i <= particleNum; i++) {
+//		const float thata = rand() % 180 / 180.f * DirectX::XM_PI;
+//		const float phi = rand() % 360 / 360.f * DirectX::XM_PI;
+//		const float r = rand() % (int)(vel * 100) / 100.f;
+//
+//		XMFLOAT3 vel{
+//	r * sinf(thata) * cosf(phi),
+//	r * cosf(thata),
+//	r * sinf(thata) * sinf(phi) };
+//
+//		Add(15, pos, vel, XMFLOAT3(vel.x / -10, vel.y / -10, vel.z / -10), startScale, 0);
+//	}
+//
+//}

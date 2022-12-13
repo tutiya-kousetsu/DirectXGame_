@@ -49,6 +49,16 @@ public://サブクラス
 		int frame = 0;
 		//終了フレーム
 		int num_frame = 0;
+
+		// 初期値
+		XMFLOAT3 s_color = {};
+		float s_scale = 1.0f;
+		float s_rotation = 0.0f;
+		// 最終値
+		XMFLOAT3 e_color = {};
+		float e_scale = 0.0f;
+		float e_rotation = 0.0f;
+
 	};
 
 
@@ -56,6 +66,15 @@ public:
 	void LoadTexture();
 
 	void CreateModel();
+
+	/// <summary>
+	/// カメラのセット
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	inline void SetCamera(Camera* camera) {
+		this->camera = camera;
+	}
+
 	/// <summary>
 	/// グラフィックパイプライン生成
 	/// </summary>
@@ -68,20 +87,24 @@ public:
 	/// <returns></returns>
 	void InitializeDescriptorHeap();
 
-	void Initialize();
+	void Initialize(ID3D12Device* device);
 
 	void Update();
 
-	void Draw();
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
 	/// パーティクルの追加
 	/// </summary>
-	/// <param name="life">パーティクルの生存時間</param>
+	/// <param name="life">生存時間</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
 	/// <param name="accel">加速度</param>
+	/// <param name="start_scale">開始時スケール</param>
+	/// <param name="end_scale">終了時スケール</param>
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel);
+
+	//void CreateParticle(const XMFLOAT3& pos, UINT particleNum, float startScale, float vel);
 private:
 	// デバイス
 	ID3D12Device* device = nullptr;
@@ -99,7 +122,7 @@ private:
 	ComPtr<ID3D12Resource> texbuff;
 	// シェーダリソースビューのハンドル(CPU)
 	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// シェーダリソースビューのハンドル(CPU)
+	// シェーダリソースビューのハンドル(GPU)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView;
@@ -109,8 +132,6 @@ private:
 	std::forward_list<Particle> particles;
 	// カメラ
 	Camera* camera = nullptr;
-	// コマンドリスト
-	ID3D12GraphicsCommandList* cmdList;
 
 	static const int vertexCount = 1024;
 };

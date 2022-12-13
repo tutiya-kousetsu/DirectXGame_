@@ -81,11 +81,6 @@ void Player::jump()
 	position = object->GetPosition();
 	//重力
 	position.y -= g;
-	//床の範囲 
-	if (position.y >= -1  && position.y <= 0 && position.x <= 25 && position.x >= -25
-		&& position.z <= 25 && position.z >= -25) {
-		//position.y += g;
-	}
 
 	//マウスの右をクリックしたらジャンプ
 	if (input->TriggerMouseRight() && !jumpFlag || input->TriggerKey(DIK_SPACE) && !jumpFlag) {
@@ -149,7 +144,9 @@ void Player::FloorCollision()
 		&& position.z <= 25 && position.z >= -25) {
 		position.y += g;
 	}
-
+	else {
+		jumpFlag = false;
+	}
 	object->SetPosition(position);
 }
 

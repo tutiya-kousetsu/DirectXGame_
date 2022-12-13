@@ -97,7 +97,7 @@ private:
 	bool dirty = false;
 	float angleX = 0;
 	float angleY = 0;
-	float scaleX = 1.0f / (float)WinApp::window_width;
+	float scaleX = 0.35f / (float)WinApp::window_width;
 	float scaleY = 0.35f / (float)WinApp::window_height;
 	bool viewDirty = false;
 	float distance = 1.0f;

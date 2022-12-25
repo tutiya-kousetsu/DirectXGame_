@@ -8,6 +8,7 @@
 #include "Enemy/EnemyBullet.h"
 #include "Collision.h"
 #include "ParticleManager.h"
+#include "Line.h"
 #include <fstream>
 #include <cassert>
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
@@ -61,6 +62,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	enemyBullet = new EnemyBullet();
 	obstacle = new Obstacle();
 	particleMan = new ParticleManager();
+	line = new Line();
 	particleMan->Initialize(dxCommon->GetDev());
 	particleMan->SetCamera(camera.get());
 	for (auto i = 0; i < 14; i++) {
@@ -183,7 +185,7 @@ void GamePlayScene::Update()
 	camera->Update();
 
 	floor->Update();
-
+	line->Update();
 	if (!eneFlag[0]) {
 		enemy[0]->Update();
 	}
@@ -245,6 +247,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		enemy[i]->Draw();
 	}
 	//obstacle->Draw();
+	line->Draw();
 	skyObj->Draw();
 	floor->Draw();
 	particleMan->Draw(dxCommon->GetCmdList());

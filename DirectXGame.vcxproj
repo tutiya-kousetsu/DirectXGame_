@@ -191,6 +191,7 @@
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="Floor\Floor.cpp" />
     <ClCompile Include="input\Input.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="Floor\Floor.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="PipelineSet.h" />

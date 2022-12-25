@@ -21,6 +21,7 @@
 
 //‘O•ûéŒ¾
 class Player;
+class Line;
 class ParticleManager;
 
 /// <summary>
@@ -80,7 +81,7 @@ private:
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
 	ParticleManager* particleMan = nullptr;
-
+	Line* line = nullptr;
 	XMFLOAT3 enePos;
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;

@@ -25,8 +25,6 @@ public:
 	//更新
 	void Update() override;
 
-	void UpdateAliveFlag();
-
 	//描画
 	void Draw() override;
 
@@ -35,18 +33,7 @@ public:
 	//衝突時に呼び出される関数
 	void OnCollision();
 
-	//inline XMFLOAT3 GetPosition() { return enemyObj->GetPosition(); }
-	//XMFLOAT3 frameGetPos() { return frameObj->GetPosition(); }
-
-	//弾リスト取得
-	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullet; }
-
 public:
-	//int aliveFlag = 1;
-	//衝突した処理
-	//void Hit() { aliveFlag = 0; }
-	
-	//inline bool GetFlag() { return aliveFlag; }
 
 	static const int kShootInterval = 70;
 

@@ -16,6 +16,5 @@ public:
 
 private:
 	XMFLOAT3 position;
-
 };
 

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Object3d.h"
 #include "EnemyBullet.h"
+#include "Line.h"
 #include <memory>
 #include <list>
 
@@ -35,7 +36,7 @@ public:
 
 public:
 
-	static const int kShootInterval = 70;
+	static const int kShootInterval = 120;
 
 	//’eƒŠƒXƒgŽæ“¾
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
@@ -52,7 +53,9 @@ private:
 	int enemyTimer = 0;
 	int enemyPopFlag = 0;
 	Player* player = nullptr;
-	XMFLOAT3 position; 
+	Line* line = nullptr;
+	XMFLOAT3 position;
+	XMFLOAT3 linePos;
 	XMVECTOR velocity;
 	std::list<std::unique_ptr<Object3d>> enemy;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;

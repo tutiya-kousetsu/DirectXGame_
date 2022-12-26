@@ -6,9 +6,9 @@ Line::Line() :Line(Model::LoadFromObj("line"))
 
 void Line::Update()
 {
-	position = object->GetPosition();
-	position = { 0,0,0 };
-	object->SetPosition(position);
+	//position = enemy->GetPosition();
+	//position = { 0,0,0 };
+	//object->SetPosition(position);
 	object->Update();
 }
 

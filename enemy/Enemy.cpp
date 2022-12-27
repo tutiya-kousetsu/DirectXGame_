@@ -12,6 +12,7 @@ Enemy::~Enemy()
 
 void Enemy::Initialize()
 {
+	//line = new Line();
 	AccessPhase();
 
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
@@ -26,6 +27,7 @@ void Enemy::Initialize()
 
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
+
 }
 
 void Enemy::Update()
@@ -37,14 +39,17 @@ void Enemy::Update()
 		shootTimer--;
 		if (shootTimer < 0) {
 			Shoot();
-
+			
 			shootTimer = kShootInterval;
 		}
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Update();
 		}
 		object->SetRotation(rotation);
+		
 	}
+	/*line->Initialize(position);
+	line->Update();*/
 	object->Update();
 }
 

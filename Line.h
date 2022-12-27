@@ -10,6 +10,8 @@ public:
 
 	Line();
 
+	void Initialize(XMFLOAT3 pos);
+
 	void Update() override;
 
 	void Draw() override;

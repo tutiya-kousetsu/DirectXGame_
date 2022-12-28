@@ -36,6 +36,7 @@ void Enemy::Update()
 		XMFLOAT3 rotation = object->GetRotation();
 		rotation = { 0, 180, 0 };
 
+
 		shootTimer--;
 		if (shootTimer < 0) {
 			Shoot();
@@ -48,8 +49,6 @@ void Enemy::Update()
 		object->SetRotation(rotation);
 		
 	}
-	/*line->Initialize(position);
-	line->Update();*/
 	object->Update();
 }
 

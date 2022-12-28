@@ -215,6 +215,9 @@ void GamePlayScene::Update()
 	skyObj->Update();
 	obstacle->Update();
 	CheckAllCollision();
+	LoadObstaclePopData();
+	UpdataObstaclePopCommand();
+
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -449,5 +452,63 @@ void GamePlayScene::CheckAllCollision()
 		//シーン切り替え
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);
+	}
+}
+
+void GamePlayScene::LoadObstaclePopData()
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Resources/Obstacle.csv");
+	assert(file.is_open());
+
+	//ファイルの内容を文字列ストリームにコピー
+	obstaclePopCom << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GamePlayScene::UpdataObstaclePopCommand()
+{
+	//1行分の文字列を入れる変数
+	std::string line;
+	//コマンド実行ループ
+	while (getline(obstaclePopCom, line)){
+		//1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		//　"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			//コメント行を飛ばす
+			continue;
+		}
+
+		//POPコマンド
+		if (word.find("POP") == 0) {
+			//x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::stof(word.c_str());
+		
+			//y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::stof(word.c_str());
+
+			//z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::stof(word.c_str());
+
+			//障害物を配置する
+			obstaclePos = obstacle->GetPosition();
+			obstaclePos = { x, y, z };
+			obstacle->SetPosition(obstaclePos);
+
+			//WAITコマンド
+			break;
+		}
 	}
 }

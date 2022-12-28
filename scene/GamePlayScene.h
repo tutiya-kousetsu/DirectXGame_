@@ -50,9 +50,15 @@ public:
 	/// </summary>
 	void Draw(DirectXCommon* dxCommon) override;
 	
-	//void LoadEnemyPopData();
+	/// <summary>
+	/// 障害物の発生データの読み込み
+	/// </summary>
+	void LoadObstaclePopData();
 
-	//void UpdataEnemyPopCommand();
+	/// <summary>
+	/// 障害物配置のコマンド更新
+	/// </summary>
+	void UpdataObstaclePopCommand();
 
 	void CheckAllCollision();
 private:
@@ -69,6 +75,8 @@ private:
 	PostEffect* postEffect[2] = {};
 
 	Obstacle* obstacle = nullptr;
+	std::stringstream obstaclePopCom;
+	XMFLOAT3 obstaclePos;
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 

@@ -7,9 +7,9 @@ Obstacle::Obstacle() :Obstacle(Model::LoadFromObj("obstacle"))
 
 void Obstacle::Update()
 {
-	position = object->GetPosition();
-	position = { 0,0,0 };
-	object->SetPosition(position);
+	//position = object->GetPosition();
+	//position = { 0,0,0 };
+	//object->SetPosition(position);
 	object->Update();
 }
 

@@ -96,6 +96,8 @@ private:
 	std::stringstream enemyPopCommands;
 	XMFLOAT3 bulPos;
 	int playerLife = 3;
+	int enemyLife = 3;
+
 	int gameScore = 0;
 	float flagTimer = 0;
 	bool bulFlag = true;

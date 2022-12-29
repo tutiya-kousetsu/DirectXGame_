@@ -55,7 +55,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//乱数の初期化
 	srand((unsigned)time(NULL));
-
+	//int x = rand() % 700;
+	//float x2 = (float)x / 10 - 35;//10～-10の範囲
+	//int y = rand() % 70;
+	//float y2 = (float)y / 10;//6~0の範囲
+	//int z = rand() % 700;
+	////float z2 = (float)z / 10 - 35;//6~0の範囲
+	//enePos = { x2, y2, 35 };
 	player = new Player();
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
@@ -190,15 +196,25 @@ void GamePlayScene::Update()
 		enemy[0]->Update();
 	}
 	if (eneFlag[0]) {
+		if (enemyLife <= 0) {
+			enemyLife = 3;
+		}
 		enemy[1]->Update();
 		enemy[2]->Update();
+		
 	}
 	if (eneFlag[1] && eneFlag[2]) {
+		if (enemyLife <= 0) {
+			enemyLife = 3;
+		}
 		enemy[3]->Update();
 		enemy[4]->Update();
 		enemy[5]->Update();
 	}
 	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
+		if (enemyLife <= 0) {
+			enemyLife = 3;
+		}
 		enemy[6]->Update();
 		enemy[7]->Update();
 		enemy[8]->Update();
@@ -215,8 +231,7 @@ void GamePlayScene::Update()
 	skyObj->Update();
 	obstacle->Update();
 	CheckAllCollision();
-	LoadObstaclePopData();
-	UpdataObstaclePopCommand();
+	
 
 }
 
@@ -298,10 +313,13 @@ void GamePlayScene::CheckAllCollision()
 					if (enemy[i]->GetAlive()) {
 						Sphere enemyShape;
 						enemyShape.center = XMLoadFloat3(&enemy[i]->GetPosition());
-						enemyShape.radius = enemy[i]->GetScale().x;
+						enemyShape.radius = enemy[i]->GetScale().z;
 
 						if (Collision::CheckSphere2Sphere(pBullet, enemyShape)) {
 							pb->OnCollision();
+							enemyLife--;
+						}
+						if (enemyLife <= 0) {
 							enemy[i]->OnCollision();
 							eneFlag[i] = true;
 						}
@@ -345,7 +363,6 @@ void GamePlayScene::CheckAllCollision()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						player->OnCollision();
 						XMFLOAT3 pos;
 						pos.x = player->GetPosition().x;
 						pos.y = player->GetPosition().y;
@@ -474,7 +491,7 @@ void GamePlayScene::UpdataObstaclePopCommand()
 	//1行分の文字列を入れる変数
 	std::string line;
 	//コマンド実行ループ
-	while (getline(obstaclePopCom, line)){
+	while (getline(obstaclePopCom, line)) {
 		//1行分の文字列をストリームに変換して解析しやすくする
 		std::istringstream line_stream(line);
 
@@ -493,7 +510,7 @@ void GamePlayScene::UpdataObstaclePopCommand()
 			//x座標
 			getline(line_stream, word, ',');
 			float x = (float)std::stof(word.c_str());
-		
+
 			//y座標
 			getline(line_stream, word, ',');
 			float y = (float)std::stof(word.c_str());

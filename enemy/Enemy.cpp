@@ -22,8 +22,8 @@ void Enemy::Initialize()
 	int y = rand() % 70;
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
 	int z = rand() % 700;
-	float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { x2, y2, z2 };
+	//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
+	position = { x2, y2, 35 };
 
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
@@ -49,6 +49,7 @@ void Enemy::Update()
 		object->SetRotation(rotation);
 		
 	}
+	
 	object->Update();
 }
 
@@ -98,7 +99,7 @@ void Enemy::Shoot()
 
 void Enemy::OnCollision()
 {
-	alive = false;
+		alive = false;
 }
 
 void Enemy::AccessPhase()

@@ -40,16 +40,16 @@ void Enemy::Update()
 		shootTimer--;
 		if (shootTimer < 0) {
 			Shoot();
-			
+
 			shootTimer = kShootInterval;
 		}
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Update();
 		}
 		object->SetRotation(rotation);
-		
+
 	}
-	
+	//object->SetPosition(position);
 	object->Update();
 }
 
@@ -99,7 +99,7 @@ void Enemy::Shoot()
 
 void Enemy::OnCollision()
 {
-		alive = false;
+	alive = false;
 }
 
 void Enemy::AccessPhase()

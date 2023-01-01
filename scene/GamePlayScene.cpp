@@ -55,22 +55,18 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//乱数の初期化
 	srand((unsigned)time(NULL));
-	//int x = rand() % 700;
-	//float x2 = (float)x / 10 - 35;//10～-10の範囲
-	//int y = rand() % 70;
-	//float y2 = (float)y / 10;//6~0の範囲
-	//int z = rand() % 700;
-	////float z2 = (float)z / 10 - 35;//6~0の範囲
-	//enePos = { x2, y2, 35 };
+	
+
 	player = new Player();
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	obstacle = new Obstacle();
-	particleMan = new ParticleManager();
+	// パーティクル初期化
+	ParticleManager::GetInstance()->SetCamera(camera.get());
 	line = new Line();
-	particleMan->Initialize(dxCommon->GetDev());
-	particleMan->SetCamera(camera.get());
+	//particleMan->Initialize(dxCommon->GetDev());
+	//particleMan->SetCamera(camera.get());
 	for (auto i = 0; i < 14; i++) {
 		enemy[i] = new Enemy();
 		enemy[i]->Initialize();
@@ -186,35 +182,67 @@ void GamePlayScene::Update()
 
 	player->Update();
 
-	particleMan->Update();
+	// パーティクル更新
+	ParticleManager::GetInstance()->Update();
 	//更新
 	camera->Update();
 
 	floor->Update();
 	line->Update();
+	/*for (auto i = 0; 0 < 15; i++) {
+		enemy[i]->SetLife(enemyLife);
+	}*/
+	
+	enePos2 = { 35, y2, z2 };
+	enePos3 = { -35, y2, z2 };
+	enePos4 = { x2, y2, -35 };
+
 	if (!eneFlag[0]) {
+		//enePos = enemy[0]->GetPosition();
+		//enePos = { x2, y2, 35 };
+		//enemy[0]->SetPosition(enePos);
 		enemy[0]->Update();
-	}
-	if (eneFlag[0]) {
-		if (enemyLife <= 0) {
-			enemyLife = 3;
-		}
-		enemy[1]->Update();
-		enemy[2]->Update();
 		
 	}
+	if (eneFlag[0]) {
+		//enePos = enemy[1]->GetPosition();
+		//enePos = enemy[2]->GetPosition();
+		//enePos = { x2, y2, 35 };
+		//enePos2 = { 35, y2, z2 };
+		//enemy[1]->SetPosition(enePos);
+		//enemy[2]->SetPosition(enePos2);
+		enemy[1]->Update();
+		enemy[2]->Update();
+	}
 	if (eneFlag[1] && eneFlag[2]) {
-		if (enemyLife <= 0) {
-			enemyLife = 3;
-		}
+		//enePos = enemy[3]->GetPosition();
+		//enePos = enemy[4]->GetPosition();
+		//enePos = enemy[5]->GetPosition();
+		//enePos = { x2, y2, 35 };
+		//enePos2 = { 35, y2, z2 };
+		//enePos3 = { -35, y2, z2 };
+		//enemy[3]->SetPosition(enePos);
+		//enemy[4]->SetPosition(enePos2);
+		//enemy[5]->SetPosition(enePos3);
+
 		enemy[3]->Update();
 		enemy[4]->Update();
 		enemy[5]->Update();
 	}
 	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
-		if (enemyLife <= 0) {
-			enemyLife = 3;
-		}
+		//enePos = enemy[6]->GetPosition();
+		//enePos = enemy[7]->GetPosition();
+		//enePos = enemy[8]->GetPosition();
+		//enePos = enemy[9]->GetPosition();
+		//enePos = { x2, y2, 35 };
+		//enePos2 = { 35, y2, z2 };
+		//enePos3 = { -35, y2, z2 };
+		//enePos4 = { x2, y2, -35 };
+		//enemy[6]->SetPosition(enePos);
+		//enemy[7]->SetPosition(enePos2);
+		//enemy[8]->SetPosition(enePos3);
+		//enemy[9]->SetPosition(enePos4);
+
 		enemy[6]->Update();
 		enemy[7]->Update();
 		enemy[8]->Update();
@@ -268,7 +296,8 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	line->Draw();
 	skyObj->Draw();
 	floor->Draw();
-	particleMan->Draw(dxCommon->GetCmdList());
+	// パーティクル描画
+	ParticleManager::GetInstance()->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
 
 #pragma region 前景スプライト描画
@@ -317,9 +346,6 @@ void GamePlayScene::CheckAllCollision()
 
 						if (Collision::CheckSphere2Sphere(pBullet, enemyShape)) {
 							pb->OnCollision();
-							enemyLife--;
-						}
-						if (enemyLife <= 0) {
 							enemy[i]->OnCollision();
 							eneFlag[i] = true;
 						}
@@ -367,29 +393,31 @@ void GamePlayScene::CheckAllCollision()
 						pos.x = player->GetPosition().x;
 						pos.y = player->GetPosition().y;
 						pos.z = player->GetPosition().z;
-						//particleMan->CreateParticle(pos, 70, 4, 1.65f);
-						for (int i = 0; i < 70; i++) {
-							//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
-							const float md_pos = 5.0f;
-							XMFLOAT3 pos = player->GetPosition();
-							pos.x = player->GetPosition().x;
-							pos.y = player->GetPosition().y;
-							pos.z = player->GetPosition().z;
-							//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-							const float md_vel = 0.1f;
-							XMFLOAT3 vel{};
-							vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-							vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-							vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-							//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-							XMFLOAT3 acc{};
-							const float rnd_acc = 0.005f;
-							acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+						// パーティクルの発生
+						ParticleManager::GetInstance()->CreateParticle(pos, 100, 4, 10);
 
-							//追加
-							particleMan->Add(60, pos, vel, acc);
+						//for (int i = 0; i < 70; i++) {
+						//	//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
+						//	const float md_pos = 5.0f;
+						//	XMFLOAT3 pos = player->GetPosition();
+						//	pos.x = player->GetPosition().x;
+						//	pos.y = player->GetPosition().y;
+						//	pos.z = player->GetPosition().z;
+						//	//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+						//	const float md_vel = 0.1f;
+						//	XMFLOAT3 vel{};
+						//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+						//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+						//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+						//	//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+						//	XMFLOAT3 acc{};
+						//	const float rnd_acc = 0.005f;
+						//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-						}
+						//	//追加
+						//	particleMan->Add(60, pos, vel, acc);
+
+						//}
 						playerLife--;
 					}
 				}

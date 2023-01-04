@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Object3d.h"
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -7,11 +7,6 @@
 #include <d3dx12.h>
 #include <forward_list>
 
-#include "Camera.h"
-
-/// <summary>
-/// パーティクルマネージャ
-/// </summary>
 class ParticleManager
 {
 private: // エイリアス
@@ -23,7 +18,8 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // サブクラス
+public://サブクラス
+
 	// 頂点データ構造体
 	struct VertexPos
 	{
@@ -38,30 +34,22 @@ public: // サブクラス
 		XMMATRIX matBillboard;	// ビルボード行列
 	};
 
-	// パーティクル1粒
-	class Particle
+	//パーティクル1粒
+	struct Particle
 	{
-		// Microsoft::WRL::を省略
-		template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-		// DirectX::を省略
-		using XMFLOAT2 = DirectX::XMFLOAT2;
 		using XMFLOAT3 = DirectX::XMFLOAT3;
-		using XMFLOAT4 = DirectX::XMFLOAT4;
-		using XMMATRIX = DirectX::XMMATRIX;
 
-	public:
-		// 座標
+		//座標
 		XMFLOAT3 position = {};
-		// 速度
+		//速度
 		XMFLOAT3 velocity = {};
-		// 加速度
+		//加速度
 		XMFLOAT3 accel = {};
-		// 色
-		XMFLOAT3 color = {};
-		// スケール
-		float scale = 1.0f;
-		// 回転
-		float rotation = 0.0f;
+		//現在フレーム
+		int frame = 0;
+		//終了フレーム
+		int num_frame = 0;
+
 		// 初期値
 		XMFLOAT3 s_color = {};
 		float s_scale = 1.0f;
@@ -70,39 +58,40 @@ public: // サブクラス
 		XMFLOAT3 e_color = {};
 		float e_scale = 0.0f;
 		float e_rotation = 0.0f;
-		// 現在フレーム
-		int frame = 0;
-		// 終了フレーム
-		int num_frame = 0;
+
 	};
 
-private: // 定数
-	static const int vertexCount = 65536;		// 頂点数
 
-public:// 静的メンバ関数
-	static ParticleManager* GetInstance();
+public:
+	void LoadTexture();
 
-public: // メンバ関数	
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <returns></returns>
-	void Initialize(ID3D12Device* device);
-	/// <summary>
-	/// 毎フレーム処理
-	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void CreateModel();
 
 	/// <summary>
 	/// カメラのセット
 	/// </summary>
 	/// <param name="camera">カメラ</param>
-	inline void SetCamera(Camera* camera) { this->camera = camera; }
+	inline void SetCamera(Camera* camera) {
+		this->camera = camera;
+	}
+
+	/// <summary>
+	/// グラフィックパイプライン生成
+	/// </summary>
+	/// <returns>成否</returns>
+	void InitializeGraphicsPipeline();
+
+	/// <summary>
+	/// デスクリプタヒープの初期化
+	/// </summary>
+	/// <returns></returns>
+	void InitializeDescriptorHeap();
+
+	void Initialize(ID3D12Device* device);
+
+	void Update();
+
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
 	/// パーティクルの追加
@@ -113,34 +102,10 @@ public: // メンバ関数
 	/// <param name="accel">加速度</param>
 	/// <param name="start_scale">開始時スケール</param>
 	/// <param name="end_scale">終了時スケール</param>
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
+	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel);
 
-	/// <summary>
-	/// デスクリプタヒープの初期化
-	/// </summary>
-	/// <returns></returns>
-	void InitializeDescriptorHeap();
-
-	/// <summary>
-	/// グラフィックパイプライン生成
-	/// </summary>
-	/// <returns>成否</returns>
-	void InitializeGraphicsPipeline();
-
-	/// <summary>
-	/// テクスチャ読み込み
-	/// </summary>
-	/// <returns>成否</returns>
-	void LoadTexture();
-
-	/// <summary>
-	/// モデル作成
-	/// </summary>
-	void CreateModel();
-
-	void CreateParticle(const XMFLOAT3& pos, UINT particleNum, float startScale, float vel);
-
-private: // メンバ変数
+	//void CreateParticle(const XMFLOAT3& pos, UINT particleNum, float startScale, float vel);
+private:
 	// デバイス
 	ID3D12Device* device = nullptr;
 	// デスクリプタサイズ
@@ -157,7 +122,7 @@ private: // メンバ変数
 	ComPtr<ID3D12Resource> texbuff;
 	// シェーダリソースビューのハンドル(CPU)
 	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// シェーダリソースビューのハンドル(CPU)
+	// シェーダリソースビューのハンドル(GPU)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView;
@@ -167,10 +132,6 @@ private: // メンバ変数
 	std::forward_list<Particle> particles;
 	// カメラ
 	Camera* camera = nullptr;
-private:
-	ParticleManager() = default;
-	ParticleManager(const ParticleManager&) = delete;
-	~ParticleManager() = default;
-	ParticleManager& operator=(const ParticleManager&) = delete;
-};
 
+	static const int vertexCount = 1024;
+};

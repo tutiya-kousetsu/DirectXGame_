@@ -40,8 +40,7 @@ public:
 
 	//’eƒŠƒXƒgæ“¾
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
-	//inline const GetLife() const { return this->life; }
-	inline void SetLife(int life) { this->life = life; }
+
 	void AccessPhase();
 
 	void SetPlayer(Player* player) { this->player = player; }

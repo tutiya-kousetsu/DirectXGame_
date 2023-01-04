@@ -88,12 +88,9 @@ private:
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
-	//ParticleManager* particleMan = nullptr;
+	ParticleManager* particleMan = nullptr;
 	Line* line = nullptr;
 	XMFLOAT3 enePos;
-	XMFLOAT3 enePos2;
-	XMFLOAT3 enePos3;
-	XMFLOAT3 enePos4;
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;
 	std::stringstream enemyPopCommands;
@@ -117,10 +114,4 @@ private:
 	float distance = 1.0f;
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
 
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	int z = rand() % 700;
-	float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
 };

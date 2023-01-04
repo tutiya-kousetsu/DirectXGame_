@@ -363,15 +363,11 @@ void GamePlayScene::CheckAllCollision()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						XMFLOAT3 pos;
-						pos.x = player->GetPosition().x;
-						pos.y = player->GetPosition().y;
-						pos.z = player->GetPosition().z;
 						//particleMan->CreateParticle(pos, 70, 4, 1.65f);
-						for (int i = 0; i < 70; i++) {
+						for (int i = 0; i < 100; i++) {
 							//X,Y,Z‘S‚Ä[-5.0f, +5.0f]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z
 							const float md_pos = 5.0f;
-							XMFLOAT3 pos = player->GetPosition();
+							XMFLOAT3 pos{};
 							pos.x = player->GetPosition().x;
 							pos.y = player->GetPosition().y;
 							pos.z = player->GetPosition().z;
@@ -387,8 +383,7 @@ void GamePlayScene::CheckAllCollision()
 							acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
 							//’Ç‰Á
-							particleMan->Add(60, pos, vel, acc);
-
+							particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
 						}
 						playerLife--;
 					}

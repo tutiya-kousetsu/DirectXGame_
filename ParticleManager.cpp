@@ -348,10 +348,16 @@ void ParticleManager::Update()
 		it++) {
 		// 経過フレーム数をカウント
 		it->frame++;
+		// 進行度を0～1の範囲に換算
+		float f = (float)it->num_frame / it->frame;
+
 		// 速度に加速度を加算
 		it->velocity = it->velocity + it->accel;
 		// 速度による移動
 		it->position = it->position + it->velocity;
+		// スケールの線形補間
+		it->scale = it->s_scale + (it->e_scale - it->s_scale) / f;
+		it->scale += it->s_scale;
 	}
 
 	// 頂点バッファへデータ転送
@@ -365,6 +371,9 @@ void ParticleManager::Update()
 			it++) {
 			// 座標
 			vertMap->pos = it->position;
+			// スケール
+			vertMap->scale = it->scale;
+
 			// 次の頂点へ
 			vertMap++;
 			if (++vertCount >= vertexCount) {
@@ -377,7 +386,7 @@ void ParticleManager::Update()
 	// 定数バッファへデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
-	constMap->mat = camera->GetViewProjectionMatrix();
+	constMap->mat = camera->GetViewMatrix() * camera->GetProjectionMatrix();
 	constMap->matBillboard = camera->GetBillboardMatrix();
 	constBuff->Unmap(0, nullptr);
 
@@ -411,17 +420,16 @@ void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
 
 }
 
-void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel)
+void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale)
 {
 	// リストに要素を追加
 	particles.emplace_front();
 	// 追加した要素の参照
 	Particle& p = particles.front();
+	//値のセット
 	p.position = position;
 	p.velocity = velocity;
 	p.accel = accel;
-	/*p.s_scale = start_scale;
-	p.e_scale = end_scale;*/
 	p.num_frame = life;
 }
 

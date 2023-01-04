@@ -49,16 +49,12 @@ public://サブクラス
 		int frame = 0;
 		//終了フレーム
 		int num_frame = 0;
-
-		// 初期値
-		XMFLOAT3 s_color = {};
+		//スケール
+		float scale = 1.0f;
+		//初期化
 		float s_scale = 1.0f;
-		float s_rotation = 0.0f;
-		// 最終値
-		XMFLOAT3 e_color = {};
+		//最終値
 		float e_scale = 0.0f;
-		float e_rotation = 0.0f;
-
 	};
 
 
@@ -100,9 +96,7 @@ public:
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
 	/// <param name="accel">加速度</param>
-	/// <param name="start_scale">開始時スケール</param>
-	/// <param name="end_scale">終了時スケール</param>
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel);
+	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
 
 	//void CreateParticle(const XMFLOAT3& pos, UINT particleNum, float startScale, float vel);
 private:

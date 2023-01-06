@@ -74,9 +74,9 @@ private:
 	Input* input = nullptr;
 	PostEffect* postEffect[2] = {};
 
-	Obstacle* obstacle = nullptr;
+	Obstacle* obstacle[4] = {};
 	std::stringstream obstaclePopCom;
-	XMFLOAT3 obstaclePos;
+	XMFLOAT3 obstaclePos[4] = {};
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 
@@ -91,6 +91,10 @@ private:
 	ParticleManager* particleMan = nullptr;
 	Line* line = nullptr;
 	XMFLOAT3 enePos;
+	XMFLOAT3 enePos2;
+	XMFLOAT3 enePos3;
+	XMFLOAT3 enePos4;
+
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;
 	std::stringstream enemyPopCommands;
@@ -103,7 +107,7 @@ private:
 	bool bulFlag = true;
 	int flag = 0;
 	bool eneFlag[15] = {};
-
+	bool posFlag = false;
 	// ÉJÉÅÉâä÷åW
 	bool dirty = false;
 	float angleX = 0;

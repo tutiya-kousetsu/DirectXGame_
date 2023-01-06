@@ -55,18 +55,25 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//乱数の初期化
 	srand((unsigned)time(NULL));
-	//int x = rand() % 700;
-	//float x2 = (float)x / 10 - 35;//10～-10の範囲
-	//int y = rand() % 70;
-	//float y2 = (float)y / 10;//6~0の範囲
-	//int z = rand() % 700;
-	////float z2 = (float)z / 10 - 35;//6~0の範囲
-	//enePos = { x2, y2, 35 };
+	int x = rand() % 700;
+	float x2 = (float)x / 10 - 35;//10～-10の範囲
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0の範囲
+	int z = rand() % 700;
+	float z2 = (float)z / 10 - 35;//6~0の範囲
+	enePos = { x2, y2, 35 };
+	enePos2 = { 35, y2, z2 };
+	enePos3 = { -35, y2, z2 };
+	enePos4 = { x2, y2, -35 };
+
+
 	player = new Player();
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
-	obstacle = new Obstacle();
+	for (auto i = 0; i < 4; i++) {
+	obstacle[i] = new Obstacle();
+	}
 	particleMan = new ParticleManager();
 	line = new Line();
 	particleMan->Initialize(dxCommon->GetDev());
@@ -103,7 +110,9 @@ void GamePlayScene::Finalize()
 	delete player;
 	delete skyObj;
 	delete playerBullet;
-	delete obstacle;
+	for (auto i = 0; i < 4; i++) {
+		delete obstacle[i];
+	}
 	delete enemyBullet;
 	for (auto i = 0; i < 14; i++) {
 		delete enemy[i];
@@ -193,28 +202,73 @@ void GamePlayScene::Update()
 	floor->Update();
 	line->Update();
 	if (!eneFlag[0]) {
+		enemy[0]->SetPosition(enePos);
 		enemy[0]->Update();
 	}
 	if (eneFlag[0]) {
-		if (enemyLife <= 0) {
-			enemyLife = 3;
+		if (posFlag) {
+			int x = rand() % 700;
+			float x2 = (float)x / 10 - 35;//10～-10の範囲
+			int y = rand() % 70;
+			float y2 = (float)y / 10;//6~0の範囲
+			int z = rand() % 700;
+			float z2 = (float)z / 10 - 35;//6~0の範囲
+			enePos = { x2, y2, 35 };
+			enePos2 = { 35, y2, z2 };
+			enePos3 = { -35, y2, z2 };
+			enePos4 = { x2, y2, -35 };
+			posFlag = false;
 		}
+		enemy[1]->SetPosition(enePos);
+		enemy[2]->SetPosition(enePos2);
+
 		enemy[1]->Update();
 		enemy[2]->Update();
 		
 	}
 	if (eneFlag[1] && eneFlag[2]) {
-		if (enemyLife <= 0) {
-			enemyLife = 3;
+		if (posFlag) {
+			int x = rand() % 700;
+			float x2 = (float)x / 10 - 35;//10～-10の範囲
+			int y = rand() % 70;
+			float y2 = (float)y / 10;//6~0の範囲
+			int z = rand() % 700;
+			float z2 = (float)z / 10 - 35;//6~0の範囲
+			enePos = { x2, y2, 35 };
+			enePos2 = { 35, y2, z2 };
+			enePos3 = { -35, y2, z2 };
+			enePos4 = { x2, y2, -35 };
+			posFlag = false;
 		}
+
+		enemy[3]->SetPosition(enePos);
+		enemy[4]->SetPosition(enePos2);
+		enemy[5]->SetPosition(enePos3);
+
 		enemy[3]->Update();
 		enemy[4]->Update();
 		enemy[5]->Update();
 	}
 	if (eneFlag[3] && eneFlag[4] && eneFlag[5]) {
-		if (enemyLife <= 0) {
-			enemyLife = 3;
+		if (posFlag) {
+			int x = rand() % 700;
+			float x2 = (float)x / 10 - 35;//10～-10の範囲
+			int y = rand() % 70;
+			float y2 = (float)y / 10;//6~0の範囲
+			int z = rand() % 700;
+			float z2 = (float)z / 10 - 35;//6~0の範囲
+			enePos = { x2, y2, 35 };
+			enePos2 = { 35, y2, z2 };
+			enePos3 = { -35, y2, z2 };
+			enePos4 = { x2, y2, -35 };
+			posFlag = false;
 		}
+
+		enemy[6]->SetPosition(enePos);
+		enemy[7]->SetPosition(enePos2);
+		enemy[8]->SetPosition(enePos3);
+		enemy[9]->SetPosition(enePos4);
+
 		enemy[6]->Update();
 		enemy[7]->Update();
 		enemy[8]->Update();
@@ -229,7 +283,15 @@ void GamePlayScene::Update()
 	//}
 
 	skyObj->Update();
-	obstacle->Update();
+	for (auto i = 0; i < 4; i++) {
+		obstaclePos[i] = obstacle[i]->GetPosition();
+		obstacle[0]->SetPosition({ 15,0,15 });
+		obstacle[1]->SetPosition({ -15,0,-15 });
+		obstacle[2]->SetPosition({ -15,0,15 });
+		obstacle[3]->SetPosition({ 15,0,-15 });
+
+		obstacle[i]->Update();
+	}
 	CheckAllCollision();
 	
 
@@ -264,7 +326,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto i = 0; i < 14; i++) {
 		enemy[i]->Draw();
 	}
-	obstacle->Draw();
+	for (auto i = 0; i < 4; i++) {
+
+		obstacle[i]->Draw();
+	}
 	line->Draw();
 	skyObj->Draw();
 	floor->Draw();
@@ -317,11 +382,10 @@ void GamePlayScene::CheckAllCollision()
 
 						if (Collision::CheckSphere2Sphere(pBullet, enemyShape)) {
 							pb->OnCollision();
-							enemyLife--;
-						}
-						if (enemyLife <= 0) {
 							enemy[i]->OnCollision();
 							eneFlag[i] = true;
+
+							posFlag = true;
 						}
 					}
 				}
@@ -404,12 +468,15 @@ void GamePlayScene::CheckAllCollision()
 					eBullet.radius = eb->GetScale().x;
 					if (enemy[i]->GetAlive()) {
 						Sphere obstacleShape;
-						obstacleShape.center = XMLoadFloat3(&obstacle->GetPosition());
-						obstacleShape.radius = obstacle->GetScale().z;
+						for (auto i = 0; i < 4; i++) {
+							obstacleShape.center = XMLoadFloat3(&obstacle[i]->GetPosition());
+							obstacleShape.radius = obstacle[i]->GetScale().z;
 
-						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-							eb->OnCollision();
-							//obstacle->OnCollision();
+
+							if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+								eb->OnCollision();
+								//obstacle->OnCollision();
+							}
 						}
 					}
 				}
@@ -428,11 +495,15 @@ void GamePlayScene::CheckAllCollision()
 			pBullet.center = XMLoadFloat3(&pb->GetPosition());
 			pBullet.radius = pb->GetScale().x;
 			Sphere obstacleShape;
-			obstacleShape.center = XMLoadFloat3(&obstacle->GetPosition());
-			obstacleShape.radius = obstacle->GetScale().z;
+			for (auto i = 0; i < 4; i++) {
 
-			if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
-				pb->OnCollision();
+				obstacleShape.center = XMLoadFloat3(&obstacle[i]->GetPosition());
+				obstacleShape.radius = obstacle[i]->GetScale().z;
+
+
+				if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
+					pb->OnCollision();
+				}
 			}
 		}
 	}
@@ -469,58 +540,58 @@ void GamePlayScene::CheckAllCollision()
 
 void GamePlayScene::LoadObstaclePopData()
 {
-	//ファイルを開く
-	std::ifstream file;
-	file.open("Resources/Obstacle.csv");
-	assert(file.is_open());
+	////ファイルを開く
+	//std::ifstream file;
+	//file.open("Resources/Obstacle.csv");
+	//assert(file.is_open());
 
-	//ファイルの内容を文字列ストリームにコピー
-	obstaclePopCom << file.rdbuf();
+	////ファイルの内容を文字列ストリームにコピー
+	//obstaclePopCom << file.rdbuf();
 
-	//ファイルを閉じる
-	file.close();
+	////ファイルを閉じる
+	//file.close();
 }
 
 void GamePlayScene::UpdataObstaclePopCommand()
 {
-	//1行分の文字列を入れる変数
-	std::string line;
-	//コマンド実行ループ
-	while (getline(obstaclePopCom, line)) {
-		//1行分の文字列をストリームに変換して解析しやすくする
-		std::istringstream line_stream(line);
+	////1行分の文字列を入れる変数
+	//std::string line;
+	////コマンド実行ループ
+	//while (getline(obstaclePopCom, line)) {
+	//	//1行分の文字列をストリームに変換して解析しやすくする
+	//	std::istringstream line_stream(line);
 
-		std::string word;
-		//,区切りで先頭文字列を取得
-		getline(line_stream, word, ',');
+	//	std::string word;
+	//	//,区切りで先頭文字列を取得
+	//	getline(line_stream, word, ',');
 
-		//　"//"から始まる行はコメント
-		if (word.find("//") == 0) {
-			//コメント行を飛ばす
-			continue;
-		}
+	//	//　"//"から始まる行はコメント
+	//	if (word.find("//") == 0) {
+	//		//コメント行を飛ばす
+	//		continue;
+	//	}
 
-		//POPコマンド
-		if (word.find("POP") == 0) {
-			//x座標
-			getline(line_stream, word, ',');
-			float x = (float)std::stof(word.c_str());
+	//	//POPコマンド
+	//	if (word.find("POP") == 0) {
+	//		//x座標
+	//		getline(line_stream, word, ',');
+	//		float x = (float)std::stof(word.c_str());
 
-			//y座標
-			getline(line_stream, word, ',');
-			float y = (float)std::stof(word.c_str());
+	//		//y座標
+	//		getline(line_stream, word, ',');
+	//		float y = (float)std::stof(word.c_str());
 
-			//z座標
-			getline(line_stream, word, ',');
-			float z = (float)std::stof(word.c_str());
+	//		//z座標
+	//		getline(line_stream, word, ',');
+	//		float z = (float)std::stof(word.c_str());
 
-			//障害物を配置する
-			obstaclePos = obstacle->GetPosition();
-			obstaclePos = { x, y, z };
-			obstacle->SetPosition(obstaclePos);
+	//		//障害物を配置する
+	//		obstaclePos = obstacle->GetPosition();
+	//		obstaclePos = { x, y, z };
+	//		obstacle->SetPosition(obstaclePos);
 
-			//WAITコマンド
-			break;
-		}
-	}
+	//		//WAITコマンド
+	//		break;
+	//	}
+	//}
 }

@@ -15,19 +15,18 @@ void Enemy::Initialize()
 	//line = new Line();
 	AccessPhase();
 
-	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
-	position = object->GetPosition();
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	int z = rand() % 700;
-	//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { x2, y2, 35 };
+	//// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
+	//position = object->GetPosition();
+	//int x = rand() % 700;
+	//float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
+	//int y = rand() % 70;
+	//float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	//int z = rand() % 700;
+	////float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
+	//position = { x2, y2, 35 };
 
 	// À•W‚Ì•ÏX‚ð”½‰f
 	object->SetPosition(position);
-
 }
 
 void Enemy::Update()

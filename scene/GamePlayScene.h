@@ -89,11 +89,8 @@ private:
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
 	ParticleManager* particleMan = nullptr;
-	Line* line = nullptr;
+	//Line* line = nullptr;
 	XMFLOAT3 enePos;
-	XMFLOAT3 enePos2;
-	XMFLOAT3 enePos3;
-	XMFLOAT3 enePos4;
 
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;

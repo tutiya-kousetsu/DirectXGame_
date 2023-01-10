@@ -15,6 +15,24 @@ class Enemy : public GameObject
 public:
 	using GameObject::GameObject;
 
+public://サブクラス
+	struct frontEnemy {
+
+	};
+
+	struct leftEnemy {
+
+	};
+
+	struct rightEnemy {
+
+	};
+
+	struct backEnemy {
+
+	};
+
+public:
 	//コンストラクタ
 	Enemy();
 

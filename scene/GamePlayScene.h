@@ -83,7 +83,7 @@ private:
 	//std::unique_ptr<PlayerBullet> playerBullet;
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;
-	Enemy* enemy[15] = {};
+	Enemy* enemy = nullptr;
 	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
@@ -103,7 +103,7 @@ private:
 	float flagTimer = 0;
 	bool bulFlag = true;
 	int flag = 0;
-	bool eneFlag[15] = {};
+	bool eneFlag = false;
 	bool posFlag = false;
 	// ÉJÉÅÉâä÷åW
 	bool dirty = false;

@@ -190,6 +190,7 @@
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="Floor\Floor.cpp" />
+    <ClCompile Include="FrontEnemy.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="enemy\Enemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="Floor\Floor.h" />
+    <ClInclude Include="FrontEnemy.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Obstacle.h" />

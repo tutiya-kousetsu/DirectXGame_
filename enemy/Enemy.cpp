@@ -12,29 +12,21 @@ Enemy::~Enemy()
 
 void Enemy::Initialize()
 {
-	//line = new Line();
-	frontEne = new frontEnemy();
-	leftEne = new leftEnemy();
-	rightEne = new rightEnemy();
-	backEne = new backEnemy();
-
-	AccessPhase();
-	for (int i = 0; i < 4; i++) {
-		frontEne->frontPos[i] = object->GetPosition();
-
-		// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
-		//position = object->GetPosition();
-		int x = rand() % 700;
-		float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
-		int y = rand() % 70;
-		float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-		int z = rand() % 700;
-		//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-		frontEne->frontPos[i] = { x2, y2, 35 };
-
-		// À•W‚Ì•ÏX‚ð”½‰f
-		object->SetPosition(frontEne->frontPos[i]);
-	}
+//	//line = new Line();
+//	AccessPhase();
+//
+//	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
+//	position = object->GetPosition();
+//	int x = rand() % 700;
+//	float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
+//	int y = rand() % 70;
+//	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+//	int z = rand() % 700;
+//	//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
+//	position = { x2, y2, 35 };
+//
+//	// À•W‚Ì•ÏX‚ð”½‰f
+	//object->SetPosition(position);
 }
 
 void Enemy::Update()
@@ -46,16 +38,16 @@ void Enemy::Update()
 		shootTimer--;
 		if (shootTimer < 0) {
 			Shoot();
-
+			
 			shootTimer = kShootInterval;
 		}
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Update();
 		}
 		object->SetRotation(rotation);
-
+		
 	}
-
+	
 	object->Update();
 }
 
@@ -95,15 +87,12 @@ void Enemy::Shoot()
 		float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
 	}
-	for (int i = 0; i < 4; i++) {
-
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ô‚æ
-		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		//‰Šú‰»s‚­‚æ
-		newBullet->Initialize(position, velocity);
-		//’e‚ð“o˜^‚·‚é
-		bullets.push_back(std::move(newBullet));
-	}
+	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ô‚æ
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	//‰Šú‰»s‚­‚æ
+	newBullet->Initialize(position, velocity);
+	//’e‚ð“o˜^‚·‚é
+	bullets.push_back(std::move(newBullet));
 }
 
 void Enemy::OnCollision()
@@ -111,10 +100,10 @@ void Enemy::OnCollision()
 	alive = false;
 }
 
-void Enemy::AccessPhase()
-{
-	shootTimer = kShootInterval;
-}
+//void Enemy::AccessPhase()
+//{
+//	shootTimer = kShootInterval;
+//}
 
 XMVECTOR Enemy::GetWorldPosition()
 {

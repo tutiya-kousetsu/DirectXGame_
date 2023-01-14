@@ -74,7 +74,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	frontEnemy->Initialize();
 
 	//敵に自機のアドレスを渡して敵が自機を使えるようにする
-	enemy->SetPlayer(player);
+	//enemy->SetPlayer(player);
 	frontEnemy->SetPlayer(player);
 	//データ読み込み
 	skyModel = Model::LoadFromObj("skydome");
@@ -203,7 +203,7 @@ void GamePlayScene::Update()
 		enemy[8]->Update();
 		enemy[9]->Update();
 	}*/
-	enemy->Update();
+	//enemy->Update();
 	frontEnemy->Update();
 	skyObj->Update();
 	for (auto i = 0; i < 4; i++) {
@@ -249,7 +249,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/*for (auto i = 0; i < 14; i++) {
 		enemy[i]->Draw();
 	}*/
-	enemy->Draw();
+	//enemy->Draw();
 	frontEnemy->Draw();
 	for (auto i = 0; i < 4; i++) {
 		obstacle[i]->Draw();

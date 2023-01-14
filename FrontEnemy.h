@@ -2,8 +2,13 @@
 #include "GameObject.h"
 #include "Enemy.h"
 
+class Player;
+
 class FrontEnemy : public Enemy
 {
+public:
+	using Enemy::Enemy;
+
 public:
 	FrontEnemy();
 
@@ -13,17 +18,24 @@ public:
 	//更新
 	void Update() override;
 
-	void Draw() override;
+	//void Draw() override;
+
+	void FrontShoot();
+
+	//ワールド座標を取得
+	XMVECTOR GetWorldPosition();
 
 public:
 
 	static const int kShootInterval = 100;
 
 	void AccessPhase();
-	//void SetPlayer(Player* player) { this->player = player; }
+	void SetPlayer(Player* player) { this->player = player; }
 
 private:
 	Enemy* enemy = nullptr;
-	//Player* player = nullptr;
+	Player* player = nullptr;
+	XMFLOAT3 position;
+	XMVECTOR velocity;
 
 };

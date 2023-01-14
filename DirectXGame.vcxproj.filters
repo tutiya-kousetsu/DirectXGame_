@@ -221,8 +221,8 @@
     <ClCompile Include="Line.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FrontEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="enemy\FrontEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,8 +348,8 @@
     <ClInclude Include="Line.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FrontEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="enemy\FrontEnemy.h">
+      <Filter>ソース ファイル\game\enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

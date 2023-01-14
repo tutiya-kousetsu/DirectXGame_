@@ -37,16 +37,19 @@ void FrontEnemy::Update()
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Update();
 		}
-		//position.x += 0.1f;
-		//Enemy::object->SetPosition(position);
+		
+		position.x += move;
+		if (position.x >= 35) {
+			move = move * -1;
+		}
+		if (position.x <= -35) {
+			move = move * -1;
+		}
+		object->SetPosition(position);
 	}
+	
 	object->Update();
 }
-
-//void FrontEnemy::Draw()
-//{
-//	Enemy::Draw();
-//}
 
 void FrontEnemy::FrontShoot()
 {

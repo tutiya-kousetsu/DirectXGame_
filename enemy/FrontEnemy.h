@@ -7,6 +7,9 @@ class Player;
 class FrontEnemy : public Enemy
 {
 public:
+	using Enemy::Enemy;
+
+public:
 	FrontEnemy();
 
 	//‰Šú‰»
@@ -27,12 +30,12 @@ public:
 	static const int kShootInterval = 100;
 
 	void AccessPhase();
-	void SetPlayer(Player* player) { this->player = player; }
+	//void SetPlayer(Player* player) { this->player = player; }
 
 private:
 	Enemy* enemy = nullptr;
 	Player* player = nullptr;
 	XMFLOAT3 position;
 	XMVECTOR velocity;
-
+	float move = 0.2f;
 };

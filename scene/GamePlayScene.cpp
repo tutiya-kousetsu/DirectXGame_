@@ -68,7 +68,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	particleMan->Initialize(dxCommon->GetDev());
 	particleMan->SetCamera(camera.get());
 	enemy = new Enemy();
-	enemy->Initialize();
+	//enemy->Initialize();
 
 	frontEnemy = new FrontEnemy();
 	frontEnemy->Initialize();
@@ -298,22 +298,22 @@ void GamePlayScene::CheckAllCollision()
 			if (pb->GetAlive()) {
 				pBullet.center = XMLoadFloat3(&pb->GetPosition());
 				pBullet.radius = pb->GetScale().x;
-				if (enemy->GetAlive()) {
+				if (frontEnemy->GetAlive()) {
 					Sphere enemyShape;
-					enemyShape.center = XMLoadFloat3(&enemy->GetPosition());
-					enemyShape.radius = enemy->GetScale().z;
+					enemyShape.center = XMLoadFloat3(&frontEnemy->GetPosition());
+					enemyShape.radius = frontEnemy->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, enemyShape)) {
 						pb->OnCollision();
-						enemy->OnCollision();
+						frontEnemy->OnCollision();
 						eneFlag = true;
 						for (int j = 0; j < 100; j++) {
 							//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
 							const float md_pos = 5.0f;
 							XMFLOAT3 pos{};
-							pos.x = enemy->GetPosition().x;
-							pos.y = enemy->GetPosition().y;
-							pos.z = enemy->GetPosition().z;
+							pos.x = frontEnemy->GetPosition().x;
+							pos.y = frontEnemy->GetPosition().y;
+							pos.z = frontEnemy->GetPosition().z;
 							//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
 							const float md_vel = 0.1f;
 							XMFLOAT3 vel{};

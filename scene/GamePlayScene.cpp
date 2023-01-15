@@ -69,13 +69,24 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	particleMan->SetCamera(camera.get());
 	enemy = new Enemy();
 	//enemy->Initialize();
-
+	//前
 	frontEnemy = new FrontEnemy();
 	frontEnemy->Initialize();
-
+	//左
+	leftEnemy = new LeftEnemy();
+	leftEnemy->Initialize();
+	//右
+	rightEnemy = new RightEnemy();
+	rightEnemy->Initialize();
+	//後ろ
+	backEnemy = new BackEnemy();
+	backEnemy->Initialize();
 	//敵に自機のアドレスを渡して敵が自機を使えるようにする
 	//enemy->SetPlayer(player);
 	frontEnemy->SetPlayer(player);
+	leftEnemy->SetPlayer(player);
+	rightEnemy->SetPlayer(player);
+	backEnemy->SetPlayer(player);
 	//データ読み込み
 	skyModel = Model::LoadFromObj("skydome");
 	skyObj = Object3d::Create();
@@ -104,6 +115,10 @@ void GamePlayScene::Finalize()
 	}
 	delete enemyBullet;
 	delete enemy;
+	delete frontEnemy;
+	delete leftEnemy;
+	delete rightEnemy;
+	delete backEnemy;
 }
 
 void GamePlayScene::Update()
@@ -205,6 +220,9 @@ void GamePlayScene::Update()
 	}*/
 	//enemy->Update();
 	frontEnemy->Update();
+	leftEnemy->Update();
+	rightEnemy->Update();
+	backEnemy->Update();
 	skyObj->Update();
 	for (auto i = 0; i < 4; i++) {
 		obstaclePos[i] = obstacle[i]->GetPosition();
@@ -251,6 +269,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	}*/
 	//enemy->Draw();
 	frontEnemy->Draw();
+	leftEnemy->Draw();
+	rightEnemy->Draw();
+	backEnemy->Draw();
 	for (auto i = 0; i < 4; i++) {
 		obstacle[i]->Draw();
 	}
@@ -304,9 +325,12 @@ void GamePlayScene::CheckAllCollision()
 					enemyShape.radius = frontEnemy->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, enemyShape)) {
+						enemyLife--;
 						pb->OnCollision();
-						frontEnemy->OnCollision();
-						eneFlag = true;
+						if (enemyLife <= 0) {
+							frontEnemy->OnCollision();
+							eneFlag = true;
+						}
 						for (int j = 0; j < 100; j++) {
 							//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
 							const float md_pos = 5.0f;

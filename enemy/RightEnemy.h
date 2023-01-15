@@ -1,13 +1,12 @@
 #pragma once
-#include "GameObject.h"
 #include "Enemy.h"
 
 class Player;
 
-class FrontEnemy : public Enemy
+class RightEnemy :public Enemy
 {
 public:
-	FrontEnemy();
+	RightEnemy();
 
 	//‰Šú‰»
 	void Initialize();
@@ -17,7 +16,7 @@ public:
 
 	//void Draw() override;
 
-	void FrontShoot();
+	void RightShoot();
 
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	XMVECTOR GetWorldPosition();
@@ -34,5 +33,7 @@ private:
 	Player* player = nullptr;
 	XMFLOAT3 position;
 	XMVECTOR velocity;
+	float move = 0.2f;
 
 };
+

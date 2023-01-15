@@ -187,9 +187,12 @@
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="camera\FollowingCamera.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="enemy\BackEnemy.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="enemy\FrontEnemy.cpp" />
+    <ClCompile Include="enemy\LeftEnemy.cpp" />
+    <ClCompile Include="enemy\RightEnemy.cpp" />
     <ClCompile Include="Floor\Floor.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -224,9 +227,12 @@
     <ClInclude Include="camera\FollowingCamera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionPrimitive.h" />
+    <ClInclude Include="enemy\BackEnemy.h" />
     <ClInclude Include="enemy\Enemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="enemy\FrontEnemy.h" />
+    <ClInclude Include="enemy\LeftEnemy.h" />
+    <ClInclude Include="enemy\RightEnemy.h" />
     <ClInclude Include="Floor\Floor.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="Line.h" />

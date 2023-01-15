@@ -3,10 +3,10 @@
 
 class Player;
 
-class FrontEnemy : public Enemy
+class LeftEnemy :public Enemy
 {
 public:
-	FrontEnemy();
+	LeftEnemy();
 
 	//‰Šú‰»
 	void Initialize();
@@ -16,7 +16,7 @@ public:
 
 	//void Draw() override;
 
-	void FrontShoot();
+	void LeftShoot();
 
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	XMVECTOR GetWorldPosition();
@@ -34,4 +34,6 @@ private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
 	float move = 0.2f;
+
 };
+

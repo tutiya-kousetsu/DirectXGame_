@@ -16,6 +16,9 @@
 #include "Obstacle.h"
 #include "Floor/Floor.h"
 #include "FrontEnemy.h"
+#include "LeftEnemy.h"
+#include "RightEnemy.h"
+#include "BackEnemy.h"
 #include <memory>
 #include <sstream>
 
@@ -85,6 +88,9 @@ private:
 	//std::unique_ptr<Player> player;
 	Enemy* enemy = nullptr;
 	FrontEnemy* frontEnemy = nullptr;
+	LeftEnemy* leftEnemy = nullptr;
+	RightEnemy* rightEnemy = nullptr;
+	BackEnemy* backEnemy = nullptr;
 	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;

@@ -224,6 +224,15 @@
     <ClCompile Include="enemy\FrontEnemy.cpp">
       <Filter>ソース ファイル\game\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="enemy\BackEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\LeftEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\RightEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -349,6 +358,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="enemy\FrontEnemy.h">
+      <Filter>ソース ファイル\game\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\BackEnemy.h">
+      <Filter>ソース ファイル\game\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\LeftEnemy.h">
+      <Filter>ソース ファイル\game\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\RightEnemy.h">
       <Filter>ソース ファイル\game\enemy</Filter>
     </ClInclude>
   </ItemGroup>

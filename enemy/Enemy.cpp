@@ -23,5 +23,8 @@ void Enemy::Draw()
 
 void Enemy::OnCollision()
 {
-	alive = false;
+	life--;
+	if (life == 0) {
+		alive = false;
+	}
 }

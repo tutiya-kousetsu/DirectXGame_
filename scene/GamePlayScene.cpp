@@ -218,11 +218,15 @@ void GamePlayScene::Update()
 		enemy[8]->Update();
 		enemy[9]->Update();
 	}*/
-	//enemy->Update();
 	frontEnemy->Update();
-	leftEnemy->Update();
-	rightEnemy->Update();
-	backEnemy->Update();
+	if (!frontEnemy->GetAlive()) {
+		leftEnemy->Update();
+		//frontEnemy->SetAlive(true);
+	}
+	if (eneFlag == 2) {
+		rightEnemy->Update();
+		backEnemy->Update();
+	}
 	skyObj->Update();
 	for (auto i = 0; i < 4; i++) {
 		obstaclePos[i] = obstacle[i]->GetPosition();
@@ -319,27 +323,24 @@ void GamePlayScene::CheckAllCollision()
 			if (pb->GetAlive()) {
 				pBullet.center = XMLoadFloat3(&pb->GetPosition());
 				pBullet.radius = pb->GetScale().x;
-				if (frontEnemy->GetAlive()) {
-					Sphere enemyShape;
-					enemyShape.center = XMLoadFloat3(&frontEnemy->GetPosition());
-					enemyShape.radius = frontEnemy->GetScale().z;
 
-					if (Collision::CheckSphere2Sphere(pBullet, enemyShape)) {
-						enemyLife--;
+				//前の敵
+				if (frontEnemy->GetAlive()) {
+					Sphere fEnemyShape;
+					fEnemyShape.center = XMLoadFloat3(&frontEnemy->GetPosition());
+					fEnemyShape.radius = frontEnemy->GetScale().z;
+
+					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
+						frontLife--;
 						pb->OnCollision();
-						if (enemyLife <= 0) {
+						//if (frontLife <= 0) {
 							frontEnemy->OnCollision();
-							eneFlag = true;
-						}
+							//eneFlag++;
+						//}
 						for (int j = 0; j < 100; j++) {
-							//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
-							const float md_pos = 5.0f;
-							XMFLOAT3 pos{};
-							pos.x = frontEnemy->GetPosition().x;
-							pos.y = frontEnemy->GetPosition().y;
-							pos.z = frontEnemy->GetPosition().z;
+							XMFLOAT3 pos = frontEnemy->GetPosition();
 							//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-							const float md_vel = 0.1f;
+							const float md_vel = 0.20f;
 							XMFLOAT3 vel{};
 							vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 							vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
@@ -348,11 +349,108 @@ void GamePlayScene::CheckAllCollision()
 							XMFLOAT3 acc{};
 							const float rnd_acc = 0.005f;
 							acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
 							//追加
 							particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+							
 						}
-						posFlag = true;
+					}
+				}
+
+				//左の敵
+				if (leftEnemy->GetAlive()) {
+					Sphere lEnemyShape;
+					lEnemyShape.center = XMLoadFloat3(&leftEnemy->GetPosition());
+					lEnemyShape.radius = leftEnemy->GetScale().z;
+
+					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+						//frontLife--;
+						pb->OnCollision();
+						//if (frontLife <= 0) {
+							leftEnemy->OnCollision();
+
+							//eneFlag++;
+						//}
+						for (int j = 0; j < 100; j++) {
+							XMFLOAT3 pos = leftEnemy->GetPosition();
+							//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+							const float md_vel = 0.20f;
+							XMFLOAT3 vel{};
+							vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+							XMFLOAT3 acc{};
+							const float rnd_acc = 0.005f;
+							acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+							//追加
+							particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+
+						}
+					}
+				}
+
+				//右の敵
+				if (rightEnemy->GetAlive()) {
+					Sphere lEnemyShape;
+					lEnemyShape.center = XMLoadFloat3(&rightEnemy->GetPosition());
+					lEnemyShape.radius = rightEnemy->GetScale().z;
+
+					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+						//frontLife--;
+						pb->OnCollision();
+						//if (frontLife <= 0) {
+						rightEnemy->OnCollision();
+
+						//eneFlag++;
+					//}
+						for (int j = 0; j < 100; j++) {
+							XMFLOAT3 pos = rightEnemy->GetPosition();
+							//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+							const float md_vel = 0.20f;
+							XMFLOAT3 vel{};
+							vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+							XMFLOAT3 acc{};
+							const float rnd_acc = 0.005f;
+							acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+							//追加
+							particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+
+						}
+					}
+				}
+				//後ろの敵
+				if (backEnemy->GetAlive()) {
+					Sphere lEnemyShape;
+					lEnemyShape.center = XMLoadFloat3(&backEnemy->GetPosition());
+					lEnemyShape.radius = backEnemy->GetScale().z;
+
+					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+						//frontLife--;
+						pb->OnCollision();
+						//if (frontLife <= 0) {
+						backEnemy->OnCollision();
+
+						//eneFlag++;
+					//}
+						for (int j = 0; j < 100; j++) {
+							XMFLOAT3 pos = backEnemy->GetPosition();
+							//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+							const float md_vel = 0.20f;
+							XMFLOAT3 vel{};
+							vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+							//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+							XMFLOAT3 acc{};
+							const float rnd_acc = 0.005f;
+							acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+							//追加
+							particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+
+						}
 					}
 				}
 			}

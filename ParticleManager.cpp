@@ -4,7 +4,7 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-//XMFLOAT3“¯‚Ì‰ÁZˆ—
+//XMFLOAT3‚Ç‚¤‚µ‚Ì‰ÁZˆ—
 const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::XMFLOAT3& rhs) 
 {
 	DirectX::XMFLOAT3 result;
@@ -431,21 +431,6 @@ void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOA
 	p.velocity = velocity;
 	p.accel = accel;
 	p.num_frame = life;
+	p.s_scale = start_scale;
+	p.e_scale = end_scale;
 }
-
-//void ParticleManager::CreateParticle(const XMFLOAT3& pos, UINT particleNum, float startScale, float vel)
-//{
-//	for (UINT i = 0; i <= particleNum; i++) {
-//		const float thata = rand() % 180 / 180.f * DirectX::XM_PI;
-//		const float phi = rand() % 360 / 360.f * DirectX::XM_PI;
-//		const float r = rand() % (int)(vel * 100) / 100.f;
-//
-//		XMFLOAT3 vel{
-//	r * sinf(thata) * cosf(phi),
-//	r * cosf(thata),
-//	r * sinf(thata) * sinf(phi) };
-//
-//		Add(15, pos, vel, XMFLOAT3(vel.x / -10, vel.y / -10, vel.z / -10), startScale, 0);
-//	}
-//
-//}

@@ -104,13 +104,16 @@ private:
 	std::stringstream enemyPopCommands;
 	XMFLOAT3 bulPos;
 	int playerLife = 3;
-	int enemyLife = 3;
+	int frontLife = 3;
+	int leftLife = 3;
+	int rightLife = 3;
+	int backLife = 3;
 
 	int gameScore = 0;
 	float flagTimer = 0;
 	bool bulFlag = true;
 	int flag = 0;
-	bool eneFlag = false;
+	int eneFlag = 0;
 	bool posFlag = false;
 	// ƒJƒƒ‰ŠÖŒW
 	bool dirty = false;

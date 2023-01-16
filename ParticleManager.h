@@ -97,8 +97,6 @@ public:
 	/// <param name="velocity">速度</param>
 	/// <param name="accel">加速度</param>
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
-
-	//void CreateParticle(const XMFLOAT3& pos, UINT particleNum, float startScale, float vel);
 private:
 	// デバイス
 	ID3D12Device* device = nullptr;

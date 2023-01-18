@@ -56,12 +56,12 @@ public:
 	/// <summary>
 	/// 障害物の発生データの読み込み
 	/// </summary>
-	void LoadObstaclePopData();
+	//void LoadObstaclePopData();
 
 	/// <summary>
 	/// 障害物配置のコマンド更新
 	/// </summary>
-	void UpdataObstaclePopCommand();
+	//void UpdataObstaclePopCommand();
 
 	void FrontColl();
 
@@ -122,7 +122,7 @@ private:
 	bool posFlag = false;
 
 	int fEneFlag = 0;
-	float fEneTimer = 0;
+	float fEneTimer[3] = {};
 	int enemyScene = 0;
 	// カメラ関係
 	bool dirty = false;

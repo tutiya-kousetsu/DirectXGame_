@@ -224,25 +224,23 @@ void GamePlayScene::Update()
 	//for (int i = 0; i < 3; i++) {
 	if (fEneFlag >= 0) {
 		//•œŠˆ‚·‚é‰ñ”
-		frontEnemy[0]->resurrection(3);
-		fEneTimer++;
-		if (fEneTimer >= 60) {
+		fEneTimer[0]++;
+		if (fEneTimer[0] >= 60) {
 			frontEnemy[0]->Update();
 		}
-		leftEnemy[0]->Update();
-		rightEnemy[0]->Update();
-		backEnemy[0]->Update();
 	}
 	if (fEneFlag >= 1) {
-		fEneTimer++;
-		frontEnemy[1]->resurrection(2);
-		if (fEneTimer >= 60) {
+		fEneTimer[1]++;
+		frontEnemy[0]->resurrection(1);
+		if (fEneTimer[1] >= 60) {
 			frontEnemy[1]->Update();
 		}
 	}
-	if (fEneFlag >= 2) {
-		fEneTimer++;
-		if (fEneTimer >= 60) {
+	if (fEneFlag >= 3) {
+		fEneTimer[2]++;
+		frontEnemy[0]->resurrection(1);
+		frontEnemy[1]->resurrection(1);
+		if (fEneTimer[2] >= 60) {
 			frontEnemy[2]->Update();
 		}
 	}

@@ -137,9 +137,6 @@
     <ClCompile Include="Obstacle.cpp">
       <Filter>ソース ファイル\game</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClCompile>
     <ClCompile Include="Line.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -209,9 +206,6 @@
     <ClCompile Include="scene\TitleScene.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleManager.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
     <ClCompile Include="camera\Camera.cpp">
       <Filter>ソース ファイル\camera</Filter>
     </ClCompile>
@@ -220,6 +214,12 @@
     </ClCompile>
     <ClCompile Include="camera\FollowingCamera.cpp">
       <Filter>ソース ファイル\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="collision\Collision.cpp">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\ParticleManager.cpp">
+      <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -327,12 +327,6 @@
     <ClInclude Include="Obstacle.h">
       <Filter>ソース ファイル\game</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionPrimitive.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
     <ClInclude Include="Line.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -354,8 +348,14 @@
     <ClInclude Include="enemy\RightEnemy.h">
       <Filter>ソース ファイル\game\enemy\.h</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleManager.h">
-      <Filter>ソース ファイル\game</Filter>
+    <ClInclude Include="collision\Collision.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\CollisionPrimitive.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\ParticleManager.h">
+      <Filter>ソース ファイル\3d\.h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

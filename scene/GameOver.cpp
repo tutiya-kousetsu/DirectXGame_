@@ -41,5 +41,4 @@ void GameOver::Draw(DirectXCommon* dxCommon)
 	Sprite::PostDraw();
 	//•`‰æŒãˆ—
 	dxCommon->PostDraw();
-
 }

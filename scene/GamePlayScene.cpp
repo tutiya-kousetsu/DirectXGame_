@@ -195,7 +195,7 @@ void GamePlayScene::Update()
 
 	player->Update();
 
-	particleMan->Update();
+	
 	//更新
 	camera->Update();
 
@@ -222,21 +222,31 @@ void GamePlayScene::Update()
 	}*/
 
 	//for (int i = 0; i < 3; i++) {
-	if (enemyScene == 0) {
-		if (fEneFlag >= 0) {
-			//復活する回数
-			frontEnemy[0]->resurrection(3);
+	if (fEneFlag >= 0) {
+		//復活する回数
+		frontEnemy[0]->resurrection(3);
+		fEneTimer++;
+		if (fEneTimer >= 60) {
 			frontEnemy[0]->Update();
 		}
-		if (fEneFlag >= 1) {
-			frontEnemy[1]->resurrection(2);
+		leftEnemy[0]->Update();
+		rightEnemy[0]->Update();
+		backEnemy[0]->Update();
+	}
+	if (fEneFlag >= 1) {
+		fEneTimer++;
+		frontEnemy[1]->resurrection(2);
+		if (fEneTimer >= 60) {
 			frontEnemy[1]->Update();
 		}
-		if (fEneFlag >= 2) {
+	}
+	if (fEneFlag >= 2) {
+		fEneTimer++;
+		if (fEneTimer >= 60) {
 			frontEnemy[2]->Update();
 		}
 	}
-	else if (enemyScene == 1) {
+	/*else if (enemyScene == 1) {
 		leftEnemy[0]->Update();
 	}
 	else if (enemyScene == 2) {
@@ -244,7 +254,7 @@ void GamePlayScene::Update()
 	}
 	else if (enemyScene == 3) {
 		backEnemy[0]->Update();
-	}
+	}*/
 
 	//}
 	skyObj->Update();
@@ -258,6 +268,7 @@ void GamePlayScene::Update()
 		obstacle[i]->Update();
 	}
 	CheckAllCollision();
+	particleMan->Update();
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -285,11 +296,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
-	//playerBullet->Draw();
-	/*for (auto i = 0; i < 14; i++) {
-		enemy[i]->Draw();
-	}*/
-	//enemy->Draw();
 	for (int i = 0; i < 3; i++) {
 
 		frontEnemy[i]->Draw();
@@ -410,7 +416,6 @@ void GamePlayScene::LeftColl()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						//particleMan->CreateParticle(pos, 70, 4, 1.65f);
 						player->OnCollision();
 						playerLife--;
 					}
@@ -471,7 +476,6 @@ void GamePlayScene::RightColl()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						//particleMan->CreateParticle(pos, 70, 4, 1.65f);
 						player->OnCollision();
 						playerLife--;
 					}
@@ -532,7 +536,6 @@ void GamePlayScene::BackColl()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						//particleMan->CreateParticle(pos, 70, 4, 1.65f);
 						player->OnCollision();
 						playerLife--;
 					}
@@ -604,7 +607,6 @@ void GamePlayScene::CheckAllCollision()
 							frontEnemy[i]->OnCollision();
 							if (!frontEnemy[i]->GetAlive()) {
 								fEneFlag++;
-								fEneTimer++;
 							}
 						}
 					}

@@ -45,6 +45,13 @@ void BackEnemy::Update()
 		if (position.x <= -35) {
 			move = move * -1;
 		}
+		position.y += moveY;
+		if (position.y >= 7) {
+			moveY = moveY * -1;
+		}
+		if (position.y <= 0) {
+			moveY = moveY * -1;
+		}
 		object->SetPosition(position);
 	}
 

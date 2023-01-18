@@ -34,6 +34,6 @@ private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
 	float move = 0.2f;
-
+	float moveY = 0.2f;
 };
 

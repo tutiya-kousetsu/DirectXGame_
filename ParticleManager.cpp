@@ -4,6 +4,9 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
+ID3D12Device* ParticleManager::device = nullptr;
+ID3D12GraphicsCommandList* ParticleManager::cmdList = nullptr;
+
 //XMFLOAT3どうしの加算処理
 const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::XMFLOAT3& rhs) 
 {
@@ -12,6 +15,13 @@ const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::X
 	result.y = lhs.y + rhs.y;
 	result.z = lhs.z + rhs.z;
 	return result;
+}
+
+ParticleManager* ParticleManager::GetInstance()
+{
+	static ParticleManager instance;
+	
+	return &instance;
 }
 
 void ParticleManager::LoadTexture()
@@ -301,12 +311,41 @@ void ParticleManager::InitializeDescriptorHeap()
 	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
-void ParticleManager::Initialize(ID3D12Device* device)
+bool ParticleManager::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList)
 {
 	// nullptrチェック
 	assert(device);
 
-	this->device = device;
+	ParticleManager::device = device;
+	ParticleManager::cmdList = cmdList;
+	
+	return true;
+}
+
+ParticleManager* ParticleManager::Create()
+{
+	// 3Dオブジェクトのインスタンスを生成
+	ParticleManager* particleManager = new ParticleManager();
+	if (particleManager == nullptr) {
+		return nullptr;
+	}
+
+	// 初期化
+	if (!particleManager->Initialize()) {
+		delete particleManager;
+		assert(0);
+		return nullptr;
+	}
+
+	return particleManager;
+}
+
+bool ParticleManager::Initialize()
+{
+	// nullptrチェック
+	assert(device);
+
+	//this->device = device;
 
 	HRESULT result;
 
@@ -333,6 +372,8 @@ void ParticleManager::Initialize(ID3D12Device* device)
 	if (FAILED(result)) {
 		assert(0);
 	}
+
+	return true;
 }
 
 void ParticleManager::Update()
@@ -392,7 +433,7 @@ void ParticleManager::Update()
 
 }
 
-void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
+void ParticleManager::Draw()
 {
 	// nullptrチェック
 	assert(cmdList);
@@ -421,7 +462,7 @@ void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
 }
 
 void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale)
-{
+ {
 	// リストに要素を追加
 	particles.emplace_front();
 	// 追加した要素の参照

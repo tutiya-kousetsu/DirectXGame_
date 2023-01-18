@@ -27,6 +27,7 @@ void FrontEnemy::Initialize()
 void FrontEnemy::Update()
 {
 	if (alive) {
+
 		shootTimer--;
 		if (shootTimer < 0) {
 			FrontShoot();
@@ -37,17 +38,8 @@ void FrontEnemy::Update()
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Update();
 		}
-		
-		position.x += move;
-		if (position.x >= 35) {
-			move = move * -1;
-		}
-		if (position.x <= -35) {
-			move = move * -1;
-		}
-		object->SetPosition(position);
 	}
-	
+
 	object->Update();
 }
 
@@ -93,6 +85,33 @@ XMVECTOR FrontEnemy::GetWorldPosition()
 	worldPos.m128_f32[2] = position.z;
 
 	return worldPos;
+}
+
+//•œŠˆƒJƒEƒ“ƒg
+void FrontEnemy::resurrection(int Count)
+{
+	//Ž€‚ñ‚¾‚ç
+	if (!alive) {
+		resurrectionTimer++;
+
+		if (resurrectionTimer >= 60) {
+			int x = rand() % 700;
+			float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
+			int y = rand() % 70;
+			float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+			int z = rand() % 700;
+			//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
+			position = { x2, y2, 35 };
+			alive = true;
+			life = 3;
+			resurrectionTimer = 0;
+			SetPosition(position);
+			aliveCount++;
+		}
+	}
+	if (aliveCount >= Count) {
+		alive = false;
+	}
 }
 
 void FrontEnemy::AccessPhase()

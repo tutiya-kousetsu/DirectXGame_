@@ -43,9 +43,6 @@
     <Filter Include="ソース ファイル\base\.h">
       <UniqueIdentifier>{982fe784-f72d-4e57-be79-ab76cd798fb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\camera\.cpp">
-      <UniqueIdentifier>{2c441dc7-d0ca-4566-ad9a-e3d76fafab65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\camera\.h">
       <UniqueIdentifier>{d77bb0c6-6c49-4d39-bbd3-fd8c83b08662}</UniqueIdentifier>
     </Filter>
@@ -128,12 +125,6 @@
     <ClCompile Include="enemy\Enemy.cpp">
       <Filter>ソース ファイル\game\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="camera\Camera.cpp">
-      <Filter>ソース ファイル\camera\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="camera\DebugCamera.cpp">
-      <Filter>ソース ファイル\camera\.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="player\PlayerBullet.cpp">
       <Filter>ソース ファイル\game\player</Filter>
     </ClCompile>
@@ -142,9 +133,6 @@
     </ClCompile>
     <ClCompile Include="enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\game\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="camera\FollowingCamera.cpp">
-      <Filter>ソース ファイル\camera\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="Obstacle.cpp">
       <Filter>ソース ファイル\game</Filter>
@@ -223,6 +211,15 @@
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
       <Filter>ソース ファイル\game</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\Camera.cpp">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\DebugCamera.cpp">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\FollowingCamera.cpp">
+      <Filter>ソース ファイル\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

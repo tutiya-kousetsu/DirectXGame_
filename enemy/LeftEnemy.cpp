@@ -30,14 +30,13 @@ void LeftEnemy::Update()
 		shootTimer--;
 		if (shootTimer < 0) {
 			LeftShoot();
-			//Shoot();
-
 			shootTimer = kShootInterval;
 		}
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Update();
 		}
 
+		//横移動
 		position.z += move;
 		if (position.z >= 35) {
 			move = move * -1;
@@ -76,9 +75,9 @@ void LeftEnemy::LeftShoot()
 		float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
 	}
-	//コンストラクタ呼ぶよ
+	//コンストラクタ呼ぶ
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	//初期化行くよ
+	//初期化
 	newBullet->Initialize(position, velocity);
 	//弾を登録する
 	bullets.push_back(std::move(newBullet));

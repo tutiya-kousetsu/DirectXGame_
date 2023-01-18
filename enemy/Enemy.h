@@ -9,6 +9,7 @@
 using namespace DirectX;
 //player‚Ì‘O•ûéŒ¾
 class Player;
+class ParticleManager;
 
 class Enemy : public GameObject
 {
@@ -39,9 +40,11 @@ protected:
 	int enemyTimer = 0;
 	int enemyPopFlag = 0;
 	Player* player = nullptr;
+	ParticleManager* particleMan = nullptr;
 	Line* line = nullptr;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;
 	int life = 3;
+
 };
 

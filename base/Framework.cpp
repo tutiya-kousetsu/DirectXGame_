@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "FbxLoader.h"
 #include "Input.h"
-
+#include "ParticleManager.h"
 void Framework::Run()
 {
 	//ゲームの初期化
@@ -41,6 +41,7 @@ void Framework::Initialize()
 	// スプライト静的初期化
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 
+	ParticleManager::StaticInitialize(dxCommon->GetDev(), dxCommon->GetCmdList());
 
 	//デバックテキスト用のテクスチャ番号を指定
 	const int debugTextTexNumber = 2;

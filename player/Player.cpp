@@ -1,11 +1,16 @@
 #include "Player.h"
 #include "Input.h"
+#include "ParticleManager.h"
 
 Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
 {
 	//データ読み込み
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 	object->SetPosition({ 0, 0.0f, 0 });
+	particleMan = ParticleManager::GetInstance();
+	//particleMan = new ParticleManager();
+	//particleMan->Initialize();
+	//particleMan->SetCamera();
 }
 
 void Player::Update()
@@ -22,6 +27,7 @@ void Player::Update()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Update();
 	}
+	//particleMan->Update();
 	object->Update();
 }
 
@@ -134,7 +140,24 @@ void Player::Shoot()
 
 void Player::OnCollision()
 {
-	
+	for (int i = 0; i < 75; i++) {
+		//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
+		const float md_pos = 5.0f;
+		XMFLOAT3 pos = object->GetPosition();
+		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+		const float md_vel = 0.1f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.005f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+		//追加
+		particleMan->Add(60, position, vel, acc, 1.0f, 0.0f);
+	}
 }
 
 void Player::FloorCollision()
@@ -154,6 +177,7 @@ void Player::Draw()
 {
 	if (alive) {
 		object->Draw();
+		//particleMan->Draw();
 	}
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw();

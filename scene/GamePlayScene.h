@@ -63,6 +63,14 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
+	void FrontColl();
+
+	void LeftColl();
+
+	void RightColl();
+
+	void BackColl();
+
 	void CheckAllCollision();
 private:
 	
@@ -87,10 +95,10 @@ private:
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;
 	Enemy* enemy = nullptr;
-	FrontEnemy* frontEnemy = nullptr;
-	LeftEnemy* leftEnemy = nullptr;
-	RightEnemy* rightEnemy = nullptr;
-	BackEnemy* backEnemy = nullptr;
+	FrontEnemy* frontEnemy[3]{};
+	LeftEnemy* leftEnemy[3]{};
+	RightEnemy* rightEnemy[3]{};
+	BackEnemy* backEnemy[3]{};
 	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
@@ -104,17 +112,18 @@ private:
 	std::stringstream enemyPopCommands;
 	XMFLOAT3 bulPos;
 	int playerLife = 3;
-	int frontLife = 3;
-	int leftLife = 3;
-	int rightLife = 3;
-	int backLife = 3;
+
+	bool particleF = false;
 
 	int gameScore = 0;
 	float flagTimer = 0;
+	//ÉtÉâÉOä÷åW
 	bool bulFlag = true;
-	int flag = 0;
-	int eneFlag = 0;
 	bool posFlag = false;
+
+	int fEneFlag = 0;
+	float fEneTimer = 0;
+	int enemyScene = 0;
 	// ÉJÉÅÉâä÷åW
 	bool dirty = false;
 	float angleX = 0;

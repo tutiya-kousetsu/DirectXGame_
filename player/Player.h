@@ -2,9 +2,10 @@
 #include "Object3d.h"
 #include "PlayerBullet.h"
 #include "GameObject.h"
-
 #include <memory>
 #include <list>
+#include <forward_list>
+class ParticleManager;
 
 using namespace DirectX;
 
@@ -51,6 +52,7 @@ private:
 	XMFLOAT3 bulPos;
 	// マウス
 	POINT mousePos{};
+	ParticleManager* particleMan = nullptr;
 	// ジャンプ
 	bool jumpFlag = false;
 	bool secondFlag = false;

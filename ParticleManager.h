@@ -59,6 +59,8 @@ public://サブクラス
 
 
 public:
+
+	static ParticleManager* GetInstance();
 	void LoadTexture();
 
 	void CreateModel();
@@ -83,11 +85,26 @@ public:
 	/// <returns></returns>
 	void InitializeDescriptorHeap();
 
-	void Initialize(ID3D12Device* device);
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="device">デバイス</param>
+	/// <param name="window_width">画面幅</param>
+	/// <param name="window_height">画面高さ</param>
+	/// <returns>成否</returns>
+	static bool StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	/// 3Dオブジェクト生成
+	/// </summary>
+	/// <returns></returns>
+	static ParticleManager* Create();
+
+	bool Initialize();
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 
 	/// <summary>
 	/// パーティクルの追加
@@ -99,7 +116,10 @@ public:
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
 private:
 	// デバイス
-	ID3D12Device* device = nullptr;
+	static ID3D12Device* device;
+	// コマンドリスト
+	static ID3D12GraphicsCommandList* cmdList;
+
 	// デスクリプタサイズ
 	UINT descriptorHandleIncrementSize = 0u;
 	// ルートシグネチャ

@@ -21,6 +21,7 @@ public:
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	XMVECTOR GetWorldPosition();
 
+	void resurrection(int aliveCount);
 public:
 
 	static const int kShootInterval = 100;
@@ -34,4 +35,6 @@ private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
 	float move = 0.2f;
+	float resurrectionTimer = 0;
+	int aliveCount = 0;
 };

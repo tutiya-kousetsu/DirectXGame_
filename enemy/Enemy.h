@@ -45,6 +45,5 @@ protected:
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;
 	int life = 3;
-
 };
 

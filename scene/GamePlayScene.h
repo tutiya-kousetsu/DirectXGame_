@@ -95,10 +95,10 @@ private:
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;
 	Enemy* enemy = nullptr;
-	FrontEnemy* frontEnemy[3]{};
-	LeftEnemy* leftEnemy[3]{};
-	RightEnemy* rightEnemy[3]{};
-	BackEnemy* backEnemy[3]{};
+	FrontEnemy* frontEnemy[11]{};
+	LeftEnemy* leftEnemy[7]{};
+	RightEnemy* rightEnemy[4]{};
+	BackEnemy* backEnemy[2]{};
 	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
@@ -113,16 +113,18 @@ private:
 	XMFLOAT3 bulPos;
 	int playerLife = 3;
 
-	bool particleF = false;
-
 	int gameScore = 0;
 	float flagTimer = 0;
+	float fEneTimer[3] = {};
+
 	//ÉtÉâÉOä÷åW
 	bool bulFlag = true;
 	bool posFlag = false;
 
 	int fEneFlag = 0;
-	float fEneTimer[3] = {};
+	int lEneFlag = 0;
+	int rEneFlag = 0;
+	int bEneFlag = 0;
 	int enemyScene = 0;
 	// ÉJÉÅÉâä÷åW
 	bool dirty = false;

@@ -14,7 +14,7 @@ FrontEnemy::FrontEnemy()
 	float y2 = (float)y / 10;//6~0の範囲
 	int z = rand() % 700;
 	//float z2 = (float)z / 10 - 35;//6~0の範囲
-	position = { x2, y2, 35 };
+	position = { x2, 35, 30 };
 	// 座標の変更を反映
 	SetPosition(position);
 }
@@ -27,35 +27,27 @@ void FrontEnemy::Initialize()
 void FrontEnemy::Update()
 {
 	if (alive) {
-
-		shootTimer--;
-		if (shootTimer < 0) {
-			FrontShoot();
-			//Shoot();
-
-			shootTimer = kShootInterval;
+		appearance();
+		//敵が止まったらフラグを立てて弾を撃ち始める
+		if (shootFlag) {
+			Shoot();
 		}
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->Update();
-		}
-		//position.x += move;
-		//if (position.x >= 35) {
-		//	move = move * -1;
-		//}
-		//if (position.x <= -35) {
-		//	move = move * -1;
-		//}
-		//position.y += moveY;
-		//if (position.y >= 7) {
-		//	moveY = moveY * -1;
-		//}
-		//if (position.y <= 0) {
-		//	moveY = moveY * -1;
-		//}
 		object->SetPosition(position);
 	}
 
 	object->Update();
+}
+
+void FrontEnemy::appearance()
+{
+	//描画されたら、敵をランダムで決めた位置の高さまでおろす
+	position.y -= moveY;
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0の範囲
+	if (position.y <= y2) {
+		moveY = 0;
+		shootFlag = true;
+	}
 }
 
 void FrontEnemy::FrontShoot()
@@ -91,6 +83,20 @@ void FrontEnemy::FrontShoot()
 	bullets.push_back(std::move(newBullet));
 }
 
+void FrontEnemy::Shoot()
+{
+	shootTimer--;
+	if (shootTimer < 0) {
+		FrontShoot();
+		//Shoot();
+
+		shootTimer = kShootInterval;
+	}
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		bullet->Update();
+	}
+}
+
 XMVECTOR FrontEnemy::GetWorldPosition()
 {
 	XMVECTOR worldPos;
@@ -100,33 +106,6 @@ XMVECTOR FrontEnemy::GetWorldPosition()
 	worldPos.m128_f32[2] = position.z;
 
 	return worldPos;
-}
-
-//復活カウント
-void FrontEnemy::resurrection(int Count)
-{
-	//死んだら
-	if (!alive) {
-		resurrectionTimer++;
-
-		if (resurrectionTimer >= 60) {
-			int x = rand() % 700;
-			float x2 = (float)x / 10 - 35;//10～-10の範囲
-			int y = rand() % 70;
-			float y2 = (float)y / 10;//6~0の範囲
-			int z = rand() % 700;
-			//float z2 = (float)z / 10 - 35;//6~0の範囲
-			position = { x2, y2, 35 };
-			alive = true;
-			life = 3;
-			resurrectionTimer = 0;
-			SetPosition(position);
-			aliveCount++;
-		}
-	}
-	if (aliveCount >= Count) {
-		alive = false;
-	}
 }
 
 void FrontEnemy::AccessPhase()

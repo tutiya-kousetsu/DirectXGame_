@@ -13,15 +13,16 @@ public:
 
 	//更新
 	void Update() override;
-
-	//void Draw() override;
-
+	//登場
+	void appearance();
+	//弾の処理
 	void FrontShoot();
 
+	void Shoot();
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
 
-	void resurrection(int aliveCount);
+
 public:
 
 	static const int kShootInterval = 100;
@@ -38,4 +39,5 @@ private:
 	float moveY = 0.2f;
 	float resurrectionTimer = 0;
 	int aliveCount = 0;
+	bool shootFlag = false;
 };

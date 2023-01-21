@@ -69,24 +69,32 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	particleMan->SetCamera(camera.get());
 	enemy = new Enemy();
 	//enemy->Initialize();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 11; i++) {
 		//前
 		frontEnemy[i] = new FrontEnemy();
 		frontEnemy[i]->Initialize();
+		//敵に自機のアドレスを渡して敵が自機を使えるようにする
+		frontEnemy[i]->SetPlayer(player);
+	}
+	for (int i = 0; i < 7; i++) {
 		//左
 		leftEnemy[i] = new LeftEnemy();
 		leftEnemy[i]->Initialize();
+		//敵に自機のアドレスを渡して敵が自機を使えるようにする
+		leftEnemy[i]->SetPlayer(player);
+	}
+	for (int i = 0; i < 4; i++) {
 		//右
 		rightEnemy[i] = new RightEnemy();
 		rightEnemy[i]->Initialize();
+		//敵に自機のアドレスを渡して敵が自機を使えるようにする
+		rightEnemy[i]->SetPlayer(player);
+	}
+	for (int i = 0; i < 2; i++) {
 		//後ろ
 		backEnemy[i] = new BackEnemy();
 		backEnemy[i]->Initialize();
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		//enemy->SetPlayer(player);
-		frontEnemy[i]->SetPlayer(player);
-		leftEnemy[i]->SetPlayer(player);
-		rightEnemy[i]->SetPlayer(player);
 		backEnemy[i]->SetPlayer(player);
 	}
 	//データ読み込み
@@ -116,10 +124,16 @@ void GamePlayScene::Finalize()
 	}
 	delete enemyBullet;
 	delete enemy;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 11; i++) {
 		delete frontEnemy[i];
+	}
+	for (int i = 0; i < 7; i++) {
 		delete leftEnemy[i];
+	}
+	for (int i = 0; i < 4; i++) {
 		delete rightEnemy[i];
+	}
+	for (int i = 0; i < 2; i++) {
 		delete backEnemy[i];
 	}
 }
@@ -195,7 +209,7 @@ void GamePlayScene::Update()
 
 	player->Update();
 
-	
+
 	//更新
 	camera->Update();
 
@@ -222,34 +236,58 @@ void GamePlayScene::Update()
 	}*/
 
 	//for (int i = 0; i < 3; i++) {
+
+		//前の敵
 	if (fEneFlag >= 0) {
-		//復活する回数
-		fEneTimer[0]++;
-		if (fEneTimer[0] >= 60) {
-			frontEnemy[0]->Update();
-		}
+		frontEnemy[0]->Update();
 	}
 	if (fEneFlag >= 1) {
-		fEneTimer[1]++;
-		frontEnemy[0]->resurrection(1);
-		if (fEneTimer[1] >= 60) {
-			frontEnemy[1]->Update();
-		}
+		frontEnemy[1]->Update();
+		frontEnemy[2]->Update();
 	}
-	if (fEneFlag >= 3) {
-		fEneTimer[2]++;
-		frontEnemy[0]->resurrection(1);
-		frontEnemy[1]->resurrection(1);
-		if (fEneTimer[2] >= 60) {
-			frontEnemy[2]->Update();
-		}
-	}
-	/*else if (enemyScene == 1) {
+	if (fEneFlag >= 3 && lEneFlag >= 0) {
+		frontEnemy[3]->Update();
+		frontEnemy[4]->Update();
 		leftEnemy[0]->Update();
 	}
-	else if (enemyScene == 2) {
+	if (fEneFlag >= 5 && lEneFlag >= 1) {
+		frontEnemy[5]->Update();
+		frontEnemy[6]->Update();
+		leftEnemy[1]->Update();
+		leftEnemy[2]->Update();
+	}
+	if (fEneFlag >= 7 && lEneFlag >= 3 && rEneFlag >= 0) {
+		frontEnemy[7]->Update();
+		frontEnemy[8]->Update();
+		leftEnemy[3]->Update();
+		leftEnemy[4]->Update();
+		rightEnemy[0]->Update();
+		rightEnemy[1]->Update();
+	}
+	if (fEneFlag >= 7 && lEneFlag >= 5 && rEneFlag >= 2) {
+		frontEnemy[9]->Update();
+		frontEnemy[10]->Update();
+		leftEnemy[5]->Update();
+		leftEnemy[6]->Update();
+		rightEnemy[2]->Update();
+		rightEnemy[3]->Update();
+		backEnemy[0]->Update();
+		backEnemy[1]->Update();
+	}
+
+	//右の敵
+	/*if (lEneFlag >= 0 && fEneFlag >= 3) {
+		leftEnemy[0]->Update();
+	}*/
+	/*if (lEneFlag >= 1 && fEneFlag >= 5) {
+		leftEnemy[1]->Update();
+		leftEnemy[2]->Update();
+	}*/
+	//左の敵
+	/*else if (enemyScene == 2) {
 		rightEnemy[0]->Update();
 	}
+	//後ろの敵
 	else if (enemyScene == 3) {
 		backEnemy[0]->Update();
 	}*/
@@ -294,11 +332,16 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
-	for (int i = 0; i < 3; i++) {
-
+	for (int i = 0; i < 11; i++) {
 		frontEnemy[i]->Draw();
+	}
+	for (int i = 0; i < 7; i++) {
 		leftEnemy[i]->Draw();
+	}
+	for (int i = 0; i < 4; i++) {
 		rightEnemy[i]->Draw();
+	}
+	for (int i = 0; i < 2; i++) {
 		backEnemy[i]->Draw();
 	}
 	for (auto i = 0; i < 4; i++) {
@@ -337,7 +380,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 //前敵の弾の当たり判定
 void GamePlayScene::FrontColl()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 11; i++) {
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = frontEnemy[i]->GetBullet();
 #pragma region 敵弾と自機の当たり判定
 		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
@@ -397,7 +440,7 @@ void GamePlayScene::FrontColl()
 //左敵の弾の当たり判定
 void GamePlayScene::LeftColl()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 7; i++) {
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = leftEnemy[i]->GetBullet();
 #pragma region 敵弾と自機の当たり判定
 		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
@@ -415,7 +458,7 @@ void GamePlayScene::LeftColl()
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
 						player->OnCollision();
-						playerLife--;
+						//playerLife--;
 					}
 				}
 			}
@@ -432,7 +475,7 @@ void GamePlayScene::LeftColl()
 				if (eb->GetAlive()) {
 					eBullet.center = XMLoadFloat3(&eb->GetPosition());
 					eBullet.radius = eb->GetScale().x;
-					if (frontEnemy[i]->GetAlive()) {
+					if (leftEnemy[i]->GetAlive()) {
 						Sphere obstacleShape;
 						for (auto j = 0; j < 4; j++) {
 							obstacleShape.center = XMLoadFloat3(&obstacle[j]->GetPosition());
@@ -457,7 +500,7 @@ void GamePlayScene::LeftColl()
 //右敵の弾の当たり判定
 void GamePlayScene::RightColl()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = rightEnemy[i]->GetBullet();
 #pragma region 敵弾と自機の当たり判定
 		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
@@ -475,7 +518,7 @@ void GamePlayScene::RightColl()
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
 						player->OnCollision();
-						playerLife--;
+						//playerLife--;
 					}
 				}
 			}
@@ -492,7 +535,7 @@ void GamePlayScene::RightColl()
 				if (eb->GetAlive()) {
 					eBullet.center = XMLoadFloat3(&eb->GetPosition());
 					eBullet.radius = eb->GetScale().x;
-					if (frontEnemy[i]->GetAlive()) {
+					if (rightEnemy[i]->GetAlive()) {
 						Sphere obstacleShape;
 						for (auto j = 0; j < 4; j++) {
 							obstacleShape.center = XMLoadFloat3(&obstacle[j]->GetPosition());
@@ -517,7 +560,7 @@ void GamePlayScene::RightColl()
 //後ろ敵の弾の当たり判定
 void GamePlayScene::BackColl()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 2; i++) {
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = backEnemy[i]->GetBullet();
 #pragma region 敵弾と自機の当たり判定
 		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
@@ -535,7 +578,7 @@ void GamePlayScene::BackColl()
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
 						player->OnCollision();
-						playerLife--;
+						//playerLife--;
 					}
 				}
 			}
@@ -552,7 +595,7 @@ void GamePlayScene::BackColl()
 				if (eb->GetAlive()) {
 					eBullet.center = XMLoadFloat3(&eb->GetPosition());
 					eBullet.radius = eb->GetScale().x;
-					if (frontEnemy[i]->GetAlive()) {
+					if (backEnemy[i]->GetAlive()) {
 						Sphere obstacleShape;
 						for (auto j = 0; j < 4; j++) {
 							obstacleShape.center = XMLoadFloat3(&obstacle[j]->GetPosition());
@@ -582,19 +625,20 @@ void GamePlayScene::CheckAllCollision()
 	BackColl();
 
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-	for (int i = 0; i < 3; i++) {
 
 #pragma region 自弾と敵の当たり判定
 
-		Sphere pBullet;
+	Sphere pBullet;
 
-		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-			for (auto& pb : playerBullets) {
-				if (pb->GetAlive()) {
-					pBullet.center = XMLoadFloat3(&pb->GetPosition());
-					pBullet.radius = pb->GetScale().x;
+	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+		for (auto& pb : playerBullets) {
+			if (pb->GetAlive()) {
+				pBullet.center = XMLoadFloat3(&pb->GetPosition());
+				pBullet.radius = pb->GetScale().x;
 
-					//前の敵
+				//前の敵
+				for (int i = 0; i < 11; i++) {
+
 					if (frontEnemy[i]->GetAlive()) {
 						Sphere fEnemyShape;
 						fEnemyShape.center = XMLoadFloat3(&frontEnemy[i]->GetPosition());
@@ -608,7 +652,8 @@ void GamePlayScene::CheckAllCollision()
 							}
 						}
 					}
-
+				}
+				for (int i = 0; i < 7; i++) {
 					//左の敵
 					if (leftEnemy[i]->GetAlive()) {
 						Sphere lEnemyShape;
@@ -618,8 +663,13 @@ void GamePlayScene::CheckAllCollision()
 						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
 							pb->OnCollision();
 							leftEnemy[i]->OnCollision();
+							if (!leftEnemy[i]->GetAlive()) {
+								lEneFlag++;
+							}
 						}
 					}
+				}
+				for (int i = 0; i < 4; i++) {
 
 					//右の敵
 					if (rightEnemy[i]->GetAlive()) {
@@ -630,8 +680,14 @@ void GamePlayScene::CheckAllCollision()
 						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
 							pb->OnCollision();
 							rightEnemy[i]->OnCollision();
+							if (!rightEnemy[i]->GetAlive()) {
+								rEneFlag++;
+							}
 						}
 					}
+				}
+				for (int i = 0; i < 2; i++) {
+
 					//後ろの敵
 					if (backEnemy[i]->GetAlive()) {
 						Sphere lEnemyShape;
@@ -641,6 +697,9 @@ void GamePlayScene::CheckAllCollision()
 						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
 							pb->OnCollision();
 							backEnemy[i]->OnCollision();
+							if (!backEnemy[i]->GetAlive()) {
+								bEneFlag++;
+							}
 						}
 					}
 				}
@@ -692,9 +751,9 @@ void GamePlayScene::CheckAllCollision()
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
 	}
-	//if (fEneFlag[6] && fEneFlag[7] && fEneFlag[8] && fEneFlag[9]) {
-	//	//シーン切り替え
-	//	BaseScene* scene = new GameClear();
-	//	this->sceneManager->SetNextScene(scene);
-	//}
+	if (fEneFlag >= 11 && lEneFlag >= 7 && rEneFlag >= 4 && bEneFlag >= 2) {
+		//シーン切り替え
+		BaseScene* scene = new GameClear();
+		this->sceneManager->SetNextScene(scene);
+	}
 }

@@ -12,9 +12,9 @@ LeftEnemy::LeftEnemy()
 	float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
 	int y = rand() % 70;
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	int z = rand() % 700;
-	float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { -35, y2, z2 };
+	int z = rand() % 600;
+	float z2 = (float)z / 10 - 30;//30~-30‚Ì”ÍˆÍ
+	position = { -35, 35, z2 };
 	// À•W‚Ì•ÏX‚ğ”½‰f
 	SetPosition(position);
 }
@@ -27,27 +27,35 @@ void LeftEnemy::Initialize()
 void LeftEnemy::Update()
 {
 	if (alive) {
-		shootTimer--;
-		if (shootTimer < 0) {
-			LeftShoot();
-			shootTimer = kShootInterval;
-		}
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->Update();
-		}
+		appearance();
+		if (!appFlag) {
+			Shoot();
 
-		//‰¡ˆÚ“®
-		position.z += move;
-		if (position.z >= 35) {
-			move = move * -1;
-		}
-		if (position.z <= -35) {
-			move = move * -1;
+			//‰¡ˆÚ“®
+			position.z += move;
+			if (position.z >= 30) {
+				move = move * -1;
+			}
+			if (position.z <= -30) {
+				move = move * -1;
+			}
 		}
 		object->SetPosition(position);
 	}
 
 	object->Update();
+}
+
+void LeftEnemy::appearance()
+{
+	//•`‰æ‚³‚ê‚½‚çA“G‚ğƒ‰ƒ“ƒ_ƒ€‚ÅŒˆ‚ß‚½ˆÊ’u‚Ì‚‚³‚Ü‚Å‚¨‚ë‚·
+	position.y -= moveY;
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	if (position.y <= y2) {
+		moveY = 0;
+		appFlag = false;
+	}
 }
 
 void LeftEnemy::LeftShoot()
@@ -81,6 +89,18 @@ void LeftEnemy::LeftShoot()
 	newBullet->Initialize(position, velocity);
 	//’e‚ğ“o˜^‚·‚é
 	bullets.push_back(std::move(newBullet));
+}
+
+void LeftEnemy::Shoot()
+{
+	shootTimer--;
+	if (shootTimer < 0) {
+		LeftShoot();
+		shootTimer = kShootInterval;
+	}
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		bullet->Update();
+	}
 }
 
 XMVECTOR LeftEnemy::GetWorldPosition()

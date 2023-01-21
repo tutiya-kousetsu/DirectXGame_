@@ -14,7 +14,7 @@ BackEnemy::BackEnemy()
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
 	int z = rand() % 700;
 	//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { x2, y2, -35 };
+	position = { x2, 35, -35 };
 	// À•W‚Ì•ÏX‚ğ”½‰f
 	SetPosition(position);
 }
@@ -27,35 +27,42 @@ void BackEnemy::Initialize()
 void BackEnemy::Update()
 {
 	if (alive) {
-		shootTimer--;
-		if (shootTimer < 0) {
-			BackShoot();
-			//Shoot();
+		appearance();
 
-			shootTimer = kShootInterval;
-		}
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->Update();
-		}
+		if (!appFlag) {
+			Shoot();
 
-		position.x += move;
-		if (position.x >= 35) {
-			move = move * -1;
-		}
-		if (position.x <= -35) {
-			move = move * -1;
-		}
-		position.y += moveY;
-		if (position.y >= 7) {
-			moveY = moveY * -1;
-		}
-		if (position.y <= 0) {
-			moveY = moveY * -1;
+			position.x += move;
+			if (position.x >= 35) {
+				move = move * -1;
+			}
+			if (position.x <= -35) {
+				move = move * -1;
+			}
+			position.y += moveY;
+			if (position.y >= 7) {
+				moveY = moveY * -1;
+			}
+			if (position.y <= 0) {
+				moveY = moveY * -1;
+			}
 		}
 		object->SetPosition(position);
 	}
 
 	object->Update();
+}
+
+void BackEnemy::appearance()
+{
+	//•`‰æ‚³‚ê‚½‚çA“G‚ğƒ‰ƒ“ƒ_ƒ€‚ÅŒˆ‚ß‚½ˆÊ’u‚Ì‚‚³‚Ü‚Å‚¨‚ë‚·
+	position.y -= moveY;
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	if (position.y <= y2) {
+		moveY = 0;
+		appFlag = false;
+	}
 }
 
 void BackEnemy::BackShoot()
@@ -89,6 +96,18 @@ void BackEnemy::BackShoot()
 	newBullet->Initialize(position, velocity);
 	//’e‚ğ“o˜^‚·‚é
 	bullets.push_back(std::move(newBullet));
+}
+
+void BackEnemy::Shoot()
+{
+	shootTimer--;
+	if (shootTimer < 0) {
+		BackShoot();
+		shootTimer = kShootInterval;
+	}
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		bullet->Update();
+	}
 }
 
 XMVECTOR BackEnemy::GetWorldPosition()

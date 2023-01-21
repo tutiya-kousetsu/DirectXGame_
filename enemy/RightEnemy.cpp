@@ -14,7 +14,7 @@ RightEnemy::RightEnemy()
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
 	int z = rand() % 700;
 	float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { 35, y2, z2 };
+	position = { 35, 35, z2 };
 	// À•W‚Ì•ÏX‚ğ”½‰f
 	SetPosition(position);
 }
@@ -27,28 +27,35 @@ void RightEnemy::Initialize()
 void RightEnemy::Update()
 {
 	if (alive) {
-		shootTimer--;
-		if (shootTimer < 0) {
-			RightShoot();
-			//Shoot();
+		appearance();
 
-			shootTimer = kShootInterval;
-		}
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->Update();
-		}
+		if (!appFlag) {
+			Shoot();
 
-		position.z += move;
-		if (position.z >= 35) {
-			move = move * -1;
-		}
-		if (position.z <= -35) {
-			move = move * -1;
+			position.z += move;
+			if (position.z >= 35) {
+				move = move * -1;
+			}
+			if (position.z <= -35) {
+				move = move * -1;
+			}
 		}
 		object->SetPosition(position);
 	}
 
 	object->Update();
+}
+
+void RightEnemy::appearance()
+{
+	//•`‰æ‚³‚ê‚½‚çA“G‚ğƒ‰ƒ“ƒ_ƒ€‚ÅŒˆ‚ß‚½ˆÊ’u‚Ì‚‚³‚Ü‚Å‚¨‚ë‚·
+	position.y -= moveY;
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	if (position.y <= y2) {
+		moveY = 0;
+		appFlag = false;
+	}
 }
 
 void RightEnemy::RightShoot()
@@ -82,6 +89,18 @@ void RightEnemy::RightShoot()
 	newBullet->Initialize(position, velocity);
 	//’e‚ğ“o˜^‚·‚é
 	bullets.push_back(std::move(newBullet));
+}
+
+void RightEnemy::Shoot()
+{
+	shootTimer--;
+	if (shootTimer < 0) {
+		RightShoot();
+		shootTimer = kShootInterval;
+	}
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		bullet->Update();
+	}
 }
 
 XMVECTOR RightEnemy::GetWorldPosition()

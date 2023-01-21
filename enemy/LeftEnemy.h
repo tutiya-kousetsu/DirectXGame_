@@ -14,9 +14,12 @@ public:
 	//更新
 	void Update() override;
 
-	//void Draw() override;
+	//登場
+	void appearance();
 
 	void LeftShoot();
+
+	void Shoot();
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
@@ -33,7 +36,5 @@ private:
 	Player* player = nullptr;
 	XMFLOAT3 position;
 	XMVECTOR velocity;
-	float move = 0.2f;
-
 };
 

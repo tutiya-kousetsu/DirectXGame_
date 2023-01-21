@@ -45,5 +45,8 @@ protected:
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;
 	int life = 3;
+	float move = 0.2f;
+	float moveY = 0.2f;
+	bool appFlag = true;
 };
 

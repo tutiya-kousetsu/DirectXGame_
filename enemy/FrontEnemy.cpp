@@ -14,7 +14,7 @@ FrontEnemy::FrontEnemy()
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
 	int z = rand() % 700;
 	//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { x2, 35, 30 };
+	position = { x2, 35, 35 };
 	// À•W‚Ì•ÏX‚ð”½‰f
 	SetPosition(position);
 }
@@ -29,7 +29,7 @@ void FrontEnemy::Update()
 	if (alive) {
 		appearance();
 		//“G‚ªŽ~‚Ü‚Á‚½‚çƒtƒ‰ƒO‚ð—§‚Ä‚Ä’e‚ðŒ‚‚¿Žn‚ß‚é
-		if (shootFlag) {
+		if (!appFlag) {
 			Shoot();
 		}
 		object->SetPosition(position);
@@ -46,7 +46,7 @@ void FrontEnemy::appearance()
 	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
 	if (position.y <= y2) {
 		moveY = 0;
-		shootFlag = true;
+		appFlag = false;
 	}
 }
 
@@ -88,8 +88,6 @@ void FrontEnemy::Shoot()
 	shootTimer--;
 	if (shootTimer < 0) {
 		FrontShoot();
-		//Shoot();
-
 		shootTimer = kShootInterval;
 	}
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {

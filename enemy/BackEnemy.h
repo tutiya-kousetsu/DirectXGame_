@@ -14,9 +14,12 @@ public:
 	//更新
 	void Update() override;
 
-	//void Draw() override;
+	//登場
+	void appearance();
 
 	void BackShoot();
+
+	void Shoot();
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();

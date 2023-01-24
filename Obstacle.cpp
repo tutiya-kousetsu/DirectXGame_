@@ -6,7 +6,14 @@ Obstacle::Obstacle() :Obstacle(Model::LoadFromObj("obstacle"))
 
 void Obstacle::Update()
 {
+	Pop(position);
+	object->SetPosition(position);
 	object->Update();
+}
+
+void Obstacle::Pop(XMFLOAT3 pos)
+{
+	position = pos;
 }
 
 void Obstacle::Draw()
@@ -14,4 +21,8 @@ void Obstacle::Draw()
 	if (alive) {
 		object->Draw();
 	}
+}
+
+void Obstacle::OnCollision()
+{
 }

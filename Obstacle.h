@@ -12,7 +12,11 @@ public:
 
 	void Update() override;
 
+	void Pop(XMFLOAT3 pos);
+
 	void Draw() override;
+
+	void OnCollision();
 
 private:
 	XMFLOAT3 position;

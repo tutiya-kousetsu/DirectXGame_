@@ -56,12 +56,12 @@ public:
 	/// <summary>
 	/// 障害物の発生データの読み込み
 	/// </summary>
-	//void LoadObstaclePopData();
+	void LoadObstaclePopData();
 
 	/// <summary>
 	/// 障害物配置のコマンド更新
 	/// </summary>
-	//void UpdataObstaclePopCommand();
+	void UpdataObstaclePopCommand();
 
 	void FrontColl();
 
@@ -85,9 +85,11 @@ private:
 	Input* input = nullptr;
 	PostEffect* postEffect[2] = {};
 
-	Obstacle* obstacle[4] = {};
+	//Obstacle* obstacle = nullptr;
+	std::list<std::unique_ptr<Obstacle>> obstacles;
+	//障害物発生のコマンド
 	std::stringstream obstaclePopCom;
-	XMFLOAT3 obstaclePos[4] = {};
+	XMFLOAT3 obstaclePos[24] = {};
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 
@@ -109,17 +111,18 @@ private:
 
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;
-	std::stringstream enemyPopCommands;
 	XMFLOAT3 bulPos;
 	int playerLife = 3;
 
 	int gameScore = 0;
 	float flagTimer = 0;
 	float fEneTimer[3] = {};
-
+	float waitTimer = 0;
 	//フラグ関係
 	bool bulFlag = true;
 	bool posFlag = false;
+
+	bool waitFlag = false;
 
 	int fEneFlag = 0;
 	int lEneFlag = 0;

@@ -96,6 +96,10 @@ public://静的メンバ関数
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
+	//getter
+	const XMFLOAT3& GetScale() { return this->scale; }
+	const XMFLOAT3& GetPosition() { return this->position; }
+
 private://静的メンバ変数
 	// コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList;

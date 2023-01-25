@@ -217,7 +217,7 @@ void GamePlayScene::Update()
 
 	floor->Update();
 
-		//‘O‚Ì“G
+	//‘O‚Ì“G
 	if (fEneFlag >= 0) {
 		frontEnemy[0]->Update();
 	}
@@ -382,7 +382,7 @@ void GamePlayScene::UpdataObstaclePopCommand()
 			float z = (float)std::atof(word.c_str());
 
 			//“G‚ğ”­¶‚³‚¹‚é
-				//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ô‚æ
+			//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ô‚æ
 			std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
 			newObstacle->Initialize(XMFLOAT3(x, y, z));
 			//áŠQ•¨‚ğ“o˜^‚·‚é
@@ -419,38 +419,39 @@ void GamePlayScene::FrontColl()
 					}
 				}
 			}
-		}
+
 
 #pragma endregion
 
 #pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+			//const std::list<std::unique_ptr<Obstacle>>& obstacles_ = {};
+			//for (const std::unique_ptr<Obstacle>& obstacle : obstacles_) {
 
-			Sphere eBullet;
+				//Sphere eBullet;
 
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					if (frontEnemy[i]->GetAlive()) {
-						Sphere obstacleShape;
-						//for (auto j = 0; j < 8; j++) {
-						//	obstacleShape.center = XMLoadFloat3(&obstacle[j]->GetPosition());
-						//	obstacleShape.radius = obstacle[j]->GetScale().x;
+				for (auto& eb : enemyBullets) {
+					if (eb->GetAlive()) {
+						eBullet.center = XMLoadFloat3(&eb->GetPosition());
+						eBullet.radius = eb->GetScale().x;
+						if (eb->GetAlive()) {
+							
+							for (auto& obstacle : obstacles) {
+								Sphere obstacleShape;
+								obstacleShape.center = XMLoadFloat3(&obstacle->GetPosition());
+								obstacleShape.radius = obstacle->GetScale().x * 20;
 
-						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-						//		eb->OnCollision();
-						//		//obstacle->OnCollision();
-						//	}
-						//}
+								if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+									eb->OnCollision();
+									//obstacle->OnCollision();
+								}
+							}
+						}
 					}
-
-				}
+				//}
 			}
-		}
 
 #pragma endregion
-
+		}
 	}
 }
 
@@ -479,32 +480,29 @@ void GamePlayScene::LeftColl()
 					}
 				}
 			}
-		}
 
 #pragma endregion
 
 #pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+			for (const std::unique_ptr<Obstacle>& obstacle : obstacles) {
+				Sphere eBullet;
+				for (auto& eb : enemyBullets) {
+					if (eb->GetAlive()) {
+						eBullet.center = XMLoadFloat3(&eb->GetPosition());
+						eBullet.radius = eb->GetScale().x;
+						if (leftEnemy[i]->GetAlive()) {
+							Sphere obstacleShape;
+							for (auto& ob : obstacles) {
+								obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+								obstacleShape.radius = ob->GetScale().x;
 
-			Sphere eBullet;
-
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					if (leftEnemy[i]->GetAlive()) {
-						Sphere obstacleShape;
-						//for (auto j = 0; j < 8; j++) {
-						//	obstacleShape.center = XMLoadFloat3(&obstacle[j]->GetPosition());
-						//	obstacleShape.radius = obstacle[j]->GetScale().x;
-
-						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-						//		eb->OnCollision();
-						//		//obstacle->OnCollision();
-						//	}
-						//}
+								if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+									eb->OnCollision();
+									//obstacle->OnCollision();
+								}
+							}
+						}
 					}
-
 				}
 			}
 		}
@@ -727,21 +725,22 @@ void GamePlayScene::CheckAllCollision()
 #pragma endregion
 
 #pragma region ©’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		for (auto& pb : playerBullets) {
-			if (pb->GetAlive()) {
-				pBullet.center = XMLoadFloat3(&pb->GetPosition());
-				pBullet.radius = pb->GetScale().x;
-				Sphere obstacleShape;
-				/*for (auto i = 0; i < 8; i++) {
+		for (const std::unique_ptr<Obstacle>& obstacle : obstacles) {
+			for (auto& pb : playerBullets) {
+				if (pb->GetAlive()) {
+					pBullet.center = XMLoadFloat3(&pb->GetPosition());
+					pBullet.radius = pb->GetScale().x;
+					Sphere obstacleShape;
+					for (auto& ob : obstacles) {
+						obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+						obstacleShape.radius = ob->GetScale().x * 20;
 
-					obstacleShape.center = XMLoadFloat3(&obstacle[i]->GetPosition());
-					obstacleShape.radius = obstacle[i]->GetScale().x;
-
-
-					if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
-						pb->OnCollision();
+						if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
+							pb->OnCollision();
+							//obstacle->OnCollision();
+						}
 					}
-				}*/
+				}
 			}
 		}
 	}

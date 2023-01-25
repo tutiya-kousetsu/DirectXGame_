@@ -163,8 +163,8 @@ void Player::OnCollision()
 void Player::FloorCollision()
 {
 	//”ÍˆÍ‘I‘ð
-	if (position.x <= 25 && position.x >= -25
-		&& position.z <= 25 && position.z >= -25) {
+	if (position.x <= 33.f && position.x >= -33.f
+		&& position.z <= 33.f && position.z >= -33.f) {
 		position.y += g;
 	}
 	else {

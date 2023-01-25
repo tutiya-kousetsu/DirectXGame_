@@ -10,13 +10,12 @@ void Obstacle::Initialize(XMFLOAT3 pos)
 	fbxObj->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("cube"));
 	fbxObj->SetScale({ 0.2f, 0.2f, 0.2f });
 
-	this->position = pos;
+	fbxObj->SetPosition(pos);
 }
 
 void Obstacle::Update()
 {
-	/*Pop(position);*/
-	fbxObj->SetPosition(position);
+	
 	fbxObj->Update();
 }
 

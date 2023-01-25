@@ -2,7 +2,7 @@
 
 Floor::Floor() :Floor(Model::LoadFromObj("FloorBox"))
 {
-	object->SetScale({ 15.0f, 5.0f, 15.0f });
+	object->SetScale({ 20.f, 5.0f, 20.f });
 }
 
 void Floor::Update()

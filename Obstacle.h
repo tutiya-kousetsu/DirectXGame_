@@ -21,6 +21,12 @@ public:
 
 	void OnCollision();
 
+	inline void SetPosition(const DirectX::XMFLOAT3& position) { fbxObj->SetPosition(position); }
+	inline const DirectX::XMFLOAT3& GetPosition() const { return fbxObj->GetPosition(); }
+
+	inline void SetScale(const DirectX::XMFLOAT3& scale) { fbxObj->SetScale(scale); }
+	inline const DirectX::XMFLOAT3& GetScale() const { return fbxObj->GetScale(); }
+
 private:
 	XMFLOAT3 position;
 	std::unique_ptr<Fbx_Object3d> fbxObj;

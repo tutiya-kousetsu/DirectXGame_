@@ -94,6 +94,9 @@ private:
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 
+	Fbx_Object3d* fbxObj = nullptr;
+	Fbx_Model* fbxModel = nullptr;
+
 	//std::unique_ptr<PlayerBullet> playerBullet;
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;

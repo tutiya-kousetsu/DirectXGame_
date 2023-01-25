@@ -65,6 +65,7 @@ void Framework::Initialize()
 
 	//3Dオブジェット静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(),dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 	//シーンマネーギャーの生成
 	this->sceneManager = new SceneManager();
 }

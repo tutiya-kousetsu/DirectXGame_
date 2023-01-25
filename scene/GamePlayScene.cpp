@@ -45,7 +45,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera.get());
 
-
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
 	//カメラをセット
@@ -118,6 +117,8 @@ void GamePlayScene::Finalize()
 	//3Dオブジェクト解放
 
 	//3Dオブジェクト解放
+	delete fbxObj;
+	delete fbxModel;
 	delete skyModel;
 	delete player;
 	delete skyObj;
@@ -209,6 +210,7 @@ void GamePlayScene::Update()
 
 	player->Update();
 
+	//fbxObj->Update();
 
 	//更新
 	camera->Update();
@@ -299,8 +301,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		backEnemy[i]->Draw();
 	}
 	for (auto& obstacle : obstacles) {
-		obstacle->Draw();
+		obstacle->Draw(dxCommon->GetCmdList());
 	}
+	//fbxObj->Draw(dxCommon->GetCmdList());
 	//line->Draw();
 	skyObj->Draw();
 	floor->Draw();

@@ -93,6 +93,9 @@ public://静的メンバ関数
 	void SetModel(Fbx_Model* fbx_model) { this->fbx_model = fbx_model; }
 
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+
 private://静的メンバ変数
 	// コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList;

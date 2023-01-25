@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object3d.h"
+#include "Fbx_Object3d.h"
 #include "Model.h"
 #include <DirectXMath.h>
 #include <memory>

@@ -1,30 +1,28 @@
 #include "Obstacle.h"
-Obstacle::Obstacle() :Obstacle(Model::LoadFromObj("obstacle"))
+Obstacle::Obstacle()
 {
-	object->SetScale({ 2.56f, 2.56f, 2.56f });
-}
-
-Obstacle::~Obstacle()
-{
-	
 }
 
 void Obstacle::Initialize(XMFLOAT3 pos)
 {
+	fbxObj.reset(new Fbx_Object3d());
+	fbxObj->Initialize();
+	fbxObj->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("cube"));
+	fbxObj->SetScale({ 0.2f, 0.2f, 0.2f });
+
 	this->position = pos;
 }
 
 void Obstacle::Update()
 {
-	object->SetPosition(position);
-	object->Update();
+	/*Pop(position);*/
+	fbxObj->SetPosition(position);
+	fbxObj->Update();
 }
 
-void Obstacle::Draw()
+void Obstacle::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	if (alive) {
-		object->Draw();
-	}
+	fbxObj->Draw(cmdList);
 }
 
 void Obstacle::OnCollision()

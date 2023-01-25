@@ -6,6 +6,7 @@
 #include "DebugText.h"
 #include "Audio.h"
 #include "Object3d.h"
+#include "Fbx_Object3d.h"
 #include "Sprite.h"
 #include "SceneManager.h"
 #include "PostEffect.h"

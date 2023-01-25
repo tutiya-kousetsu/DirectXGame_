@@ -1,26 +1,29 @@
 #pragma once
 #include "GameObject.h"
+#include "Fbx_Object3d.h"
+#include "DirectXCommon.h"
 #include <DirectXMath.h>
+#include <memory>
+
 using namespace DirectX;
 
-class Obstacle : public GameObject
+class Obstacle
 {
 public:
-	using GameObject::GameObject;
 
 	Obstacle();
 
-	~Obstacle();
-
 	void Initialize(XMFLOAT3 pos);
 
-	void Update() override;
+	void Update();
 
-	void Draw() override;
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	void OnCollision();
 
 private:
 	XMFLOAT3 position;
+	std::unique_ptr<Fbx_Object3d> fbxObj;
+
 };
 

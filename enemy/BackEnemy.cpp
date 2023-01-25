@@ -19,6 +19,10 @@ BackEnemy::BackEnemy()
 	SetPosition(position);
 }
 
+BackEnemy::~BackEnemy()
+{
+}
+
 void BackEnemy::Initialize()
 {
 	AccessPhase();

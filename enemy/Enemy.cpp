@@ -21,6 +21,9 @@ void Enemy::Draw()
 			bullet->Draw();
 		}
 	}
+	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+		return !bullet->GetAlive();
+		});
 }
 
 void Enemy::OnCollision()

@@ -8,6 +8,8 @@ class BackEnemy :public Enemy
 public:
 	BackEnemy();
 
+	~BackEnemy();
+
 	//‰Šú‰»
 	void Initialize();
 

@@ -9,6 +9,10 @@ PlayerBullet::PlayerBullet() :PlayerBullet(Model::LoadFromObj("sphere"))
 
 }
 
+PlayerBullet::~PlayerBullet()
+{
+}
+
 void PlayerBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
 {
 	//プレイヤーの座標渡すよ

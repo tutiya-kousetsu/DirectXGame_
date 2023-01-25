@@ -65,10 +65,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	}*/
 	//obstacle = new Obstacle();
 	//obstacle.reset(new FollowingCamera());
-	//コンストラクタ呼ぶよ
-	std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
-	//障害物を登録する
-	obstacles.push_back(std::move(newObstacle));
 
 	particleMan = ParticleManager::GetInstance();
 	//line = new Line();
@@ -126,9 +122,6 @@ void GamePlayScene::Finalize()
 	delete player;
 	delete skyObj;
 	delete playerBullet;
-	/*for (auto i = 0; i < 4; i++) {
-		delete obstacle[i];
-	}*/
 	delete enemyBullet;
 	delete enemy;
 	for (int i = 0; i < 11; i++) {
@@ -221,28 +214,6 @@ void GamePlayScene::Update()
 	camera->Update();
 
 	floor->Update();
-	//line->Update();
-	/*if (!fEneFlag[0]) {
-		enemy[0]->Update();
-	}
-	if (fEneFlag[0]) {
-		enemy[1]->Update();
-		enemy[2]->Update();
-
-	}
-	if (fEneFlag[1] && fEneFlag[2]) {
-		enemy[3]->Update();
-		enemy[4]->Update();
-		enemy[5]->Update();
-	}
-	if (fEneFlag[3] && fEneFlag[4] && fEneFlag[5]) {
-		enemy[6]->Update();
-		enemy[7]->Update();
-		enemy[8]->Update();
-		enemy[9]->Update();
-	}*/
-
-	//for (int i = 0; i < 3; i++) {
 
 		//前の敵
 	if (fEneFlag >= 0) {
@@ -282,44 +253,9 @@ void GamePlayScene::Update()
 		backEnemy[1]->Update();
 	}
 
-	//右の敵
-	/*if (lEneFlag >= 0 && fEneFlag >= 3) {
-		leftEnemy[0]->Update();
-	}*/
-	/*if (lEneFlag >= 1 && fEneFlag >= 5) {
-		leftEnemy[1]->Update();
-		leftEnemy[2]->Update();
-	}*/
-	//左の敵
-	/*else if (enemyScene == 2) {
-		rightEnemy[0]->Update();
-	}
-	//後ろの敵
-	else if (enemyScene == 3) {
-		backEnemy[0]->Update();
-	}*/
-
-	//}
 	skyObj->Update();
-	for (auto i = 0; i < 24; i++) {
-		/*obstaclePos[i] = obstacle[i]->GetPosition();
-		obstacle[0]->SetPosition({ 13,0,13 });
-		obstacle[1]->SetPosition({ -13,0,-13 });
-		obstacle[2]->SetPosition({ -13,0,13 });
-		obstacle[3]->SetPosition({ 13,0,-13 });*/
-		/*obstacle[4]->SetPosition({ 13,0,13 });
-		obstacle[5]->SetPosition({ -13,0,-13 });
-		obstacle[6]->SetPosition({ -13,0,13 });
-		obstacle[7]->SetPosition({ -13,0,13 });*/
-	}
 	LoadObstaclePopData();
 	UpdataObstaclePopCommand();
-	/*for (int i = 0; i < 4; i++) {
-		obstacle[i]->Update();
-	}*/
-	for (std::unique_ptr<Obstacle>& obstacle : obstacles) {
-		obstacle->Update();
-	}
 
 	CheckAllCollision();
 	particleMan->Update();
@@ -362,10 +298,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (int i = 0; i < 2; i++) {
 		backEnemy[i]->Draw();
 	}
-	/*for (auto i = 0; i < 8; i++) {
-		obstacle[i]->Draw();
-	}*/
-	for (std::unique_ptr<Obstacle>& obstacle : obstacles) {
+	for (auto& obstacle : obstacles) {
 		obstacle->Draw();
 	}
 	//line->Draw();
@@ -414,16 +347,6 @@ void GamePlayScene::LoadObstaclePopData()
 
 void GamePlayScene::UpdataObstaclePopCommand()
 {
-	//待機処理
-	if (waitFlag) {
-		waitTimer--;
-		if (waitTimer <= 0) {
-			//待機完了
-			waitFlag = false;
-		}
-		return;
-	}
-
 	//1行分の文字列を入れる変数
 	std::string line;
 	//コマンド実行ループ
@@ -456,25 +379,18 @@ void GamePlayScene::UpdataObstaclePopCommand()
 			float z = (float)std::atof(word.c_str());
 
 			//敵を発生させる
-			for (std::unique_ptr<Obstacle>& obstacle : obstacles) {
-				obstacle->Pop(XMFLOAT3(x, y, z));
-			}
-		}
-		else if (word.find("WAIT") == 0) {
-			getline(line_stream, word, ',');
-
-			//待ち時間
-			int32_t waitTime = atoi(word.c_str());
-
-			//待機時間
-			waitFlag = true;
-			waitTimer = waitTime;
-
-			//コマンドループから抜ける
-			break;
+				//コンストラクタ呼ぶよ
+			std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
+			newObstacle->Initialize(XMFLOAT3(x, y, z));
+			//障害物を登録する
+			obstacles.push_back(std::move(newObstacle));
 		}
 	}
+	for (auto& obstacle : obstacles) {
+		obstacle->Update();
+	}
 }
+
 //前敵の弾の当たり判定
 void GamePlayScene::FrontColl()
 {

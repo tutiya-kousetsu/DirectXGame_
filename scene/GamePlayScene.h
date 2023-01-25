@@ -20,6 +20,7 @@
 #include "RightEnemy.h"
 #include "BackEnemy.h"
 #include <memory>
+#include <list>
 #include <sstream>
 
 //‘O•ûéŒ¾

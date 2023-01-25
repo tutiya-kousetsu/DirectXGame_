@@ -19,6 +19,10 @@ FrontEnemy::FrontEnemy()
 	SetPosition(position);
 }
 
+FrontEnemy::~FrontEnemy()
+{
+}
+
 void FrontEnemy::Initialize()
 {
 	AccessPhase();

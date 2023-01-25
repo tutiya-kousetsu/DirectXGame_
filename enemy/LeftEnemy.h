@@ -8,6 +8,8 @@ class LeftEnemy :public Enemy
 public:
 	LeftEnemy();
 
+	~LeftEnemy();
+
 	//‰Šú‰»
 	void Initialize();
 

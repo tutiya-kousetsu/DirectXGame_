@@ -8,6 +8,8 @@ class FrontEnemy : public Enemy
 public:
 	FrontEnemy();
 
+	~FrontEnemy();
+
 	//‰Šú‰»
 	void Initialize();
 

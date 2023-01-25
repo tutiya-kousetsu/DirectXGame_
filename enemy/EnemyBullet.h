@@ -14,6 +14,8 @@ public:
 	//コンストラクタ
 	EnemyBullet();
 
+	~EnemyBullet();
+
 	void Initialize(XMFLOAT3 pos, const XMVECTOR& vel);
 
 	void Update() override;

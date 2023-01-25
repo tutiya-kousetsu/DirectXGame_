@@ -10,9 +10,11 @@ public:
 
 	Obstacle();
 
-	void Update() override;
+	~Obstacle();
 
-	void Pop(XMFLOAT3 pos);
+	void Initialize(XMFLOAT3 pos);
+
+	void Update() override;
 
 	void Draw() override;
 

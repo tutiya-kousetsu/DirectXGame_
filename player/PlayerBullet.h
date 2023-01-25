@@ -14,6 +14,8 @@ public:
 	//コンストラクタ
 	PlayerBullet();
 
+	~PlayerBullet();
+
 	void Initialize(XMFLOAT3 pos, const XMVECTOR& vel);
 
 	void Update() override;

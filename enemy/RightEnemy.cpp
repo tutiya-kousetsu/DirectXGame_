@@ -19,6 +19,10 @@ RightEnemy::RightEnemy()
 	SetPosition(position);
 }
 
+RightEnemy::~RightEnemy()
+{
+}
+
 void RightEnemy::Initialize()
 {
 	AccessPhase();

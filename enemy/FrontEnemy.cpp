@@ -30,6 +30,9 @@ void FrontEnemy::Initialize()
 
 void FrontEnemy::Update()
 {
+	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+		return !bullet->GetAlive();
+		});
 	if (alive) {
 		appearance();
 		//“G‚ªŽ~‚Ü‚Á‚½‚çƒtƒ‰ƒO‚ð—§‚Ä‚Ä’e‚ðŒ‚‚¿Žn‚ß‚é

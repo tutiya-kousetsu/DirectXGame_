@@ -49,7 +49,7 @@ void FollowingCamera::startUpdate()
 		XMFLOAT3 Destination;//s‚«æ‚«
 		XMStoreFloat3(&Destination,
 			XMVector3Transform(XMVectorSet(CameraTarget.x,CameraTarget.y,CameraTarget.z, 1),
-			followingTarget->GetMatRotation()));
+			followingTarget->GetMatRot()));
 
 		target.x += Destination.x;
 		target.y += Destination.y;

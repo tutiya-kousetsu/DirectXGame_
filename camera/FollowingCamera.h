@@ -11,12 +11,12 @@ public:
 	FollowingCamera();
 
 	//プレイヤーにセットする
-	inline void SetFollowingTarget(GameObject* followingTarget) { this->followingTarget = followingTarget; }
+	inline void SetFollowingTarget(Object3d* followingTarget) { this->followingTarget = followingTarget; }
 
 	void startUpdate()override;
 
 private:
-	GameObject* followingTarget;
+	Object3d* followingTarget;
 
 	// ターゲットからのカメラの高さ
 	float CameraTargetHeight = 5;

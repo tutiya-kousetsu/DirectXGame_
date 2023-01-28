@@ -70,6 +70,9 @@
     <Filter Include="ソース ファイル\game\enemy\.h">
       <UniqueIdentifier>{611ed2d3-6a24-439a-9b54-62c1f206c84b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\collision\.h">
+      <UniqueIdentifier>{4f2374ce-64d4-475d-8da3-cd0575264d07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
@@ -221,6 +224,12 @@
     <ClCompile Include="scene\TitleScene.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
+    <ClCompile Include="collision\SphereCollider.cpp">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -348,14 +357,29 @@
     <ClInclude Include="enemy\RightEnemy.h">
       <Filter>ソース ファイル\game\enemy\.h</Filter>
     </ClInclude>
-    <ClInclude Include="collision\Collision.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionPrimitive.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
     <ClInclude Include="3d\ParticleManager.h">
       <Filter>ソース ファイル\3d\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\BaseCollider.h">
+      <Filter>ソース ファイル\game\collision\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\Collision.h">
+      <Filter>ソース ファイル\game\collision\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\CollisionInfo.h">
+      <Filter>ソース ファイル\game\collision\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\CollisionPrimitive.h">
+      <Filter>ソース ファイル\game\collision\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\CollisionTypes.h">
+      <Filter>ソース ファイル\game\collision\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\SphereCollider.h">
+      <Filter>ソース ファイル\game\collision\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>ソース ファイル\game\collision\.h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,8 @@
 #include "Collision.h"
 #include "ParticleManager.h"
 #include "Line.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
 #include <fstream>
 #include <cassert>
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
@@ -59,6 +61,10 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
+	collisionMan = CollisionManager::GetInstance();
+	player = player->Create(Model::LoadFromObj("PlayerRed"));
+
+
 	/*for (int i = 0; i < 4; i++) {
 		obstacle[i] = new Obstacle();
 	}*/
@@ -413,7 +419,7 @@ void GamePlayScene::FrontColl()
 					playerShape.radius = player->GetScale().x;
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-						player->OnCollision();
+						//player->OnCollision();
 						eb->OnCollision();
 
 					}
@@ -475,7 +481,7 @@ void GamePlayScene::LeftColl()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						player->OnCollision();
+						//player->OnCollision();
 						//playerLife--;
 					}
 				}
@@ -532,7 +538,7 @@ void GamePlayScene::RightColl()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						player->OnCollision();
+						//player->OnCollision();
 						//playerLife--;
 					}
 				}
@@ -592,7 +598,7 @@ void GamePlayScene::BackColl()
 
 					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 						eb->OnCollision();
-						player->OnCollision();
+						//player->OnCollision();
 						//playerLife--;
 					}
 				}

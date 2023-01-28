@@ -9,13 +9,19 @@ class ParticleManager;
 
 using namespace DirectX;
 
-class Player : public GameObject
+class Player : public Object3d
 {
 public:
-	using GameObject::GameObject;
-
+	/// <summary>
+	/// 3Dオブジェクト生成
+	/// </summary>
+	/// <returns>インスタンス</returns>
+	static Player* Create(Model* model = nullptr);
+public:
 	//コンストラクタ
-	Player();
+	//Player();
+
+	bool Initialize() override;
 
 	//更新
 	void Update() override;
@@ -35,7 +41,7 @@ public:
 	//攻撃
 	void Shoot();
 
-	void OnCollision();
+	void OnCollision(const CollisionInfo& info) override;
 
 	void FloorCollision();
 
@@ -44,16 +50,22 @@ public:
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
+
+	inline bool GetAlive() const { return  alive; }
+	inline void SetAlive(bool alive) { this->alive = alive; }
+
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	bool bulFlag = true;
-	XMFLOAT3 position;
-	XMFLOAT3 rotation;
-	XMFLOAT3 bulPos;
+	//XMFLOAT3 position;
+	//XMFLOAT3 rotation;
+	//XMFLOAT3 bulPos;
+	std::unique_ptr<Object3d> object;
 	// マウス
 	POINT mousePos{};
 	ParticleManager* particleMan = nullptr;
 	// ジャンプ
+	bool alive = true;
 	bool jumpFlag = false;
 	bool secondFlag = false;
 	int jumpCount = 2;

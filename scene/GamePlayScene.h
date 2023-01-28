@@ -27,6 +27,7 @@
 class Player;
 class Line;
 class ParticleManager;
+class CollisionManager;
 
 /// <summary>
 /// ゲームプレイシーン
@@ -110,6 +111,7 @@ private:
 	EnemyBullet* enemyBullet = nullptr;
 	Floor* floor = nullptr;
 	ParticleManager* particleMan = nullptr;
+	CollisionManager* collisionMan = nullptr;
 	//Line* line = nullptr;
 	XMFLOAT3 enePos;
 

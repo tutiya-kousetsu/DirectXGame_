@@ -1,14 +1,15 @@
 ﻿#pragma once
 
-#include"Model.h"
-#include"Camera.h"
-#include"PipelineSet.h"
+#include "Model.h"
+#include "Camera.h"
+#include "PipelineSet.h"
+#include "CollisionInfo.h"
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <DirectXMath.h>
-#include<string>
+#include <string>
 
 /// <summary>
 /// 3Dオブジェクト
@@ -174,15 +175,15 @@ public: // メンバ関数
 	virtual~Object3d();
 
 
-	bool Initialize();
+	virtual bool Initialize();
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	virtual void Update();
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	virtual void Draw();
 
 	/// <summary>
 	/// 座標の取得
@@ -219,7 +220,21 @@ public: // メンバ関数
 
 	void SetMatRotation(XMMATRIX matRot) { this->matRot = matRot; }
 
+	/// <summary>
+	/// コライダーのセット
+	/// </summary>
+	/// <param name="collider">コライダー</param>
+	void SetCollider(BaseCollider* collider);
+
+	/// <summary>
+	/// 衝突時コールバック関数
+	/// </summary>
+	/// <param name="info">衝突情報</param>
+	virtual void OnCollision(const CollisionInfo& info){}
 protected: // メンバ変数
+
+	const char* name = nullptr;
+	BaseCollider* collider = nullptr;
 	//3Dモデル(借りてくる)
 	Model* model = nullptr;
 	// 行列用定数バッファ

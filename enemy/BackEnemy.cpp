@@ -30,6 +30,9 @@ void BackEnemy::Initialize()
 
 void BackEnemy::Update()
 {
+	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+		return !bullet->GetAlive();
+		});
 	if (alive) {
 		appearance();
 

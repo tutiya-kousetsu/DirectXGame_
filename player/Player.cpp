@@ -1,16 +1,50 @@
 #include "Player.h"
 #include "Input.h"
 #include "ParticleManager.h"
+#include "SphereCollider.h"
 
-Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
+//Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
+//{
+//	//データ読み込み
+//	Object3d::SetScale({ 1.0f, 1.0f, 1.0f });
+//	Object3d::SetPosition({ 0, 0.0f, 0 });
+//	particleMan = ParticleManager::GetInstance();
+//	//particleMan = new ParticleManager();
+//	//particleMan->Initialize();
+//	//particleMan->SetCamera();
+//}
+
+Player* Player::Create(Model* model)
 {
-	//データ読み込み
-	object->SetScale({ 1.0f, 1.0f, 1.0f });
-	object->SetPosition({ 0, 0.0f, 0 });
-	particleMan = ParticleManager::GetInstance();
-	//particleMan = new ParticleManager();
-	//particleMan->Initialize();
-	//particleMan->SetCamera();
+	//3Dオブジェクトのインスタンスを生成
+	Player* instance = new Player();
+	if (instance == nullptr) {
+		return nullptr;
+	}
+
+	//初期化
+	if (!instance->Initialize()) {
+		delete instance;
+		assert(0);
+	}
+	//モデルのセット
+	if (model) {
+		instance->SetModel(model);
+	}
+
+	return instance;
+}
+
+bool Player::Initialize()
+{
+	if (!Object3d::Initialize()) {
+		return false;
+	}
+	//コライダーの追加
+	float radius = 0.6f;
+	//半径だけ足元から浮いた座標を球の中心にする
+	SetCollider(new SphereCollider(DirectX::XMVECTOR({ 0, radius, 0, 0 }), radius));
+	return true;
 }
 
 void Player::Update()
@@ -28,28 +62,28 @@ void Player::Update()
 		bullet->Update();
 	}
 	//particleMan->Update();
-	object->Update();
+	Object3d::Update();
 }
 
 void Player::move(float speed)
 {
 	Input* input = Input::GetInstance();
 	// 現在の座標を取得
-	position = object->GetPosition();
+	DirectX::XMFLOAT3 position = Object3d::GetPosition();
 	float moveSpeed = 0.3f;
 	// 前方向と横方向の単位ベクトルを作る
 	XMVECTOR forwardVec = XMVectorSet(0, 0, 1, 1);
 	XMVECTOR horizontalVec = XMVectorSet(1, 0, 0, 1);
 	// プレイヤーの回転に合わせて回転させる(前後)
 	forwardVec = XMVector3Rotate(forwardVec, XMQuaternionRotationRollPitchYaw(
-		XMConvertToRadians(object->GetRotation().x),
-		XMConvertToRadians(object->GetRotation().y),
-		XMConvertToRadians(object->GetRotation().z)));
+		XMConvertToRadians(Object3d::GetRotation().x),
+		XMConvertToRadians(Object3d::GetRotation().y),
+		XMConvertToRadians(Object3d::GetRotation().z)));
 	// プレイヤーの回転に合わせて回転させる(横)
 	horizontalVec = XMVector3Rotate(horizontalVec, XMQuaternionRotationRollPitchYaw(
-		XMConvertToRadians(object->GetRotation().x),
-		XMConvertToRadians(object->GetRotation().y),
-		XMConvertToRadians(object->GetRotation().z)));
+		XMConvertToRadians(Object3d::GetRotation().x),
+		XMConvertToRadians(Object3d::GetRotation().y),
+		XMConvertToRadians(Object3d::GetRotation().z)));
 	// 大きさをmoveSpeedにする
 	forwardVec = XMVectorScale(forwardVec, moveSpeed);
 	horizontalVec = XMVectorScale(horizontalVec, moveSpeed);
@@ -76,7 +110,7 @@ void Player::move(float speed)
 		position.z -= horizontalVec.m128_f32[2];
 	}
 	// 座標の変更を反映
-	object->SetPosition(position);
+	Object3d::SetPosition(position);
 
 }
 
@@ -84,7 +118,7 @@ void Player::jump()
 {
 	Input* input = Input::GetInstance();
 	// 現在の座標を取得
-	position = object->GetPosition();
+	position = Object3d::GetPosition();
 	//重力
 	position.y -= g;
 
@@ -106,7 +140,7 @@ void Player::jump()
 		jumpFlag = false;
 	}
 	// 座標の変更を反映
-	object->SetPosition(position);
+	Object3d::SetPosition(position);
 }
 
 void Player::playerRot()
@@ -119,7 +153,7 @@ void Player::playerRot()
 	//if (angleY) { rotation.y += speed + 1; }
 	//if (-angleY) { rotation.y -= speed + 1; }
 
-	//object->SetRotation(rotation);
+	//Object3d::SetRotation(rotation);
 }
 
 void Player::Shoot()
@@ -127,7 +161,7 @@ void Player::Shoot()
 	const float kBulletSpeed = 1.0f;
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
 	
-	velocity = XMVector3TransformNormal(velocity, object->GetMatWorld());
+	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化行くよ
@@ -138,20 +172,20 @@ void Player::Shoot()
 
 }
 
-void Player::OnCollision()
+void Player::OnCollision(const CollisionInfo& info)
 {
 	for (int i = 0; i < 75; i++) {
 		//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
 		const float md_pos = 5.0f;
-		XMFLOAT3 pos = object->GetPosition();
+		DirectX::XMFLOAT3 pos = Object3d::GetPosition();
 		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
 		const float md_vel = 0.1f;
-		XMFLOAT3 vel{};
+		DirectX::XMFLOAT3 vel{};
 		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-		XMFLOAT3 acc{};
+		DirectX::XMFLOAT3 acc{};
 		const float rnd_acc = 0.005f;
 		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
@@ -170,13 +204,13 @@ void Player::FloorCollision()
 	else {
 		jumpFlag = false;
 	}
-	object->SetPosition(position);
+	Object3d::SetPosition(position);
 }
 
 void Player::Draw()
 {
 	if (alive) {
-		object->Draw();
+		Object3d::Draw();
 		//particleMan->Draw();
 	}
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {

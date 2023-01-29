@@ -28,7 +28,7 @@ class Player;
 class Line;
 class ParticleManager;
 class CollisionManager;
-
+class TouchableObject;
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -106,7 +106,8 @@ private:
 	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
-	Floor* floor = nullptr;
+	TouchableObject* floor = nullptr;
+	Model* floorModel = nullptr;
 	ParticleManager* particleMan = nullptr;
 	CollisionManager* collisionMan = nullptr;
 	//Line* line = nullptr;

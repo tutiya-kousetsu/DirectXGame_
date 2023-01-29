@@ -131,7 +131,7 @@ void Mesh::Draw(ID3D12GraphicsCommandList * cmdList)
 	// 頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	// インデックスバッファをセット
-	cmdList->IASetIndexBuffer(&ibView);	
+	cmdList->IASetIndexBuffer(&ibView);
 	// シェーダリソースビューをセット
 	cmdList->SetGraphicsRootDescriptorTable(2, material->GetGpuHandle());
 

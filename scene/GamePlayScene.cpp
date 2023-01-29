@@ -11,6 +11,8 @@
 #include "Line.h"
 #include "SphereCollider.h"
 #include "CollisionManager.h"
+#include "MeshCollider.h"
+#include "TouchableObject.h"
 #include <fstream>
 #include <cassert>
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
@@ -57,13 +59,16 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//乱数の初期化
 	srand((unsigned)time(NULL));
 
-	player = new Player();
-	floor = new Floor();
+	//player = new Player();
+	//floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	collisionMan = CollisionManager::GetInstance();
 	player = player->Create(Model::CreateFromOBJ("PlayerRed"));
-
+	floorModel = Model::CreateFromOBJ("FloorBox");
+	floor = TouchableObject::Create(floorModel);
+	floor->SetScale({ 20.f, 5.0f, 20.f });
+	floor->SetPosition({ 0,-18.5f,0 });
 	/*for (int i = 0; i < 4; i++) {
 		obstacle[i] = new Obstacle();
 	}*/
@@ -123,6 +128,7 @@ void GamePlayScene::Finalize()
 
 	//3Dオブジェクト解放
 	delete skyModel;
+	delete floor;
 	delete player;
 	delete skyObj;
 	delete playerBullet;
@@ -217,7 +223,6 @@ void GamePlayScene::Update()
 
 	//更新
 	camera->Update();
-
 	floor->Update();
 
 	//前の敵
@@ -262,7 +267,15 @@ void GamePlayScene::Update()
 	LoadObstaclePopData();
 	UpdataObstaclePopCommand();
 
-	CheckAllCollision();
+	collisionMan->CheckAllCollisions();
+	Ray ray;
+	ray.start = { 0.0f, 0.5f, 0.0f, 1 };
+	ray.dir = { 0, -1, 0, 0 };
+	RaycastHit raycasHit;
+	if (collisionMan->Raycast(ray, &raycasHit)) {
+		player->FloorCollision();
+	}
+
 	particleMan->Update();
 }
 

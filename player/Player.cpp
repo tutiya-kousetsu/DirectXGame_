@@ -29,6 +29,7 @@ bool Player::Initialize()
 	if (!Object3d::Initialize()) {
 		return false;
 	}
+	Object3d::SetPosition({ 0,0,0 });
 	//コライダーの追加
 	float radius = 0.6f;
 	//半径だけ足元から浮いた座標を球の中心にする
@@ -121,7 +122,7 @@ void Player::jump()
 	if (jumpFlag) {
 		position.y += jumpSpeed;
 		//ジャンプの速度を0.04ずつ下げていく
-		jumpSpeed -= 0.04f;
+		jumpSpeed -= 0.05f;
 	}
 
 	//ポジションが0になったらジャンプフラグを切る
@@ -163,31 +164,32 @@ void Player::Shoot()
 
 void Player::OnCollision(const CollisionInfo& info)
 {
-	for (int i = 0; i < 1; i++) {
-		//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
-		const float md_pos = 5.0f;
-		DirectX::XMFLOAT3 pos = Object3d::GetPosition();
-		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-		const float md_vel = 0.1f;
-		DirectX::XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-		/*DirectX::XMFLOAT3 acc{};
-		const float rnd_acc = 0.005f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;*/
+	//for (int i = 0; i < 1; i++) {
+	//	//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
+	//	const float md_pos = 5.0f;
+	//	DirectX::XMFLOAT3 pos = Object3d::GetPosition();
+	//	//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+	//	const float md_vel = 0.1f;
+	//	DirectX::XMFLOAT3 vel{};
+	//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+	//	DirectX::XMFLOAT3 acc{};
+	//	const float rnd_acc = 0.005f;
+	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-		//追加
-		particleMan->Add(60, DirectX::XMFLOAT3(info.inter.m128_f32), vel, DirectX::XMFLOAT3(), 0.0f, 1.0f);
- 	}
+	//	//追加
+	//	particleMan->Add(60, DirectX::XMFLOAT3(info.inter.m128_f32), vel, acc, 0.0f, 1.0f);
+ //	}
 }
 
 void Player::FloorCollision()
 {
 	//範囲選択
 	if (position.x <= 33.f && position.x >= -33.f
-		&& position.z <= 33.f && position.z >= -33.f) {
+		&& position.z <= 33.f && position.z >= -33.f
+		&&position.y >= -0.3f) {
 		position.y += g;
 	}
 	else {

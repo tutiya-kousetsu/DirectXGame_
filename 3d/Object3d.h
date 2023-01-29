@@ -231,6 +231,8 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="info">衝突情報</param>
 	virtual void OnCollision(const CollisionInfo& info){}
+
+	inline Model* GetModel() { return model; }
 protected: // メンバ変数
 
 	const char* name = nullptr;

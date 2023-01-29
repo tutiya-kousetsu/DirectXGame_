@@ -63,6 +63,12 @@ public: // メンバ関数
 	/// <param name="cmdList">命令発行先コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
+	/// <summary>
+	/// メッシュコンテナを取得
+	/// </summary>
+	/// <returns>メッシュコンテナ</returns>
+	inline const std::vector<Mesh*>& GetMeshes() { return meshes; }
+
 private: // メンバ変数
 	// 名前
 	std::string name;

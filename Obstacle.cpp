@@ -5,23 +5,23 @@ Obstacle::Obstacle()
 
 void Obstacle::Initialize(XMFLOAT3 pos)
 {
-	fbxObj.reset(new Fbx_Object3d());
-	fbxObj->Initialize();
-	fbxObj->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("cube"));
-	fbxObj->SetScale({ 0.2f, 0.2f, 0.2f });
+	object.reset(new Object3d());
+	object->Initialize();
+	object->SetModel(Model::CreateFromOBJ("obstacle"));
+	object->SetScale({ 3.f, 3.f, 3.f });
 
-	fbxObj->SetPosition(pos);
+	object->SetPosition(pos);
 }
 
 void Obstacle::Update()
 {
 	
-	fbxObj->Update();
+	object->Update();
 }
 
-void Obstacle::Draw(ID3D12GraphicsCommandList* cmdList)
+void Obstacle::Draw()
 {
-	fbxObj->Draw(cmdList);
+	object->Draw();
 }
 
 void Obstacle::OnCollision()

@@ -1,5 +1,5 @@
 #include "Line.h"
-Line::Line() :Line(Model::LoadFromObj("line"))
+Line::Line() :Line(Model::CreateFromOBJ("line"))
 {
 	object->SetScale({ 1.f, 1.f, 1.f });
 }

@@ -35,12 +35,11 @@ bool Object3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	Object3d::device = device;
 	Object3d::cmdList = cmdList;
 
-	//モデルにデバイスをチェック
-	Model::SetDevice(device);
+	// モデルの静的初期化
+	Model::StaticInitialize(device);
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
-
 	return true;
 }
 
@@ -331,7 +330,7 @@ void Object3d::Draw()
 	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuffB0->GetGPUVirtualAddress());
 
 	//モデルを描画
-	this->model->Draw(cmdList, 1);
+	this->model->Draw(cmdList);
 }
 
 void Object3d::SetCollider(BaseCollider* collider)

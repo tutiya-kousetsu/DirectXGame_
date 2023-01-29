@@ -57,10 +57,6 @@ public:
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	bool bulFlag = true;
-	//XMFLOAT3 position;
-	//XMFLOAT3 rotation;
-	//XMFLOAT3 bulPos;
-	std::unique_ptr<Object3d> object;
 	// É}ÉEÉX
 	POINT mousePos{};
 	ParticleManager* particleMan = nullptr;

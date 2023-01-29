@@ -176,6 +176,8 @@
     <ClCompile Include="3d\Fbx_Model.cpp" />
     <ClCompile Include="3d\Fbx_Object3d.cpp" />
     <ClCompile Include="3d\GameObject.cpp" />
+    <ClCompile Include="3d\Material.cpp" />
+    <ClCompile Include="3d\Mesh.cpp" />
     <ClCompile Include="3d\Model.cpp" />
     <ClCompile Include="3d\Object3d.cpp" />
     <ClCompile Include="3d\ParticleManager.cpp" />
@@ -217,6 +219,8 @@
     <ClInclude Include="3d\Fbx_Model.h" />
     <ClInclude Include="3d\Fbx_Object3d.h" />
     <ClInclude Include="3d\GameObject.h" />
+    <ClInclude Include="3d\Material.h" />
+    <ClInclude Include="3d\Mesh.h" />
     <ClInclude Include="3d\Model.h" />
     <ClInclude Include="3d\Object3d.h" />
     <ClInclude Include="3d\ParticleManager.h" />

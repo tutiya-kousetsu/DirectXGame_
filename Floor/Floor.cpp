@@ -1,6 +1,6 @@
 #include "Floor.h"
 
-Floor::Floor() :Floor(Model::LoadFromObj("FloorBox"))
+Floor::Floor() :Floor(Model::CreateFromOBJ("FloorBox"))
 {
 	object->SetScale({ 20.f, 5.0f, 20.f });
 }

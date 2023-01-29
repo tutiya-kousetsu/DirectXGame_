@@ -230,6 +230,12 @@
     <ClCompile Include="CollisionManager.cpp">
       <Filter>ソース ファイル\game\collision</Filter>
     </ClCompile>
+    <ClCompile Include="3d\Mesh.cpp">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\Material.cpp">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -380,6 +386,12 @@
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>ソース ファイル\game\collision\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\Mesh.h">
+      <Filter>ソース ファイル\3d\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\Material.h">
+      <Filter>ソース ファイル\3d\.h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

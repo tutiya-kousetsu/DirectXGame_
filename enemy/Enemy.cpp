@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "ParticleManager.h"
-Enemy::Enemy() :Enemy(Model::LoadFromObj("BlueBox"))
+Enemy::Enemy() :Enemy(Model::CreateFromOBJ("BlueBox"))
 {
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 	particleMan = ParticleManager::GetInstance();

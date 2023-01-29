@@ -2,7 +2,7 @@
 #include <cassert>
 #include "Input.h"
 
-PlayerBullet::PlayerBullet() :PlayerBullet(Model::LoadFromObj("sphere"))
+PlayerBullet::PlayerBullet() :PlayerBullet(Model::CreateFromOBJ("sphere"))
 {
 	//ƒf[ƒ^“Ç‚Ýž‚Ý
 	object->SetScale({ 1.0f, 1.0f, 1.0f });

@@ -3,17 +3,6 @@
 #include "ParticleManager.h"
 #include "SphereCollider.h"
 
-//Player::Player() :Player(Model::LoadFromObj("PlayerRed"))
-//{
-//	//データ読み込み
-//	Object3d::SetScale({ 1.0f, 1.0f, 1.0f });
-//	Object3d::SetPosition({ 0, 0.0f, 0 });
-//	particleMan = ParticleManager::GetInstance();
-//	//particleMan = new ParticleManager();
-//	//particleMan->Initialize();
-//	//particleMan->SetCamera();
-//}
-
 Player* Player::Create(Model* model)
 {
 	//3Dオブジェクトのインスタンスを生成
@@ -174,7 +163,7 @@ void Player::Shoot()
 
 void Player::OnCollision(const CollisionInfo& info)
 {
-	for (int i = 0; i < 75; i++) {
+	for (int i = 0; i < 1; i++) {
 		//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
 		const float md_pos = 5.0f;
 		DirectX::XMFLOAT3 pos = Object3d::GetPosition();
@@ -185,13 +174,13 @@ void Player::OnCollision(const CollisionInfo& info)
 		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-		DirectX::XMFLOAT3 acc{};
+		/*DirectX::XMFLOAT3 acc{};
 		const float rnd_acc = 0.005f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;*/
 
 		//追加
-		particleMan->Add(60, position, vel, acc, 1.0f, 0.0f);
-	}
+		particleMan->Add(60, DirectX::XMFLOAT3(info.inter.m128_f32), vel, DirectX::XMFLOAT3(), 0.0f, 1.0f);
+ 	}
 }
 
 void Player::FloorCollision()
@@ -221,7 +210,7 @@ void Player::Draw()
 
 XMVECTOR Player::GetWorldPosition() 
 {
-	XMVECTOR worldPos;
+	XMVECTOR worldPos{};
 
 	worldPos.m128_f32[0] = position.x;
 	worldPos.m128_f32[1] = position.y;

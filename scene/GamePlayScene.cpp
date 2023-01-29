@@ -62,8 +62,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	collisionMan = CollisionManager::GetInstance();
-	player = player->Create(Model::LoadFromObj("PlayerRed"));
-
+	player = player->Create(Model::CreateFromOBJ("PlayerRed"));
 
 	/*for (int i = 0; i < 4; i++) {
 		obstacle[i] = new Obstacle();
@@ -106,7 +105,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		backEnemy[i]->SetPlayer(player);
 	}
 	//データ読み込み
-	skyModel = Model::LoadFromObj("skydome");
+	skyModel = Model::CreateFromOBJ("skydome");
 	skyObj = Object3d::Create();
 	skyObj->SetModel(skyModel);
 }
@@ -123,8 +122,6 @@ void GamePlayScene::Finalize()
 	//3Dオブジェクト解放
 
 	//3Dオブジェクト解放
-	delete fbxObj;
-	delete fbxModel;
 	delete skyModel;
 	delete player;
 	delete skyObj;
@@ -307,7 +304,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		backEnemy[i]->Draw();
 	}
 	for (auto& obstacle : obstacles) {
-		obstacle->Draw(dxCommon->GetCmdList());
+		obstacle->Draw();
 	}
 	//fbxObj->Draw(dxCommon->GetCmdList());
 	//line->Draw();
@@ -444,7 +441,7 @@ void GamePlayScene::FrontColl()
 							for (auto& obstacle : obstacles) {
 								Sphere obstacleShape;
 								obstacleShape.center = XMLoadFloat3(&obstacle->GetPosition());
-								obstacleShape.radius = obstacle->GetScale().x * 20;
+								obstacleShape.radius = obstacle->GetScale().x;
 
 								if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
 									eb->OnCollision();
@@ -499,8 +496,8 @@ void GamePlayScene::LeftColl()
 						if (leftEnemy[i]->GetAlive()) {
 							Sphere obstacleShape;
 							for (auto& ob : obstacles) {
-								obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-								obstacleShape.radius = ob->GetScale().x;
+								/*obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+								obstacleShape.radius = ob->GetScale().x;*/
 
 								if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
 									eb->OnCollision();
@@ -738,8 +735,8 @@ void GamePlayScene::CheckAllCollision()
 					pBullet.radius = pb->GetScale().x;
 					Sphere obstacleShape;
 					for (auto& ob : obstacles) {
-						obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-						obstacleShape.radius = ob->GetScale().x * 20;
+						/*obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+						obstacleShape.radius = ob->GetScale().x * 20;*/
 
 						if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
 							pb->OnCollision();

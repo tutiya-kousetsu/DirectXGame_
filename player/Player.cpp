@@ -2,7 +2,8 @@
 #include "Input.h"
 #include "ParticleManager.h"
 #include "SphereCollider.h"
-
+#include "CollisionManager.h"
+#include "CollisionAttribute.h"
 Player* Player::Create(Model* model)
 {
 	//3Dオブジェクトのインスタンスを生成
@@ -34,13 +35,14 @@ bool Player::Initialize()
 	float radius = 0.6f;
 	//半径だけ足元から浮いた座標を球の中心にする
 	SetCollider(new SphereCollider(DirectX::XMVECTOR({ 0, radius, 0, 0 }), radius));
+	collider->SetAttribute(COLLISION_ATTR_ALLIES);
 	return true;
 }
 
 void Player::Update()
 {
 	Input* input = Input::GetInstance();
-	
+
 	move();
 	jump();
 	playerRot();
@@ -53,6 +55,7 @@ void Player::Update()
 	}
 	//particleMan->Update();
 	Object3d::Update();
+
 }
 
 void Player::move(float speed)
@@ -110,27 +113,109 @@ void Player::jump()
 	// 現在の座標を取得
 	position = Object3d::GetPosition();
 	//重力
-	position.y -= g;
+	//position.y -= g;
 
 	//マウスの右をクリックしたらジャンプ
-	if (input->TriggerMouseRight() && !jumpFlag || input->TriggerKey(DIK_SPACE) && !jumpFlag) {
-		jumpFlag = true;
-		//ジャンプの高さ
-		jumpSpeed = 1.0f;
-	}
-	//ジャンプフラグが1になったら
-	if (jumpFlag) {
+	if (!onGround) {
+
 		position.y += jumpSpeed;
 		//ジャンプの速度を0.04ずつ下げていく
 		jumpSpeed -= 0.05f;
 	}
-
-	//ポジションが0になったらジャンプフラグを切る
-	if (position.y <= 0) {
-		jumpFlag = false;
+	//ジャンプフラグが1になったら
+	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
+		onGround = false;
+		//ジャンプの高さ
+		jumpSpeed = 1.0f;
 	}
+	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
+	assert(sphereCollider);
+
+	// 球の上端から球の下端までのレイキャスト
+	Ray ray;
+	ray.start = sphereCollider->center;
+	ray.start.m128_f32[1] += sphereCollider->GetRadius();
+	ray.dir = { 0,-1,0,0 };
+	RaycastHit raycastHit;
+	if (onGround) {
+		// スムーズに坂を下る為の吸着距離
+		const float adsDistance = 0.2f;
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 5.0f + adsDistance)) {
+			onGround = true;
+			//position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 4.0f);
+			//position.y += g;
+			// 行列の更新など
+			Object3d::Update();
+		}
+		// 地面がないので落下
+		else {
+			onGround = false;
+			fallV = {};
+		}
+	}
+	// 落下状態
+	else if (fallV.m128_f32[1] <= 0.0f) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 5.5f)) {
+			// 着地
+			onGround = true;
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 5.5f);
+			// 行列の更新など
+			Object3d::Update();
+		}
+	}
+	//ポジションが0になったらジャンプフラグを切る
+	/*if (position.y <= 0) {
+		jumpFlag = false;
+	}*/
+	// 落下処理
+	//if (input->TriggerMouseRight() && !onGround || input->TriggerKey(DIK_SPACE) && !onGround) {
+	//	// 下向き加速度
+	//	const float fallAcc = -0.01f;
+	//	const float fallVYMin = -0.5f;
+	//	// 加速
+	//	fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
+	//	// 移動
+	//	position.x += fallV.m128_f32[0];
+	//	position.y += fallV.m128_f32[1];
+	//	position.z += fallV.m128_f32[2];
+	//}
+	//// ジャンプ操作
+	//else if (input->TriggerKey(DIK_SPACE)) {
+	//	onGround = false;
+	//	const float jumpVYFist = 1.2f;
+	//	fallV = { 0, jumpVYFist, 0, 0 };
+	//}
 	// 座標の変更を反映
-	Object3d::SetPosition(position);
+	///Object3d::SetPosition(position);
+	
+
+	// 接地状態
+	//if (onGround) {
+	//	// スムーズに坂を下る為の吸着距離
+	//	const float adsDistance = 0.2f;
+	//	// 接地を維持
+	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
+	//		onGround = true;
+	//		position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+	//		// 行列の更新など
+	//		Object3d::Update();
+	//	}
+	//	// 地面がないので落下
+	//	else {
+	//		onGround = false;
+	//		fallV = {};
+	//	}
+	//}
+	//// 落下状態
+	//else if (fallV.m128_f32[1] <= 0.0f) {
+	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
+	//		// 着地
+	//		onGround = true;
+	//		position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+	//		// 行列の更新など
+	//		Object3d::Update();
+	//	}
+	//}
 }
 
 void Player::playerRot()
@@ -150,7 +235,7 @@ void Player::Shoot()
 {
 	const float kBulletSpeed = 1.0f;
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
-	
+
 	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -189,11 +274,11 @@ void Player::FloorCollision()
 	//範囲選択
 	if (position.x <= 33.f && position.x >= -33.f
 		&& position.z <= 33.f && position.z >= -33.f
-		&&position.y >= -0.3f) {
+		) {
 		position.y += g;
 	}
 	else {
-		jumpFlag = false;
+		onGround = true;
 	}
 	Object3d::SetPosition(position);
 }
@@ -207,10 +292,10 @@ void Player::Draw()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw();
 	}
-	
+
 }
 
-XMVECTOR Player::GetWorldPosition() 
+XMVECTOR Player::GetWorldPosition()
 {
 	XMVECTOR worldPos{};
 

@@ -268,13 +268,13 @@ void GamePlayScene::Update()
 	UpdataObstaclePopCommand();
 
 	collisionMan->CheckAllCollisions();
-	Ray ray;
+	/*Ray ray;
 	ray.start = { 0.0f, 0.5f, 0.0f, 1 };
 	ray.dir = { 0, -1, 0, 0 };
 	RaycastHit raycasHit;
 	if (collisionMan->Raycast(ray, &raycasHit)) {
 		player->FloorCollision();
-	}
+	}*/
 
 	particleMan->Update();
 }
@@ -772,7 +772,7 @@ void GamePlayScene::CheckAllCollision()
 	playerShape.radius = player->GetScale().z;
 
 	if (Collision::CheckSphere2Plane(playerShape, floorShape)) {
-		player->FloorCollision();
+		//player->FloorCollision();
 	}
 #pragma endregion
 	XMFLOAT3 playerPos = player->GetPosition();

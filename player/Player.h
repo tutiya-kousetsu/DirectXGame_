@@ -70,6 +70,9 @@ private:
 	float speed = 7.0f;	//速度
 	float t = 0.01f;		//時間
 	float speed2 = 2.55f;	//速度
-
+	//接地フラグ
+	bool onGround = true;
+	//落下ベクトル
+	DirectX::XMVECTOR fallV;
 };
 

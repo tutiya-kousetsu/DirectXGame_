@@ -237,6 +237,7 @@
     <ClInclude Include="camera\FollowingCamera.h" />
     <ClInclude Include="collision\BaseCollider.h" />
     <ClInclude Include="collision\Collision.h" />
+    <ClInclude Include="collision\CollisionAttribute.h" />
     <ClInclude Include="collision\CollisionInfo.h" />
     <ClInclude Include="collision\CollisionManager.h" />
     <ClInclude Include="collision\CollisionPrimitive.h" />

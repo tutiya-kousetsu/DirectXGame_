@@ -16,7 +16,7 @@ void CollisionManager::CheckAllCollisions()
 	std::forward_list<BaseCollider*>::iterator itA;
 	std::forward_list<BaseCollider*>::iterator itB;
 
-	//全ての組み合わせについて総当たり
+	// 全ての組み合わせについて総当りチェック
 	itA = colliders.begin();
 	for (; itA != colliders.end(); ++itA) {
 		itB = itA;
@@ -25,7 +25,7 @@ void CollisionManager::CheckAllCollisions()
 			BaseCollider* colA = *itA;
 			BaseCollider* colB = *itB;
 
-			//ともに球
+			// ともに球
 			if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE &&
 				colB->GetShapeType() == COLLISIONSHAPE_SPHERE) {
 				Sphere* SphereA = dynamic_cast<Sphere*>(colA);
@@ -58,10 +58,15 @@ void CollisionManager::CheckAllCollisions()
 			}
 		}
 	}
-
 }
 
 bool CollisionManager::Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance)
+{
+	//全属性有効にして属性版を実行
+	return Raycast(ray, 0xffff, hitInfo, maxDistance);
+}
+
+bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, RaycastHit* hitInfo, float maxDistance)
 {
 	bool result = false;
 	std::forward_list<BaseCollider*>::iterator it;
@@ -73,6 +78,11 @@ bool CollisionManager::Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDis
 	it = colliders.begin();
 	for (; it != colliders.end(); ++it) {
 		BaseCollider* colA = *it;
+
+		// 属性が合わなければスキップ
+		if (!(colA->attribute & attribute)) {
+			continue;
+		}
 
 		if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE) {
 			Sphere* sphere = dynamic_cast<Sphere*>(colA);

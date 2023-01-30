@@ -1,5 +1,6 @@
 ﻿#include "TouchableObject.h"
 #include "MeshCollider.h"
+#include "CollisionAttribute.h"
 
 TouchableObject* TouchableObject::Create(Model* model)
 {
@@ -32,5 +33,6 @@ bool TouchableObject::Initialize(Model* model)
 	SetCollider(collider);
 	collider->ConstructTriangles(model);
 
+	collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 	return true;
 }

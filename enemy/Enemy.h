@@ -44,7 +44,7 @@ protected:
 	Line* line = nullptr;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;
-	int life = 3;
+	int life = 2;
 	float move = 0.2f;
 	float moveY = 0.2f;
 	bool appFlag = true;

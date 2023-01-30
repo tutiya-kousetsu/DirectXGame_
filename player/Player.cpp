@@ -30,6 +30,7 @@ bool Player::Initialize()
 	if (!Object3d::Initialize()) {
 		return false;
 	}
+	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
 	//コライダーの追加
 	float radius = 0.6f;
@@ -45,7 +46,6 @@ void Player::Update()
 
 	move();
 	jump();
-	playerRot();
 	if (input->TriggerMouseLeft()) {
 		Shoot();
 	}
@@ -53,6 +53,7 @@ void Player::Update()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Update();
 	}
+
 	//particleMan->Update();
 	Object3d::Update();
 
@@ -128,8 +129,53 @@ void Player::jump()
 		//ジャンプの高さ
 		jumpSpeed = 1.0f;
 	}
+
+	// ワールド行列更新
+	UpdateWorldMatrix();
+	collider->Update();
+
 	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
 	assert(sphereCollider);
+
+	// クエリーコールバッククラス
+	class PlayerQueryCallback : public QueryCallback
+	{
+	public:
+		PlayerQueryCallback(Sphere* sphere) : sphere(sphere) {};
+
+		// 衝突時コールバック関数
+		bool OnQueryHit(const QueryHit& info) {
+
+			const XMVECTOR up = { 0,1,0,0 };
+
+			XMVECTOR rejectDir = XMVector3Normalize(info.reject);
+			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
+
+			// 地面判定しきい値
+			const float threshold = cosf(XMConvertToRadians(30.0f));
+
+			if (-threshold < cos && cos < threshold) {
+				sphere->center += info.reject;
+				move += info.reject;
+			}
+			return true;
+		}
+
+		Sphere* sphere = nullptr;
+		DirectX::XMVECTOR move = {};
+	};
+
+	PlayerQueryCallback callback(sphereCollider);
+
+	// 球と地形の交差を全検索
+	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE);
+	// 交差による排斥分動かす
+	position.x += callback.move.m128_f32[0];
+	position.y += callback.move.m128_f32[1];
+	position.z += callback.move.m128_f32[2];
+	// ワールド行列更新
+	UpdateWorldMatrix();
+	collider->Update();
 
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
@@ -140,9 +186,9 @@ void Player::jump()
 	if (onGround) {
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 5.0f + adsDistance)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 5.5f + adsDistance)) {
 			onGround = true;
-			//position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 4.0f);
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 5.5f);
 			//position.y += g;
 			// 行列の更新など
 			Object3d::Update();
@@ -159,76 +205,11 @@ void Player::jump()
 			// 着地
 			onGround = true;
 			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 5.5f);
-			// 行列の更新など
-			Object3d::Update();
+			
 		}
 	}
-	//ポジションが0になったらジャンプフラグを切る
-	/*if (position.y <= 0) {
-		jumpFlag = false;
-	}*/
-	// 落下処理
-	//if (input->TriggerMouseRight() && !onGround || input->TriggerKey(DIK_SPACE) && !onGround) {
-	//	// 下向き加速度
-	//	const float fallAcc = -0.01f;
-	//	const float fallVYMin = -0.5f;
-	//	// 加速
-	//	fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
-	//	// 移動
-	//	position.x += fallV.m128_f32[0];
-	//	position.y += fallV.m128_f32[1];
-	//	position.z += fallV.m128_f32[2];
-	//}
-	//// ジャンプ操作
-	//else if (input->TriggerKey(DIK_SPACE)) {
-	//	onGround = false;
-	//	const float jumpVYFist = 1.2f;
-	//	fallV = { 0, jumpVYFist, 0, 0 };
-	//}
-	// 座標の変更を反映
-	///Object3d::SetPosition(position);
-	
-
-	// 接地状態
-	//if (onGround) {
-	//	// スムーズに坂を下る為の吸着距離
-	//	const float adsDistance = 0.2f;
-	//	// 接地を維持
-	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
-	//		onGround = true;
-	//		position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
-	//		// 行列の更新など
-	//		Object3d::Update();
-	//	}
-	//	// 地面がないので落下
-	//	else {
-	//		onGround = false;
-	//		fallV = {};
-	//	}
-	//}
-	//// 落下状態
-	//else if (fallV.m128_f32[1] <= 0.0f) {
-	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
-	//		// 着地
-	//		onGround = true;
-	//		position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
-	//		// 行列の更新など
-	//		Object3d::Update();
-	//	}
-	//}
-}
-
-void Player::playerRot()
-{
-	//Input* input = Input::GetInstance();
-	//Input::MouseMove mouseMove = input->GetMouseMove();
-	//float dy = mouseMove.lX * scaleY;
-	//angleY = -dy * XM_PI;
-
-	//if (angleY) { rotation.y += speed + 1; }
-	//if (-angleY) { rotation.y -= speed + 1; }
-
-	//Object3d::SetRotation(rotation);
+	// 行列の更新など
+	Object3d::Update();
 }
 
 void Player::Shoot()
@@ -249,39 +230,29 @@ void Player::Shoot()
 
 void Player::OnCollision(const CollisionInfo& info)
 {
-	//for (int i = 0; i < 1; i++) {
-	//	//X,Y,Z全て[-5.0f, +5.0f]でランダムに分布
-	//	const float md_pos = 5.0f;
-	//	DirectX::XMFLOAT3 pos = Object3d::GetPosition();
-	//	//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-	//	const float md_vel = 0.1f;
-	//	DirectX::XMFLOAT3 vel{};
-	//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-	//	DirectX::XMFLOAT3 acc{};
-	//	const float rnd_acc = 0.005f;
-	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-	//	//追加
-	//	particleMan->Add(60, DirectX::XMFLOAT3(info.inter.m128_f32), vel, acc, 0.0f, 1.0f);
- //	}
+	
 }
 
-void Player::FloorCollision()
+void Player::CreateParticle()
 {
-	//範囲選択
-	if (position.x <= 33.f && position.x >= -33.f
-		&& position.z <= 33.f && position.z >= -33.f
-		) {
-		position.y += g;
+	for (int j = 0; j < 100; j++) {
+		DirectX::XMFLOAT3 pos = Object3d::GetPosition();
+		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+		const float md_vel = 0.20f;
+		DirectX::XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+		DirectX::XMFLOAT3 acc{};
+		const float rnd_acc = 0.005f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		//追加
+		particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+
 	}
-	else {
-		onGround = true;
-	}
-	Object3d::SetPosition(position);
 }
+
 
 void Player::Draw()
 {

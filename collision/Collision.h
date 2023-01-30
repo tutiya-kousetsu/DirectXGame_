@@ -28,10 +28,11 @@ public:
 	/// </summary>
 	/// <param name="sphere">球</param>
 	/// <param name="triangle">三角形</param>
-	/// <param name="inter">交点(三角形上の最近接点)</param>
+	/// <param name="inter">交点（三角形上の最近接点）</param>
+	/// <param name="reject">排斥ベクトル（出力用）</param>
 	/// <returns>交差しているか否か</returns>
-	static bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle,
-		DirectX::XMVECTOR* inter = nullptr);
+	static bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter = nullptr, 
+		DirectX::XMVECTOR* reject = nullptr);
 
 	/// <summary>
 	/// レイと平面の当たり判定
@@ -67,11 +68,13 @@ public:
 		float* distance = nullptr, DirectX::XMVECTOR* inter = nullptr);
 
 	/// <summary>
-	/// 球同士の当たり判定
+	/// 球と球の当たり判定
 	/// </summary>
-	/// <param name="sphere1">球</param>
-	/// <param name="sphere2">球</param>
-	/// <returns>衝突しているか否か</returns>
-	static bool CheckSphere2Sphere(const Sphere& sphere1, const Sphere& sphere2,
-		DirectX::XMVECTOR* inter = nullptr);
+	/// <param name="sphereA">球A</param>
+	/// <param name="sphereB">球B</param>
+	/// <param name="inter">交点（出力用）</param>
+	/// <param name="reject">排斥ベクトル（出力用）</param>
+	/// <returns></returns>
+	static bool CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, DirectX::XMVECTOR* inter = nullptr, 
+		DirectX::XMVECTOR* reject = nullptr);
 };

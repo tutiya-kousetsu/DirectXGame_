@@ -1,9 +1,11 @@
 #include "Obstacle.h"
+#include "SphereCollider.h"
+
 Obstacle::Obstacle()
 {
 }
 
-void Obstacle::Initialize(XMFLOAT3 pos)
+void Obstacle::Initialize(DirectX::XMFLOAT3 pos)
 {
 	object.reset(new Object3d());
 	object->Initialize();

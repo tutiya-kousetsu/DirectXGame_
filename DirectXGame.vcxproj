@@ -243,6 +243,7 @@
     <ClInclude Include="collision\CollisionPrimitive.h" />
     <ClInclude Include="collision\CollisionTypes.h" />
     <ClInclude Include="collision\MeshCollider.h" />
+    <ClInclude Include="collision\QueryCallback.h" />
     <ClInclude Include="collision\RaycastHit.h" />
     <ClInclude Include="collision\SphereCollider.h" />
     <ClInclude Include="collision\TouchableObject.h" />

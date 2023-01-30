@@ -42,7 +42,7 @@ void Enemy::OnCollision()
 
 	}
 
-	life -= 3;
+	life--;
 	if (life == 0) {
 		alive = false;
 		

@@ -32,9 +32,6 @@ public:
 	//ƒWƒƒƒ“ƒv
 	void jump();
 
-	//‰ñ“]
-	void playerRot();
-
 	//•`‰æ
 	void Draw() override;
 
@@ -43,8 +40,7 @@ public:
 
 	void OnCollision(const CollisionInfo& info) override;
 
-	void FloorCollision();
-
+	void CreateParticle();
 	//’eƒŠƒXƒgŽæ“¾
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 

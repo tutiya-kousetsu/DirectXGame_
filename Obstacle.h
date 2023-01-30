@@ -2,18 +2,19 @@
 #include "GameObject.h"
 #include "Fbx_Object3d.h"
 #include "DirectXCommon.h"
+#include "Object3d.h"
 #include <DirectXMath.h>
 #include <memory>
 
 using namespace DirectX;
 
-class Obstacle
+class Obstacle : Object3d
 {
 public:
 
 	Obstacle();
 
-	void Initialize(XMFLOAT3 pos);
+	void Initialize(DirectX::XMFLOAT3 pos);
 
 	void Update();
 
@@ -28,7 +29,7 @@ public:
 	inline const DirectX::XMFLOAT3& GetScale() const { return object->GetScale(); }
 
 private:
-	XMFLOAT3 position;
+	DirectX::XMFLOAT3 position;
 	std::unique_ptr<Object3d> object;
 
 };

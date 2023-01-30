@@ -91,7 +91,6 @@ private:
 	std::list<std::unique_ptr<Obstacle>> obstacles;
 	//è·äQï®î≠ê∂ÇÃÉRÉ}ÉìÉh
 	std::stringstream obstaclePopCom;
-	XMFLOAT3 obstaclePos[24] = {};
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 
@@ -127,7 +126,7 @@ private:
 	bool posFlag = false;
 
 	bool waitFlag = false;
-
+	bool lifeFlag = false;
 	int fEneFlag = 0;
 	int lEneFlag = 0;
 	int rEneFlag = 0;
@@ -142,5 +141,4 @@ private:
 	bool viewDirty = false;
 	float distance = 1.0f;
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
-
 };

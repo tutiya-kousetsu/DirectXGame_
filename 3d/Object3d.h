@@ -186,6 +186,11 @@ public: // メンバ関数
 	virtual void Draw();
 
 	/// <summary>
+	/// 行列の更新
+	/// </summary>
+	void UpdateWorldMatrix();
+
+	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
@@ -233,12 +238,16 @@ public: // メンバ関数
 	virtual void OnCollision(const CollisionInfo& info){}
 
 	inline Model* GetModel() { return model; }
+
+
 protected: // メンバ変数
 
 	const char* name = nullptr;
 	BaseCollider* collider = nullptr;
 	//3Dモデル(借りてくる)
 	Model* model = nullptr;
+	// ビルボード
+	bool isBillboard = false;
 	// 行列用定数バッファ
 	ComPtr<ID3D12Resource> constBuffB0;
 	// ローカルスケール

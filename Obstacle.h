@@ -3,6 +3,7 @@
 #include "Fbx_Object3d.h"
 #include "DirectXCommon.h"
 #include "Object3d.h"
+#include "CollisionInfo.h"
 #include <DirectXMath.h>
 #include <memory>
 
@@ -22,11 +23,11 @@ public:
 
 	void OnCollision();
 
-	inline void SetPosition(const DirectX::XMFLOAT3& position) { object->SetPosition(position); }
-	inline const DirectX::XMFLOAT3& GetPosition() const { return object->GetPosition(); }
-
-	inline void SetScale(const DirectX::XMFLOAT3& scale) { object->SetScale(scale); }
-	inline const DirectX::XMFLOAT3& GetScale() const { return object->GetScale(); }
+	/// <summary>
+	/// コライダーのセット
+	/// </summary>
+	/// <param name="collider">コライダー</param>
+	void SetCollider(BaseCollider* collider);
 
 private:
 	DirectX::XMFLOAT3 position;

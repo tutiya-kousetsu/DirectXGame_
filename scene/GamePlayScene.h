@@ -93,7 +93,7 @@ private:
 	std::stringstream obstaclePopCom;
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
-
+	Model* obModel = nullptr;
 	//std::unique_ptr<PlayerBullet> playerBullet;
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;

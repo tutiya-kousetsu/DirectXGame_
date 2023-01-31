@@ -152,7 +152,7 @@ void Player::jump()
 			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
 
 			// ’n–Ê”»’è‚µ‚«‚¢’l
-			const float threshold = cosf(XMConvertToRadians(30.0f));
+			const float threshold = cosf(XMConvertToRadians(0.0f));
 
 			if (-threshold < cos && cos < threshold) {
 				sphere->center += info.reject;

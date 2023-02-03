@@ -393,8 +393,6 @@ void GamePlayScene::UpdataObstaclePopCommand()
 			//コンストラクタ呼ぶよ
 			std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
 			newObstacle->Initialize(XMFLOAT3(x, y, z));
-			//newObstacle->SetCollider(new SphereCollider);
-			
 			//障害物を登録する
 			obstacles.push_back(std::move(newObstacle));
 		}

@@ -40,9 +40,6 @@
     <Filter Include="ソース ファイル\game">
       <UniqueIdentifier>{132cf5ff-a490-47c6-b259-302761cea30a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\player">
-      <UniqueIdentifier>{9e696917-7bec-425b-bfb0-8d855e7f3091}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\scene">
       <UniqueIdentifier>{5aa1c67f-1040-4e7d-af08-0a4959b4be5b}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,12 @@
     </Filter>
     <Filter Include="ソース ファイル\game\scene\.cpp">
       <UniqueIdentifier>{60de1f0e-904b-4565-b2d8-a50f9651e0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{805a6457-be10-4d68-a9f0-56b97a855747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\player">
+      <UniqueIdentifier>{9e696917-7bec-425b-bfb0-8d855e7f3091}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +251,24 @@
     <ClCompile Include="TriangleCollider.cpp">
       <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx12.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_win32.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -422,6 +443,30 @@
     </ClInclude>
     <ClInclude Include="TriangleCollider.h">
       <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_dx12.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_win32.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>imgui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

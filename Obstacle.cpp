@@ -17,7 +17,7 @@ void Obstacle::Initialize(DirectX::XMFLOAT3 pos)
 {
 	object.reset(new TouchableObject());
 	object->Initialize(Model::CreateFromOBJ("obstacle"));
-	object->SetScale({ 3.f, 3.f, 3.f });
+	object->SetScale({ 3.01f, 3.01f, 3.01f });
 	object->SetPosition(pos);
 }
 
@@ -35,14 +35,3 @@ void Obstacle::Draw()
 void Obstacle::OnCollision()
 {
 }
-
-//void Obstacle::SetCollider(BaseCollider* collider)
-//{
-//	collider->SetObject(this);
-//	this->collider = collider;
-//	//コリジョンマネージャに登録
-//	CollisionManager::GetInstance()->AddCollider(collider);
-//	UpdateWorldMatrix();
-//	//コライダーを更新しておく
-//	collider->Update();
-//}

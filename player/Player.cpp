@@ -33,7 +33,7 @@ bool Player::Initialize()
 	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
 	//コライダーの追加
-	float radius = 0.6f;
+	float radius = 2.0f;
 	//半径だけ足元から浮いた座標を球の中心にする
 	SetCollider(new SphereCollider(DirectX::XMVECTOR({ 0, radius, 0, 0 }), radius));
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -118,16 +118,25 @@ void Player::jump()
 
 	//マウスの右をクリックしたらジャンプ
 	if (!onGround) {
-
+		const float fallAcc = -0.021f;
+		const float fallVYMin = -0.5f;
+		//加速
+		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
+		position.x += fallV.m128_f32[0];
+		position.y += fallV.m128_f32[1];
+		position.z += fallV.m128_f32[2];
 		position.y += jumpSpeed;
 		//ジャンプの速度を0.04ずつ下げていく
-		jumpSpeed -= 0.05f;
+		//jumpSpeed -= 0.05f;
 	}
 	//ジャンプフラグが1になったら
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
 		onGround = false;
-		//ジャンプの高さ
-		jumpSpeed = 1.0f;
+		const float jumpVYFist = 0.5f;
+		fallV = { 0, jumpVYFist, 0, 0 };
+		//onGround = false;
+		////ジャンプの高さ
+		//jumpSpeed = 1.0f;
 	}
 
 	// ワールド行列更新
@@ -186,10 +195,9 @@ void Player::jump()
 	if (onGround) {
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 5.5f + adsDistance)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 5.5f);
-			//position.y += g;
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
 			// 行列の更新など
 			Object3d::Update();
 		}
@@ -201,10 +209,10 @@ void Player::jump()
 	}
 	// 落下状態
 	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 5.5f)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f)) {
 			// 着地
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 5.5f);
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
 			
 		}
 	}

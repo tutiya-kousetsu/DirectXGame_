@@ -25,12 +25,6 @@ public:
 
 	void OnCollision();
 
-	/// <summary>
-	/// コライダーのセット
-	/// </summary>
-	/// <param name="collider">コライダー</param>
-	//void SetCollider(BaseCollider* collider);
-
 private:
 	DirectX::XMFLOAT3 position;
 	std::unique_ptr<TouchableObject> object;

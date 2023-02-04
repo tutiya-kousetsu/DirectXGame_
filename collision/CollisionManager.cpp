@@ -84,6 +84,7 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 			continue;
 		}
 
+		//球コライダーの場合
 		if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE) {
 			Sphere* sphere = dynamic_cast<Sphere*>(colA);
 

@@ -202,6 +202,12 @@
     <ClCompile Include="enemy\LeftEnemy.cpp" />
     <ClCompile Include="enemy\RightEnemy.cpp" />
     <ClCompile Include="Floor\Floor.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
@@ -255,6 +261,14 @@
     <ClInclude Include="enemy\LeftEnemy.h" />
     <ClInclude Include="enemy\RightEnemy.h" />
     <ClInclude Include="Floor\Floor.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_dx12.h" />
+    <ClInclude Include="imgui\imgui_impl_win32.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Obstacle.h" />

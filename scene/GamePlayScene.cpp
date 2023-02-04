@@ -266,7 +266,7 @@ void GamePlayScene::Update()
 	UpdataObstaclePopCommand();
 
 	collisionMan->CheckAllCollisions();
-	CheckAllCollision();
+	//CheckAllCollision();
 
 	particleMan->Update();
 }
@@ -403,347 +403,347 @@ void GamePlayScene::UpdataObstaclePopCommand()
 }
 
 //‘O“G‚Ì’e‚Ì“–‚½‚è”»’è
-void GamePlayScene::FrontColl()
-{
-	for (int i = 0; i < 11; i++) {
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = frontEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-
-			Sphere eBullet;
-
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					Sphere playerShape;
-					playerShape.center = XMLoadFloat3(&player->GetPosition());
-					playerShape.radius = player->GetScale().x;
-
-					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-						player->CreateParticle();
-						eb->OnCollision();
-						playerLife--;
-					}
-				}
-			}
-
-#pragma endregion
-
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					if (eb->GetAlive()) {
-
-						//for (auto& obstacle : obstacles) {
-						//	Sphere obstacleShape;
-						//	obstacleShape.center = XMLoadFloat3(&obstacle->);
-						//	obstacleShape.radius = obstacle->GetScale().x;
-
-						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-						//		eb->OnCollision();
-						//		//obstacle->OnCollision();
-						//	}
-						//}
-					}
-				}
-			}
-#pragma endregion
-		}
-	}
-}
-
-//¶“G‚Ì’e‚Ì“–‚½‚è”»’è
-void GamePlayScene::LeftColl()
-{
-	for (int i = 0; i < 7; i++) {
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = leftEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-
-			Sphere eBullet;
-
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					Sphere playerShape;
-					playerShape.center = XMLoadFloat3(&player->GetPosition());
-					playerShape.radius = player->GetScale().x;
-
-					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-						eb->OnCollision();
-						player->CreateParticle();
-						playerLife--;
-					}
-				}
-			}
-
-#pragma endregion
-
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-			for (const std::unique_ptr<Obstacle>& obstacle : obstacles) {
-				Sphere eBullet;
-				for (auto& eb : enemyBullets) {
-					if (eb->GetAlive()) {
-						eBullet.center = XMLoadFloat3(&eb->GetPosition());
-						eBullet.radius = eb->GetScale().x;
-						if (leftEnemy[i]->GetAlive()) {
-							Sphere obstacleShape;
-							//for (auto& ob : obstacles) {
-							//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-							//	obstacleShape.radius = ob->GetScale().x;
-
-							//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-							//		eb->OnCollision();
-							//		//obstacle->OnCollision();
-							//	}
-							//}
-						}
-					}
-				}
-			}
-		}
-
-#pragma endregion
-
-	}
-}
-
-//‰E“G‚Ì’e‚Ì“–‚½‚è”»’è
-void GamePlayScene::RightColl()
-{
-	for (int i = 0; i < 4; i++) {
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = rightEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-
-			Sphere eBullet;
-
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					Sphere playerShape;
-					playerShape.center = XMLoadFloat3(&player->GetPosition());
-					playerShape.radius = player->GetScale().x;
-
-					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-						eb->OnCollision();
-						player->CreateParticle();
-						playerLife--;
-					}
-				}
-			}
-		}
-
-#pragma endregion
-
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-
-			Sphere eBullet;
-
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					if (rightEnemy[i]->GetAlive()) {
-						Sphere obstacleShape;
-						//for (auto& ob : obstacles) {
-						//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-						//	obstacleShape.radius = ob->GetScale().x;
-
-						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-						//		eb->OnCollision();
-						//		//obstacle->OnCollision();
-						//	}
-						//}
-					}
-
-				}
-			}
-		}
-
-#pragma endregion
-
-	}
-}
-
-//Œã‚ë“G‚Ì’e‚Ì“–‚½‚è”»’è
-void GamePlayScene::BackColl()
-{
-	for (int i = 0; i < 2; i++) {
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = backEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-
-			Sphere eBullet;
-
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					Sphere playerShape;
-					playerShape.center = XMLoadFloat3(&player->GetPosition());
-					playerShape.radius = player->GetScale().x;
-
-					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-						eb->OnCollision();
-						player->CreateParticle();
-						playerLife--;
-					}
-				}
-			}
-		}
-
-#pragma endregion
-
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
-
-			Sphere eBullet;
-
-			for (auto& eb : enemyBullets) {
-				if (eb->GetAlive()) {
-					eBullet.center = XMLoadFloat3(&eb->GetPosition());
-					eBullet.radius = eb->GetScale().x;
-					if (backEnemy[i]->GetAlive()) {
-						Sphere obstacleShape;
-						//for (auto& ob : obstacles) {
-						//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-						//	obstacleShape.radius = ob->GetScale().x;
-
-						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-						//		eb->OnCollision();
-						//		//obstacle->OnCollision();
-						//	}
-						//}
-					}
-
-				}
-			}
-		}
-
-#pragma endregion
-
-	}
-}
-
+//void GamePlayScene::FrontColl()
+//{
+//	for (int i = 0; i < 11; i++) {
+//		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = frontEnemy[i]->GetBullet();
+//#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+//		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+//
+//			Sphere eBullet;
+//
+//			for (auto& eb : enemyBullets) {
+//				if (eb->GetAlive()) {
+//					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//					eBullet.radius = eb->GetScale().x;
+//					Sphere playerShape;
+//					playerShape.center = XMLoadFloat3(&player->GetPosition());
+//					playerShape.radius = player->GetScale().x;
+//
+//					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+//						player->CreateParticle();
+//						eb->OnCollision();
+//						playerLife--;
+//					}
+//				}
+//			}
+//
+//#pragma endregion
+//
+//#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
+//			for (auto& eb : enemyBullets) {
+//				if (eb->GetAlive()) {
+//					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//					eBullet.radius = eb->GetScale().x;
+//					if (eb->GetAlive()) {
+//
+//						//for (auto& obstacle : obstacles) {
+//						//	Sphere obstacleShape;
+//						//	obstacleShape.center = XMLoadFloat3(&obstacle->);
+//						//	obstacleShape.radius = obstacle->GetScale().x;
+//
+//						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+//						//		eb->OnCollision();
+//						//		//obstacle->OnCollision();
+//						//	}
+//						//}
+//					}
+//				}
+//			}
+//#pragma endregion
+//		}
+//	}
+//}
+//
+////¶“G‚Ì’e‚Ì“–‚½‚è”»’è
+//void GamePlayScene::LeftColl()
+//{
+//	for (int i = 0; i < 7; i++) {
+//		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = leftEnemy[i]->GetBullet();
+//#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+//		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+//
+//			Sphere eBullet;
+//
+//			for (auto& eb : enemyBullets) {
+//				if (eb->GetAlive()) {
+//					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//					eBullet.radius = eb->GetScale().x;
+//					Sphere playerShape;
+//					playerShape.center = XMLoadFloat3(&player->GetPosition());
+//					playerShape.radius = player->GetScale().x;
+//
+//					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+//						eb->OnCollision();
+//						player->CreateParticle();
+//						playerLife--;
+//					}
+//				}
+//			}
+//
+//#pragma endregion
+//
+//#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
+//			for (const std::unique_ptr<Obstacle>& obstacle : obstacles) {
+//				Sphere eBullet;
+//				for (auto& eb : enemyBullets) {
+//					if (eb->GetAlive()) {
+//						eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//						eBullet.radius = eb->GetScale().x;
+//						if (leftEnemy[i]->GetAlive()) {
+//							Sphere obstacleShape;
+//							//for (auto& ob : obstacles) {
+//							//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+//							//	obstacleShape.radius = ob->GetScale().x;
+//
+//							//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+//							//		eb->OnCollision();
+//							//		//obstacle->OnCollision();
+//							//	}
+//							//}
+//						}
+//					}
+//				}
+//			}
+//		}
+//
+//#pragma endregion
+//
+//	}
+//}
+//
+////‰E“G‚Ì’e‚Ì“–‚½‚è”»’è
+//void GamePlayScene::RightColl()
+//{
+//	for (int i = 0; i < 4; i++) {
+//		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = rightEnemy[i]->GetBullet();
+//#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+//		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+//
+//			Sphere eBullet;
+//
+//			for (auto& eb : enemyBullets) {
+//				if (eb->GetAlive()) {
+//					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//					eBullet.radius = eb->GetScale().x;
+//					Sphere playerShape;
+//					playerShape.center = XMLoadFloat3(&player->GetPosition());
+//					playerShape.radius = player->GetScale().x;
+//
+//					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+//						eb->OnCollision();
+//						player->CreateParticle();
+//						playerLife--;
+//					}
+//				}
+//			}
+//		}
+//
+//#pragma endregion
+//
+//#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
+//		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+//
+//			Sphere eBullet;
+//
+//			for (auto& eb : enemyBullets) {
+//				if (eb->GetAlive()) {
+//					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//					eBullet.radius = eb->GetScale().x;
+//					if (rightEnemy[i]->GetAlive()) {
+//						Sphere obstacleShape;
+//						//for (auto& ob : obstacles) {
+//						//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+//						//	obstacleShape.radius = ob->GetScale().x;
+//
+//						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+//						//		eb->OnCollision();
+//						//		//obstacle->OnCollision();
+//						//	}
+//						//}
+//					}
+//
+//				}
+//			}
+//		}
+//
+//#pragma endregion
+//
+//	}
+//}
+//
+////Œã‚ë“G‚Ì’e‚Ì“–‚½‚è”»’è
+//void GamePlayScene::BackColl()
+//{
+//	for (int i = 0; i < 2; i++) {
+//		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = backEnemy[i]->GetBullet();
+//#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+//		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+//
+//			Sphere eBullet;
+//
+//			for (auto& eb : enemyBullets) {
+//				if (eb->GetAlive()) {
+//					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//					eBullet.radius = eb->GetScale().x;
+//					Sphere playerShape;
+//					playerShape.center = XMLoadFloat3(&player->GetPosition());
+//					playerShape.radius = player->GetScale().x;
+//
+//					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+//						eb->OnCollision();
+//						player->CreateParticle();
+//						playerLife--;
+//					}
+//				}
+//			}
+//		}
+//
+//#pragma endregion
+//
+//#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
+//		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+//
+//			Sphere eBullet;
+//
+//			for (auto& eb : enemyBullets) {
+//				if (eb->GetAlive()) {
+//					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//					eBullet.radius = eb->GetScale().x;
+//					if (backEnemy[i]->GetAlive()) {
+//						Sphere obstacleShape;
+//						//for (auto& ob : obstacles) {
+//						//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+//						//	obstacleShape.radius = ob->GetScale().x;
+//
+//						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+//						//		eb->OnCollision();
+//						//		//obstacle->OnCollision();
+//						//	}
+//						//}
+//					}
+//
+//				}
+//			}
+//		}
+//
+//#pragma endregion
+//
+//	}
+//}
+//
 void GamePlayScene::CheckAllCollision()
 {
-	FrontColl();
-	LeftColl();
-	RightColl();
-	BackColl();
-
-	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-
-#pragma region ©’e‚Æ“G‚Ì“–‚½‚è”»’è
-
-	Sphere pBullet;
-
-	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-		for (auto& pb : playerBullets) {
-			if (pb->GetAlive()) {
-				pBullet.center = XMLoadFloat3(&pb->GetPosition());
-				pBullet.radius = pb->GetScale().x;
-
-				//‘O‚Ì“G
-				for (int i = 0; i < 11; i++) {
-
-					if (frontEnemy[i]->GetAlive()) {
-						Sphere fEnemyShape;
-						fEnemyShape.center = XMLoadFloat3(&frontEnemy[i]->GetPosition());
-						fEnemyShape.radius = frontEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
-							pb->OnCollision();
-							frontEnemy[i]->OnCollision();
-							if (!frontEnemy[i]->GetAlive()) {
-								fEneFlag++;
-							}
-						}
-					}
-				}
-				for (int i = 0; i < 7; i++) {
-					//¶‚Ì“G
-					if (leftEnemy[i]->GetAlive()) {
-						Sphere lEnemyShape;
-						lEnemyShape.center = XMLoadFloat3(&leftEnemy[i]->GetPosition());
-						lEnemyShape.radius = leftEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-							pb->OnCollision();
-							leftEnemy[i]->OnCollision();
-							if (!leftEnemy[i]->GetAlive()) {
-								lEneFlag++;
-							}
-						}
-					}
-				}
-				for (int i = 0; i < 4; i++) {
-
-					//‰E‚Ì“G
-					if (rightEnemy[i]->GetAlive()) {
-						Sphere lEnemyShape;
-						lEnemyShape.center = XMLoadFloat3(&rightEnemy[i]->GetPosition());
-						lEnemyShape.radius = rightEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-							pb->OnCollision();
-							rightEnemy[i]->OnCollision();
-							if (!rightEnemy[i]->GetAlive()) {
-								rEneFlag++;
-							}
-						}
-					}
-				}
-				for (int i = 0; i < 2; i++) {
-
-					//Œã‚ë‚Ì“G
-					if (backEnemy[i]->GetAlive()) {
-						Sphere lEnemyShape;
-						lEnemyShape.center = XMLoadFloat3(&backEnemy[i]->GetPosition());
-						lEnemyShape.radius = backEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-							pb->OnCollision();
-							backEnemy[i]->OnCollision();
-							if (!backEnemy[i]->GetAlive()) {
-								bEneFlag++;
-							}
-						}
-					}
-				}
-			}
-		}
-
-
-#pragma endregion
-
-#pragma region ©’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		for (const std::unique_ptr<Obstacle>& obstacle : obstacles) {
-			for (auto& pb : playerBullets) {
-				if (pb->GetAlive()) {
-					pBullet.center = XMLoadFloat3(&pb->GetPosition());
-					pBullet.radius = pb->GetScale().x;
-					Sphere obstacleShape;
-					//for (auto& ob : obstacles) {
-					//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-					//	obstacleShape.radius = ob->GetScale().x;
-
-					//	if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
-					//		pb->OnCollision();
-					//		//obstacle->OnCollision();
-					//	}
-					//}
-				}
-			}
-		}
-	}
+//	FrontColl();
+//	LeftColl();
+//	RightColl();
+//	BackColl();
+//
+//	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
+//
+//#pragma region ©’e‚Æ“G‚Ì“–‚½‚è”»’è
+//
+//	Sphere pBullet;
+//
+//	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+//		for (auto& pb : playerBullets) {
+//			if (pb->GetAlive()) {
+//				pBullet.center = XMLoadFloat3(&pb->GetPosition());
+//				pBullet.radius = pb->GetScale().x;
+//
+//				//‘O‚Ì“G
+//				for (int i = 0; i < 11; i++) {
+//
+//					if (frontEnemy[i]->GetAlive()) {
+//						Sphere fEnemyShape;
+//						fEnemyShape.center = XMLoadFloat3(&frontEnemy[i]->GetPosition());
+//						fEnemyShape.radius = frontEnemy[i]->GetScale().z;
+//
+//						if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
+//							pb->OnCollision();
+//							frontEnemy[i]->OnCollision();
+//							if (!frontEnemy[i]->GetAlive()) {
+//								fEneFlag++;
+//							}
+//						}
+//					}
+//				}
+//				for (int i = 0; i < 7; i++) {
+//					//¶‚Ì“G
+//					if (leftEnemy[i]->GetAlive()) {
+//						Sphere lEnemyShape;
+//						lEnemyShape.center = XMLoadFloat3(&leftEnemy[i]->GetPosition());
+//						lEnemyShape.radius = leftEnemy[i]->GetScale().z;
+//
+//						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+//							pb->OnCollision();
+//							leftEnemy[i]->OnCollision();
+//							if (!leftEnemy[i]->GetAlive()) {
+//								lEneFlag++;
+//							}
+//						}
+//					}
+//				}
+//				for (int i = 0; i < 4; i++) {
+//
+//					//‰E‚Ì“G
+//					if (rightEnemy[i]->GetAlive()) {
+//						Sphere lEnemyShape;
+//						lEnemyShape.center = XMLoadFloat3(&rightEnemy[i]->GetPosition());
+//						lEnemyShape.radius = rightEnemy[i]->GetScale().z;
+//
+//						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+//							pb->OnCollision();
+//							rightEnemy[i]->OnCollision();
+//							if (!rightEnemy[i]->GetAlive()) {
+//								rEneFlag++;
+//							}
+//						}
+//					}
+//				}
+//				for (int i = 0; i < 2; i++) {
+//
+//					//Œã‚ë‚Ì“G
+//					if (backEnemy[i]->GetAlive()) {
+//						Sphere lEnemyShape;
+//						lEnemyShape.center = XMLoadFloat3(&backEnemy[i]->GetPosition());
+//						lEnemyShape.radius = backEnemy[i]->GetScale().z;
+//
+//						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+//							pb->OnCollision();
+//							backEnemy[i]->OnCollision();
+//							if (!backEnemy[i]->GetAlive()) {
+//								bEneFlag++;
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//
+//
+//#pragma endregion
+//
+//#pragma region ©’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
+//		for (const std::unique_ptr<Obstacle>& obstacle : obstacles) {
+//			for (auto& pb : playerBullets) {
+//				if (pb->GetAlive()) {
+//					pBullet.center = XMLoadFloat3(&pb->GetPosition());
+//					pBullet.radius = pb->GetScale().x;
+//					Sphere obstacleShape;
+//					//for (auto& ob : obstacles) {
+//					//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+//					//	obstacleShape.radius = ob->GetScale().x;
+//
+//					//	if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
+//					//		pb->OnCollision();
+//					//		//obstacle->OnCollision();
+//					//	}
+//					//}
+//				}
+//			}
+//		}
+//	}
 #pragma endregion
 
 	XMFLOAT3 playerPos = player->GetPosition();

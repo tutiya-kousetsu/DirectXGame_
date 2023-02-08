@@ -19,30 +19,6 @@
 //	SetPosition(position);
 //}
 
-//FrontEnemy* FrontEnemy::Create(Model* model)
-//{
-//	//3Dオブジェクトのインスタンスを生成
-//	FrontEnemy* instance = new FrontEnemy();
-//	if (instance == nullptr) {
-//		return nullptr;
-//	}
-//
-//	//初期化
-//	if (!instance->Initialize()) {
-//		delete instance;
-//		assert(0);
-//	}
-//	//モデルのセット
-//	if (model) {
-//		instance->SetModel(model);
-//	}
-//
-//	return instance;
-//
-//	//return nullptr;
-//}
-
-
 FrontEnemy::~FrontEnemy()
 {
 }

@@ -7,13 +7,6 @@ class Player;
 class RightEnemy :public EnemyObject
 {
 public:
-	/// <summary>
-	/// 3Dオブジェクト生成
-	/// </summary>
-	/// <returns>インスタンス</returns>
-	//static RightEnemy* Create(Model* model = nullptr);
-
-public:
 	//RightEnemy();
 
 	~RightEnemy();

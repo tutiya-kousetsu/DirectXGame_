@@ -7,13 +7,6 @@ class Player;
 class BackEnemy :public EnemyObject
 {
 public:
-	/// <summary>
-	/// 3Dオブジェクト生成
-	/// </summary>
-	/// <returns>インスタンス</returns>
-	//static BackEnemy* Create(Model* model = nullptr);
-
-public:
 	//BackEnemy();
 
 	~BackEnemy();

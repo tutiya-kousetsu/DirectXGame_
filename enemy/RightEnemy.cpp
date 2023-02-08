@@ -19,29 +19,6 @@
 //	SetPosition(position);
 //}
 
-//RightEnemy* RightEnemy::Create(Model* model)
-//{
-//	//3Dオブジェクトのインスタンスを生成
-//	RightEnemy* instance = new RightEnemy();
-//	if (instance == nullptr) {
-//		return nullptr;
-//	}
-//
-//	//初期化
-//	if (!instance->Initialize()) {
-//		delete instance;
-//		assert(0);
-//	}
-//	//モデルのセット
-//	if (model) {
-//		instance->SetModel(model);
-//	}
-//
-//	return instance;
-//
-//	return nullptr;
-//}
-
 RightEnemy::~RightEnemy()
 {
 }

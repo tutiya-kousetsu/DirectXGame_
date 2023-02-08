@@ -6,13 +6,6 @@ class Player;
 class FrontEnemy : public EnemyObject
 {
 public:
-	/// <summary>
-	/// 3Dオブジェクト生成
-	/// </summary>
-	/// <returns>インスタンス</returns>
-	//static FrontEnemy* Create(Model* model = nullptr);
-
-public:
 	//FrontEnemy();
 
 	~FrontEnemy();

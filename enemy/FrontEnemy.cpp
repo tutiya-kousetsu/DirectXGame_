@@ -1,31 +1,56 @@
 #include "FrontEnemy.h"
 #include "Player.h"
 
-FrontEnemy::FrontEnemy()
-{
+//FrontEnemy::FrontEnemy()
+//{
+//
+//	SetScale({ 1.0f, 1.0f, 1.0f });
+//
+//	// 現在の座標を取得
+//	position = GetPosition();
+//	int x = rand() % 700;
+//	float x2 = (float)x / 10 - 35;//10～-10の範囲
+//	int y = rand() % 70;
+//	float y2 = (float)y / 10;//6~0の範囲
+//	int z = rand() % 700;
+//	//float z2 = (float)z / 10 - 35;//6~0の範囲
+//	position = { x2, 35, 35 };
+//	// 座標の変更を反映
+//	SetPosition(position);
+//}
 
-	SetScale({ 1.0f, 1.0f, 1.0f });
+//FrontEnemy* FrontEnemy::Create(Model* model)
+//{
+//	//3Dオブジェクトのインスタンスを生成
+//	FrontEnemy* instance = new FrontEnemy();
+//	if (instance == nullptr) {
+//		return nullptr;
+//	}
+//
+//	//初期化
+//	if (!instance->Initialize()) {
+//		delete instance;
+//		assert(0);
+//	}
+//	//モデルのセット
+//	if (model) {
+//		instance->SetModel(model);
+//	}
+//
+//	return instance;
+//
+//	//return nullptr;
+//}
 
-	// 現在の座標を取得
-	position = GetPosition();
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10～-10の範囲
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0の範囲
-	int z = rand() % 700;
-	//float z2 = (float)z / 10 - 35;//6~0の範囲
-	position = { x2, 35, 35 };
-	// 座標の変更を反映
-	SetPosition(position);
-}
 
 FrontEnemy::~FrontEnemy()
 {
 }
 
-void FrontEnemy::Initialize()
+bool FrontEnemy::Initialize()
 {
 	AccessPhase();
+	return true;
 }
 
 void FrontEnemy::Update()
@@ -99,6 +124,17 @@ void FrontEnemy::Shoot()
 	}
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Update();
+	}
+}
+
+void FrontEnemy::Draw()
+{
+	//フラグ1で敵表示
+	if (alive) {
+		object->Draw();
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+			bullet->Draw();
+		}
 	}
 }
 

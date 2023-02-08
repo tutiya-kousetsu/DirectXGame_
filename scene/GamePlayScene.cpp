@@ -65,6 +65,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	enemyBullet = new EnemyBullet();
 	collisionMan = CollisionManager::GetInstance();
 	player = player->Create(Model::CreateFromOBJ("PlayerRed"));
+
 	//床のオブジェクト生成
 	floorModel = Model::CreateFromOBJ("FloorBox");
 	floor = TouchableObject::Create(floorModel);
@@ -77,32 +78,37 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//line = new Line();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
-	enemy = new Enemy();
+	//enemy = new Enemy();
+	//enemy = enemy->Create(Model::CreateFromOBJ("BlueBox"));
 	for (int i = 0; i < 11; i++) {
 		//前
-		frontEnemy[i] = new FrontEnemy();
-		frontEnemy[i]->Initialize();
+		/*frontEnemy[i] = new FrontEnemy();
+		frontEnemy[i]->Initialize();*/
+		frontEnemy[i] = frontEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		frontEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 7; i++) {
 		//左
-		leftEnemy[i] = new LeftEnemy();
-		leftEnemy[i]->Initialize();
+		/*leftEnemy[i] = new LeftEnemy();
+		leftEnemy[i]->Initialize();*/
+		leftEnemy[i] = leftEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		leftEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 4; i++) {
 		//右
-		rightEnemy[i] = new RightEnemy();
-		rightEnemy[i]->Initialize();
+		/*rightEnemy[i] = new RightEnemy();
+		rightEnemy[i]->Initialize();*/
+		rightEnemy[i] = rightEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		rightEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 2; i++) {
 		//後ろ
-		backEnemy[i] = new BackEnemy();
-		backEnemy[i]->Initialize();
+		/*backEnemy[i] = new BackEnemy();
+		backEnemy[i]->Initialize();*/
+		backEnemy[i] = backEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		backEnemy[i]->SetPlayer(player);
 	}

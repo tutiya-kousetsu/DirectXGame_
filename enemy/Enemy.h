@@ -1,8 +1,11 @@
 #pragma once
 #include "GameObject.h"
+#include "EnemyObject.h"
 #include "Object3d.h"
 #include "EnemyBullet.h"
 #include "Line.h"
+#include "CollisionInfo.h"
+#include "CollisionPrimitive.h"
 #include <memory>
 #include <list>
 
@@ -11,22 +14,28 @@ using namespace DirectX;
 class Player;
 class ParticleManager;
 
-class Enemy : public GameObject
+class Enemy : public EnemyObject
 {
 public:
-	using GameObject::GameObject;
+	/// <summary>
+	/// 3Dオブジェクト生成
+	/// </summary>
+	/// <returns>インスタンス</returns>
+	static Enemy* Create(Model* model = nullptr);
 
 public:
 	//コンストラクタ
-	Enemy();
+	//Enemy();
 
 	~Enemy();
 
+	bool Initialize() override;
+
 	//描画
-	void Draw() override;
+	void Draw();
 
 	//衝突時に呼び出される関数
-	void OnCollision();
+	//void OnCollision();
 
 public:
 
@@ -34,6 +43,9 @@ public:
 
 	//弾リスト取得
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
+
+	inline bool GetAlive() const { return  alive; }
+	inline void SetAlive(bool alive) { this->alive = alive; }
 
 protected:
 	int32_t shootTimer = 0;
@@ -48,5 +60,7 @@ protected:
 	float move = 0.2f;
 	float moveY = 0.2f;
 	bool appFlag = true;
+	std::unique_ptr<EnemyObject> object;
+	int alive = true;
 };
 

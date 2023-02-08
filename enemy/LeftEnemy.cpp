@@ -1,31 +1,58 @@
 #include "LeftEnemy.h"
 #include "Player.h"
 
-LeftEnemy::LeftEnemy()
-{
+//LeftEnemy::LeftEnemy()
+//{
+//
+//	SetScale({ 1.0f, 1.0f, 1.0f });
+//
+//	// 現在の座標を取得
+//	position = GetPosition();
+//	int x = rand() % 700;
+//	float x2 = (float)x / 10 - 35;//10～-10の範囲
+//	int y = rand() % 70;
+//	float y2 = (float)y / 10;//6~0の範囲
+//	int z = rand() % 600;
+//	float z2 = (float)z / 10 - 30;//30~-30の範囲
+//	position = { -35, 35, z2 };
+//	// 座標の変更を反映
+//	SetPosition(position);
+//}
 
-	SetScale({ 1.0f, 1.0f, 1.0f });
+//LeftEnemy* LeftEnemy::Create(Model* model)
+//{
+//	//3Dオブジェクトのインスタンスを生成
+//	LeftEnemy* instance = new LeftEnemy();
+//	if (instance == nullptr) {
+//		return nullptr;
+//	}
+//
+//	//初期化
+//	if (!instance->Initialize()) {
+//		delete instance;
+//		assert(0);
+//	}
+//	//モデルのセット
+//	if (model) {
+//		instance->SetModel(model);
+//	}
+//
+//	return instance;
+//
+//	//return nullptr;
+//}
 
-	// 現在の座標を取得
-	position = GetPosition();
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10～-10の範囲
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0の範囲
-	int z = rand() % 600;
-	float z2 = (float)z / 10 - 30;//30~-30の範囲
-	position = { -35, 35, z2 };
-	// 座標の変更を反映
-	SetPosition(position);
-}
 
 LeftEnemy::~LeftEnemy()
 {
 }
 
-void LeftEnemy::Initialize()
+bool LeftEnemy::Initialize()
 {
+	///enemy = enemy->Create(Model::CreateFromOBJ("BlueBox"));
+
 	AccessPhase();
+	return true;
 }
 
 void LeftEnemy::Update()
@@ -109,6 +136,18 @@ void LeftEnemy::Shoot()
 		bullet->Update();
 	}
 }
+
+void LeftEnemy::Draw()
+{
+	//フラグ1で敵表示
+	if (alive) {
+		object->Draw();
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+			bullet->Draw();
+		}
+	}
+}
+
 
 XMVECTOR LeftEnemy::GetWorldPosition()
 {

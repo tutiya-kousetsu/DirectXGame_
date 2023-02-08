@@ -248,7 +248,7 @@
     <ClCompile Include="collision\CollisionPrimitive.cpp">
       <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="TriangleCollider.cpp">
+    <ClCompile Include="EnemyObject.cpp">
       <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -441,7 +441,7 @@
     <ClInclude Include="collision\QueryCallback.h">
       <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
-    <ClInclude Include="TriangleCollider.h">
+    <ClInclude Include="EnemyObject.h">
       <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">

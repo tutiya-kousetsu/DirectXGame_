@@ -113,30 +113,25 @@ void Player::jump()
 	Input* input = Input::GetInstance();
 	// 現在の座標を取得
 	position = Object3d::GetPosition();
-	//重力
-	//position.y -= g;
 
-	//マウスの右をクリックしたらジャンプ
+	//落下処理
 	if (!onGround) {
+		//下向きの加速度
 		const float fallAcc = -0.021f;
 		const float fallVYMin = -0.5f;
 		//加速
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
+		//移動
 		position.x += fallV.m128_f32[0];
 		position.y += fallV.m128_f32[1];
 		position.z += fallV.m128_f32[2];
 		position.y += jumpSpeed;
-		//ジャンプの速度を0.04ずつ下げていく
-		//jumpSpeed -= 0.05f;
 	}
-	//ジャンプフラグが1になったら
+	//ジャンプ操作
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
 		onGround = false;
 		const float jumpVYFist = 0.5f;
 		fallV = { 0, jumpVYFist, 0, 0 };
-		//onGround = false;
-		////ジャンプの高さ
-		//jumpSpeed = 1.0f;
 	}
 
 	// ワールド行列更新

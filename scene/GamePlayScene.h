@@ -19,6 +19,7 @@
 #include "LeftEnemy.h"
 #include "RightEnemy.h"
 #include "BackEnemy.h"
+#include "EnemyObject.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -65,13 +66,13 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
-	void FrontColl();
+	/*void FrontColl();
 
 	void LeftColl();
 
 	void RightColl();
 
-	void BackColl();
+	void BackColl();*/
 
 	void CheckAllCollision();
 private:
@@ -98,10 +99,10 @@ private:
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;
 	Enemy* enemy = nullptr;
-	FrontEnemy* frontEnemy[11]{};
-	LeftEnemy* leftEnemy[7]{};
-	RightEnemy* rightEnemy[4]{};
-	BackEnemy* backEnemy[2]{};
+	EnemyObject* frontEnemy[11]{};
+	EnemyObject* leftEnemy[7]{};
+	EnemyObject* rightEnemy[4]{};
+	EnemyObject* backEnemy[2]{};
 	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;

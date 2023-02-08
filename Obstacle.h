@@ -14,7 +14,6 @@ using namespace DirectX;
 class Obstacle : TouchableObject
 {
 public:
-
 	~Obstacle();
 
 	void Initialize(DirectX::XMFLOAT3 pos);

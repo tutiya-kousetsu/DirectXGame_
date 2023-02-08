@@ -220,7 +220,7 @@
     <ClCompile Include="scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
-    <ClCompile Include="TriangleCollider.cpp" />
+    <ClCompile Include="EnemyObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -282,7 +282,7 @@
     <ClInclude Include="scene\GamePlayScene.h" />
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="scene\TitleScene.h" />
-    <ClInclude Include="TriangleCollider.h" />
+    <ClInclude Include="EnemyObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

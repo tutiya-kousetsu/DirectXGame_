@@ -7,12 +7,20 @@ class Player;
 class LeftEnemy :public EnemyObject
 {
 public:
-	//LeftEnemy();
+	/// <summary>
+	/// オブジェクト生成
+	/// </summary>
+	/// <returns></returns>
+	static LeftEnemy* Create(Model* model = nullptr);
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <returns>成否</returns>
+	bool Initialize(Model* model);
 
 	~LeftEnemy();
-
-	//初期化
-	bool Initialize()override;
 
 	//更新
 	void Update() override;
@@ -58,7 +66,6 @@ private:
 	float move = 0.2f;
 	float moveY = 0.2f;
 	bool appFlag = true;
-	std::unique_ptr<EnemyObject> object;
 	int alive = true;
 };
 

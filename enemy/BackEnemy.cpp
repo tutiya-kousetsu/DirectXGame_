@@ -1,32 +1,60 @@
 #include "BackEnemy.h"
 #include "Player.h"
+#include "MeshCollider.h"
+#include "CollisionAttribute.h"
+#include "CollisionManager.h"
 
-//BackEnemy::BackEnemy()
-//{
-//
-//	SetScale({ 1.0f, 1.0f, 1.0f });
-//
-//	// 現在の座標を取得
-//	position = GetPosition();
-//	int x = rand() % 700;
-//	float x2 = (float)x / 10 - 35;//10～-10の範囲
-//	int y = rand() % 70;
-//	float y2 = (float)y / 10;//6~0の範囲
-//	int z = rand() % 700;
-//	//float z2 = (float)z / 10 - 35;//6~0の範囲
-//	position = { x2, 35, -35 };
-//	// 座標の変更を反映
-//	SetPosition(position);
-//}
+BackEnemy* BackEnemy::Create(Model* model)
+{
+	// オブジェクトのインスタンスを生成
+	BackEnemy* instance = new BackEnemy();
+	if (instance == nullptr) {
+		return nullptr;
+	}
+
+	// 初期化
+	if (!instance->Initialize(model)) {
+		delete instance;
+		assert(0);
+	}
+
+	return instance;
+}
 
 BackEnemy::~BackEnemy()
 {
 }
 
-bool BackEnemy::Initialize()
+bool BackEnemy::Initialize(Model* model)
 {
-	enemy = enemy->Create(Model::CreateFromOBJ("BlueBox"));
+	if (!Object3d::Initialize())
+	{
+		return false;
+	}
 
+	SetModel(model);
+
+	// コライダーの追加
+	MeshCollider* collider = new MeshCollider;
+	SetCollider(collider);
+	collider->ConstructTriangles(model);
+
+	//属性の追加(敵)
+	collider->SetAttribute(COLLISION_ATTR_ENEMYS);
+
+	SetScale({ 1.0f, 1.0f, 1.0f });
+
+	// 現在の座標を取得
+	position = GetPosition();
+	int x = rand() % 700;
+	float x2 = (float)x / 10 - 35;//10～-10の範囲
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0の範囲
+	int z = rand() % 700;
+	//float z2 = (float)z / 10 - 35;//6~0の範囲
+	position = { x2, 35, -35 };
+	// 座標の変更を反映
+	SetPosition(position);
 	AccessPhase();
 	return true;
 }
@@ -57,10 +85,10 @@ void BackEnemy::Update()
 				bMoveY = bMoveY * -1;
 			}
 		}
-		object->SetPosition(position);
+		Object3d::SetPosition(position);
 	}
 
-	object->Update();
+	Object3d::Update();
 }
 
 void BackEnemy::appearance()
@@ -124,7 +152,7 @@ void BackEnemy::Draw()
 {
 	//フラグ1で敵表示
 	if (alive) {
-		object->Draw();
+		Object3d::Draw();
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Draw();
 		}

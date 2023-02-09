@@ -125,12 +125,12 @@ void Player::jump()
 		position.x += fallV.m128_f32[0];
 		position.y += fallV.m128_f32[1];
 		position.z += fallV.m128_f32[2];
-		position.y += jumpSpeed;
+		//position.y += jumpSpeed;
 	}
 	//ƒWƒƒƒ“ƒv‘€ì
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
 		onGround = false;
-		const float jumpVYFist = 0.5f;
+		const float jumpVYFist = 0.56f;
 		fallV = { 0, jumpVYFist, 0, 0 };
 	}
 

@@ -7,12 +7,14 @@ class Player;
 class BackEnemy :public EnemyObject
 {
 public:
-	//BackEnemy();
+	static BackEnemy* Create(Model* model = nullptr);
+
+public:
 
 	~BackEnemy();
 
 	//‰Šú‰»
-	bool Initialize() override;
+	bool Initialize(Model* model);
 
 	//XV
 	void Update() override;
@@ -59,7 +61,6 @@ private:
 	int life = 2;
 	float moveY = 0.2f;
 	bool appFlag = true;
-	std::unique_ptr<EnemyObject> object;
 	int alive = true;
 };
 

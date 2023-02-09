@@ -1,17 +1,29 @@
 #pragma once
 #include "Enemy.h"
 #include "EnemyObject.h"
+#include "Object3d.h"
 class Player;
 
-class FrontEnemy : public EnemyObject
+class FrontEnemy : public Object3d
 {
 public:
-	//FrontEnemy();
+	/// <summary>
+	/// オブジェクト生成
+	/// </summary>
+	/// <returns></returns>
+	static FrontEnemy* Create(Model* model = nullptr);
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <returns>成否</returns>
+	bool Initialize(Model* model);
 
 	~FrontEnemy();
 
 	//初期化
-	bool Initialize() override;
+	//bool Initialize() override;
 
 	//更新
 	void Update() override;
@@ -35,7 +47,7 @@ public:
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
 
 	void AccessPhase();
-	//void SetPlayer(Player* player) { this->player = player; }
+	void SetPlayer(Player* player) { this->player = player; }
 	inline bool GetAlive() const { return  alive; }
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
@@ -56,7 +68,7 @@ private:
 	float move = 0.2f;
 	float moveY = 0.2f;
 	bool appFlag = true;
-	std::unique_ptr<EnemyObject> object;
+	std::unique_ptr<Object3d> object;
 	int alive = true;
 
 };

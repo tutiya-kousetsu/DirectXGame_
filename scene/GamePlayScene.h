@@ -88,7 +88,6 @@ private:
 	Input* input = nullptr;
 	PostEffect* postEffect[2] = {};
 
-	//Obstacle* obstacle = nullptr;
 	std::list<std::unique_ptr<Obstacle>> obstacles;
 	//è·äQï®î≠ê∂ÇÃÉRÉ}ÉìÉh
 	std::stringstream obstaclePopCom;
@@ -99,10 +98,10 @@ private:
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;
 	Enemy* enemy = nullptr;
-	EnemyObject* frontEnemy[11]{};
-	EnemyObject* leftEnemy[7]{};
-	EnemyObject* rightEnemy[4]{};
-	EnemyObject* backEnemy[2]{};
+	FrontEnemy* frontEnemy[11]{};
+	LeftEnemy* leftEnemy[7]{};
+	RightEnemy* rightEnemy[4]{};
+	BackEnemy* backEnemy[2]{};
 	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;

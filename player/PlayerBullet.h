@@ -5,26 +5,28 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
-class PlayerBullet : public GameObject
+class PlayerBullet : public Object3d
 {
 public:
+	PlayerBullet* Create(Model* model = nullptr);
+public:
 	//エイリアス、関数の継承など
-	using GameObject::GameObject;
+	//using GameObject::GameObject;
 
 	//コンストラクタ
-	PlayerBullet();
+	//PlayerBullet();
 
 	~PlayerBullet();
 
-	void Initialize(XMFLOAT3 pos, const XMVECTOR& vel);
+	bool Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel);
 
-	void Update() override;
+	void Update();
 
 	//描画
 	void Draw() override;
 	
-	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
-	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
+	//const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
+	//void SetPos(const DirectX::XMFLOAT3& pos) { this->position = pos; }
 
 	inline bool DisappearFlag() { return alive = false; }
 
@@ -37,10 +39,12 @@ public:
 	UINT frameNum = 0;
 	UINT power = 1;
 private:
-	XMFLOAT3 position;
-	XMFLOAT3 scale;
+	DirectX::XMFLOAT3 position;
+	DirectX::XMFLOAT3 scale;
 	XMVECTOR velocity;
 	// 速度
-	XMFLOAT3 vel;
+	DirectX::XMFLOAT3 vel;
+	//std::unique_ptr<Object3d> object;
+	bool alive = true;
 };
 

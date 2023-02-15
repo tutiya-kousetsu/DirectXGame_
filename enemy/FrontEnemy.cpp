@@ -2,7 +2,9 @@
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
+#include "SphereCollider.h"
 #include "Player.h"
+#include "ParticleManager.h"
 
 FrontEnemy::~FrontEnemy()
 {
@@ -43,7 +45,7 @@ bool FrontEnemy::Initialize(Model* model)
 	collider->SetAttribute(COLLISION_ATTR_ENEMYS);
 
 	SetScale({ 1.0f, 1.0f, 1.0f });
-
+	particleMan = ParticleManager::GetInstance();
 	// 現在の座標を取得
 	position = GetPosition();
 	int x = rand() % 700;
@@ -67,8 +69,19 @@ void FrontEnemy::Update()
 		});
 	if (alive) {
 		appearance();
-		//敵が止まったらフラグを立てて弾を撃ち始める
+
 		if (!appFlag) {
+			/*SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
+			assert(sphereCollider);
+			Ray ray;
+			ray.start = sphereCollider->center;
+			ray.start.m128_f32[1] += sphereCollider->GetRadius();
+			ray.dir = { 0,-1,0,0 };
+			RaycastHit raycastHit;
+			if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_ALLIES, &raycastHit, sphereCollider->GetRadius())) {
+				OnCollision();
+			}*/
+			//敵が止まったらフラグを立てて弾を撃ち始める
 			Shoot();
 		}
 		Object3d::SetPosition(position);
@@ -131,6 +144,31 @@ void FrontEnemy::Shoot()
 	}
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Update();
+	}
+}
+
+void FrontEnemy::OnCollision()
+{
+	for (int j = 0; j < 100; j++) {
+		DirectX::XMFLOAT3 pos = object->GetPosition();
+		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+		const float md_vel = 0.20f;
+		DirectX::XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+		DirectX::XMFLOAT3 acc{};
+		const float rnd_acc = 0.005f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		//追加
+		particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+	}
+
+	life--;
+	if (life == 0) {
+		alive = false;
+
 	}
 }
 

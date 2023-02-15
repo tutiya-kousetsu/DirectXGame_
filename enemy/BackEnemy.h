@@ -1,10 +1,10 @@
 #pragma once
-#include "Enemy.h"
-#include "EnemyObject.h"
+#include "EnemyBullet.h"
 
 class Player;
+class ParticleManager;
 
-class BackEnemy :public EnemyObject
+class BackEnemy :public Object3d
 {
 public:
 	static BackEnemy* Create(Model* model = nullptr);
@@ -39,12 +39,11 @@ public:
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
 
 	void AccessPhase();
-	//void SetPlayer(Player* player) { this->player = player; }
+	void SetPlayer(Player* player) { this->player = player; }
 	inline bool GetAlive() const { return  alive; }
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
 private:
-	Enemy* enemy = nullptr;
 	Player* player = nullptr;
 	DirectX::XMFLOAT3 position;
 	XMVECTOR velocity;
@@ -55,7 +54,7 @@ private:
 
 	int32_t shootTimer = 0;
 	ParticleManager* particleMan = nullptr;
-	Line* line = nullptr;
+	//Line* line = nullptr;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;
 	int life = 2;

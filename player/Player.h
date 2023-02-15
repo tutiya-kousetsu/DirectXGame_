@@ -52,6 +52,7 @@ public:
 
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
+	Model* bulletModel = nullptr;
 	bool bulFlag = true;
 	// É}ÉEÉX
 	POINT mousePos{};

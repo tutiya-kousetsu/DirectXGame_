@@ -19,7 +19,6 @@
 #include "LeftEnemy.h"
 #include "RightEnemy.h"
 #include "BackEnemy.h"
-#include "EnemyObject.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -97,7 +96,7 @@ private:
 	//std::unique_ptr<PlayerBullet> playerBullet;
 	Player* player = nullptr;
 	//std::unique_ptr<Player> player;
-	Enemy* enemy = nullptr;
+	//Enemy* enemy = nullptr;
 	FrontEnemy* frontEnemy[11]{};
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};

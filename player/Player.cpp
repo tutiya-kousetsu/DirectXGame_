@@ -30,6 +30,9 @@ bool Player::Initialize()
 	if (!Object3d::Initialize()) {
 		return false;
 	}
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Create(Model::CreateFromOBJ("sphere"));
+	}
 	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
 	//コライダーの追加
@@ -224,6 +227,7 @@ void Player::Shoot()
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化行くよ
+	//newBullet->Create(Model::CreateFromOBJ("sphere"));
 	newBullet->Initialize(position, velocity);
 
 	//弾を登録する
@@ -266,7 +270,6 @@ void Player::Draw()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw();
 	}
-
 }
 
 XMVECTOR Player::GetWorldPosition()

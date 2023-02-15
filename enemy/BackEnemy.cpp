@@ -3,7 +3,7 @@
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
-
+#include "ParticleManager.h"
 BackEnemy* BackEnemy::Create(Model* model)
 {
 	// オブジェクトのインスタンスを生成
@@ -43,7 +43,7 @@ bool BackEnemy::Initialize(Model* model)
 	collider->SetAttribute(COLLISION_ATTR_ENEMYS);
 
 	SetScale({ 1.0f, 1.0f, 1.0f });
-
+	particleMan = ParticleManager::GetInstance();
 	// 現在の座標を取得
 	position = GetPosition();
 	int x = rand() % 700;

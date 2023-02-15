@@ -1,8 +1,8 @@
 #pragma once
-#include "Enemy.h"
-#include "EnemyObject.h"
+#include "EnemyBullet.h"
 #include "Object3d.h"
 class Player;
+class ParticleManager;
 
 class FrontEnemy : public Object3d
 {
@@ -22,9 +22,6 @@ public:
 
 	~FrontEnemy();
 
-	//‰Šú‰»
-	//bool Initialize() override;
-
 	//XV
 	void Update() override;
 	//“oê
@@ -33,6 +30,8 @@ public:
 	void FrontShoot();
 
 	void Shoot();
+
+	void OnCollision();
 
 	//•`‰æ
 	void Draw();
@@ -52,7 +51,6 @@ public:
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
 private:
-	//Enemy* enemy = nullptr;
 	Player* player = nullptr;
 	DirectX::XMFLOAT3 position;
 	XMVECTOR velocity;
@@ -61,7 +59,6 @@ private:
 
 	int32_t shootTimer = 0;
 	ParticleManager* particleMan = nullptr;
-	Line* line = nullptr;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	bool bulFlag = true;
 	int life = 2;

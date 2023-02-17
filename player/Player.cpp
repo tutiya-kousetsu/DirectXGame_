@@ -30,9 +30,15 @@ bool Player::Initialize()
 	if (!Object3d::Initialize()) {
 		return false;
 	}
+<<<<<<< HEAD
 	//for (auto& bullet : bullets) {
 		//bullet->Create(Model::CreateFromOBJ("sphere"));
 	//}
+=======
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Create(Model::CreateFromOBJ("sphere"));
+	}
+>>>>>>> e334446c2f64c32fc7d1d6fa98b0c179ee443e0e
 	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
 	//コライダーの追加
@@ -227,6 +233,7 @@ void Player::Shoot()
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化行くよ
+	//newBullet->Create(Model::CreateFromOBJ("sphere"));
 	newBullet->Initialize(position, velocity);
 
 	//弾を登録する

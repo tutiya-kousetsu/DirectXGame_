@@ -45,7 +45,10 @@ bool FrontEnemy::Initialize(Model* model)
 	collider->SetAttribute(COLLISION_ATTR_ENEMYS);
 
 	SetScale({ 1.0f, 1.0f, 1.0f });
+<<<<<<< HEAD
 	SetRotation({ 0, 180, 0 });
+=======
+>>>>>>> e334446c2f64c32fc7d1d6fa98b0c179ee443e0e
 	particleMan = ParticleManager::GetInstance();
 	// Œ»İ‚ÌÀ•W‚ğæ“¾
 	position = GetPosition();

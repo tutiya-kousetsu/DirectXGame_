@@ -64,7 +64,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	collisionMan = CollisionManager::GetInstance();
-	player = player->Create(Model::CreateFromOBJ("PlayerRed"));
+	player = player->Create(Model::CreateFromOBJ("player"));
 
 	//床のオブジェクト生成
 	floorModel = Model::CreateFromOBJ("FloorBox");
@@ -84,7 +84,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		//前
 		/*frontEnemy[i] = new FrontEnemy();
 		frontEnemy[i]->Initialize();*/
-		frontEnemy[i] = frontEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
+		frontEnemy[i] = frontEnemy[i]->Create(Model::CreateFromOBJ("octopus"));
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		frontEnemy[i]->SetPlayer(player);
 	}
@@ -134,7 +134,7 @@ void GamePlayScene::Finalize()
 	delete skyObj;
 	delete playerBullet;
 	delete enemyBullet;
-	delete enemy;
+	//delete enemy;
 	for (int i = 0; i < 11; i++) {
 		delete frontEnemy[i];
 	}

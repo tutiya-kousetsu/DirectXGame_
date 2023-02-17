@@ -27,6 +27,5 @@ public:
 private:
 	DirectX::XMFLOAT3 position;
 	std::unique_ptr<TouchableObject> object;
-
 };
 

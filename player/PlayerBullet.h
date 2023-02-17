@@ -18,13 +18,13 @@ public:
 
 	void Initialize(XMFLOAT3 pos, const XMVECTOR& vel);
 
-	void Update() override;
+	void Update();
 
 	//•`‰æ
 	void Draw() override;
 	
-	const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
-	void SetPos(const XMFLOAT3& pos) { this->position = pos; }
+	//const DirectX::XMFLOAT3& GetPos() const { return object->GetPosition(); }
+	//void SetPos(const DirectX::XMFLOAT3& pos) { this->position = pos; }
 
 	inline bool DisappearFlag() { return alive = false; }
 
@@ -42,5 +42,6 @@ private:
 	XMVECTOR velocity;
 	// ‘¬“x
 	XMFLOAT3 vel;
+	std::unique_ptr<GameObject> object;
+	bool alive = true;
 };
-

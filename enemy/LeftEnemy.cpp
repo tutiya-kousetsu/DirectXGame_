@@ -3,6 +3,7 @@
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
+#include "ParticleManager.h"
 
 LeftEnemy* LeftEnemy::Create(Model* model)
 {
@@ -44,6 +45,8 @@ bool LeftEnemy::Initialize(Model* model)
 	collider->SetAttribute(COLLISION_ATTR_ENEMYS);	SetScale({ 1.0f, 1.0f, 1.0f });
 
 	SetScale({ 1.0f, 1.0f, 1.0f });
+
+	particleMan = ParticleManager::GetInstance();
 	// Œ»İ‚ÌÀ•W‚ğæ“¾
 	position = GetPosition();
 	int x = rand() % 700;

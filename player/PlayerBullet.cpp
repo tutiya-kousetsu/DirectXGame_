@@ -9,6 +9,22 @@ PlayerBullet::PlayerBullet() :PlayerBullet(Model::CreateFromOBJ("sphere"))
 
 }
 
+//PlayerBullet* PlayerBullet::Create(Model* model)
+//{
+//	//3Dオブジェクトのインスタンスを生成
+//	PlayerBullet* instance = new PlayerBullet();
+//	if (instance == nullptr) {
+//		return nullptr;
+//	}
+//
+//	//モデルのセット
+//	if (model) {
+//		instance->SetModel(model);
+//	}
+//
+//	return instance;
+//}
+
 PlayerBullet::~PlayerBullet()
 {
 }

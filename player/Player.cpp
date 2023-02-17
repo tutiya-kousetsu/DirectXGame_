@@ -30,6 +30,9 @@ bool Player::Initialize()
 	if (!Object3d::Initialize()) {
 		return false;
 	}
+	//for (auto& bullet : bullets) {
+		//bullet->Create(Model::CreateFromOBJ("sphere"));
+	//}
 	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
 	//コライダーの追加
@@ -266,7 +269,6 @@ void Player::Draw()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw();
 	}
-
 }
 
 XMVECTOR Player::GetWorldPosition()

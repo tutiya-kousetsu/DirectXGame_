@@ -6,75 +6,44 @@
 //{
 //	//データ読み込み
 //	object->SetScale({ 1.0f, 1.0f, 1.0f });
-//
-//}
-
-PlayerBullet* PlayerBullet::Create(Model* model)
-{
-	//3Dオブジェクトのインスタンスを生成
-	PlayerBullet* instance = new PlayerBullet();
-	if (instance == nullptr) {
-		return nullptr;
-	}
-
-	//モデルのセット
-	if (model) {
-		instance->SetModel(model);
-	}
-
-	return instance;
-}
-
-//PlayerBullet* PlayerBullet::Create(Model* model)
-//{
-//	//3Dオブジェクトのインスタンスを生成
-//	PlayerBullet* instance = new PlayerBullet();
-//	if (instance == nullptr) {
-//		return nullptr;
-//	}
-//
-//	//モデルのセット
-//	if (model) {
-//		instance->SetModel(model);
-//	}
-//
-//	return instance;
 //}
 
 PlayerBullet::~PlayerBullet()
 {
 }
 
-bool PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel)
+void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel)
 {
-	//プレイヤーの座標渡すよ
+	object.reset(new PlayerBulletObj());
+	object->Initialize(Model::CreateFromOBJ("sphere"));
+	//敵の座標渡すよ
 	position = pos;
 	velocity = vel;
-	return true;
+	//this->power = power;
 }
 
 void PlayerBullet::Update()
 {
-	if (disappearTime <= ++frameNum) {
+	if (disappearTime < ++frameNum) {
 		alive = false;
 	}
 
 	if (alive) {
-		
 		position.x += velocity.m128_f32[0];
 		position.y += velocity.m128_f32[1];
 		position.z += velocity.m128_f32[2];
+
+		//敵が動いた値をゲームオブジェクトに渡す
+		object->SetPosition(position);
+		//ゲームオブジェクト更新
+		object->Update();
 	}
-	// 座標の変更を反映
-	Object3d::SetPosition(position);
-	//ゲームオブジェクト更新
-	Object3d::Update();
 }
 
 void PlayerBullet::Draw()
 {
 	if (alive) {
-		Object3d::Draw();
+		object->Draw();
 	}
 }
 

@@ -21,6 +21,8 @@ public:
 	//コンストラクタ
 	//Player();
 
+	~Player();
+
 	bool Initialize() override;
 
 	//更新
@@ -38,11 +40,13 @@ public:
 	//攻撃
 	void Shoot();
 
+	//当たり判定
 	void OnCollision(const CollisionInfo& info) override;
 
+	//パーティク生成
 	void CreateParticle();
 	//弾リスト取得
-	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
+	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
@@ -51,12 +55,18 @@ public:
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
 private:
-	std::list<std::unique_ptr<PlayerBullet>> bullets;
-	Model* bulletModel = nullptr;
+	std::unique_ptr<PlayerBullet> bullets;
 	bool bulFlag = true;
 	// マウス
 	POINT mousePos{};
 	ParticleManager* particleMan = nullptr;
+
+	//攻撃(長押しかどうかのフラグ、タイマー、力)
+	int atPower = 1;
+	int atTimer = 0;
+	bool atFlag = false;
+	int mWaiteCount = 0;
+	bool canShot = false;
 	// ジャンプ
 	bool alive = true;
 	bool jumpFlag = false;

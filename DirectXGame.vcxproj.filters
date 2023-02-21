@@ -52,9 +52,6 @@
     <Filter Include="ソース ファイル\game\collision">
       <UniqueIdentifier>{20aea93f-537e-41f0-bd2a-fb432eb11f7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\3d\Fbx">
-      <UniqueIdentifier>{f4e148b6-cd1f-4234-bb8b-25a86a078155}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\3d\.cpp">
       <UniqueIdentifier>{5a0b3ea2-34c5-4ffe-89d7-674897a669ba}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,12 @@
     </Filter>
     <Filter Include="ソース ファイル\game\player">
       <UniqueIdentifier>{9e696917-7bec-425b-bfb0-8d855e7f3091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameObj">
+      <UniqueIdentifier>{e1352eaa-63af-43bb-9f26-fbe1908b2561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Fbx">
+      <UniqueIdentifier>{f4e148b6-cd1f-4234-bb8b-25a86a078155}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -162,13 +165,13 @@
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="3d\Fbx_Model.cpp">
-      <Filter>ソース ファイル\3d\Fbx</Filter>
+      <Filter>ソース ファイル\Fbx</Filter>
     </ClCompile>
     <ClCompile Include="3d\Fbx_Object3d.cpp">
-      <Filter>ソース ファイル\3d\Fbx</Filter>
+      <Filter>ソース ファイル\Fbx</Filter>
     </ClCompile>
     <ClCompile Include="3d\FbxLoader.cpp">
-      <Filter>ソース ファイル\3d\Fbx</Filter>
+      <Filter>ソース ファイル\Fbx</Filter>
     </ClCompile>
     <ClCompile Include="3d\Object3d.cpp">
       <Filter>ソース ファイル\3d\.cpp</Filter>
@@ -183,9 +186,6 @@
       <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="3d\Material.cpp">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\GameObject.cpp">
       <Filter>ソース ファイル\3d\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="camera\Camera.cpp">
@@ -242,9 +242,6 @@
     <ClCompile Include="collision\CollisionManager.cpp">
       <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="collision\TouchableObject.cpp">
-      <Filter>ソース ファイル\game\collision\.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="collision\CollisionPrimitive.cpp">
       <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
@@ -265,6 +262,21 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Easing.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="collision\TouchableObject.cpp">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletObj.cpp">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletObject.cpp">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\GameObject.cpp">
+      <Filter>ソース ファイル\game\gameObj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,18 +334,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="3d\Fbx_Model.h">
-      <Filter>ソース ファイル\3d\Fbx</Filter>
+      <Filter>ソース ファイル\Fbx</Filter>
     </ClInclude>
     <ClInclude Include="3d\Fbx_Object3d.h">
-      <Filter>ソース ファイル\3d\Fbx</Filter>
+      <Filter>ソース ファイル\Fbx</Filter>
     </ClInclude>
     <ClInclude Include="3d\FbxLoader.h">
-      <Filter>ソース ファイル\3d\Fbx</Filter>
+      <Filter>ソース ファイル\Fbx</Filter>
     </ClInclude>
     <ClInclude Include="PipelineSet.h">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\GameObject.h">
       <Filter>ソース ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Material.h">
@@ -359,9 +368,6 @@
     </ClInclude>
     <ClInclude Include="camera\FollowingCamera.h">
       <Filter>ソース ファイル\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\BaseCollider.h">
-      <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\Collision.h">
       <Filter>ソース ファイル\game\collision</Filter>
@@ -429,9 +435,6 @@
     <ClInclude Include="collision\MeshCollider.h">
       <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
-    <ClInclude Include="collision\TouchableObject.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
     <ClInclude Include="collision\CollisionAttribute.h">
       <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
@@ -461,6 +464,24 @@
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Easing.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\BaseCollider.h">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletObject.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBulletObj.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\TouchableObject.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\GameObject.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

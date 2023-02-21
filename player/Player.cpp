@@ -25,20 +25,15 @@ Player* Player::Create(Model* model)
 	return instance;
 }
 
+Player::~Player()
+{
+}
+
 bool Player::Initialize()
 {
 	if (!Object3d::Initialize()) {
 		return false;
 	}
-<<<<<<< HEAD
-	//for (auto& bullet : bullets) {
-		//bullet->Create(Model::CreateFromOBJ("sphere"));
-	//}
-=======
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Create(Model::CreateFromOBJ("sphere"));
-	}
->>>>>>> e334446c2f64c32fc7d1d6fa98b0c179ee443e0e
 	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
 	//コライダーの追加
@@ -51,16 +46,25 @@ bool Player::Initialize()
 
 void Player::Update()
 {
-	Input* input = Input::GetInstance();
 
 	move();
 	jump();
-	if (input->TriggerMouseLeft()) {
-		Shoot();
+	Input* input = Input::GetInstance();
+
+	if (input->PushMouseLeft()) {
+		atTimer++;
+		if (atTimer >= 120 && !atFlag) {
+			Shoot();
+			atFlag = true;
+		}
+		if (atFlag) {
+			atFlag = false;
+			atTimer = 0;
+		}
 	}
 
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Update();
+	if (bullets) {
+		bullets->Update();
 	}
 
 	//particleMan->Update();
@@ -199,9 +203,9 @@ void Player::jump()
 	if (onGround) {
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 3.0f + adsDistance)) {
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
 			// 行列の更新など
 			Object3d::Update();
 		}
@@ -213,37 +217,42 @@ void Player::jump()
 	}
 	// 落下状態
 	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 3.0f)) {
 			// 着地
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
-			
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
+
 		}
 	}
+	// ワールド行列更新
+	UpdateWorldMatrix();
+	collider->Update();
 	// 行列の更新など
 	Object3d::Update();
 }
 
 void Player::Shoot()
 {
+
+
 	const float kBulletSpeed = 1.0f;
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
 
 	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
 	//コンストラクタ呼ぶよ
-	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	//std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	PlayerBullet* newBullet = new PlayerBullet();
 	//初期化行くよ
 	//newBullet->Create(Model::CreateFromOBJ("sphere"));
 	newBullet->Initialize(position, velocity);
 
-	//弾を登録する
-	bullets.push_back(std::move(newBullet));
-
+	bullets.reset(newBullet);
 }
+
 
 void Player::OnCollision(const CollisionInfo& info)
 {
-	
+
 }
 
 void Player::CreateParticle()
@@ -273,8 +282,8 @@ void Player::Draw()
 		Object3d::Draw();
 		//particleMan->Draw();
 	}
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Draw();
+	if (bullets) {
+		bullets->Draw();
 	}
 }
 

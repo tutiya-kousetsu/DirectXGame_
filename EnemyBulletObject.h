@@ -1,31 +1,22 @@
 #pragma once
-#include "Input.h"
 #include "Object3d.h"
-#include "GameObject.h"
-#include "PlayerBulletObj.h"
 #include <DirectXMath.h>
-using namespace DirectX;
+#include <memory>
 
-class PlayerBullet : public PlayerBulletObj
+class EnemyBulletObject : public Object3d
 {
 public:
-	//エイリアス、関数の継承など
-	//using GameObject::GameObject;
+	/// <summary>
+	/// オブジェクト生成
+	/// </summary>
+	/// <returns></returns>
+	static EnemyBulletObject* Create(Model* model = nullptr);
 
-	//コンストラクタ
-	//PlayerBullet();
-
-	~PlayerBullet();
-
-	void Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel);
-
-	void Update();
-
-	//描画
-	void Draw();
-
-	//衝突時に呼び出される関数
-	void OnCollision();
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <returns>成否</returns>
+	bool Initialize(Model* model);
 
 public:
 	inline bool GetAlive() const { return  alive; }
@@ -40,15 +31,9 @@ public:
 	inline void SetRotation(const DirectX::XMFLOAT3& rotation) { object->SetRotation(rotation); }
 	inline const DirectX::XMFLOAT3& GetRotation() const { return object->GetRotation(); }
 
-	//弾が消える時間
-	UINT disappearTime = 60 * 5;
+protected:
+	bool alive = true;
+	std::unique_ptr<Object3d> object;
 
-	UINT frameNum = 0;
-	UINT power = 1;
-private:
-	DirectX::XMFLOAT3 position;
-	XMVECTOR velocity;
-	std::unique_ptr<PlayerBulletObj> object;
-	//int power = 1;
 };
 

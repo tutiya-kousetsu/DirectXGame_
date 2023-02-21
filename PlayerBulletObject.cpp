@@ -1,11 +1,11 @@
-#include "PlayerBulletObj.h"
+#include "PlayerBulletObject.h"
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 
-PlayerBulletObj* PlayerBulletObj::Create(Model* model)
+PlayerBulletObject* PlayerBulletObject::Create(Model* model)
 {
 	// オブジェクトのインスタンスを生成
-	PlayerBulletObj* instance = new PlayerBulletObj();
+	PlayerBulletObject* instance = new PlayerBulletObject();
 	if (instance == nullptr) {
 		return nullptr;
 	}
@@ -19,7 +19,7 @@ PlayerBulletObj* PlayerBulletObj::Create(Model* model)
 	return instance;
 }
 
-bool PlayerBulletObj::Initialize(Model* model)
+bool PlayerBulletObject::Initialize(Model* model)
 {
 	if (!Object3d::Initialize())
 	{

@@ -42,7 +42,7 @@ public:
 
 	static const int kShootInterval = 100;
 	//’eƒŠƒXƒgŽæ“¾
-	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
+	const std::unique_ptr<EnemyBullet>& GetBullet() { return bullets; }
 
 	void AccessPhase();
 
@@ -60,7 +60,7 @@ private:
 	int32_t shootTimer = 0;
 	ParticleManager* particleMan = nullptr;
 	//Line* line = nullptr;
-	std::list<std::unique_ptr<EnemyBullet>> bullets;
+	std::unique_ptr<EnemyBullet> bullets;
 	bool bulFlag = true;
 	int life = 2;
 	float move = 0.2f;

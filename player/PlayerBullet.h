@@ -2,11 +2,11 @@
 #include "Input.h"
 #include "Object3d.h"
 #include "GameObject.h"
-#include "PlayerBulletObj.h"
+#include "PlayerBulletObject.h"
 #include <DirectXMath.h>
 using namespace DirectX;
 
-class PlayerBullet : public PlayerBulletObj
+class PlayerBullet : public PlayerBulletObject
 {
 public:
 	//エイリアス、関数の継承など
@@ -48,7 +48,7 @@ public:
 private:
 	DirectX::XMFLOAT3 position;
 	XMVECTOR velocity;
-	std::unique_ptr<PlayerBulletObj> object;
+	std::unique_ptr<PlayerBulletObject> object;
 	//int power = 1;
 };
 

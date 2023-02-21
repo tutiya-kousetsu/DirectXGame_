@@ -215,7 +215,7 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
-    <ClCompile Include="PlayerBulletObj.cpp" />
+    <ClCompile Include="PlayerBulletObject.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -278,7 +278,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PipelineSet.h" />
-    <ClInclude Include="PlayerBulletObj.h" />
+    <ClInclude Include="PlayerBulletObject.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="player\PlayerBullet.h" />
     <ClInclude Include="PostEffect.h" />

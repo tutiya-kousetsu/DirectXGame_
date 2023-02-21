@@ -3,14 +3,14 @@
 #include <DirectXMath.h>
 #include <memory>
 
-class PlayerBulletObj : public Object3d
+class PlayerBulletObject : public Object3d
 {
 public:
 	/// <summary>
 	/// オブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static PlayerBulletObj* Create(Model* model = nullptr);
+	static PlayerBulletObject* Create(Model* model = nullptr);
 
 	/// <summary>
 	/// 初期化

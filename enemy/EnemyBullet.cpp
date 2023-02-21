@@ -2,18 +2,21 @@
 #include <cassert>
 #include "Input.h"
 
-EnemyBullet::EnemyBullet() :EnemyBullet(Model::CreateFromOBJ("sphere"))
-{
-	//データ読み込み
-	object->SetScale({ 1.0f, 1.0f, 1.0f });
-}
+//EnemyBullet::EnemyBullet() :EnemyBullet(Model::CreateFromOBJ("sphere"))
+//{
+//	//データ読み込み
+//	object->SetScale({ 1.0f, 1.0f, 1.0f });
+//}
 
 EnemyBullet::~EnemyBullet()
 {
 }
 
-void EnemyBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
+void EnemyBullet::Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel)
 {
+	object.reset(new EnemyBulletObject());
+	object->Initialize(Model::CreateFromOBJ("sphere"));
+
 	//敵の座標渡すよ
 	position = pos;
 	velocity = vel;

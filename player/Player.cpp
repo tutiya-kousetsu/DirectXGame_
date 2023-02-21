@@ -233,8 +233,6 @@ void Player::jump()
 
 void Player::Shoot()
 {
-
-
 	const float kBulletSpeed = 1.0f;
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
 

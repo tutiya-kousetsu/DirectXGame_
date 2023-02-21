@@ -14,7 +14,7 @@ PlayerBullet::~PlayerBullet()
 
 void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel)
 {
-	object.reset(new PlayerBulletObj());
+	object.reset(new PlayerBulletObject());
 	object->Initialize(Model::CreateFromOBJ("sphere"));
 	//“G‚ÌÀ•W“n‚·‚æ
 	position = pos;

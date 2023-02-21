@@ -269,7 +269,7 @@
     <ClCompile Include="collision\TouchableObject.cpp">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBulletObj.cpp">
+    <ClCompile Include="PlayerBulletObject.cpp">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBulletObject.cpp">
@@ -474,7 +474,7 @@
     <ClInclude Include="EnemyBulletObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBulletObj.h">
+    <ClInclude Include="PlayerBulletObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
     <ClInclude Include="collision\TouchableObject.h">

@@ -61,9 +61,6 @@ bool BackEnemy::Initialize(Model* model)
 
 void BackEnemy::Update()
 {
-	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
-		return !bullet->GetAlive();
-		});
 	if (alive) {
 		appearance();
 
@@ -129,11 +126,11 @@ void BackEnemy::BackShoot()
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
 	}
 	//コンストラクタ呼ぶよ
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	//初期化行くよ
+	EnemyBullet* newBullet = new EnemyBullet();
+	//初期化
 	newBullet->Initialize(position, velocity);
-	//弾を登録する
-	bullets.push_back(std::move(newBullet));
+
+	bullets.reset(newBullet);
 }
 
 void BackEnemy::Shoot()
@@ -143,8 +140,8 @@ void BackEnemy::Shoot()
 		BackShoot();
 		shootTimer = kShootInterval;
 	}
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-		bullet->Update();
+	if (bullets) {
+		bullets->Update();
 	}
 }
 
@@ -153,8 +150,8 @@ void BackEnemy::Draw()
 	//フラグ1で敵表示
 	if (alive) {
 		Object3d::Draw();
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->Draw();
+		if(bullets) {
+			bullets->Draw();
 		}
 	}
 }

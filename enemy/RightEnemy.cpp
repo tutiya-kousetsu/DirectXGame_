@@ -111,6 +111,10 @@ void RightEnemy::Shoot()
 	}
 }
 
+void RightEnemy::OnCollision()
+{
+}
+
 void RightEnemy::Draw()
 {
 	//ƒtƒ‰ƒO1‚Å“G•\Ž¦

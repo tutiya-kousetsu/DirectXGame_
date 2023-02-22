@@ -128,6 +128,10 @@ void BackEnemy::Draw()
 	}
 }
 
+void BackEnemy::OnCollision()
+{
+}
+
 
 XMVECTOR BackEnemy::GetWorldPosition()
 {

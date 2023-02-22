@@ -46,7 +46,7 @@ public:
 	//パーティク生成
 	void CreateParticle();
 	//弾リスト取得
-	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
+	const std::unique_ptr<PlayerBullet>& GetBullet() { return bullets; }
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();

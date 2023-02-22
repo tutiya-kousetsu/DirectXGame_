@@ -25,7 +25,7 @@ public:
 	void LeftShoot();
 
 	void Shoot();
-
+	void OnCollision();
 	//•`‰æ
 	void Draw();
 

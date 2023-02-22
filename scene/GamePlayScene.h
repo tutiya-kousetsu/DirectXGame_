@@ -64,13 +64,13 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
-	/*void FrontColl();
+	void FrontColl();
 
 	void LeftColl();
 
 	void RightColl();
 
-	void BackColl();*/
+	void BackColl();
 
 	void CheckAllCollision();
 private:

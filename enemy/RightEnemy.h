@@ -24,7 +24,7 @@ public:
 	void RightShoot();
 
 	void Shoot();
-
+	void OnCollision();
 	//•`‰æ
 	void Draw();
 

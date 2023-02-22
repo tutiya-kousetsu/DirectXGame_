@@ -25,7 +25,7 @@ public:
 
 	//•`‰æ
 	void Draw();
-
+	void OnCollision();
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	XMVECTOR GetWorldPosition();
 

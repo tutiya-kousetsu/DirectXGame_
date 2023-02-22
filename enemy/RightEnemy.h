@@ -1,29 +1,22 @@
 #pragma once
 #include "EnemyBullet.h"
-
+#include "EnemyObject.h"
 class Player;
 class ParticleManager;
 
-class RightEnemy :public Object3d
+class RightEnemy :public EnemyObject
 {
-public:
-	/// <summary>
-	/// オブジェクト生成
-	/// </summary>
-	/// <returns></returns>
-	static RightEnemy* Create(Model* model = nullptr);
-
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <returns>成否</returns>
-	bool Initialize(Model* model);
+	bool Initialize();
 
 	~RightEnemy();
 
 	//更新
-	void Update() override;
+	void Update();
 
 	//登場
 	void appearance();
@@ -31,7 +24,7 @@ public:
 	void RightShoot();
 
 	void Shoot();
-
+	void OnCollision();
 	//描画
 	void Draw();
 
@@ -42,7 +35,7 @@ public:
 
 	static const int kShootInterval = 100;
 	//弾リスト取得
-	const std::list<std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
+	const std::unique_ptr<EnemyBullet>& GetBullet() { return bullets; }
 
 	void AccessPhase();
 
@@ -57,15 +50,8 @@ private:
 	float resurrectionTimer = 0;
 	int aliveCount = 0;
 
-	int32_t shootTimer = 0;
 	ParticleManager* particleMan = nullptr;
-	//Line* line = nullptr;
-	std::list<std::unique_ptr<EnemyBullet>> bullets;
-	bool bulFlag = true;
-	int life = 2;
-	float move = 0.2f;
-	float moveY = 0.2f;
-	bool appFlag = true;
-	int alive = true;
+	std::unique_ptr<EnemyBullet> bullets;
+	std::unique_ptr<EnemyObject> object;
 };
 

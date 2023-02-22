@@ -5,44 +5,14 @@
 #include "CollisionManager.h"
 #include "ParticleManager.h"
 
-LeftEnemy* LeftEnemy::Create(Model* model)
-{
-	// オブジェクトのインスタンスを生成
-	LeftEnemy* instance = new LeftEnemy();
-	if (instance == nullptr) {
-		return nullptr;
-	}
-
-	// 初期化
-	if (!instance->Initialize(model)) {
-		delete instance;
-		assert(0);
-	}
-
-	return instance;
-
-}
-
 LeftEnemy::~LeftEnemy()
 {
 }
 
-bool LeftEnemy::Initialize(Model* model)
+bool LeftEnemy::Initialize()
 {
-	if (!Object3d::Initialize())
-	{
-		return false;
-	}
-
-	SetModel(model);
-
-	// コライダーの追加
-	MeshCollider* collider = new MeshCollider;
-	SetCollider(collider);
-	collider->ConstructTriangles(model);
-
-	//属性の追加(敵)
-	collider->SetAttribute(COLLISION_ATTR_ENEMYS);	SetScale({ 1.0f, 1.0f, 1.0f });
+	object.reset(new EnemyObject());
+	object->Initialize(Model::CreateFromOBJ("BlueBox"));
 
 	SetScale({ 1.0f, 1.0f, 1.0f });
 
@@ -64,9 +34,6 @@ bool LeftEnemy::Initialize(Model* model)
 
 void LeftEnemy::Update()
 {
-	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
-		return !bullet->GetAlive();
-		});
 	if (alive) {
 		appearance();
 		if (!appFlag) {
@@ -81,10 +48,10 @@ void LeftEnemy::Update()
 				move = move * -1;
 			}
 		}
-		Object3d::SetPosition(position);
+		object->SetPosition(position);
 	}
 
-	Object3d::Update();
+	object->Update();
 }
 
 void LeftEnemy::appearance()
@@ -124,12 +91,12 @@ void LeftEnemy::LeftShoot()
 		float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
 	}
-	//コンストラクタ呼ぶ
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	//コンストラクタ呼ぶよ
+	EnemyBullet* newBullet = new EnemyBullet();
 	//初期化
 	newBullet->Initialize(position, velocity);
-	//弾を登録する
-	bullets.push_back(std::move(newBullet));
+
+	bullets.reset(newBullet);
 }
 
 void LeftEnemy::Shoot()
@@ -139,18 +106,22 @@ void LeftEnemy::Shoot()
 		LeftShoot();
 		shootTimer = kShootInterval;
 	}
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-		bullet->Update();
+	if(bullets) {
+		bullets->Update();
 	}
+}
+
+void LeftEnemy::OnCollision()
+{
 }
 
 void LeftEnemy::Draw()
 {
 	//フラグ1で敵表示
 	if (alive) {
-		Object3d::Draw();
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->Draw();
+		object->Draw();
+		if (bullets) {
+			bullets->Draw();
 		}
 	}
 }

@@ -4,6 +4,7 @@
 #include "SphereCollider.h"
 #include "CollisionManager.h"
 #include "CollisionAttribute.h"
+#include "Collision.h"
 Player* Player::Create(Model* model)
 {
 	//3Dオブジェクトのインスタンスを生成
@@ -66,10 +67,8 @@ void Player::Update()
 	if (bullets) {
 		bullets->Update();
 	}
-
 	//particleMan->Update();
 	Object3d::Update();
-
 }
 
 void Player::move(float speed)
@@ -233,8 +232,6 @@ void Player::jump()
 
 void Player::Shoot()
 {
-
-
 	const float kBulletSpeed = 1.0f;
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
 

@@ -187,7 +187,6 @@
     <ClCompile Include="base\Framework.cpp" />
     <ClCompile Include="base\MyGame.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="EnemyBulletObject.cpp" />
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="camera\FollowingCamera.cpp" />
@@ -198,8 +197,9 @@
     <ClCompile Include="collision\SphereCollider.cpp" />
     <ClCompile Include="collision\TouchableObject.cpp" />
     <ClCompile Include="Easing.cpp" />
+    <ClCompile Include="EnemyBulletObject.cpp" />
+    <ClCompile Include="EnemyObject.cpp" />
     <ClCompile Include="enemy\BackEnemy.cpp" />
-    <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="enemy\FrontEnemy.cpp" />
     <ClCompile Include="enemy\LeftEnemy.cpp" />
@@ -215,7 +215,7 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
-    <ClCompile Include="PlayerBulletObj.cpp" />
+    <ClCompile Include="PlayerBulletObject.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -242,7 +242,6 @@
     <ClInclude Include="base\Framework.h" />
     <ClInclude Include="base\MyGame.h" />
     <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="EnemyBulletObject.h" />
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
     <ClInclude Include="camera\FollowingCamera.h" />
@@ -259,8 +258,9 @@
     <ClInclude Include="collision\SphereCollider.h" />
     <ClInclude Include="collision\TouchableObject.h" />
     <ClInclude Include="Easing.h" />
+    <ClInclude Include="EnemyBulletObject.h" />
+    <ClInclude Include="EnemyObject.h" />
     <ClInclude Include="enemy\BackEnemy.h" />
-    <ClInclude Include="enemy\Enemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="enemy\FrontEnemy.h" />
     <ClInclude Include="enemy\LeftEnemy.h" />
@@ -278,7 +278,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PipelineSet.h" />
-    <ClInclude Include="PlayerBulletObj.h" />
+    <ClInclude Include="PlayerBulletObject.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="player\PlayerBullet.h" />
     <ClInclude Include="PostEffect.h" />

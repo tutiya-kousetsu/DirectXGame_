@@ -1,11 +1,11 @@
-#include "EnemyBulletObject.h"
+#include "PlayerBulletObject.h"
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 
-EnemyBulletObject* EnemyBulletObject::Create(Model* model)
+PlayerBulletObject* PlayerBulletObject::Create(Model* model)
 {
 	// オブジェクトのインスタンスを生成
-	EnemyBulletObject* instance = new EnemyBulletObject();
+	PlayerBulletObject* instance = new PlayerBulletObject();
 	if (instance == nullptr) {
 		return nullptr;
 	}
@@ -19,7 +19,7 @@ EnemyBulletObject* EnemyBulletObject::Create(Model* model)
 	return instance;
 }
 
-bool EnemyBulletObject::Initialize(Model* model)
+bool PlayerBulletObject::Initialize(Model* model)
 {
 	if (!Object3d::Initialize())
 	{
@@ -33,6 +33,6 @@ bool EnemyBulletObject::Initialize(Model* model)
 	SetCollider(collider);
 	collider->ConstructTriangles(model);
 
-	collider->SetAttribute(COLLISION_ATTR_ENEMYS);
+	collider->SetAttribute(COLLISION_ATTR_ALLIES);
 	return true;
 }

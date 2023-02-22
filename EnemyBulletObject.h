@@ -14,9 +14,6 @@ public:
 	/// </summary>
 	/// <returns>ê¨î€</returns>
 	bool Initialize(Model* model);
-public:
-	inline bool GetAlive() const { return  alive; }
-	inline void SetAlive(bool alive) { this->alive = alive; }
 
 protected:
 	bool alive = true;

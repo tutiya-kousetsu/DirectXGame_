@@ -263,7 +263,7 @@ void GamePlayScene::Update()
 	UpdataObstaclePopCommand();
 
 	collisionMan->CheckAllCollisions();
-	//CheckAllCollision();
+	CheckAllCollision();
 
 	particleMan->Update();
 }

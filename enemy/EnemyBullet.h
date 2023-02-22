@@ -21,6 +21,9 @@ public:
 
 	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
 	void OnCollision();
+public:
+	inline bool GetAlive() const { return  alive; }
+	inline void SetAlive(bool alive) { this->alive = alive; }
 
 	//’e‚ªÁ‚¦‚éŠÔ
 	UINT disappearTime = 60 * 5;

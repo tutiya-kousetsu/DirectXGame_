@@ -12,7 +12,6 @@
 #include "GameClear.h"
 #include "FollowingCamera.h"
 #include "Input.h"
-#include "Enemy.h"
 #include "Obstacle.h"
 #include "Floor/Floor.h"
 #include "FrontEnemy.h"

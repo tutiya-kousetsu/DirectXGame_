@@ -27,19 +27,6 @@ public:
 	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
 	void OnCollision();
 
-public:
-	inline bool GetAlive() const { return  alive; }
-	inline void SetAlive(bool alive) { this->alive = alive; }
-
-	inline void SetPosition(const DirectX::XMFLOAT3& position) { object->SetPosition(position); }
-	inline const DirectX::XMFLOAT3& GetPosition() const { return object->GetPosition(); }
-
-	inline void SetScale(const DirectX::XMFLOAT3& scale) { object->SetScale(scale); }
-	inline const DirectX::XMFLOAT3& GetScale() const { return object->GetScale(); }
-
-	inline void SetRotation(const DirectX::XMFLOAT3& rotation) { object->SetRotation(rotation); }
-	inline const DirectX::XMFLOAT3& GetRotation() const { return object->GetRotation(); }
-
 	//’e‚ªÁ‚¦‚éŠÔ
 	UINT disappearTime = 60 * 5;
 

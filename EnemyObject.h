@@ -1,16 +1,14 @@
 #pragma once
 #include "Object3d.h"
-#include <DirectXMath.h>
-#include <memory>
 
-class PlayerBulletObject : public Object3d
+class EnemyObject : public Object3d
 {
 public:
 	/// <summary>
 	/// オブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static PlayerBulletObject* Create(Model* model = nullptr);
+	static EnemyObject* Create(Model* model = nullptr);
 
 	/// <summary>
 	/// 初期化
@@ -25,5 +23,13 @@ public:
 protected:
 	bool alive = true;
 	std::unique_ptr<Object3d> object;
+	int32_t shootTimer = 0;
+	int enemyTimer = 0;
+	int enemyPopFlag = 0;
+	bool bulFlag = true;
+	int life = 2;
+	float move = 0.2f;
+	float moveY = 0.2f;
+	bool appFlag = true;
 };
 

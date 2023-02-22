@@ -5,44 +5,14 @@
 #include "CollisionManager.h"
 #include "ParticleManager.h"
 
-RightEnemy* RightEnemy::Create(Model* model)
-{
-	// オブジェクトのインスタンスを生成
-	RightEnemy* instance = new RightEnemy();
-	if (instance == nullptr) {
-		return nullptr;
-	}
-
-	// 初期化
-	if (!instance->Initialize(model)) {
-		delete instance;
-		assert(0);
-	}
-
-	return instance;
-
-}
-
 RightEnemy::~RightEnemy()
 {
 }
 
-bool RightEnemy::Initialize(Model* model)
+bool RightEnemy::Initialize()
 {
-	if (!Object3d::Initialize())
-	{
-		return false;
-	}
-
-	SetModel(model);
-
-	// コライダーの追加
-	MeshCollider* collider = new MeshCollider;
-	SetCollider(collider);
-	collider->ConstructTriangles(model);
-
-	//属性の追加(敵)
-	collider->SetAttribute(COLLISION_ATTR_ENEMYS);	SetScale({ 1.0f, 1.0f, 1.0f });
+	object.reset(new EnemyObject());
+	object->Initialize(Model::CreateFromOBJ("BlueBox"));
 
 	SetScale({ 1.0f, 1.0f, 1.0f });
 
@@ -78,10 +48,10 @@ void RightEnemy::Update()
 				move = move * -1;
 			}
 		}
-		Object3d::SetPosition(position);
+		object->SetPosition(position);
 	}
 
-	Object3d::Update();
+	object->Update();
 }
 
 void RightEnemy::appearance()
@@ -145,7 +115,7 @@ void RightEnemy::Draw()
 {
 	//フラグ1で敵表示
 	if (alive) {
-		Object3d::Draw();
+		object->Draw();
 		if(bullets) {
 			bullets->Draw();
 		}

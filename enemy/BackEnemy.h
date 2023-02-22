@@ -1,20 +1,17 @@
 #pragma once
 #include "EnemyBullet.h"
-
+#include "EnemyObject.h"
 class Player;
 class ParticleManager;
 
-class BackEnemy :public Object3d
+class BackEnemy :public EnemyObject
 {
-public:
-	static BackEnemy* Create(Model* model = nullptr);
-
 public:
 
 	~BackEnemy();
 
 	//èâä˙âª
-	bool Initialize(Model* model);
+	bool Initialize();
 
 	//çXêV
 	void Update() override;
@@ -47,19 +44,12 @@ private:
 	Player* player = nullptr;
 	DirectX::XMFLOAT3 position;
 	XMVECTOR velocity;
-	float move = 0.2f;
-	float bMoveY = 0.2f;
 	float resurrectionTimer = 0;
 	int aliveCount = 0;
+	float bMoveY = 0.2f;
 
-	int32_t shootTimer = 0;
 	ParticleManager* particleMan = nullptr;
-	//Line* line = nullptr;
 	std::unique_ptr<EnemyBullet> bullets;
-	bool bulFlag = true;
-	int life = 2;
-	float moveY = 0.2f;
-	bool appFlag = true;
-	int alive = true;
+	std::unique_ptr<EnemyObject> object;
 };
 

@@ -2,12 +2,6 @@
 #include <cassert>
 #include "Input.h"
 
-//EnemyBullet::EnemyBullet() :EnemyBullet(Model::CreateFromOBJ("sphere"))
-//{
-//	//ƒf[ƒ^“Ç‚Ýž‚Ý
-//	object->SetScale({ 1.0f, 1.0f, 1.0f });
-//}
-
 EnemyBullet::~EnemyBullet()
 {
 }

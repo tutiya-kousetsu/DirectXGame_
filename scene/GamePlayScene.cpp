@@ -59,8 +59,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//—”‚Ì‰Šú‰»
 	srand((unsigned)time(NULL));
 
-	//player = new Player();
-	//floor = new Floor();
 	playerBullet = new PlayerBullet();
 	enemyBullet = new EnemyBullet();
 	collisionMan = CollisionManager::GetInstance();
@@ -78,37 +76,31 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//line = new Line();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
-	//enemy = new Enemy();
-	//enemy = enemy->Create(Model::CreateFromOBJ("BlueBox"));
 	for (int i = 0; i < 11; i++) {
 		//‘O
-		/*frontEnemy[i] = new FrontEnemy();
-		frontEnemy[i]->Initialize();*/
-		frontEnemy[i] = frontEnemy[i]->Create(Model::CreateFromOBJ("octopus"));
+		frontEnemy[i] = new FrontEnemy();
+		frontEnemy[i]->Initialize();
 		//“G‚ÉŽ©‹@‚ÌƒAƒhƒŒƒX‚ð“n‚µ‚Ä“G‚ªŽ©‹@‚ðŽg‚¦‚é‚æ‚¤‚É‚·‚é
 		frontEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 7; i++) {
 		//¶
-		/*leftEnemy[i] = new LeftEnemy();
-		leftEnemy[i]->Initialize();*/
-		leftEnemy[i] = leftEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
+		leftEnemy[i] = new LeftEnemy();
+		leftEnemy[i]->Initialize();
 		//“G‚ÉŽ©‹@‚ÌƒAƒhƒŒƒX‚ð“n‚µ‚Ä“G‚ªŽ©‹@‚ðŽg‚¦‚é‚æ‚¤‚É‚·‚é
 		leftEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 4; i++) {
 		//‰E
-		/*rightEnemy[i] = new RightEnemy();
-		rightEnemy[i]->Initialize();*/
-		rightEnemy[i] = rightEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
+		rightEnemy[i] = new RightEnemy();
+		rightEnemy[i]->Initialize();
 		//“G‚ÉŽ©‹@‚ÌƒAƒhƒŒƒX‚ð“n‚µ‚Ä“G‚ªŽ©‹@‚ðŽg‚¦‚é‚æ‚¤‚É‚·‚é
 		rightEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 2; i++) {
 		//Œã‚ë
-		/*backEnemy[i] = new BackEnemy();
-		backEnemy[i]->Initialize();*/
-		backEnemy[i] = backEnemy[i]->Create(Model::CreateFromOBJ("BlueBox"));
+		backEnemy[i] = new BackEnemy();
+		backEnemy[i]->Initialize();
 		//“G‚ÉŽ©‹@‚ÌƒAƒhƒŒƒX‚ð“n‚µ‚Ä“G‚ªŽ©‹@‚ðŽg‚¦‚é‚æ‚¤‚É‚·‚é
 		backEnemy[i]->SetPlayer(player);
 	}
@@ -157,7 +149,6 @@ void GamePlayScene::Update()
 	ShowCursor(FALSE);
 	// À•W‚Ì•ÏX‚ð”½‰f
 	SetCursorPos(960, 540);
-
 
 	camera->SetFollowingTarget(player);
 

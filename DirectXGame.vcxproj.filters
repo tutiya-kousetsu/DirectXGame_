@@ -79,6 +79,9 @@
     <Filter Include="ソース ファイル\Fbx">
       <UniqueIdentifier>{f4e148b6-cd1f-4234-bb8b-25a86a078155}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameObj\cpp">
+      <UniqueIdentifier>{0fb56a47-8d79-4954-8df9-bbe21388ab6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
@@ -206,9 +209,6 @@
     <ClCompile Include="enemy\BackEnemy.cpp">
       <Filter>ソース ファイル\game\enemy\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="enemy\Enemy.cpp">
-      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\game\enemy\.cpp</Filter>
     </ClCompile>
@@ -266,17 +266,20 @@
     <ClCompile Include="Easing.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="collision\TouchableObject.cpp">
-      <Filter>ソース ファイル\game\gameObj</Filter>
+    <ClCompile Include="3d\GameObject.cpp">
+      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBulletObject.cpp">
-      <Filter>ソース ファイル\game\gameObj</Filter>
+      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="collision\TouchableObject.cpp">
+      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyObject.cpp">
+      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBulletObject.cpp">
-      <Filter>ソース ファイル\game\gameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\GameObject.cpp">
-      <Filter>ソース ファイル\game\gameObj</Filter>
+      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -387,9 +390,6 @@
     <ClInclude Include="enemy\BackEnemy.h">
       <Filter>ソース ファイル\game\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="enemy\Enemy.h">
-      <Filter>ソース ファイル\game\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="enemy\EnemyBullet.h">
       <Filter>ソース ファイル\game\enemy</Filter>
     </ClInclude>
@@ -471,9 +471,6 @@
     <ClInclude Include="collision\BaseCollider.h">
       <Filter>ソース ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBulletObject.h">
-      <Filter>ソース ファイル\game\gameObj</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBulletObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
@@ -481,6 +478,12 @@
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
     <ClInclude Include="3d\GameObject.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyObject.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
   </ItemGroup>

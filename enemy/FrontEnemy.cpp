@@ -10,42 +10,13 @@ FrontEnemy::~FrontEnemy()
 {
 }
 
-FrontEnemy* FrontEnemy::Create(Model* model)
+bool FrontEnemy::Initialize()
 {
-	// オブジェクトのインスタンスを生成
-	FrontEnemy* instance = new FrontEnemy();
-	if (instance == nullptr) {
-		return nullptr;
-	}
-
-	// 初期化
-	if (!instance->Initialize(model)) {
-		delete instance;
-		assert(0);
-	}
-
-	return instance;
-}
-
-bool FrontEnemy::Initialize(Model* model)
-{
-	if (!Object3d::Initialize())
-	{
-		return false;
-	}
-
-	SetModel(model);
-
-	// コライダーの追加
-	MeshCollider* collider = new MeshCollider;
-	SetCollider(collider);
-	collider->ConstructTriangles(model);
-
-	//属性の追加(敵)
-	collider->SetAttribute(COLLISION_ATTR_ENEMYS);
+	object.reset(new EnemyObject());
+	object->Initialize(Model::CreateFromOBJ("BlueBox"));
 
 	SetScale({ 1.0f, 1.0f, 1.0f });
-	SetRotation({ 0, 180, 0 });
+	object->SetRotation({ 0, 180, 0 });
 	particleMan = ParticleManager::GetInstance();
 	// 現在の座標を取得
 	position = GetPosition();
@@ -82,10 +53,10 @@ void FrontEnemy::Update()
 			//敵が止まったらフラグを立てて弾を撃ち始める
 			Shoot();
 		}
-		Object3d::SetPosition(position);
+		object->SetPosition(position);
 	}
 
-	Object3d::Update();
+	object->Update();
 }
 
 void FrontEnemy::appearance()
@@ -175,7 +146,7 @@ void FrontEnemy::Draw()
 {
 	//フラグ1で敵表示
 	if (alive) {
-		Object3d::Draw();
+		object->Draw();
 		if (bullets) {
 			bullets->Draw();
 		}

@@ -1,4 +1,4 @@
-#include "GamePlayScene.h"
+ï»¿#include "GamePlayScene.h"
 #include "SceneManager.h"
 #include "Audio.h"
 #include "DebugText.h"
@@ -17,7 +17,7 @@
 #include <cassert>
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
-	//ƒXƒvƒ‰ƒCƒg‚Ì¶¬
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®ç”Ÿæˆ
 	Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
 	sprite = Sprite::Create(2, { 0,0 });
 	sprite->SetPosition({ 0,0 });
@@ -28,35 +28,35 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	Sprite::LoadTexture(5, L"Resources/Life.png");
 	LifeSprite3 = Sprite::Create(5, { 52,0 });
 
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚Ì‰Šú‰»
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
 	for (int i = 0; i <= 1; i++) {
 		postEffect[i] = new PostEffect();
 	}
-	//ƒVƒF[ƒ_[‚Ì‘}“ü
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®æŒ¿å…¥
 	postEffect[0]->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
 
 	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
 
 
-	//‰¹º“Ç‚İ‚İ
+	//éŸ³å£°èª­ã¿è¾¼ã¿
 	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
 
-	//‰¹ºÄ¶
+	//éŸ³å£°å†ç”Ÿ
 	//audio->SoundPlayWave("Alarm01.wav", true);
 
-	//ƒJƒƒ‰‚Ì‰Šú‰»
+	//ã‚«ãƒ¡ãƒ©ã®åˆæœŸåŒ–
 	camera.reset(new FollowingCamera());
-	//ƒJƒƒ‰‚ğ3DƒIƒuƒWƒFƒbƒg‚ÉƒZƒbƒg
+	//ã‚«ãƒ¡ãƒ©ã‚’3Dã‚ªãƒ–ã‚¸ã‚§ãƒƒãƒˆã«ã‚»ãƒƒãƒˆ
 	Object3d::SetCamera(camera.get());
 
-	//ƒfƒoƒCƒX‚ğƒZƒbƒg
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
-	//ƒJƒƒ‰‚ğƒZƒbƒg
+	//ã‚«ãƒ¡ãƒ©ã‚’ã‚»ãƒƒãƒˆ
 	Fbx_Object3d::SetCamera(camera.get());
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“¶¬
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆ
 	Fbx_Object3d::CreateGraphicsPipeline();
 
-	//—”‚Ì‰Šú‰»
+	//ä¹±æ•°ã®åˆæœŸåŒ–
 	srand((unsigned)time(NULL));
 
 	playerBullet = new PlayerBullet();
@@ -64,47 +64,45 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	collisionMan = CollisionManager::GetInstance();
 	player = player->Create(Model::CreateFromOBJ("player"));
 
-	//°‚ÌƒIƒuƒWƒFƒNƒg¶¬
+	//åºŠã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	floorModel = Model::CreateFromOBJ("FloorBox");
 	floor = TouchableObject::Create(floorModel);
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
-
-	//obModel = Model::CreateFromOBJ("obstacle");
 
 	particleMan = ParticleManager::GetInstance();
 	//line = new Line();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
 	for (int i = 0; i < 11; i++) {
-		//‘O
+		//å‰
 		frontEnemy[i] = new FrontEnemy();
 		frontEnemy[i]->Initialize();
-		//“G‚É©‹@‚ÌƒAƒhƒŒƒX‚ğ“n‚µ‚Ä“G‚ª©‹@‚ğg‚¦‚é‚æ‚¤‚É‚·‚é
+		//æ•µã«è‡ªæ©Ÿã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ¸¡ã—ã¦æ•µãŒè‡ªæ©Ÿã‚’ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹
 		frontEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 7; i++) {
-		//¶
+		//å·¦
 		leftEnemy[i] = new LeftEnemy();
 		leftEnemy[i]->Initialize();
-		//“G‚É©‹@‚ÌƒAƒhƒŒƒX‚ğ“n‚µ‚Ä“G‚ª©‹@‚ğg‚¦‚é‚æ‚¤‚É‚·‚é
+		//æ•µã«è‡ªæ©Ÿã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ¸¡ã—ã¦æ•µãŒè‡ªæ©Ÿã‚’ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹
 		leftEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 4; i++) {
-		//‰E
+		//å³
 		rightEnemy[i] = new RightEnemy();
 		rightEnemy[i]->Initialize();
-		//“G‚É©‹@‚ÌƒAƒhƒŒƒX‚ğ“n‚µ‚Ä“G‚ª©‹@‚ğg‚¦‚é‚æ‚¤‚É‚·‚é
+		//æ•µã«è‡ªæ©Ÿã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ¸¡ã—ã¦æ•µãŒè‡ªæ©Ÿã‚’ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹
 		rightEnemy[i]->SetPlayer(player);
 	}
 	for (int i = 0; i < 2; i++) {
-		//Œã‚ë
+		//å¾Œã‚
 		backEnemy[i] = new BackEnemy();
 		backEnemy[i]->Initialize();
-		//“G‚É©‹@‚ÌƒAƒhƒŒƒX‚ğ“n‚µ‚Ä“G‚ª©‹@‚ğg‚¦‚é‚æ‚¤‚É‚·‚é
+		//æ•µã«è‡ªæ©Ÿã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ¸¡ã—ã¦æ•µãŒè‡ªæ©Ÿã‚’ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹
 		backEnemy[i]->SetPlayer(player);
 	}
-	//ƒf[ƒ^“Ç‚İ‚İ
+	//ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	skyModel = Model::CreateFromOBJ("skydome");
 	skyObj = Object3d::Create();
 	skyObj->SetModel(skyModel);
@@ -113,19 +111,17 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 void GamePlayScene::Finalize()
 {
-	//ƒXƒvƒ‰ƒCƒgŒÂ•Ê‰ğ•ú
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆå€‹åˆ¥è§£æ”¾
 	delete sprite;
 	delete LifeSprite;
 	delete LifeSprite2;
 	delete LifeSprite3;
 
-	//3DƒIƒuƒWƒFƒNƒg‰ğ•ú
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè§£æ”¾
 	delete skyModel;
 	delete floor;
 	delete player;
 	delete skyObj;
-	delete playerBullet;
-	delete enemyBullet;
 	//delete enemy;
 	for (int i = 0; i < 11; i++) {
 		delete frontEnemy[i];
@@ -145,79 +141,79 @@ void GamePlayScene::Update()
 {
 	Input* input = Input::GetInstance();
 
-	// ƒ}ƒEƒX‚ğ•\¦‚·‚é‚©‚Ç‚¤‚©(TRUE‚Å•\¦AFALSE‚Å”ñ•\¦)
+	// ãƒã‚¦ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹ã‹ã©ã†ã‹(TRUEã§è¡¨ç¤ºã€FALSEã§éè¡¨ç¤º)
 	ShowCursor(FALSE);
-	// À•W‚Ì•ÏX‚ğ”½‰f
+	// åº§æ¨™ã®å¤‰æ›´ã‚’åæ˜ 
 	SetCursorPos(960, 540);
 
 	camera->SetFollowingTarget(player);
 
-	// ƒ}ƒEƒX‚Ì“ü—Í‚ğæ“¾
+	// ãƒã‚¦ã‚¹ã®å…¥åŠ›ã‚’å–å¾—
 	Input::MouseMove mouseMove = input->GetMouseMove();
 	float dy = mouseMove.lX * scaleY;
 	angleY = -dy * XM_PI;
 
 	{
-		// ’Ç‰Á‰ñ“]•ª‚Ì‰ñ“]s—ñ‚ğ¶¬
+		// è¿½åŠ å›è»¢åˆ†ã®å›è»¢è¡Œåˆ—ã‚’ç”Ÿæˆ
 		XMMATRIX matRotNew = XMMatrixIdentity();
 		matRotNew *= XMMatrixRotationY(-angleY);
-		// —İÏ‚Ì‰ñ“]s—ñ‚ğ‡¬
+		// ç´¯ç©ã®å›è»¢è¡Œåˆ—ã‚’åˆæˆ
 		matRot = matRotNew * matRot;
 
-		// ’‹“_‚©‚ç‹“_‚Ö‚ÌƒxƒNƒgƒ‹‚ÆAã•ûŒüƒxƒNƒgƒ‹
+		// æ³¨è¦–ç‚¹ã‹ã‚‰è¦–ç‚¹ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨ã€ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
 		XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
 
-		// ƒxƒNƒgƒ‹‚ğ‰ñ“]
+		// ãƒ™ã‚¯ãƒˆãƒ«ã‚’å›è»¢
 		vTargetEye = XMVector3Transform(vTargetEye, matRot);
 		vUp = XMVector3Transform(vUp, matRot);
 
-		// ’·‚³
+		// é•·ã•
 		float length = 0.0f;
 
 		XMFLOAT3 target1 = camera->GetTarget();
 		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
 		camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
 
-		// ’‹“_‚©‚ç‚¸‚ç‚µ‚½ˆÊ’u‚É‹“_À•W‚ğŒˆ’è
+		// æ³¨è¦–ç‚¹ã‹ã‚‰ãšã‚‰ã—ãŸä½ç½®ã«è¦–ç‚¹åº§æ¨™ã‚’æ±ºå®š
 		XMFLOAT3 target2 = camera->GetTarget();
 		XMFLOAT3 eye = camera->GetEye();
 
 		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
 		XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
-		// FLOAT3‚É•ÏŠ·//
+		// FLOAT3ã«å¤‰æ›//
 		XMStoreFloat3(&fTargetEye, vecF);
 		XMVECTOR vecTarget = XMLoadFloat3(&target2);
-		// FLOAT3‚É•ÏŠ·
+		// FLOAT3ã«å¤‰æ›
 		XMStoreFloat3(&target2, vecTarget);
 		XMVECTOR vecEye = XMLoadFloat3(&eye);
-		// FLOAT3‚É•ÏŠ·
+		// FLOAT3ã«å¤‰æ›
 		XMStoreFloat3(&eye, vecEye);
-		//³‹K‰»
+		//æ­£è¦åŒ–
 		fTargetEye.x = eye.x - target2.x;
 		fTargetEye.y = eye.y - target2.y;
 		fTargetEye.z = eye.z - target2.z;
 
-		//ƒvƒŒƒCƒ„[‚Ì‰ñ“]
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å›è»¢
 		XMFLOAT3 playerRot = player->GetRotation();
 		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
 		playerRot.y *= 180 / XM_PI;
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
-	//XÀ•W,YÀ•W‚ğw’è‚µ‚Ä•\¦
+	//Xåº§æ¨™,Yåº§æ¨™ã‚’æŒ‡å®šã—ã¦è¡¨ç¤º
 	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
-	//XÀ•W,YÀ•W,kÚ‚ğw’è‚µ‚Ä•\î
+	//Xåº§æ¨™,Yåº§æ¨™,ç¸®å°ºã‚’æŒ‡å®šã—ã¦è¡¨æƒ…
 	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
 	player->Update();
 
 	//fbxObj->Update();
 
-	//XV
+	//æ›´æ–°
 	camera->Update();
 	floor->Update();
 
-	//“G‚Ì”­¶‚·‚é‡”Ô
+	//æ•µã®ç™ºç”Ÿã™ã‚‹é †ç•ª
 	if (fEneFlag >= 0) {
 		frontEnemy[0]->Update();
 	}
@@ -270,27 +266,27 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
-	//•`‰æ‘Oˆ—
+	//æç”»å‰å‡¦ç†
 	dxCommon->PreDraw();
-	//ƒXƒvƒ‰ƒCƒg•`‰æ
-#pragma region ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ
-	// ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
+#pragma region èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
+	// èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(dxCommon->GetCmdList());
-	//”wŒiƒXƒvƒ‰ƒCƒg•`‰æ
+	//èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
 
 	/// <summary>
-	/// ‚±‚±‚É”wŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 	Sprite::PostDraw();
-	// [“xƒoƒbƒtƒ@ƒNƒŠƒA
+	// æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
 	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
 
 #pragma endregion
 
-	//3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	Object3d::PreDraw();
 	player->Draw();
 	for (int i = 0; i < 11; i++) {
@@ -315,82 +311,82 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	particleMan->Draw();
 	Object3d::PostDraw();
 
-#pragma region ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ
-	// ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+#pragma region å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
+	// å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(dxCommon->GetCmdList());
 
 	/// <summary>
-	/// ‚±‚±‚É‘OŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 	sprite->Draw();
 	if (playerLife >= 3) { LifeSprite3->Draw(); }
 	if (playerLife >= 2) { LifeSprite2->Draw(); }
 	if (playerLife >= 1) { LifeSprite->Draw(); }
 	//spriteBG->Draw();
-	// ƒfƒoƒbƒOƒeƒLƒXƒg‚Ì•`‰æ
+	// ãƒ‡ãƒãƒƒã‚°ãƒ†ã‚­ã‚¹ãƒˆã®æç”»
 	//debugText->DrawAll(cmdList);
 
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 
 	Sprite::PostDraw();
 
-	//•`‰æŒãˆ—
+	//æç”»å¾Œå‡¦ç†
 	dxCommon->PostDraw();
 
 }
 
 void GamePlayScene::LoadObstaclePopData()
 {
-	//ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	std::ifstream file;
 	file.open("Resources/ObstaclePop.csv");
 	assert(file.is_open());
 
-	//ƒtƒ@ƒCƒ‹“à—e‚ğ•¶š—ñƒXƒgƒŠ[ƒ€‚ÉƒRƒs[
+	//ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ã‚’æ–‡å­—åˆ—ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«ã‚³ãƒ”ãƒ¼
 	obstaclePopCom << file.rdbuf();
 
-	//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	file.close();
 }
 
 void GamePlayScene::UpdataObstaclePopCommand()
 {
-	//1s•ª‚Ì•¶š—ñ‚ğ“ü‚ê‚é•Ï”
+	//1è¡Œåˆ†ã®æ–‡å­—åˆ—ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
 	std::string line;
-	//ƒRƒ}ƒ“ƒhÀsƒ‹[ƒv
+	//ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œãƒ«ãƒ¼ãƒ—
 	while (getline(obstaclePopCom, line)) {
-		//1s•ª‚Ì•¶š—ñ‚ğƒXƒgƒŠ[ƒ€‚É•ÏŠ·‚µ‚Ä‰ğÍ‚µ‚â‚·‚­‚·‚é
+		//1è¡Œåˆ†ã®æ–‡å­—åˆ—ã‚’ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å¤‰æ›ã—ã¦è§£æã—ã‚„ã™ãã™ã‚‹
 		std::istringstream line_stream(line);
 
 		std::string word;
-		//,‹æØ‚è‚Ås‚Ìæ“ª•¶š—ñ‚ğæ“¾
+		//,åŒºåˆ‡ã‚Šã§è¡Œã®å…ˆé ­æ–‡å­—åˆ—ã‚’å–å¾—
 		getline(line_stream, word, ',');
 
-		//"//"‚©‚çn‚Ü‚és‚ÍƒRƒƒ“ƒg
+		//"//"ã‹ã‚‰å§‹ã¾ã‚‹è¡Œã¯ã‚³ãƒ¡ãƒ³ãƒˆ
 		if (word.find("//") == 0) {
-			//ƒRƒƒ“ƒgs‚Í”ò‚Î‚·
+			//ã‚³ãƒ¡ãƒ³ãƒˆè¡Œã¯é£›ã°ã™
 			continue;
 		}
 
-		//POPƒRƒ}ƒ“ƒh
+		//POPã‚³ãƒãƒ³ãƒ‰
 		if (word.find("POP") == 0) {
-			//xÀ•W
+			//xåº§æ¨™
 			getline(line_stream, word, ',');
 			float x = (float)std::atof(word.c_str());
 
-			//yÀ•W
+			//yåº§æ¨™
 			getline(line_stream, word, ',');
 			float y = (float)std::atof(word.c_str());
 
-			//zÀ•W
+			//zåº§æ¨™
 			getline(line_stream, word, ',');
 			float z = (float)std::atof(word.c_str());
 
-			//“G‚ğ”­¶‚³‚¹‚é
-			//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ô‚æ
+			//æ•µã‚’ç™ºç”Ÿã•ã›ã‚‹
+			//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å‘¼ã¶ã‚ˆ
 			std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
 			newObstacle->Initialize(XMFLOAT3(x, y, z));
-			//áŠQ•¨‚ğ“o˜^‚·‚é
+			//éšœå®³ç‰©ã‚’ç™»éŒ²ã™ã‚‹
 			obstacles.push_back(std::move(newObstacle));
 		}
 	}
@@ -399,200 +395,204 @@ void GamePlayScene::UpdataObstaclePopCommand()
 	}
 }
 
-//‘O“G‚Ì’e‚Ì“–‚½‚è”»’è
+//å‰æ•µã®å¼¾ã®å½“ãŸã‚Šåˆ¤å®š
 void GamePlayScene::FrontColl()
 {
 	for (int i = 0; i < 11; i++) {
-		const std::unique_ptr<EnemyBullet>& enemyBullets = frontEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
-		Sphere eBullet;
+		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = frontEnemy[i]->GetBullet();
+#pragma region æ•µå¼¾ã¨è‡ªæ©Ÿã®å½“ãŸã‚Šåˆ¤å®š
+		for (auto& eb : enemyBullets) {
+			Sphere eBullet;
 
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			Sphere playerShape;
-			playerShape.center = XMLoadFloat3(&player->GetPosition());
-			playerShape.radius = player->GetScale().x;
+			if (eb->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+				eBullet.radius = eb->GetScale().x;
+				Sphere playerShape;
+				playerShape.center = XMLoadFloat3(&player->GetPosition());
+				playerShape.radius = player->GetScale().x;
 
-			if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-				player->CreateParticle();
-				enemyBullets->OnCollision();
-				playerLife--;
+				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+					player->CreateParticle();
+					eb->OnCollision();
+					playerLife--;
+				}
 			}
-		}
 
 #pragma endregion
 
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			if (enemyBullets->GetAlive()) {
+#pragma region æ•µå¼¾ã¨éšœå®³ç‰©ã®å½“ãŸã‚Šåˆ¤å®š
+			if (eb->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+				eBullet.radius = eb->GetScale().x;
+				if (eb->GetAlive()) {
 
-				/*for (auto& obstacle : obstacles) {
-					Sphere obstacleShape;
-					obstacleShape.center = XMLoadFloat3(&obstacle->);
-					obstacleShape.radius = obstacle->GetScale().x;
+					/*for (auto& obstacle : obstacles) {
+						Sphere obstacleShape;
+						obstacleShape.center = XMLoadFloat3(&obstacle->);
+						obstacleShape.radius = obstacle->GetScale().x;
 
-					if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-						eb->OnCollision();
-						obstacle->OnCollision();
-					}
-				}*/
+						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+							eb->OnCollision();
+							obstacle->OnCollision();
+						}
+					}*/
+				}
 			}
 		}
 	}
 #pragma endregion
 }
 
-//¶“G‚Ì’e‚Ì“–‚½‚è”»’è
+//å·¦æ•µã®å¼¾ã®å½“ãŸã‚Šåˆ¤å®š
 void GamePlayScene::LeftColl()
 {
 	for (int i = 0; i < 7; i++) {
-		const std::unique_ptr<EnemyBullet>& enemyBullets = leftEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = leftEnemy[i]->GetBullet();
+#pragma region æ•µå¼¾ã¨è‡ªæ©Ÿã®å½“ãŸã‚Šåˆ¤å®š
+		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+			for (auto& eb : enemyBullets) {
+				Sphere eBullet;
 
-		Sphere eBullet;
+				if (eb->GetAlive()) {
+					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+					eBullet.radius = eb->GetScale().x;
+					Sphere playerShape;
+					playerShape.center = XMLoadFloat3(&player->GetPosition());
+					playerShape.radius = player->GetScale().x;
 
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			Sphere playerShape;
-			playerShape.center = XMLoadFloat3(&player->GetPosition());
-			playerShape.radius = player->GetScale().x;
-
-			if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-				enemyBullets->OnCollision();
-				player->CreateParticle();
-				playerLife--;
-			}
-		}
+					if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+						eb->OnCollision();
+						player->CreateParticle();
+						playerLife--;
+					}
+				}
 
 #pragma endregion
 
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			if (leftEnemy[i]->GetAlive()) {
-				Sphere obstacleShape;
-				//for (auto& ob : obstacles) {
-				//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-				//	obstacleShape.radius = ob->GetScale().x;
+#pragma region æ•µå¼¾ã¨éšœå®³ç‰©ã®å½“ãŸã‚Šåˆ¤å®š
+				if (eb->GetAlive()) {
+					eBullet.center = XMLoadFloat3(&eb->GetPosition());
+					eBullet.radius = eb->GetScale().x;
+					if (leftEnemy[i]->GetAlive()) {
+						Sphere obstacleShape;
+						//for (auto& ob : obstacles) {
+						//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+						//	obstacleShape.radius = ob->GetScale().x;
 
-				//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-				//		eb->OnCollision();
-				//		//obstacle->OnCollision();
-				//	}
-				//}
+						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+						//		eb->OnCollision();
+						//		//obstacle->OnCollision();
+						//	}
+						//}
+					}
+				}
 			}
 		}
 	}
-
 #pragma endregion
 }
 
 
-//‰E“G‚Ì’e‚Ì“–‚½‚è”»’è
+//å³æ•µã®å¼¾ã®å½“ãŸã‚Šåˆ¤å®š
 void GamePlayScene::RightColl()
 {
 	for (int i = 0; i < 4; i++) {
-		const std::unique_ptr<EnemyBullet>& enemyBullets = rightEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = rightEnemy[i]->GetBullet();
+#pragma region æ•µå¼¾ã¨è‡ªæ©Ÿã®å½“ãŸã‚Šåˆ¤å®š
+		for (auto& eb : enemyBullets) {
+			Sphere eBullet;
 
-		Sphere eBullet;
+			if (eb->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+				eBullet.radius = eb->GetScale().x;
+				Sphere playerShape;
+				playerShape.center = XMLoadFloat3(&player->GetPosition());
+				playerShape.radius = player->GetScale().x;
 
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			Sphere playerShape;
-			playerShape.center = XMLoadFloat3(&player->GetPosition());
-			playerShape.radius = player->GetScale().x;
-
-			if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-				enemyBullets->OnCollision();
-				player->CreateParticle();
-				playerLife--;
+				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+					eb->OnCollision();
+					player->CreateParticle();
+					playerLife--;
+				}
 			}
-		}
 
 
 
 #pragma endregion
 
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
+#pragma region æ•µå¼¾ã¨éšœå®³ç‰©ã®å½“ãŸã‚Šåˆ¤å®š
 
 
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			if (rightEnemy[i]->GetAlive()) {
-				Sphere obstacleShape;
-				//for (auto& ob : obstacles) {
-				//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-				//	obstacleShape.radius = ob->GetScale().x;
+			if (eb->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+				eBullet.radius = eb->GetScale().x;
+				if (rightEnemy[i]->GetAlive()) {
+					Sphere obstacleShape;
+					//for (auto& ob : obstacles) {
+					//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+					//	obstacleShape.radius = ob->GetScale().x;
 
-				//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-				//		eb->OnCollision();
-				//		//obstacle->OnCollision();
-				//	}
-				//}
+					//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+					//		eb->OnCollision();
+					//		//obstacle->OnCollision();
+					//	}
+					//}
+				}
+
 			}
-
 		}
+
+#pragma endregion
 	}
-
-#pragma endregion
-
 }
 
-//Œã‚ë“G‚Ì’e‚Ì“–‚½‚è”»’è
+//å¾Œã‚æ•µã®å¼¾ã®å½“ãŸã‚Šåˆ¤å®š
 void GamePlayScene::BackColl()
 {
 	for (int i = 0; i < 2; i++) {
-		const std::unique_ptr<EnemyBullet>& enemyBullets = backEnemy[i]->GetBullet();
-#pragma region “G’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = backEnemy[i]->GetBullet();
+#pragma region æ•µå¼¾ã¨è‡ªæ©Ÿã®å½“ãŸã‚Šåˆ¤å®š
+		for (auto& eb : enemyBullets) {
+			Sphere eBullet;
 
-		Sphere eBullet;
+			if (eb->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+				eBullet.radius = eb->GetScale().x;
+				Sphere playerShape;
+				playerShape.center = XMLoadFloat3(&player->GetPosition());
+				playerShape.radius = player->GetScale().x;
 
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			Sphere playerShape;
-			playerShape.center = XMLoadFloat3(&player->GetPosition());
-			playerShape.radius = player->GetScale().x;
-
-			if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-				enemyBullets->OnCollision();
-				player->CreateParticle();
-				playerLife--;
+				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+					eb->OnCollision();
+					player->CreateParticle();
+					playerLife--;
+				}
 			}
-		}
 
 #pragma endregion
 
-#pragma region “G’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
+#pragma region æ•µå¼¾ã¨éšœå®³ç‰©ã®å½“ãŸã‚Šåˆ¤å®š
 
 
-		if (enemyBullets->GetAlive()) {
-			eBullet.center = XMLoadFloat3(&enemyBullets->GetPosition());
-			eBullet.radius = enemyBullets->GetScale().x;
-			if (backEnemy[i]->GetAlive()) {
-				Sphere obstacleShape;
-				//for (auto& ob : obstacles) {
-				//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-				//	obstacleShape.radius = ob->GetScale().x;
+			if (eb->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+				eBullet.radius = eb->GetScale().x;
+				if (backEnemy[i]->GetAlive()) {
+					Sphere obstacleShape;
+					//for (auto& ob : obstacles) {
+					//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+					//	obstacleShape.radius = ob->GetScale().x;
 
-				//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-				//		eb->OnCollision();
-				//		//obstacle->OnCollision();
-				//	}
-				//}
+					//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+					//		eb->OnCollision();
+					//		//obstacle->OnCollision();
+					//	}
+					//}
+				}
+
 			}
-
 		}
 	}
-
 #pragma endregion
 
 }
@@ -604,119 +604,96 @@ void GamePlayScene::CheckAllCollision()
 	RightColl();
 	BackColl();
 
-	const std::unique_ptr<PlayerBullet>& playerBullets = player->GetBullet();
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 
-#pragma region ©’e‚Æ“G‚Ì“–‚½‚è”»’è
+#pragma region è‡ªå¼¾ã¨æ•µã®å½“ãŸã‚Šåˆ¤å®š
 
 	Sphere pBullet;
+	for (auto& pb : playerBullets){
+		if (pb->GetAlive()) {
+			pBullet.center = XMLoadFloat3(&pb->GetPosition());
+			pBullet.radius = pb->GetScale().x;
 
-			if (playerBullets->GetAlive()) {
-				pBullet.center = XMLoadFloat3(&playerBullets->GetPosition());
-				pBullet.radius = playerBullets->GetScale().x;
+			//å‰ã®æ•µ
+			for (int i = 0; i < 11; i++) {
 
-				//‘O‚Ì“G
-				for (int i = 0; i < 11; i++) {
+				if (frontEnemy[i]->GetAlive()) {
+					Sphere fEnemyShape;
+					fEnemyShape.center = XMLoadFloat3(&frontEnemy[i]->GetPosition());
+					fEnemyShape.radius = frontEnemy[i]->GetScale().z;
 
-					if (frontEnemy[i]->GetAlive()) {
-						Sphere fEnemyShape;
-						fEnemyShape.center = XMLoadFloat3(&frontEnemy[i]->GetPosition());
-						fEnemyShape.radius = frontEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
-							playerBullets->OnCollision();
-							frontEnemy[i]->OnCollision();
-							if (!frontEnemy[i]->GetAlive()) {
-								fEneFlag++;
-							}
+					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
+						pb->OnCollision();
+						frontEnemy[i]->OnCollision();
+						if (!frontEnemy[i]->GetAlive()) {
+							fEneFlag++;
 						}
 					}
-				}
-				for (int i = 0; i < 7; i++) {
-					//¶‚Ì“G
-					if (leftEnemy[i]->GetAlive()) {
-						Sphere lEnemyShape;
-						lEnemyShape.center = XMLoadFloat3(&leftEnemy[i]->GetPosition());
-						lEnemyShape.radius = leftEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-							playerBullets->OnCollision();
-							leftEnemy[i]->OnCollision();
-							if (!leftEnemy[i]->GetAlive()) {
-								lEneFlag++;
-							}
-						}
-					}
-				}
-				for (int i = 0; i < 4; i++) {
-
-					//‰E‚Ì“G
-					if (rightEnemy[i]->GetAlive()) {
-						Sphere lEnemyShape;
-						lEnemyShape.center = XMLoadFloat3(&rightEnemy[i]->GetPosition());
-						lEnemyShape.radius = rightEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-							playerBullets->OnCollision();
-							rightEnemy[i]->OnCollision();
-							if (!rightEnemy[i]->GetAlive()) {
-								rEneFlag++;
-							}
-						}
-					}
-				}
-				for (int i = 0; i < 2; i++) {
-
-					//Œã‚ë‚Ì“G
-					if (backEnemy[i]->GetAlive()) {
-						Sphere lEnemyShape;
-						lEnemyShape.center = XMLoadFloat3(&backEnemy[i]->GetPosition());
-						lEnemyShape.radius = backEnemy[i]->GetScale().z;
-
-						if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-							playerBullets->OnCollision();
-							backEnemy[i]->OnCollision();
-							if (!backEnemy[i]->GetAlive()) {
-								bEneFlag++;
-							}
-						}
-					}
-				}
-
-
-
-
-#pragma endregion
-
-#pragma region ©’e‚ÆáŠQ•¨‚Ì“–‚½‚è”»’è
-				if (playerBullets->GetAlive()) {
-					pBullet.center = XMLoadFloat3(&playerBullets->GetPosition());
-					pBullet.radius = playerBullets->GetScale().x;
-					Sphere obstacleShape;
-					//for (auto& ob : obstacles) {
-					//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-					//	obstacleShape.radius = ob->GetScale().x;
-
-					//	if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
-					//		pb->OnCollision();
-					//		//obstacle->OnCollision();
-					//	}
-					//}
 				}
 			}
-		
-	
-#pragma endregion
+			for (int i = 0; i < 7; i++) {
+				//å·¦ã®æ•µ
+				if (leftEnemy[i]->GetAlive()) {
+					Sphere lEnemyShape;
+					lEnemyShape.center = XMLoadFloat3(&leftEnemy[i]->GetPosition());
+					lEnemyShape.radius = leftEnemy[i]->GetScale().z;
 
+					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+						pb->OnCollision();
+						leftEnemy[i]->OnCollision();
+						if (!leftEnemy[i]->GetAlive()) {
+							lEneFlag++;
+						}
+					}
+				}
+			}
+			for (int i = 0; i < 4; i++) {
+
+				//å³ã®æ•µ
+				if (rightEnemy[i]->GetAlive()) {
+					Sphere lEnemyShape;
+					lEnemyShape.center = XMLoadFloat3(&rightEnemy[i]->GetPosition());
+					lEnemyShape.radius = rightEnemy[i]->GetScale().z;
+
+					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+						pb->OnCollision();
+						rightEnemy[i]->OnCollision();
+						if (!rightEnemy[i]->GetAlive()) {
+							rEneFlag++;
+						}
+					}
+				}
+			}
+			for (int i = 0; i < 2; i++) {
+
+				//å¾Œã‚ã®æ•µ
+				if (backEnemy[i]->GetAlive()) {
+					Sphere lEnemyShape;
+					lEnemyShape.center = XMLoadFloat3(&backEnemy[i]->GetPosition());
+					lEnemyShape.radius = backEnemy[i]->GetScale().z;
+
+					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
+						pb->OnCollision();
+						backEnemy[i]->OnCollision();
+						if (!backEnemy[i]->GetAlive()) {
+							bEneFlag++;
+						}
+					}
+				}
+			}
+		}
+#pragma endregion
+	}
 	XMFLOAT3 playerPos = player->GetPosition();
 
-	//ƒvƒŒƒCƒ„[‚ÌHP‚ª0‚É‚È‚Á‚½‚ç‰æ–ÊØ‚è‘Ö‚¦
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®HPãŒ0ã«ãªã£ãŸã‚‰ç”»é¢åˆ‡ã‚Šæ›¿ãˆ
 	if (playerLife <= 0 || playerPos.y <= -5) {
-		//ƒV[ƒ“Ø‚è‘Ö‚¦
+		//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
 	}
 	if (fEneFlag >= 11 && lEneFlag >= 7 && rEneFlag >= 4 && bEneFlag >= 2) {
-		//ƒV[ƒ“Ø‚è‘Ö‚¦
+		//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);
 	}

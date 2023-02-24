@@ -46,7 +46,7 @@ public:
 	//パーティク生成
 	void CreateParticle();
 	//弾リスト取得
-	const std::unique_ptr<PlayerBullet>& GetBullet() { return bullets; }
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
@@ -55,7 +55,7 @@ public:
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
 private:
-	std::unique_ptr<PlayerBullet> bullets;
+	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	bool bulFlag = true;
 	// マウス
 	POINT mousePos{};

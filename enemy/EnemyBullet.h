@@ -6,13 +6,17 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
-class EnemyBullet : public EnemyBulletObject
+class EnemyBullet : public GameObject
 {
 public:
+	using GameObject::GameObject;
+
+public:
+	EnemyBullet();
 
 	~EnemyBullet();
 
-	void Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel);
+	void Initialize(XMFLOAT3 pos, const XMVECTOR& vel);
 
 	void Update();
 
@@ -22,8 +26,6 @@ public:
 	//è’ìÀéûÇ…åƒÇ—èoÇ≥ÇÍÇÈä÷êî
 	void OnCollision();
 public:
-	inline bool GetAlive() const { return  alive; }
-	inline void SetAlive(bool alive) { this->alive = alive; }
 
 	//íeÇ™è¡Ç¶ÇÈéûä‘
 	UINT disappearTime = 60 * 5;
@@ -31,8 +33,7 @@ public:
 	UINT frameNum = 0;
 	UINT power = 1;
 private:
-	DirectX::XMFLOAT3 position;
+	XMFLOAT3 position;
 	XMVECTOR velocity;
-	std::unique_ptr<EnemyBulletObject> object;
 };
 

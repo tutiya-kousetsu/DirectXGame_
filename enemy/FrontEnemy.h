@@ -1,21 +1,30 @@
 #pragma once
 #include "EnemyBullet.h"
-#include "Object3d.h"
+#include "Object3d.h"]
+#include "GameObject.h"
 #include "EnemyObject.h"
+#include <memory>
+#include <list>
 
 class Player;
 class ParticleManager;
 
-class FrontEnemy : public EnemyObject
+class FrontEnemy : public GameObject
 {
 public:
+	using GameObject::GameObject;
+
+public:
+	FrontEnemy();
+
+	~FrontEnemy();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <returns>成否</returns>
 	bool Initialize();
 
-	~FrontEnemy();
 
 	//更新
 	void Update();
@@ -38,12 +47,10 @@ public:
 
 	static const int kShootInterval = 100;
 	//弾リスト取得
-	const std::unique_ptr<EnemyBullet>& GetBullet() { return bullets; }
+	const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
 
 	void AccessPhase();
 	void SetPlayer(Player* player) { this->player = player; }
-	inline bool GetAlive() const { return  alive; }
-	inline void SetAlive(bool alive) { this->alive = alive; }
 
 private:
 	Player* player = nullptr;
@@ -53,7 +60,5 @@ private:
 	int aliveCount = 0;
 
 	ParticleManager* particleMan = nullptr;
-	std::unique_ptr<EnemyBullet> bullets;
-	std::unique_ptr<EnemyObject> object;
-
+	std::list<std::unique_ptr<EnemyBullet>> bullets;
 };

@@ -206,21 +206,6 @@
     <ClCompile Include="collision\SphereCollider.cpp">
       <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="enemy\BackEnemy.cpp">
-      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy\EnemyBullet.cpp">
-      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy\FrontEnemy.cpp">
-      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy\LeftEnemy.cpp">
-      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy\RightEnemy.cpp">
-      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="scene\GameClear.cpp">
       <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
@@ -280,6 +265,21 @@
     </ClCompile>
     <ClCompile Include="EnemyBulletObject.cpp">
       <Filter>ソース ファイル\game\gameObj\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\BackEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\EnemyBullet.cpp">
+      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\FrontEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\LeftEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\RightEnemy.cpp">
+      <Filter>ソース ファイル\game\enemy\.cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

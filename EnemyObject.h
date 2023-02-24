@@ -32,4 +32,3 @@ protected:
 	float moveY = 0.2f;
 	bool appFlag = true;
 };
-

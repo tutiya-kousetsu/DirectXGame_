@@ -1,12 +1,10 @@
 #include "PlayerBullet.h"
-#include <cassert>
 #include "Input.h"
-
-//PlayerBullet::PlayerBullet() :PlayerBullet(Model::CreateFromOBJ("sphere"))
-//{
-//	//データ読み込み
-//	object->SetScale({ 1.0f, 1.0f, 1.0f });
-//}
+#include "SphereCollider.h"
+#include "CollisionManager.h"
+#include "CollisionAttribute.h"
+#include "Collision.h"
+#include <cassert>
 
 PlayerBullet::~PlayerBullet()
 {
@@ -35,6 +33,16 @@ void PlayerBullet::Update()
 
 		//敵が動いた値をゲームオブジェクトに渡す
 		object->SetPosition(position);
+
+	/*	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
+		assert(sphereCollider);
+
+		Ray ray;
+		ray.start = sphereCollider->center;
+		ray.start.m128_f32[1] += sphereCollider->GetRadius();
+		ray.dir = { 0,-1,0,0 };
+		RaycastHit raycastHit;*/
+
 		//ゲームオブジェクト更新
 		object->Update();
 	}

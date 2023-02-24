@@ -64,8 +64,8 @@ void Player::Update()
 		}
 	}
 
-	if (bullets) {
-		bullets->Update();
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Update();
 	}
 	//particleMan->Update();
 	Object3d::Update();
@@ -237,13 +237,11 @@ void Player::Shoot()
 
 	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
 	//コンストラクタ呼ぶよ
-	//std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	PlayerBullet* newBullet = new PlayerBullet();
+	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化行くよ
-	//newBullet->Create(Model::CreateFromOBJ("sphere"));
 	newBullet->Initialize(position, velocity);
 
-	bullets.reset(newBullet);
+	bullets.push_back(std::move(newBullet));
 }
 
 
@@ -279,8 +277,8 @@ void Player::Draw()
 		Object3d::Draw();
 		//particleMan->Draw();
 	}
-	if (bullets) {
-		bullets->Draw();
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Draw();
 	}
 }
 

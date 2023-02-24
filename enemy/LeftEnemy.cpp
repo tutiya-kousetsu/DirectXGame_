@@ -5,17 +5,9 @@
 #include "CollisionManager.h"
 #include "ParticleManager.h"
 
-LeftEnemy::~LeftEnemy()
+LeftEnemy::LeftEnemy() :LeftEnemy(Model::CreateFromOBJ("BlueBox"))
 {
-}
-
-bool LeftEnemy::Initialize()
-{
-	object.reset(new EnemyObject());
-	object->Initialize(Model::CreateFromOBJ("BlueBox"));
-
-	SetScale({ 1.0f, 1.0f, 1.0f });
-
+	object->SetScale({ 1.f, 1.f, 1.f });
 	particleMan = ParticleManager::GetInstance();
 	// 現在の座標を取得
 	position = GetPosition();
@@ -28,6 +20,15 @@ bool LeftEnemy::Initialize()
 	position = { -35, 35, z2 };
 	// 座標の変更を反映
 	SetPosition(position);
+
+}
+
+LeftEnemy::~LeftEnemy()
+{
+}
+
+bool LeftEnemy::Initialize()
+{
 	AccessPhase();
 	return true;
 }
@@ -92,11 +93,11 @@ void LeftEnemy::LeftShoot()
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
 	}
 	//コンストラクタ呼ぶよ
-	EnemyBullet* newBullet = new EnemyBullet();
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 	//初期化
 	newBullet->Initialize(position, velocity);
 
-	bullets.reset(newBullet);
+	bullets.push_back(std::move(newBullet));
 }
 
 void LeftEnemy::Shoot()
@@ -106,8 +107,8 @@ void LeftEnemy::Shoot()
 		LeftShoot();
 		shootTimer = kShootInterval;
 	}
-	if(bullets) {
-		bullets->Update();
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		bullet->Update();
 	}
 }
 
@@ -120,8 +121,8 @@ void LeftEnemy::Draw()
 	//フラグ1で敵表示
 	if (alive) {
 		object->Draw();
-		if (bullets) {
-			bullets->Draw();
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+			bullet->Draw();
 		}
 	}
 }

@@ -1,12 +1,20 @@
 #pragma once
 #include "EnemyBullet.h"
 #include "EnemyObject.h"
+#include "GameObject.h"
+#include <memory>
+#include <list>
+
 class Player;
 class ParticleManager;
 
-class BackEnemy :public EnemyObject
+class BackEnemy :public GameObject
 {
 public:
+	using GameObject::GameObject;
+
+public:
+	BackEnemy();
 
 	~BackEnemy();
 
@@ -33,12 +41,10 @@ public:
 
 	static const int kShootInterval = 100;
 	//’eƒŠƒXƒgŽæ“¾
-	const std::unique_ptr<EnemyBullet>& GetBullet() { return bullets; }
+	const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
 
 	void AccessPhase();
 	void SetPlayer(Player* player) { this->player = player; }
-	inline bool GetAlive() const { return  alive; }
-	inline void SetAlive(bool alive) { this->alive = alive; }
 
 private:
 	Player* player = nullptr;
@@ -49,7 +55,6 @@ private:
 	float bMoveY = 0.2f;
 
 	ParticleManager* particleMan = nullptr;
-	std::unique_ptr<EnemyBullet> bullets;
-	std::unique_ptr<EnemyObject> object;
+	std::list < std::unique_ptr<EnemyBullet>> bullets;
 };
 

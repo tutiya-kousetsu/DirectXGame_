@@ -18,6 +18,8 @@
 #include "LeftEnemy.h"
 #include "RightEnemy.h"
 #include "BackEnemy.h"
+#include "Wall.h"
+#include "Door.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -64,6 +66,10 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
+	void LoadWallPopData();
+
+	void UpdataWallPopCommand();
+
 	void FrontColl();
 
 	void LeftColl();
@@ -87,27 +93,25 @@ private:
 	PostEffect* postEffect[2] = {};
 
 	std::list<std::unique_ptr<Obstacle>> obstacles;
+	std::list<std::unique_ptr<Wall>> walls;
+	std::unique_ptr<Door> door;
 	//è·äQï®î≠ê∂ÇÃÉRÉ}ÉìÉh
 	std::stringstream obstaclePopCom;
+	std::stringstream wallPopCom;
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 	Model* obModel = nullptr;
-	//std::unique_ptr<PlayerBullet> playerBullet;
 	Player* player = nullptr;
-	//std::unique_ptr<Player> player;
-	//Enemy* enemy = nullptr;
 	FrontEnemy* frontEnemy[11]{};
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};
 	BackEnemy* backEnemy[2]{};
-	//std::list<std::unique_ptr<Enemy>> enemy;
 	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
 	TouchableObject* floor = nullptr;
 	Model* floorModel = nullptr;
 	ParticleManager* particleMan = nullptr;
 	CollisionManager* collisionMan = nullptr;
-	//Line* line = nullptr;
 	XMFLOAT3 enePos;
 
 	XMFLOAT3 playerPos;

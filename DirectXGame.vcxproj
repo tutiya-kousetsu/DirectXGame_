@@ -196,6 +196,7 @@
     <ClCompile Include="collision\MeshCollider.cpp" />
     <ClCompile Include="collision\SphereCollider.cpp" />
     <ClCompile Include="collision\TouchableObject.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Easing.cpp" />
     <ClCompile Include="EnemyBulletObject.cpp" />
     <ClCompile Include="EnemyObject.cpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -257,6 +259,7 @@
     <ClInclude Include="collision\RaycastHit.h" />
     <ClInclude Include="collision\SphereCollider.h" />
     <ClInclude Include="collision\TouchableObject.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Easing.h" />
     <ClInclude Include="EnemyBulletObject.h" />
     <ClInclude Include="EnemyObject.h" />
@@ -288,6 +291,7 @@
     <ClInclude Include="scene\GamePlayScene.h" />
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="scene\TitleScene.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

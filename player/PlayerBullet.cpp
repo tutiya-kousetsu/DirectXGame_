@@ -6,18 +6,20 @@
 #include "Collision.h"
 #include <cassert>
 
+PlayerBullet::PlayerBullet() :PlayerBullet(Model::CreateFromOBJ("sphere"))
+{
+	object->SetScale({ 1.0f, 1.0f, 1.0f });
+}
+
 PlayerBullet::~PlayerBullet()
 {
 }
 
-void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel)
+void PlayerBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
 {
-	object.reset(new PlayerBulletObject());
-	object->Initialize(Model::CreateFromOBJ("sphere"));
 	//敵の座標渡すよ
 	position = pos;
 	velocity = vel;
-	//this->power = power;
 }
 
 void PlayerBullet::Update()
@@ -33,15 +35,6 @@ void PlayerBullet::Update()
 
 		//敵が動いた値をゲームオブジェクトに渡す
 		object->SetPosition(position);
-
-	/*	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
-		assert(sphereCollider);
-
-		Ray ray;
-		ray.start = sphereCollider->center;
-		ray.start.m128_f32[1] += sphereCollider->GetRadius();
-		ray.dir = { 0,-1,0,0 };
-		RaycastHit raycastHit;*/
 
 		//ゲームオブジェクト更新
 		object->Update();

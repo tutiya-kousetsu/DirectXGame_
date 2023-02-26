@@ -3,7 +3,6 @@
 #include "BaseCollider.h"
 #include "CollisionManager.h"
 
-
 Obstacle::~Obstacle()
 {
 	if (collider) {

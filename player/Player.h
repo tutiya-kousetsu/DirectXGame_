@@ -38,7 +38,7 @@ public:
 	void Draw() override;
 
 	//攻撃
-	void Shoot();
+	bool Shoot();
 
 	//当たり判定
 	void OnCollision(const CollisionInfo& info) override;
@@ -46,7 +46,7 @@ public:
 	//パーティク生成
 	void CreateParticle();
 	//弾リスト取得
-	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
+	const std::unique_ptr<PlayerBullet>& GetBullet() { return bullet; }
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
@@ -55,7 +55,7 @@ public:
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
 private:
-	std::list<std::unique_ptr<PlayerBullet>> bullets;
+	std::unique_ptr<PlayerBullet> bullet;
 	bool bulFlag = true;
 	// マウス
 	POINT mousePos{};

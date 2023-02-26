@@ -15,6 +15,7 @@
 #include "TouchableObject.h"
 #include <fstream>
 #include <cassert>
+
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライトの生成
@@ -69,6 +70,8 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	floor = TouchableObject::Create(floorModel);
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
+
+	door.reset(new Door());
 
 	particleMan = ParticleManager::GetInstance();
 	//line = new Line();
@@ -212,7 +215,7 @@ void GamePlayScene::Update()
 	//更新
 	camera->Update();
 	floor->Update();
-
+	door->Update();
 	//敵の発生する順番
 	if (fEneFlag >= 0) {
 		frontEnemy[0]->Update();
@@ -257,7 +260,8 @@ void GamePlayScene::Update()
 	skyObj->Update();
 	LoadObstaclePopData();
 	UpdataObstaclePopCommand();
-
+	LoadWallPopData();
+	UpdataWallPopCommand();
 	collisionMan->CheckAllCollisions();
 	CheckAllCollision();
 
@@ -304,10 +308,14 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto& obstacle : obstacles) {
 		obstacle->Draw();
 	}
+	for (auto& wall : walls) {
+		wall->Draw();
+	}
 	//fbxObj->Draw(dxCommon->GetCmdList());
 	//line->Draw();
 	skyObj->Draw();
 	floor->Draw();
+	door->Draw();
 	particleMan->Draw();
 	Object3d::PostDraw();
 
@@ -392,6 +400,66 @@ void GamePlayScene::UpdataObstaclePopCommand()
 	}
 	for (auto& obstacle : obstacles) {
 		obstacle->Update();
+	}
+}
+
+void GamePlayScene::LoadWallPopData()
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Resources/wallPop.csv");
+	assert(file.is_open());
+
+	//ファイル内容を文字列ストリームにコピー
+	wallPopCom << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GamePlayScene::UpdataWallPopCommand()
+{
+	//1行分の文字列を入れる変数
+	std::string line;
+	//コマンド実行ループ
+	while (getline(wallPopCom, line)) {
+		//1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		//"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			//コメント行は飛ばす
+			continue;
+		}
+
+		//POPコマンド
+		if (word.find("POP") == 0) {
+			//x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			//y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			//z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			//敵を発生させる
+			//コンストラクタ呼ぶよ
+			std::unique_ptr<Wall> newWall = std::make_unique<Wall>();
+			newWall->Initialize(XMFLOAT3(x, y, z));
+			//障害物を登録する
+			walls.push_back(std::move(newWall));
+		}
+	}
+	for (auto& wall : walls) {
+		wall->Update();
 	}
 }
 
@@ -604,15 +672,15 @@ void GamePlayScene::CheckAllCollision()
 	RightColl();
 	BackColl();
 
-	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
+	const std::unique_ptr<PlayerBullet>& playerBullets = player->GetBullet();
 
 #pragma region 自弾と敵の当たり判定
 
 	Sphere pBullet;
-	for (auto& pb : playerBullets){
-		if (pb->GetAlive()) {
-			pBullet.center = XMLoadFloat3(&pb->GetPosition());
-			pBullet.radius = pb->GetScale().x;
+	if(playerBullets){
+		if (playerBullets->GetAlive()) {
+			pBullet.center = XMLoadFloat3(&playerBullets->GetPosition());
+			pBullet.radius = playerBullets->GetScale().x;
 
 			//前の敵
 			for (int i = 0; i < 11; i++) {
@@ -623,7 +691,7 @@ void GamePlayScene::CheckAllCollision()
 					fEnemyShape.radius = frontEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
-						pb->OnCollision();
+						playerBullets->OnCollision();
 						frontEnemy[i]->OnCollision();
 						if (!frontEnemy[i]->GetAlive()) {
 							fEneFlag++;
@@ -639,7 +707,7 @@ void GamePlayScene::CheckAllCollision()
 					lEnemyShape.radius = leftEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-						pb->OnCollision();
+						playerBullets->OnCollision();
 						leftEnemy[i]->OnCollision();
 						if (!leftEnemy[i]->GetAlive()) {
 							lEneFlag++;
@@ -656,7 +724,7 @@ void GamePlayScene::CheckAllCollision()
 					lEnemyShape.radius = rightEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-						pb->OnCollision();
+						playerBullets->OnCollision();
 						rightEnemy[i]->OnCollision();
 						if (!rightEnemy[i]->GetAlive()) {
 							rEneFlag++;
@@ -673,7 +741,7 @@ void GamePlayScene::CheckAllCollision()
 					lEnemyShape.radius = backEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-						pb->OnCollision();
+						playerBullets->OnCollision();
 						backEnemy[i]->OnCollision();
 						if (!backEnemy[i]->GetAlive()) {
 							bEneFlag++;
@@ -688,9 +756,14 @@ void GamePlayScene::CheckAllCollision()
 
 	//プレイヤーのHPが0になったら画面切り替え
 	if (playerLife <= 0 || playerPos.y <= -5) {
+		player->CreateParticle();
+		player->SetAlive(false);
+		waitTimer++;
+		if (waitTimer >= 30) {
 		//シーン切り替え
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
+		}
 	}
 	if (fEneFlag >= 11 && lEneFlag >= 7 && rEneFlag >= 4 && bEneFlag >= 2) {
 		//シーン切り替え

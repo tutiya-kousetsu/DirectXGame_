@@ -47,24 +47,34 @@ bool Player::Initialize()
 
 void Player::Update()
 {
-
 	move();
 	jump();
 	Input* input = Input::GetInstance();
-
-	if (input->PushMouseLeft()) {
-		atTimer++;
-		if (atTimer >= 120 && !atFlag) {
-			Shoot();
-			atFlag = true;
+	if (bullet) {
+		bullet->SetAlive(false);
+		if (input->PushMouseLeft() && !bullet->GetAlive()) {
+			atTimer++;
+			bullet->SetAlive(true);
+			if (atTimer >= 120 && !atFlag && bullet->GetAlive()) {
+				Shoot();
+				atFlag = true;
+				atPower = 2;
+			}
+			if (atTimer >= 120 && !atFlag && bullet->GetAlive()) {
+				Shoot();
+				atFlag = true;
+				atPower = 1;
+			}
+			/*if () {
+				atTimer = 0;
+				atFlag = false;
+			}*/
 		}
-		if (atFlag) {
-			atFlag = false;
-			atTimer = 0;
+		else {
+			//if () {};
 		}
 	}
-
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	if(bullet) {
 		bullet->Update();
 	}
 	//particleMan->Update();
@@ -133,11 +143,13 @@ void Player::jump()
 		const float fallVYMin = -0.5f;
 		//加速
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
+
 		//移動
-		position.x += fallV.m128_f32[0];
-		position.y += fallV.m128_f32[1];
-		position.z += fallV.m128_f32[2];
-		//position.y += jumpSpeed;
+		if (position.y >= -5.0f) {
+			position.x += fallV.m128_f32[0];
+			position.y += fallV.m128_f32[1];
+			position.z += fallV.m128_f32[2];
+		}
 	}
 	//ジャンプ操作
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
@@ -226,22 +238,24 @@ void Player::jump()
 	// ワールド行列更新
 	UpdateWorldMatrix();
 	collider->Update();
+
 	// 行列の更新など
 	Object3d::Update();
 }
 
-void Player::Shoot()
+bool Player::Shoot()
 {
 	const float kBulletSpeed = 1.0f;
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
 
 	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
 	//コンストラクタ呼ぶよ
-	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	PlayerBullet* newBullet = new PlayerBullet();
 	//初期化行くよ
 	newBullet->Initialize(position, velocity);
 
-	bullets.push_back(std::move(newBullet));
+	bullet.reset(newBullet);
+	return true;
 }
 
 
@@ -277,7 +291,7 @@ void Player::Draw()
 		Object3d::Draw();
 		//particleMan->Draw();
 	}
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	if(bullet) {
 		bullet->Draw();
 	}
 }

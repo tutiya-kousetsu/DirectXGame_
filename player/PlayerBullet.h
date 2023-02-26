@@ -6,18 +6,18 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
-class PlayerBullet : public PlayerBulletObject
+class PlayerBullet : public GameObject
 {
 public:
 	//エイリアス、関数の継承など
-	//using GameObject::GameObject;
+	using GameObject::GameObject;
 
 	//コンストラクタ
-	//PlayerBullet();
+	PlayerBullet();
 
 	~PlayerBullet();
 
-	void Initialize(DirectX::XMFLOAT3 pos, const XMVECTOR& vel);
+	void Initialize(XMFLOAT3 pos, const XMVECTOR& vel);
 
 	void Update();
 
@@ -33,9 +33,8 @@ public:
 	UINT frameNum = 0;
 	UINT power = 1;
 private:
-	DirectX::XMFLOAT3 position;
+	XMFLOAT3 position;
 	XMVECTOR velocity;
-	std::unique_ptr<PlayerBulletObject> object;
 	//int power = 1;
 };
 

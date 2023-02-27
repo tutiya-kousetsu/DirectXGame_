@@ -14,5 +14,8 @@ public:
 	/// </summary>
 	/// <returns>成否</returns>
 	bool Initialize(Model* model);
+	
+protected:
+	std::unique_ptr<Object3d> object;
 };
 

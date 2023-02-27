@@ -19,7 +19,7 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("BlueBox"))
 	float y2 = (float)y / 10;//6~0の範囲
 	int z = rand() % 700;
 	//float z2 = (float)z / 10 - 35;//6~0の範囲
-	position = { x2, 35, 35 };
+	position = { 8, 8, 50 };
 	// 座標の変更を反映
 	SetPosition(position);
 
@@ -42,16 +42,6 @@ void FrontEnemy::Update()
 		appearance();
 
 		if (!appFlag) {
-			/*SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
-			assert(sphereCollider);
-			Ray ray;
-			ray.start = sphereCollider->center;
-			ray.start.m128_f32[1] += sphereCollider->GetRadius();
-			ray.dir = { 0,-1,0,0 };
-			RaycastHit raycastHit;
-			if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_ALLIES, &raycastHit, sphereCollider->GetRadius())) {
-				OnCollision();
-			}*/
 			//敵が止まったらフラグを立てて弾を撃ち始める
 			Shoot();
 		}
@@ -64,11 +54,11 @@ void FrontEnemy::Update()
 void FrontEnemy::appearance()
 {
 	//描画されたら、敵をランダムで決めた位置の高さまでおろす
-	position.y -= moveY;
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0の範囲
-	if (position.y <= y2) {
-		moveY = 0;
+	position.z -= moveZ;
+	//int y = rand() % 70;
+	//float y2 = (float)y / 10;//6~0の範囲
+	if (position.z <= 40) {
+		moveZ = 0;
 		appFlag = false;
 	}
 }

@@ -60,9 +60,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//乱数の初期化
 	srand((unsigned)time(NULL));
 
+	//自機弾の初期化
 	playerBullet = new PlayerBullet();
+	//敵弾の初期化
 	enemyBullet = new EnemyBullet();
+	//当たり判定のインスタンス
 	collisionMan = CollisionManager::GetInstance();
+	//自機のオブジェクトセット+初期化
 	player = player->Create(Model::CreateFromOBJ("player"));
 
 	//床のオブジェクト生成
@@ -70,8 +74,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	floor = TouchableObject::Create(floorModel);
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
-
+	//ドアの初期化
 	door.reset(new Door());
+	door->Initialize();
 
 	particleMan = ParticleManager::GetInstance();
 	//line = new Line();
@@ -225,7 +230,6 @@ void GamePlayScene::Update()
 		frontEnemy[2]->Update();
 	}
 	if (fEneFlag >= 3 && lEneFlag >= 0) {
-		playerLife = 3;
 		frontEnemy[3]->Update();
 		frontEnemy[4]->Update();
 		leftEnemy[0]->Update();
@@ -237,7 +241,6 @@ void GamePlayScene::Update()
 		leftEnemy[2]->Update();
 	}
 	if (fEneFlag >= 7 && lEneFlag >= 3 && rEneFlag >= 0) {
-		playerLife = 3;
 		frontEnemy[7]->Update();
 		frontEnemy[8]->Update();
 		leftEnemy[3]->Update();
@@ -246,7 +249,6 @@ void GamePlayScene::Update()
 		rightEnemy[1]->Update();
 	}
 	if (fEneFlag >= 7 && lEneFlag >= 5 && rEneFlag >= 2) {
-		playerLife = 3;
 		frontEnemy[9]->Update();
 		frontEnemy[10]->Update();
 		leftEnemy[5]->Update();
@@ -258,8 +260,10 @@ void GamePlayScene::Update()
 	}
 
 	skyObj->Update();
+	//障害物のマップチップ読み込み用
 	LoadObstaclePopData();
 	UpdataObstaclePopCommand();
+	//壁のマップチップ読み込み用
 	LoadWallPopData();
 	UpdataWallPopCommand();
 	collisionMan->CheckAllCollisions();
@@ -312,7 +316,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		wall->Draw();
 	}
 	//fbxObj->Draw(dxCommon->GetCmdList());
-	//line->Draw();
 	skyObj->Draw();
 	floor->Draw();
 	door->Draw();
@@ -494,16 +497,16 @@ void GamePlayScene::FrontColl()
 				eBullet.radius = eb->GetScale().x;
 				if (eb->GetAlive()) {
 
-					/*for (auto& obstacle : obstacles) {
+					for (auto& obstacle : obstacles) {
 						Sphere obstacleShape;
-						obstacleShape.center = XMLoadFloat3(&obstacle->);
+						obstacleShape.center = XMLoadFloat3(&obstacle->GetPosition());
 						obstacleShape.radius = obstacle->GetScale().x;
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
 							eb->OnCollision();
 							obstacle->OnCollision();
 						}
-					}*/
+					}
 				}
 			}
 		}
@@ -543,15 +546,15 @@ void GamePlayScene::LeftColl()
 					eBullet.radius = eb->GetScale().x;
 					if (leftEnemy[i]->GetAlive()) {
 						Sphere obstacleShape;
-						//for (auto& ob : obstacles) {
-						//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-						//	obstacleShape.radius = ob->GetScale().x;
+						for (auto& ob : obstacles) {
+							obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+							obstacleShape.radius = ob->GetScale().x;
 
-						//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-						//		eb->OnCollision();
-						//		//obstacle->OnCollision();
-						//	}
-						//}
+							if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+								eb->OnCollision();
+								//obstacle->OnCollision();
+							}
+						}
 					}
 				}
 			}
@@ -596,15 +599,15 @@ void GamePlayScene::RightColl()
 				eBullet.radius = eb->GetScale().x;
 				if (rightEnemy[i]->GetAlive()) {
 					Sphere obstacleShape;
-					//for (auto& ob : obstacles) {
-					//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-					//	obstacleShape.radius = ob->GetScale().x;
+					for (auto& ob : obstacles) {
+						obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+						obstacleShape.radius = ob->GetScale().x;
 
-					//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-					//		eb->OnCollision();
-					//		//obstacle->OnCollision();
-					//	}
-					//}
+						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+							eb->OnCollision();
+							//obstacle->OnCollision();
+						}
+					}
 				}
 
 			}
@@ -647,15 +650,15 @@ void GamePlayScene::BackColl()
 				eBullet.radius = eb->GetScale().x;
 				if (backEnemy[i]->GetAlive()) {
 					Sphere obstacleShape;
-					//for (auto& ob : obstacles) {
-					//	obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-					//	obstacleShape.radius = ob->GetScale().x;
+					for (auto& ob : obstacles) {
+						obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+						obstacleShape.radius = ob->GetScale().x;
 
-					//	if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-					//		eb->OnCollision();
-					//		//obstacle->OnCollision();
-					//	}
-					//}
+						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+							eb->OnCollision();
+							//obstacle->OnCollision();
+						}
+					}
 				}
 
 			}
@@ -672,15 +675,16 @@ void GamePlayScene::CheckAllCollision()
 	RightColl();
 	BackColl();
 
-	const std::unique_ptr<PlayerBullet>& playerBullets = player->GetBullet();
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 
 #pragma region 自弾と敵の当たり判定
 
 	Sphere pBullet;
-	if(playerBullets){
-		if (playerBullets->GetAlive()) {
-			pBullet.center = XMLoadFloat3(&playerBullets->GetPosition());
-			pBullet.radius = playerBullets->GetScale().x;
+	//if(playerBullets){
+	for (auto& pb : playerBullets) {
+		if (pb->GetAlive()) {
+			pBullet.center = XMLoadFloat3(&pb->GetPosition());
+			pBullet.radius = pb->GetScale().x;
 
 			//前の敵
 			for (int i = 0; i < 11; i++) {
@@ -691,7 +695,7 @@ void GamePlayScene::CheckAllCollision()
 					fEnemyShape.radius = frontEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
-						playerBullets->OnCollision();
+						pb->OnCollision();
 						frontEnemy[i]->OnCollision();
 						if (!frontEnemy[i]->GetAlive()) {
 							fEneFlag++;
@@ -707,7 +711,7 @@ void GamePlayScene::CheckAllCollision()
 					lEnemyShape.radius = leftEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-						playerBullets->OnCollision();
+						pb->OnCollision();
 						leftEnemy[i]->OnCollision();
 						if (!leftEnemy[i]->GetAlive()) {
 							lEneFlag++;
@@ -724,7 +728,7 @@ void GamePlayScene::CheckAllCollision()
 					lEnemyShape.radius = rightEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-						playerBullets->OnCollision();
+						pb->OnCollision();
 						rightEnemy[i]->OnCollision();
 						if (!rightEnemy[i]->GetAlive()) {
 							rEneFlag++;
@@ -741,12 +745,22 @@ void GamePlayScene::CheckAllCollision()
 					lEnemyShape.radius = backEnemy[i]->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, lEnemyShape)) {
-						playerBullets->OnCollision();
+						pb->OnCollision();
 						backEnemy[i]->OnCollision();
 						if (!backEnemy[i]->GetAlive()) {
 							bEneFlag++;
 						}
 					}
+				}
+			}
+			Sphere obstacleShape;
+			for (auto& ob : obstacles) {
+				obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+				obstacleShape.radius = ob->GetScale().x;
+
+				if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
+					pb->OnCollision();
+					//obstacle->OnCollision();
 				}
 			}
 		}

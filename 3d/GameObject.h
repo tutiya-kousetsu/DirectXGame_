@@ -18,6 +18,7 @@ protected:
 	int life = 2;
 	float move = 0.2f;
 	float moveY = 0.2f;
+	float moveZ = 0.05;
 	bool appFlag = true;
 
 

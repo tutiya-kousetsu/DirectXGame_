@@ -16,6 +16,8 @@ public:
 
 	void Update();
 
+	void MoveSlide();
+
 	void Draw();
 
 private:

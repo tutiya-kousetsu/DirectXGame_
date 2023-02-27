@@ -50,10 +50,11 @@ void Player::Update()
 	move();
 	jump();
 	Input* input = Input::GetInstance();
-	if (bullet) {
-		bullet->SetAlive(false);
-		if (input->PushMouseLeft() && !bullet->GetAlive()) {
-			atTimer++;
+	/*if (bullet) {
+		bullet->SetAlive(false);*/
+		if (input->TriggerMouseLeft()) {
+			Shoot();
+			/*atTimer++;
 			bullet->SetAlive(true);
 			if (atTimer >= 120 && !atFlag && bullet->GetAlive()) {
 				Shoot();
@@ -64,18 +65,18 @@ void Player::Update()
 				Shoot();
 				atFlag = true;
 				atPower = 1;
-			}
+			}*/
 			/*if () {
 				atTimer = 0;
 				atFlag = false;
 			}*/
 		}
-		else {
-			//if () {};
-		}
-	}
-	if(bullet) {
-		bullet->Update();
+		//else {
+		//	//if () {};
+		//}
+	//}
+	for (std::unique_ptr<PlayerBullet>& bul : bullet) {
+		bul->Update();
 	}
 	//particleMan->Update();
 	Object3d::Update();
@@ -250,11 +251,17 @@ bool Player::Shoot()
 
 	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
 	//コンストラクタ呼ぶよ
-	PlayerBullet* newBullet = new PlayerBullet();
-	//初期化行くよ
+	//PlayerBullet* newBullet = new PlayerBullet();
+	////初期化行くよ
+	//newBullet->Initialize(position, velocity);
+
+	//bullet.reset(newBullet);
+	//コンストラクタ呼ぶよ
+	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	//初期化
 	newBullet->Initialize(position, velocity);
 
-	bullet.reset(newBullet);
+	bullet.push_back(std::move(newBullet));
 	return true;
 }
 
@@ -291,8 +298,8 @@ void Player::Draw()
 		Object3d::Draw();
 		//particleMan->Draw();
 	}
-	if(bullet) {
-		bullet->Draw();
+	for (std::unique_ptr<PlayerBullet>& bul : bullet) {
+		bul->Draw();
 	}
 }
 

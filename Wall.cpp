@@ -22,8 +22,10 @@ void Wall::Update()
 {
 	/*LoadWallPopData();
 	UpdataWallPopCommand();*/
+	
 	object->Update();
 }
+
 
 void Wall::Draw()
 {

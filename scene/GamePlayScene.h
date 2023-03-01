@@ -51,6 +51,10 @@ public:
 	/// </summary>
 	void Update() override;
 
+	void DoorMove();
+
+	void EnemyStartPos();
+
 	/// <summary>
 	/// ï`âÊ
 	/// </summary>
@@ -94,7 +98,7 @@ private:
 
 	std::list<std::unique_ptr<Obstacle>> obstacles;
 	std::list<std::unique_ptr<Wall>> walls;
-	std::unique_ptr<Door> door;
+	Door* door[8] = {};
 	//è·äQï®î≠ê∂ÇÃÉRÉ}ÉìÉh
 	std::stringstream obstaclePopCom;
 	std::stringstream wallPopCom;
@@ -117,6 +121,11 @@ private:
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;
 	XMFLOAT3 bulPos;
+	XMFLOAT3 doorPos[8];
+	XMFLOAT3 frontEnePos[11];
+	XMFLOAT3 leftEnePos[7];
+	XMFLOAT3 rightEnePos[4];
+	XMFLOAT3 backEnePos[2];
 	int playerLife = 3;
 
 	int gameScore = 0;

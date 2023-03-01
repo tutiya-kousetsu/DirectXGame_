@@ -13,15 +13,15 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("BlueBox"))
 	particleMan = ParticleManager::GetInstance();
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
 	position = GetPosition();
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	int z = rand() % 700;
+	//int x = rand() % 700;
+	//float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
+	//int y = rand() % 70;
+	//float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	//int z = rand() % 700;
 	//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { 8, 8, 50 };
+	//position = { 8, 8, 50 };
+	//object->SetPosition(position);
 	// À•W‚Ì•ÏX‚ð”½‰f
-	SetPosition(position);
 
 }
 
@@ -32,6 +32,9 @@ FrontEnemy::~FrontEnemy()
 bool FrontEnemy::Initialize()
 {
 	AccessPhase();
+	//position = object->GetPosition();
+	//position = { 8, 8, 40 };
+	object->SetPosition(position);
 
 	return true;
 }
@@ -45,7 +48,7 @@ void FrontEnemy::Update()
 			//“G‚ªŽ~‚Ü‚Á‚½‚çƒtƒ‰ƒO‚ð—§‚Ä‚Ä’e‚ðŒ‚‚¿Žn‚ß‚é
 			Shoot();
 		}
-		object->SetPosition(position);
+		//object->SetPosition(position);
 	}
 
 	object->Update();

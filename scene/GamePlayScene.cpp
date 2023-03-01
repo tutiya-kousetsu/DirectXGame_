@@ -75,8 +75,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
 	//ドアの初期化
-	door.reset(new Door());
-	door->Initialize();
+	for (int i = 0; i < 8; i++) {
+		door[i] = new Door();
+		door[i]->Initialize();
+		doorPos[i] = door[i]->GetPosition();
+		doorPos[0] = { 8, 8, 40 };
+		doorPos[1] = { -8,8,40 };
+	}
 
 	particleMan = ParticleManager::GetInstance();
 	//line = new Line();
@@ -88,6 +93,19 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		frontEnemy[i]->Initialize();
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		frontEnemy[i]->SetPlayer(player);
+			frontEnePos[i] = frontEnemy[i]->GetPosition();
+			frontEnePos[0] = { 8, 8, 50 };
+			frontEnePos[1] = { 16, 8, 50 };
+			frontEnePos[2] = { 8, 8, 50 };
+			frontEnePos[3] = { 16, 8, 50 };
+			frontEnePos[4] = { 8, 8, 50 };
+			frontEnePos[5] = { 16, 8, 50 };
+			frontEnePos[6] = { 8, 8, 50 };
+			frontEnePos[7] = { 16, 8, 50 };
+			frontEnePos[8] = { 8, 8, 50 };
+			frontEnePos[9] = { 16, 8, 50 };
+			frontEnePos[10] = { 8, 8, 50 };
+
 	}
 	for (int i = 0; i < 7; i++) {
 		//左
@@ -110,6 +128,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		backEnemy[i]->SetPlayer(player);
 	}
+	EnemyStartPos();
 	//データ読み込み
 	skyModel = Model::CreateFromOBJ("skydome");
 	skyObj = Object3d::Create();
@@ -130,6 +149,9 @@ void GamePlayScene::Finalize()
 	delete floor;
 	delete player;
 	delete skyObj;
+	for (int i = 0; i < 8; i++) {
+		delete door[i];
+	}
 	//delete enemy;
 	for (int i = 0; i < 11; i++) {
 		delete frontEnemy[i];
@@ -216,13 +238,16 @@ void GamePlayScene::Update()
 	player->Update();
 
 	//fbxObj->Update();
-
+	
 	//更新
 	camera->Update();
 	floor->Update();
-	door->Update();
+	for (int i = 0; i < 11; i++) {
+		frontEnemy[i]->SetPosition(frontEnePos[i]);
+	}
 	//敵の発生する順番
 	if (fEneFlag >= 0) {
+		
 		frontEnemy[0]->Update();
 	}
 	if (fEneFlag >= 1) {
@@ -260,6 +285,7 @@ void GamePlayScene::Update()
 	}
 
 	skyObj->Update();
+	DoorMove();
 	//障害物のマップチップ読み込み用
 	LoadObstaclePopData();
 	UpdataObstaclePopCommand();
@@ -270,6 +296,90 @@ void GamePlayScene::Update()
 	CheckAllCollision();
 
 	particleMan->Update();
+}
+
+void GamePlayScene::DoorMove()
+{
+	if (doorPos[0].x >= 0) {
+		doorPos[0].x -= 0.05;
+	}
+	//for (int i = 0; i <= 0; i++) {
+		/*if (!frontEnemy[0]->GetAlive() && doorPos[0].x <= 8) {
+			doorPos[0].x += 0.05;
+		}
+		if (doorPos[0].x >= 8) {
+			fEneFlag = 1;
+		}*/
+	//}
+	
+	if (doorPos[1].x >= -16 && fEneFlag >= 1) {
+		doorPos[1].x -= 0.05;
+	}
+	/*if (doorPos[2].x >= 0) {
+		doorPos[2].x -= 0.05;
+	}
+	if (doorPos[3].x >= -16) {
+		doorPos[3].x -= 0.05;
+	}
+	if (doorPos[4].x >= 0) {
+		doorPos[4].x -= 0.05;
+	}
+	if (doorPos[5].x >= -16) {
+		doorPos[5].x -= 0.05;
+	}
+	if (doorPos[7].x >= 0) {
+		doorPos[7].x -= 0.05;
+	}
+	if (doorPos[8].x >= -16) {
+		doorPos[8].x -= 0.05;
+	}*/
+
+	for (int i = 0; i < 8; i++) {
+		door[i]->SetPosition(doorPos[i]);
+		door[i]->Update();
+	}
+}
+
+void GamePlayScene::EnemyStartPos()
+{
+	//前
+	
+	/*frontEnePos[2] = { 8, 8, 50 };
+	frontEnePos[3] = { 8, 8, 50 };
+	frontEnePos[4] = { 8, 8, 50 };
+	frontEnePos[5] = { 8, 8, 50 };
+	frontEnePos[6] = { 8, 8, 50 };
+	frontEnePos[7] = { 8, 8, 50 };
+	frontEnePos[8] = { 8, 8, 50 };
+	frontEnePos[9] = { 8, 8, 50 };
+	frontEnePos[10] = { 8, 8, 50 };*/
+
+	//左
+	//leftEnePos[0] = {};
+	//leftEnePos[2] = {};
+	//leftEnePos[1] = {};
+	//leftEnePos[3] = {};
+	//leftEnePos[4] = {};
+	//leftEnePos[5] = {};
+	//leftEnePos[6] = {};
+
+	//for (int i = 0; i < 11; i++) {
+	//	//前
+	//	frontEnemy[i]->SetPosition(frontEnePos[i]);
+	//}
+	
+	for (int i = 0; i < 7; i++) {
+		//左
+		leftEnemy[i]->SetPosition(leftEnePos[i]);
+	}
+	for (int i = 0; i < 4; i++) {
+		//右
+		rightEnemy[i]->SetPosition(rightEnePos[i]);
+	}
+	for (int i = 0; i < 2; i++) {
+		//後ろ
+		backEnemy[i]->SetPosition(backEnePos[i]);
+	}
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -297,9 +407,11 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
-	for (int i = 0; i < 11; i++) {
+	/*for (int i = 0; i < 11; i++) {
 		frontEnemy[i]->Draw();
-	}
+	}*/
+	frontEnemy[0]->Draw();
+	//frontEnemy[1]->Draw();
 	for (int i = 0; i < 7; i++) {
 		leftEnemy[i]->Draw();
 	}
@@ -318,7 +430,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//fbxObj->Draw(dxCommon->GetCmdList());
 	skyObj->Draw();
 	floor->Draw();
-	door->Draw();
+	for (int i = 0; i < 8; i++) {
+		door[i]->Draw();
+	}
 	particleMan->Draw();
 	Object3d::PostDraw();
 
@@ -774,9 +888,9 @@ void GamePlayScene::CheckAllCollision()
 		player->SetAlive(false);
 		waitTimer++;
 		if (waitTimer >= 30) {
-		//シーン切り替え
-		BaseScene* scene = new GameOver();
-		this->sceneManager->SetNextScene(scene);
+			//シーン切り替え
+			BaseScene* scene = new GameOver();
+			this->sceneManager->SetNextScene(scene);
 		}
 	}
 	if (fEneFlag >= 11 && lEneFlag >= 7 && rEneFlag >= 4 && bEneFlag >= 2) {

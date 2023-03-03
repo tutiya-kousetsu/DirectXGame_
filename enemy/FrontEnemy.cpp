@@ -12,7 +12,7 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("BlueBox"))
 	object->SetRotation({ 0, 180, 0 });
 	particleMan = ParticleManager::GetInstance();
 	// Œ»İ‚ÌÀ•W‚ğæ“¾
-	position = GetPosition();
+	//position = GetPosition();
 	//int x = rand() % 700;
 	//float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
 	//int y = rand() % 70;

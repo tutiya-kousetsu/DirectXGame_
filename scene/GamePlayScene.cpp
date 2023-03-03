@@ -93,18 +93,18 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		frontEnemy[i]->Initialize();
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		frontEnemy[i]->SetPlayer(player);
-			frontEnePos[i] = frontEnemy[i]->GetPosition();
-			frontEnePos[0] = { 8, 8, 50 };
-			frontEnePos[1] = { 16, 8, 50 };
-			frontEnePos[2] = { 8, 8, 50 };
-			frontEnePos[3] = { 16, 8, 50 };
-			frontEnePos[4] = { 8, 8, 50 };
-			frontEnePos[5] = { 16, 8, 50 };
-			frontEnePos[6] = { 8, 8, 50 };
-			frontEnePos[7] = { 16, 8, 50 };
-			frontEnePos[8] = { 8, 8, 50 };
-			frontEnePos[9] = { 16, 8, 50 };
-			frontEnePos[10] = { 8, 8, 50 };
+		frontEnePos[i] = frontEnemy[i]->GetPosition();
+		frontEnePos[0] = { 8, 8, 50 };
+		frontEnePos[1] = { -8, 8, 50 };
+		frontEnePos[2] = { 8, 8, 50 };
+		frontEnePos[3] = { -8, 8, 50 };
+		frontEnePos[4] = { 8, 8, 50 };
+		frontEnePos[5] = { -8, 8, 50 };
+		frontEnePos[6] = { 8, 8, 50 };
+		frontEnePos[7] = { -8, 8, 50 };
+		frontEnePos[8] = { 8, 8, 50 };
+		frontEnePos[9] = { -8, 8, 50 };
+		frontEnePos[10] = { 8, 8, 50 };
 
 	}
 	for (int i = 0; i < 7; i++) {
@@ -211,7 +211,7 @@ void GamePlayScene::Update()
 
 		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
 		XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
-		// FLOAT3に変換//
+		// FLOAT3に変換
 		XMStoreFloat3(&fTargetEye, vecF);
 		XMVECTOR vecTarget = XMLoadFloat3(&target2);
 		// FLOAT3に変換
@@ -238,7 +238,7 @@ void GamePlayScene::Update()
 	player->Update();
 
 	//fbxObj->Update();
-	
+
 	//更新
 	camera->Update();
 	floor->Update();
@@ -247,25 +247,33 @@ void GamePlayScene::Update()
 	}
 	//敵の発生する順番
 	if (fEneFlag >= 0) {
-		
+		//frontEnemy[0]->SetPosition(frontEnePos[0]);
 		frontEnemy[0]->Update();
 	}
 	if (fEneFlag >= 1) {
+		//frontEnemy[1]->SetPosition(frontEnePos[1]);
+		//frontEnemy[2]->SetPosition(frontEnePos[2]);
 		frontEnemy[1]->Update();
 		frontEnemy[2]->Update();
 	}
 	if (fEneFlag >= 3 && lEneFlag >= 0) {
+		//frontEnemy[3]->SetPosition(frontEnePos[3]);
+		//frontEnemy[4]->SetPosition(frontEnePos[4]);
 		frontEnemy[3]->Update();
 		frontEnemy[4]->Update();
 		leftEnemy[0]->Update();
 	}
 	if (fEneFlag >= 5 && lEneFlag >= 1) {
+		//frontEnemy[5]->SetPosition(frontEnePos[5]);
+		//frontEnemy[6]->SetPosition(frontEnePos[6]);
 		frontEnemy[5]->Update();
 		frontEnemy[6]->Update();
 		leftEnemy[1]->Update();
 		leftEnemy[2]->Update();
 	}
 	if (fEneFlag >= 7 && lEneFlag >= 3 && rEneFlag >= 0) {
+		//frontEnemy[7]->SetPosition(frontEnePos[7]);
+		//frontEnemy[8]->SetPosition(frontEnePos[8]);
 		frontEnemy[7]->Update();
 		frontEnemy[8]->Update();
 		leftEnemy[3]->Update();
@@ -274,6 +282,8 @@ void GamePlayScene::Update()
 		rightEnemy[1]->Update();
 	}
 	if (fEneFlag >= 7 && lEneFlag >= 5 && rEneFlag >= 2) {
+		//frontEnemy[9]->SetPosition(frontEnePos[9]);
+		//frontEnemy[10]->SetPosition(frontEnePos[10]);
 		frontEnemy[9]->Update();
 		frontEnemy[10]->Update();
 		leftEnemy[5]->Update();
@@ -292,6 +302,10 @@ void GamePlayScene::Update()
 	//壁のマップチップ読み込み用
 	LoadWallPopData();
 	UpdataWallPopCommand();
+	for (auto& wall : walls) {
+		wall->Update();
+	}
+
 	collisionMan->CheckAllCollisions();
 	CheckAllCollision();
 
@@ -310,8 +324,8 @@ void GamePlayScene::DoorMove()
 		if (doorPos[0].x >= 8) {
 			fEneFlag = 1;
 		}*/
-	//}
-	
+		//}
+
 	if (doorPos[1].x >= -16 && fEneFlag >= 1) {
 		doorPos[1].x -= 0.05;
 	}
@@ -343,7 +357,7 @@ void GamePlayScene::DoorMove()
 void GamePlayScene::EnemyStartPos()
 {
 	//前
-	
+
 	/*frontEnePos[2] = { 8, 8, 50 };
 	frontEnePos[3] = { 8, 8, 50 };
 	frontEnePos[4] = { 8, 8, 50 };
@@ -367,7 +381,7 @@ void GamePlayScene::EnemyStartPos()
 	//	//前
 	//	frontEnemy[i]->SetPosition(frontEnePos[i]);
 	//}
-	
+
 	for (int i = 0; i < 7; i++) {
 		//左
 		leftEnemy[i]->SetPosition(leftEnePos[i]);
@@ -407,10 +421,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
-	/*for (int i = 0; i < 11; i++) {
+	for (int i = 0; i < 11; i++) {
 		frontEnemy[i]->Draw();
-	}*/
-	frontEnemy[0]->Draw();
+	}
+	//frontEnemy[0]->Draw();
 	//frontEnemy[1]->Draw();
 	for (int i = 0; i < 7; i++) {
 		leftEnemy[i]->Draw();
@@ -566,17 +580,25 @@ void GamePlayScene::UpdataWallPopCommand()
 			//z座標
 			getline(line_stream, word, ',');
 			float z = (float)std::atof(word.c_str());
+			//x座標
+			getline(line_stream, word, ',');
+			float rx = (float)std::atof(word.c_str());
 
+			//y座標
+			getline(line_stream, word, ',');
+			float ry = (float)std::atof(word.c_str());
+
+			//z座標
+			getline(line_stream, word, ',');
+			float rz = (float)std::atof(word.c_str());
 			//敵を発生させる
-			//コンストラクタ呼ぶよ
+				//コンストラクタ呼ぶよ
 			std::unique_ptr<Wall> newWall = std::make_unique<Wall>();
-			newWall->Initialize(XMFLOAT3(x, y, z));
+			newWall->Initialize(XMFLOAT3(x, y, z), XMFLOAT3(rx, ry, rz));
 			//障害物を登録する
 			walls.push_back(std::move(newWall));
+			//POPコマンド
 		}
-	}
-	for (auto& wall : walls) {
-		wall->Update();
 	}
 }
 

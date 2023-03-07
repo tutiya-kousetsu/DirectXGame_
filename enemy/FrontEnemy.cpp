@@ -60,7 +60,7 @@ void FrontEnemy::appearance()
 	position.z -= moveZ;
 	//int y = rand() % 70;
 	//float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	if (position.z <= 40) {
+	if (position.z <= 60) {
 		moveZ = 0;
 		appFlag = false;
 	}

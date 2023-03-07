@@ -107,6 +107,7 @@ private:
 	Model* obModel = nullptr;
 	Player* player = nullptr;
 	FrontEnemy* frontEnemy[11]{};
+	//std::list<std::unique_ptr<FrontEnemy>> frontEnemy;
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};
 	BackEnemy* backEnemy[2]{};
@@ -122,6 +123,7 @@ private:
 	XMFLOAT2 spPos;
 	XMFLOAT3 bulPos;
 	XMFLOAT3 doorPos[8];
+	XMFLOAT3 doorRot[8];
 	XMFLOAT3 frontEnePos[11];
 	XMFLOAT3 leftEnePos[7];
 	XMFLOAT3 rightEnePos[4];

@@ -22,4 +22,5 @@ public:
 
 private:
 	XMFLOAT3 position;
+	XMFLOAT3 rotation;
 };

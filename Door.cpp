@@ -14,6 +14,7 @@ void Door::Initialize()
 	position = object->GetPosition();
 	//position = { 8, 8, 40 };
 	object->SetPosition(position);
+	object->SetRotation(rotation);
 }
 
 void Door::Update()

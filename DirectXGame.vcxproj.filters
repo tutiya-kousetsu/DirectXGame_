@@ -285,7 +285,7 @@
       <Filter>ソース ファイル\game</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -496,7 +496,7 @@
       <Filter>ソース ファイル\game</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

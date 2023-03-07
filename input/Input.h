@@ -99,6 +99,9 @@ private://ƒƒ“ƒo[•Ï”
 	DIMOUSESTATE2 mouseState = {};
 	DIMOUSESTATE2 mouseStatePre = {};
 
+	ComPtr<IDirectInputDevice8> devJoyStick;
+	DIJOYSTATE2 joyState = {};
+	DIJOYSTATE2 joyStatePre = {};
 private:
 	// WindowsAPI
 	WinApp* winApp = nullptr;

@@ -25,6 +25,8 @@ void Input::Initialize(WinApp* winApp)
 	// マウスデバイスの生成	
 	result = dinput->CreateDevice(GUID_SysMouse, &devMouse, NULL);
 
+	result = dinput->CreateDevice(GUID_Joystick, &devJoyStick, NULL);
+
 	// 入力データ形式のセット
 	result = devKeyboard->SetDataFormat(&c_dfDIKeyboard); // 標準形式
 
@@ -37,7 +39,13 @@ void Input::Initialize(WinApp* winApp)
 	// 排他制御レベルのセット
 	result = devMouse->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 
+	if (devJoyStick != NULL) {
+		// 入力データ形式のセット
+		result = devJoyStick->SetDataFormat(&c_dfDIJoystick2); // 標準形式
 
+		// 排他制御レベルのセット
+		result = devJoyStick->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	}
 	this->winApp = winApp;
 
 }
@@ -64,6 +72,18 @@ void Input::Update()
 
 		// マウスの入力
 		result = devMouse->GetDeviceState(sizeof(mouseState), &mouseState);
+	}
+
+	if (devJoyStick != NULL) {
+		{// pad
+			result = devJoyStick->Acquire();	// pad動作開始
+
+			// 前回の入力を保存
+			joyStatePre = joyState;
+
+			// padの入力
+			result = devJoyStick->GetDeviceState(sizeof(joyState), &joyState);
+		}
 	}
 }
 

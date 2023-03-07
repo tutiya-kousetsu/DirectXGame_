@@ -33,24 +33,3 @@ void Wall::Draw()
 {
 	object->Draw();
 }
-
-
-//LeftWall::LeftWall() :LeftWall(Model::CreateFromOBJ("wall"))
-//{
-//}
-//
-//LeftWall::~LeftWall()
-//{
-//}
-//
-//void LeftWall::LeftInitialize(DirectX::XMFLOAT3 position)
-//{
-//}
-//
-//void LeftWall::LeftUpdate()
-//{
-//}
-//
-//void LeftWall::LeftDraw()
-//{
-//}

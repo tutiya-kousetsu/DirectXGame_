@@ -79,8 +79,19 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		door[i] = new Door();
 		door[i]->Initialize();
 		doorPos[i] = door[i]->GetPosition();
-		doorPos[0] = { 8, 8, 40 };
-		doorPos[1] = { -8,8,40 };
+		doorPos[0] = { 8, 8, 50 };
+		doorPos[1] = { -8,8,50 };
+		doorPos[2] = { -50, 8, 8 };
+		doorPos[3] = { -50,8,-8 };
+		doorPos[4] = { 50, 8, 8 };
+		doorPos[5] = { 50,8,-8 };
+		doorPos[6] = { 8, 8, -50 };
+		doorPos[7] = { -8,8,-50 };
+		doorRot[i] = door[i]->GetRotation();
+		doorRot[2] = { 0, 90 ,0 };
+		doorRot[3] = { 0, 90 ,0 };
+		doorRot[4] = { 0, 90 ,0 };
+		doorRot[5] = { 0, 90 ,0 };
 	}
 
 	particleMan = ParticleManager::GetInstance();
@@ -94,17 +105,17 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		frontEnemy[i]->SetPlayer(player);
 		frontEnePos[i] = frontEnemy[i]->GetPosition();
-		frontEnePos[0] = { 8, 8, 50 };
-		frontEnePos[1] = { -8, 8, 50 };
-		frontEnePos[2] = { 8, 8, 50 };
-		frontEnePos[3] = { -8, 8, 50 };
-		frontEnePos[4] = { 8, 8, 50 };
-		frontEnePos[5] = { -8, 8, 50 };
-		frontEnePos[6] = { 8, 8, 50 };
-		frontEnePos[7] = { -8, 8, 50 };
-		frontEnePos[8] = { 8, 8, 50 };
-		frontEnePos[9] = { -8, 8, 50 };
-		frontEnePos[10] = { 8, 8, 50 };
+		frontEnePos[0] = { 8, 8, 60 };
+		frontEnePos[1] = { -8, 8, 60 };
+		frontEnePos[2] = { 8, 8, 60 };
+		frontEnePos[3] = { -8, 8, 60 };
+		frontEnePos[4] = { 8, 8, 60 };
+		frontEnePos[5] = { -8, 8, 60 };
+		frontEnePos[6] = { 8, 8, 60 };
+		frontEnePos[7] = { -8, 8, 60 };
+		frontEnePos[8] = { 8, 8, 60 };
+		frontEnePos[9] = { -8, 8, 60 };
+		frontEnePos[10] = { 8, 8, 60 };
 
 	}
 	for (int i = 0; i < 7; i++) {
@@ -247,33 +258,24 @@ void GamePlayScene::Update()
 	}
 	//敵の発生する順番
 	if (fEneFlag >= 0) {
-		//frontEnemy[0]->SetPosition(frontEnePos[0]);
 		frontEnemy[0]->Update();
 	}
 	if (fEneFlag >= 1) {
-		//frontEnemy[1]->SetPosition(frontEnePos[1]);
-		//frontEnemy[2]->SetPosition(frontEnePos[2]);
 		frontEnemy[1]->Update();
 		frontEnemy[2]->Update();
 	}
 	if (fEneFlag >= 3 && lEneFlag >= 0) {
-		//frontEnemy[3]->SetPosition(frontEnePos[3]);
-		//frontEnemy[4]->SetPosition(frontEnePos[4]);
 		frontEnemy[3]->Update();
 		frontEnemy[4]->Update();
 		leftEnemy[0]->Update();
 	}
 	if (fEneFlag >= 5 && lEneFlag >= 1) {
-		//frontEnemy[5]->SetPosition(frontEnePos[5]);
-		//frontEnemy[6]->SetPosition(frontEnePos[6]);
 		frontEnemy[5]->Update();
 		frontEnemy[6]->Update();
 		leftEnemy[1]->Update();
 		leftEnemy[2]->Update();
 	}
 	if (fEneFlag >= 7 && lEneFlag >= 3 && rEneFlag >= 0) {
-		//frontEnemy[7]->SetPosition(frontEnePos[7]);
-		//frontEnemy[8]->SetPosition(frontEnePos[8]);
 		frontEnemy[7]->Update();
 		frontEnemy[8]->Update();
 		leftEnemy[3]->Update();
@@ -281,9 +283,7 @@ void GamePlayScene::Update()
 		rightEnemy[0]->Update();
 		rightEnemy[1]->Update();
 	}
-	if (fEneFlag >= 7 && lEneFlag >= 5 && rEneFlag >= 2) {
-		//frontEnemy[9]->SetPosition(frontEnePos[9]);
-		//frontEnemy[10]->SetPosition(frontEnePos[10]);
+	if (fEneFlag >= 9 && lEneFlag >= 5 && rEneFlag >= 2) {
 		frontEnemy[9]->Update();
 		frontEnemy[10]->Update();
 		leftEnemy[5]->Update();
@@ -350,6 +350,7 @@ void GamePlayScene::DoorMove()
 
 	for (int i = 0; i < 8; i++) {
 		door[i]->SetPosition(doorPos[i]);
+		door[i]->SetRotation(doorRot[i]);
 		door[i]->Update();
 	}
 }
@@ -580,24 +581,24 @@ void GamePlayScene::UpdataWallPopCommand()
 			//z座標
 			getline(line_stream, word, ',');
 			float z = (float)std::atof(word.c_str());
-			//x座標
+
+			//x軸の回転
 			getline(line_stream, word, ',');
 			float rx = (float)std::atof(word.c_str());
 
-			//y座標
+			//y軸の回転
 			getline(line_stream, word, ',');
 			float ry = (float)std::atof(word.c_str());
 
-			//z座標
+			//z軸の回転
 			getline(line_stream, word, ',');
 			float rz = (float)std::atof(word.c_str());
 			//敵を発生させる
-				//コンストラクタ呼ぶよ
+			//コンストラクタ呼ぶよ
 			std::unique_ptr<Wall> newWall = std::make_unique<Wall>();
 			newWall->Initialize(XMFLOAT3(x, y, z), XMFLOAT3(rx, ry, rz));
 			//障害物を登録する
 			walls.push_back(std::move(newWall));
-			//POPコマンド
 		}
 	}
 }
@@ -895,6 +896,16 @@ void GamePlayScene::CheckAllCollision()
 				obstacleShape.radius = ob->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
+					pb->OnCollision();
+					//obstacle->OnCollision();
+				}
+			}
+			Sphere wallShape;
+			for (auto& wall : walls) {
+				wallShape.center = XMLoadFloat3(&wall->GetPosition());
+				wallShape.radius = wall->GetScale().x;
+
+				if (Collision::CheckSphere2Sphere(pBullet, wallShape)) {
 					pb->OnCollision();
 					//obstacle->OnCollision();
 				}

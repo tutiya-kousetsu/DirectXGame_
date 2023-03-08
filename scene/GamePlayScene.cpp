@@ -74,6 +74,8 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	floor = TouchableObject::Create(floorModel);
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
+	//frontEnemy.reset(new FrontEnemy());
+
 	//ドアの初期化
 	for (int i = 0; i < 8; i++) {
 		door[i] = new Door();
@@ -98,26 +100,29 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//line = new Line();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
-	for (int i = 0; i < 11; i++) {
-		//前
-		frontEnemy[i] = new FrontEnemy();
-		frontEnemy[i]->Initialize();
-		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		frontEnemy[i]->SetPlayer(player);
-		frontEnePos[i] = frontEnemy[i]->GetPosition();
-		frontEnePos[0] = { 8, 8, 60 };
-		frontEnePos[1] = { -8, 8, 60 };
-		frontEnePos[2] = { 8, 8, 60 };
-		frontEnePos[3] = { -8, 8, 60 };
-		frontEnePos[4] = { 8, 8, 60 };
-		frontEnePos[5] = { -8, 8, 60 };
-		frontEnePos[6] = { 8, 8, 60 };
-		frontEnePos[7] = { -8, 8, 60 };
-		frontEnePos[8] = { 8, 8, 60 };
-		frontEnePos[9] = { -8, 8, 60 };
-		frontEnePos[10] = { 8, 8, 60 };
+	frontEnemy.reset(new FrontEnemy);
+	frontEnemy->Initialize();
+	frontEnemy->SetPlayer(player);
+	//for (int i = 0; i < 11; i++) {
+	//	//前
+	//	frontEnemy[i] = new FrontEnemy();
+	//	frontEnemy[i]->Initialize();
+	//	//敵に自機のアドレスを渡して敵が自機を使えるようにする
+	//	frontEnemy[i]->SetPlayer(player);
+	//	frontEnePos[i] = frontEnemy[i]->GetPosition();
+	//	frontEnePos[0] = { 8, 8, 60 };
+	//	frontEnePos[1] = { -8, 8, 60 };
+	//	frontEnePos[2] = { 8, 8, 60 };
+	//	frontEnePos[3] = { -8, 8, 60 };
+	//	frontEnePos[4] = { 8, 8, 60 };
+	//	frontEnePos[5] = { -8, 8, 60 };
+	//	frontEnePos[6] = { 8, 8, 60 };
+	//	frontEnePos[7] = { -8, 8, 60 };
+	//	frontEnePos[8] = { 8, 8, 60 };
+	//	frontEnePos[9] = { -8, 8, 60 };
+	//	frontEnePos[10] = { 8, 8, 60 };
 
-	}
+	//}
 	for (int i = 0; i < 7; i++) {
 		//左
 		leftEnemy[i] = new LeftEnemy();
@@ -164,9 +169,9 @@ void GamePlayScene::Finalize()
 		delete door[i];
 	}
 	//delete enemy;
-	for (int i = 0; i < 11; i++) {
+	/*for (int i = 0; i < 11; i++) {
 		delete frontEnemy[i];
-	}
+	}*/
 	for (int i = 0; i < 7; i++) {
 		delete leftEnemy[i];
 	}
@@ -253,39 +258,40 @@ void GamePlayScene::Update()
 	//更新
 	camera->Update();
 	floor->Update();
-	for (int i = 0; i < 11; i++) {
+	frontEnemy->Update();
+	/*for (int i = 0; i < 11; i++) {
 		frontEnemy[i]->SetPosition(frontEnePos[i]);
-	}
+	}*/
 	//敵の発生する順番
 	if (fEneFlag >= 0) {
-		frontEnemy[0]->Update();
+		//frontEnemy->Update();
 	}
 	if (fEneFlag >= 1) {
-		frontEnemy[1]->Update();
-		frontEnemy[2]->Update();
+		/*frontEnemy[1]->Update();
+		frontEnemy[2]->Update();*/
 	}
 	if (fEneFlag >= 3 && lEneFlag >= 0) {
-		frontEnemy[3]->Update();
-		frontEnemy[4]->Update();
+		/*frontEnemy[3]->Update();
+		frontEnemy[4]->Update();*/
 		leftEnemy[0]->Update();
 	}
 	if (fEneFlag >= 5 && lEneFlag >= 1) {
-		frontEnemy[5]->Update();
-		frontEnemy[6]->Update();
+		/*frontEnemy[5]->Update();
+		frontEnemy[6]->Update();*/
 		leftEnemy[1]->Update();
 		leftEnemy[2]->Update();
 	}
 	if (fEneFlag >= 7 && lEneFlag >= 3 && rEneFlag >= 0) {
-		frontEnemy[7]->Update();
-		frontEnemy[8]->Update();
+		/*frontEnemy[7]->Update();
+		frontEnemy[8]->Update();*/
 		leftEnemy[3]->Update();
 		leftEnemy[4]->Update();
 		rightEnemy[0]->Update();
 		rightEnemy[1]->Update();
 	}
 	if (fEneFlag >= 9 && lEneFlag >= 5 && rEneFlag >= 2) {
-		frontEnemy[9]->Update();
-		frontEnemy[10]->Update();
+		/*frontEnemy[9]->Update();
+		frontEnemy[10]->Update();*/
 		leftEnemy[5]->Update();
 		leftEnemy[6]->Update();
 		rightEnemy[2]->Update();
@@ -315,7 +321,7 @@ void GamePlayScene::Update()
 void GamePlayScene::DoorMove()
 {
 	if (doorPos[0].x >= 0) {
-		doorPos[0].x -= 0.05;
+		doorPos[0].x -= 0.05f;
 	}
 	//for (int i = 0; i <= 0; i++) {
 		/*if (!frontEnemy[0]->GetAlive() && doorPos[0].x <= 8) {
@@ -327,7 +333,7 @@ void GamePlayScene::DoorMove()
 		//}
 
 	if (doorPos[1].x >= -16 && fEneFlag >= 1) {
-		doorPos[1].x -= 0.05;
+		doorPos[1].x -= 0.05f;
 	}
 	/*if (doorPos[2].x >= 0) {
 		doorPos[2].x -= 0.05;
@@ -422,9 +428,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
-	for (int i = 0; i < 11; i++) {
+	/*for (int i = 0; i < 11; i++) {
 		frontEnemy[i]->Draw();
-	}
+	}*/
+	frontEnemy->Draw();
 	//frontEnemy[0]->Draw();
 	//frontEnemy[1]->Draw();
 	for (int i = 0; i < 7; i++) {
@@ -606,22 +613,23 @@ void GamePlayScene::UpdataWallPopCommand()
 //前敵の弾の当たり判定
 void GamePlayScene::FrontColl()
 {
-	for (int i = 0; i < 11; i++) {
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = frontEnemy[i]->GetBullet();
+	//for (int i = 0; i < 11; i++) {
+		const std::unique_ptr<EnemyBullet>& enemyBullet = frontEnemy->GetBullet();
 #pragma region 敵弾と自機の当たり判定
-		for (auto& eb : enemyBullets) {
+		//for (auto& eb : enemyBullets) {
+		if(enemyBullet){
 			Sphere eBullet;
 
-			if (eb->GetAlive()) {
-				eBullet.center = XMLoadFloat3(&eb->GetPosition());
-				eBullet.radius = eb->GetScale().x;
+			if (enemyBullet->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&enemyBullet->GetPosition());
+				eBullet.radius = enemyBullet->GetScale().x;
 				Sphere playerShape;
 				playerShape.center = XMLoadFloat3(&player->GetPosition());
 				playerShape.radius = player->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 					player->CreateParticle();
-					eb->OnCollision();
+					enemyBullet->OnCollision();
 					playerLife--;
 				}
 			}
@@ -629,10 +637,10 @@ void GamePlayScene::FrontColl()
 #pragma endregion
 
 #pragma region 敵弾と障害物の当たり判定
-			if (eb->GetAlive()) {
-				eBullet.center = XMLoadFloat3(&eb->GetPosition());
-				eBullet.radius = eb->GetScale().x;
-				if (eb->GetAlive()) {
+			if (enemyBullet->GetAlive()) {
+				eBullet.center = XMLoadFloat3(&enemyBullet->GetPosition());
+				eBullet.radius = enemyBullet->GetScale().x;
+				if (enemyBullet->GetAlive()) {
 
 					for (auto& obstacle : obstacles) {
 						Sphere obstacleShape;
@@ -640,14 +648,14 @@ void GamePlayScene::FrontColl()
 						obstacleShape.radius = obstacle->GetScale().x;
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-							eb->OnCollision();
+							enemyBullet->OnCollision();
 							obstacle->OnCollision();
 						}
 					}
 				}
 			}
 		}
-	}
+	//}
 #pragma endregion
 }
 
@@ -824,22 +832,21 @@ void GamePlayScene::CheckAllCollision()
 			pBullet.radius = pb->GetScale().x;
 
 			//前の敵
-			for (int i = 0; i < 11; i++) {
-
-				if (frontEnemy[i]->GetAlive()) {
+			//for (int i = 0; i < 11; i++) {
+				if (frontEnemy->GetAlive()) {
 					Sphere fEnemyShape;
-					fEnemyShape.center = XMLoadFloat3(&frontEnemy[i]->GetPosition());
-					fEnemyShape.radius = frontEnemy[i]->GetScale().z;
+					fEnemyShape.center = XMLoadFloat3(&frontEnemy->GetPosition());
+					fEnemyShape.radius = frontEnemy->GetScale().x;
 
 					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
 						pb->OnCollision();
-						frontEnemy[i]->OnCollision();
-						if (!frontEnemy[i]->GetAlive()) {
+						frontEnemy->OnCollision();
+						if (!frontEnemy->GetAlive()) {
 							fEneFlag++;
 						}
 					}
 				}
-			}
+			//}
 			for (int i = 0; i < 7; i++) {
 				//左の敵
 				if (leftEnemy[i]->GetAlive()) {
@@ -890,6 +897,7 @@ void GamePlayScene::CheckAllCollision()
 					}
 				}
 			}
+			//障害物と自機弾の当たり判定
 			Sphere obstacleShape;
 			for (auto& ob : obstacles) {
 				obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
@@ -900,6 +908,7 @@ void GamePlayScene::CheckAllCollision()
 					//obstacle->OnCollision();
 				}
 			}
+			//壁と自機弾の当たり判定
 			Sphere wallShape;
 			for (auto& wall : walls) {
 				wallShape.center = XMLoadFloat3(&wall->GetPosition());
@@ -907,7 +916,6 @@ void GamePlayScene::CheckAllCollision()
 
 				if (Collision::CheckSphere2Sphere(pBullet, wallShape)) {
 					pb->OnCollision();
-					//obstacle->OnCollision();
 				}
 			}
 		}

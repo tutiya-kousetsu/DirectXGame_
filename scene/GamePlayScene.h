@@ -106,8 +106,9 @@ private:
 	Model* skyModel = nullptr;
 	Model* obModel = nullptr;
 	Player* player = nullptr;
-	FrontEnemy* frontEnemy[11]{};
+	//FrontEnemy* frontEnemy[11]{};
 	//std::list<std::unique_ptr<FrontEnemy>> frontEnemy;
+	std::unique_ptr<FrontEnemy> frontEnemy;
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};
 	BackEnemy* backEnemy[2]{};

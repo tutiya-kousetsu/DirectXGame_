@@ -6,68 +6,88 @@
 #include "Player.h"
 #include "ParticleManager.h"
 
-FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("BlueBox"))
+FrontEnemy::FrontEnemy()
 {
-	object->SetScale({ 1.f, 1.f, 1.f });
-	object->SetRotation({ 0, 180, 0 });
 	particleMan = ParticleManager::GetInstance();
-	// 現在の座標を取得
-	//position = GetPosition();
-	//int x = rand() % 700;
-	//float x2 = (float)x / 10 - 35;//10～-10の範囲
-	//int y = rand() % 70;
-	//float y2 = (float)y / 10;//6~0の範囲
-	//int z = rand() % 700;
-	//float z2 = (float)z / 10 - 35;//6~0の範囲
-	//position = { 8, 8, 50 };
-	//object->SetPosition(position);
-	// 座標の変更を反映
-
 }
 
 FrontEnemy::~FrontEnemy()
 {
+	for (int i = 0; i < 11; i++) {
+		delete object[i];
+	}
 }
 
 bool FrontEnemy::Initialize()
 {
+	for (int i = 0; i < 11; i++) {
+		model[i] = Model::CreateFromOBJ("BlueBox");
+		object[i] = Object3d::Create();
+		object[i]->SetModel(model[i]);
+		object[i]->SetScale({ 1.f, 1.f, 1.f });
+		object[i]->SetRotation({ 0, 180, 0 });
+	}
 	AccessPhase();
 	//position = object->GetPosition();
 	//position = { 8, 8, 40 };
-	object->SetPosition(position);
-
+	for (int i = 0; i < 11; i++) {
+		position[i] = object[i]->GetPosition();
+	}
+	position[0] = { 8, 8, 60 };
+	/*position[1] = { -8, 8, 60 };
+	position[2] = { 8, 8, 60 };
+	position[3] = { -8, 8, 60 };
+	position[4] = { 8, 8, 60 };
+	position[5] = { -8, 8, 60 };
+	position[6] = { 8, 8, 60 };
+	position[7] = { -8, 8, 60 };
+	position[8] = { 8, 8, 60 };
+	position[9] = { -8, 8, 60 };
+	position[10] = { 8, 8, 60 };*/
+	for (int i = 0; i < 11; i++) {
+		object[i]->SetPosition(position[i]);
+	}
 	return true;
 }
 
 void FrontEnemy::Update()
 {
-	if (alive) {
+	//for (int i = 0; i < 11; i++) {
+	if (alive[0]) {
+		//手前に移動してくる処理
 		appearance();
-
-		if (!appFlag) {
-			//敵が止まったらフラグを立てて弾を撃ち始める
-			Shoot();
+		if (appFlag[0]) {
+			Shoot(0);
 		}
-		//object->SetPosition(position);
+		object[0]->Update();
 	}
-
-	object->Update();
+	if (!alive[0]) {
+		appearance();
+		if (appFlag[1]) {
+			Shoot(1);
+		}
+		object[1]->Update();
+	}
+	//}
 }
 
 void FrontEnemy::appearance()
 {
-	//描画されたら、敵をランダムで決めた位置の高さまでおろす
-	position.z -= moveZ;
+	//for (int i = 0; i < 11; i++) {
+		//手前に移動させる
+	position[0].z -= moveZ;
 	//int y = rand() % 70;
 	//float y2 = (float)y / 10;//6~0の範囲
-	if (position.z <= 60) {
+	if (position[0].z <= 50) {
 		moveZ = 0;
-		appFlag = false;
+		appFlag[0] = true;
 	}
+	//}
 }
 
-void FrontEnemy::FrontShoot()
+void FrontEnemy::FrontShoot(int i)
 {
+
 	//playerに向かって弾発射
 	{
 		assert(this->player);
@@ -91,23 +111,24 @@ void FrontEnemy::FrontShoot()
 		float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
 	}
-	//コンストラクタ呼ぶよ
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+
+	//コンストラクタ
+	EnemyBullet* newBullet = new EnemyBullet();
 	//初期化
-	newBullet->Initialize(position, velocity);
-
-	bullets.push_back(std::move(newBullet));
-
+	newBullet->Initialize(position[i], velocity);
+	bullet.reset(newBullet);
 }
 
-void FrontEnemy::Shoot()
+void FrontEnemy::Shoot(int i)
 {
+
 	shootTimer--;
 	if (shootTimer < 0) {
-		FrontShoot();
+		FrontShoot(i);
 		shootTimer = kShootInterval;
 	}
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+	//for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+	if (bullet) {
 		bullet->Update();
 	}
 }
@@ -115,25 +136,29 @@ void FrontEnemy::Shoot()
 void FrontEnemy::OnCollision()
 {
 	for (int j = 0; j < 100; j++) {
-		DirectX::XMFLOAT3 pos = object->GetPosition();
-		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-		const float md_vel = 0.20f;
-		DirectX::XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-		DirectX::XMFLOAT3 acc{};
-		const float rnd_acc = 0.005f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-		//追加
-		particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+		for (int i = 0; i < 11; i++) {
+			DirectX::XMFLOAT3 pos = object[i]->GetPosition();
+
+			//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+			const float md_vel = 0.20f;
+			DirectX::XMFLOAT3 vel{};
+			vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+			vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+			vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+			//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+			DirectX::XMFLOAT3 acc{};
+			const float rnd_acc = 0.005f;
+			acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+			//追加
+			particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+		}
 	}
 
 	life--;
 	if (life == 0) {
-		alive = false;
-
+		for (int i = 0; i < 11; i++) {
+			alive[i] = false;
+		}
 	}
 }
 
@@ -141,8 +166,11 @@ void FrontEnemy::Draw()
 {
 	//フラグ1で敵表示
 	if (alive) {
-		object->Draw();
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		for (int i = 0; i < 11; i++) {
+			object[i]->Draw();
+		}
+		//for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
+		if (bullet) {
 			bullet->Draw();
 		}
 	}
@@ -150,12 +178,16 @@ void FrontEnemy::Draw()
 
 XMVECTOR FrontEnemy::GetWorldPosition()
 {
-	XMVECTOR worldPos;
-	//worldPosにplayerのpositionをいれる
-	worldPos.m128_f32[0] = position.x;
-	worldPos.m128_f32[1] = position.y;
-	worldPos.m128_f32[2] = position.z;
+	XMVECTOR worldPos{};
+	//for (int i = 0; i < 11; i++) {
 
+		//worldPosにplayerのpositionをいれる
+	worldPos.m128_f32[0] = position[0].x;
+	worldPos.m128_f32[1] = position[0].y;
+	worldPos.m128_f32[2] = position[0].z;
+
+
+	//}
 	return worldPos;
 }
 

@@ -70,21 +70,28 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
+	//壁の発生(読み込み)
 	void LoadWallPopData();
-
+	//壁の発生(更新)
 	void UpdataWallPopCommand();
 
+	//敵の発生(読み込み)
+	void LoadFrontEnemyPopData();
+	//敵の発生(更新)
+	void UpdataFrontEnemyPopCommand();
+
+	//前敵の当たり判定
 	void FrontColl();
-
+	//左敵の当たり判定
 	void LeftColl();
-
+	//右敵の当たり判定
 	void RightColl();
-
+	//後ろ敵の当たり判定
 	void BackColl();
 
 	void CheckAllCollision();
 private:
-	
+	//スプライト
 	Sprite* sprite = nullptr;
 	Sprite* LifeSprite = nullptr;
 	Sprite* LifeSprite2 = nullptr;
@@ -102,13 +109,15 @@ private:
 	//障害物発生のコマンド
 	std::stringstream obstaclePopCom;
 	std::stringstream wallPopCom;
+	std::stringstream frontPopCom;
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 	Model* obModel = nullptr;
 	Player* player = nullptr;
-	//FrontEnemy* frontEnemy[11]{};
-	//std::list<std::unique_ptr<FrontEnemy>> frontEnemy;
-	std::unique_ptr<FrontEnemy> frontEnemy;
+	//FrontEnemy* frontEnemy = nullptr;
+	std::list<std::unique_ptr<FrontEnemy>> frontEnemy;
+	//const std::unique_ptr<FrontEnemy>& GetFrontEnemy() { return frontEnemy; }
+	//std::unique_ptr<FrontEnemy> frontEnemy;
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};
 	BackEnemy* backEnemy[2]{};
@@ -120,6 +129,7 @@ private:
 	CollisionManager* collisionMan = nullptr;
 	XMFLOAT3 enePos;
 
+	//ポジション
 	XMFLOAT3 playerPos;
 	XMFLOAT2 spPos;
 	XMFLOAT3 bulPos;
@@ -129,6 +139,8 @@ private:
 	XMFLOAT3 leftEnePos[7];
 	XMFLOAT3 rightEnePos[4];
 	XMFLOAT3 backEnePos[2];
+
+	//プレイヤーのライフ
 	int playerLife = 3;
 
 	int gameScore = 0;

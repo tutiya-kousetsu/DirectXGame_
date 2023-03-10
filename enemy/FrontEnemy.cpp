@@ -6,36 +6,37 @@
 #include "Player.h"
 #include "ParticleManager.h"
 
-FrontEnemy::FrontEnemy()
+FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("BlueBox"))
 {
 	particleMan = ParticleManager::GetInstance();
 }
 
 FrontEnemy::~FrontEnemy()
 {
-	for (int i = 0; i < 11; i++) {
-		delete object[i];
-	}
+	//for (int i = 0; i < 11; i++) {
+		//delete object;
+	//}
 }
 
-bool FrontEnemy::Initialize()
+bool FrontEnemy::Initialize(XMFLOAT3 position)
 {
-	for (int i = 0; i < 11; i++) {
-		model[i] = Model::CreateFromOBJ("BlueBox");
+	//for (int i = 0; i < 11; i++) {
+		/*model[i] = Model::CreateFromOBJ("BlueBox");
 		object[i] = Object3d::Create();
-		object[i]->SetModel(model[i]);
-		object[i]->SetScale({ 1.f, 1.f, 1.f });
-		object[i]->SetRotation({ 0, 180, 0 });
-	}
+		object[i]->SetModel(model[i]);*/
+		object->SetScale({ 1.f, 1.f, 1.f });
+		object->SetRotation({ 0, 180, 0 });
+	//}
 	AccessPhase();
+	this->position = position;
 	//position = object->GetPosition();
 	//position = { 8, 8, 40 };
-	for (int i = 0; i < 11; i++) {
-		position[i] = object[i]->GetPosition();
-	}
-	position[0] = { 8, 8, 60 };
-	/*position[1] = { -8, 8, 60 };
-	position[2] = { 8, 8, 60 };
+	//for (int i = 0; i < 11; i++) {
+		//position = object->GetPosition();
+	//}
+	//position[0] = { 8, 8, 60 };
+	//position[1] = { -8, 8, 60 };
+	/*position[2] = { 8, 8, 60 };
 	position[3] = { -8, 8, 60 };
 	position[4] = { 8, 8, 60 };
 	position[5] = { -8, 8, 60 };
@@ -44,48 +45,49 @@ bool FrontEnemy::Initialize()
 	position[8] = { 8, 8, 60 };
 	position[9] = { -8, 8, 60 };
 	position[10] = { 8, 8, 60 };*/
-	for (int i = 0; i < 11; i++) {
-		object[i]->SetPosition(position[i]);
-	}
+	//for (int i = 0; i < 11; i++) {
+		//object->SetPosition(position);
+	//}
 	return true;
 }
 
 void FrontEnemy::Update()
 {
 	//for (int i = 0; i < 11; i++) {
-	if (alive[0]) {
+	if (alive) {
 		//手前に移動してくる処理
 		appearance();
-		if (appFlag[0]) {
-			Shoot(0);
+		if (appFlag) {
+			Shoot();
 		}
-		object[0]->Update();
+		object->SetPosition(position);
+		object->Update();
 	}
-	if (!alive[0]) {
+	/*if (!alive[0]) {
 		appearance();
-		if (appFlag[1]) {
-			Shoot(1);
+		if (appFlag) {
+			Shoot();
 		}
 		object[1]->Update();
-	}
+	}*/
 	//}
 }
 
 void FrontEnemy::appearance()
 {
-	//for (int i = 0; i < 11; i++) {
+	for (int i = 0; i < 11; i++) {
 		//手前に移動させる
-	position[0].z -= moveZ;
-	//int y = rand() % 70;
-	//float y2 = (float)y / 10;//6~0の範囲
-	if (position[0].z <= 50) {
-		moveZ = 0;
-		appFlag[0] = true;
+		position.z -= moveZ;
+		//int y = rand() % 70;
+		//float y2 = (float)y / 10;//6~0の範囲
+		if (position.z <= 50) {
+			moveZ = 0;
+			appFlag = true;
+		}
 	}
-	//}
 }
 
-void FrontEnemy::FrontShoot(int i)
+void FrontEnemy::FrontShoot()
 {
 
 	//playerに向かって弾発射
@@ -115,16 +117,16 @@ void FrontEnemy::FrontShoot(int i)
 	//コンストラクタ
 	EnemyBullet* newBullet = new EnemyBullet();
 	//初期化
-	newBullet->Initialize(position[i], velocity);
+	newBullet->Initialize(position, velocity);
 	bullet.reset(newBullet);
 }
 
-void FrontEnemy::Shoot(int i)
+void FrontEnemy::Shoot()
 {
 
 	shootTimer--;
 	if (shootTimer < 0) {
-		FrontShoot(i);
+		FrontShoot();
 		shootTimer = kShootInterval;
 	}
 	//for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
@@ -136,8 +138,8 @@ void FrontEnemy::Shoot(int i)
 void FrontEnemy::OnCollision()
 {
 	for (int j = 0; j < 100; j++) {
-		for (int i = 0; i < 11; i++) {
-			DirectX::XMFLOAT3 pos = object[i]->GetPosition();
+		//for (int i = 0; i < 11; i++) {
+			DirectX::XMFLOAT3 pos = object->GetPosition();
 
 			//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
 			const float md_vel = 0.20f;
@@ -151,13 +153,13 @@ void FrontEnemy::OnCollision()
 			acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 			//追加
 			particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-		}
+		//}
 	}
 
 	life--;
 	if (life == 0) {
 		for (int i = 0; i < 11; i++) {
-			alive[i] = false;
+			alive = false;
 		}
 	}
 }
@@ -166,9 +168,9 @@ void FrontEnemy::Draw()
 {
 	//フラグ1で敵表示
 	if (alive) {
-		for (int i = 0; i < 11; i++) {
-			object[i]->Draw();
-		}
+		//for (int i = 0; i < 11; i++) {
+			object->Draw();
+		//}
 		//for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		if (bullet) {
 			bullet->Draw();
@@ -182,9 +184,9 @@ XMVECTOR FrontEnemy::GetWorldPosition()
 	//for (int i = 0; i < 11; i++) {
 
 		//worldPosにplayerのpositionをいれる
-	worldPos.m128_f32[0] = position[0].x;
-	worldPos.m128_f32[1] = position[0].y;
-	worldPos.m128_f32[2] = position[0].z;
+	worldPos.m128_f32[0] = position.x;
+	worldPos.m128_f32[1] = position.y;
+	worldPos.m128_f32[2] = position.z;
 
 
 	//}

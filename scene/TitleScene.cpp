@@ -10,7 +10,7 @@
 void TitleScene::Initialize(DirectXCommon* dxCommon)
 {
 	//テクスチャ読み込み
-	Sprite::LoadTexture(1, L"Resources/title.png");
+	Sprite::LoadTexture(1, L"Resources/Title.png");
 	//スプライトの生成
 	sprite = Sprite::Create(1, { 0.0f,0.0f });
 	sprite->SetPosition({ 0,0 });
@@ -26,7 +26,8 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
-	if (input->TriggerKey(DIK_SPACE))     // マウスの左クリックが押されていたら
+	//マウスの左クリックが押されていたら
+	if (input->TriggerKey(DIK_SPACE))
 	{
 		//シーン切り替え
 		BaseScene* scene = new GamePlayScene();

@@ -1,4 +1,4 @@
-#include "FrontEnemy.h"
+ï»¿#include "FrontEnemy.h"
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
@@ -13,112 +13,82 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("BlueBox"))
 
 FrontEnemy::~FrontEnemy()
 {
-	//for (int i = 0; i < 11; i++) {
-		//delete object;
-	//}
 }
 
-bool FrontEnemy::Initialize(XMFLOAT3 position)
+bool FrontEnemy::Initialize()
 {
-	//for (int i = 0; i < 11; i++) {
-		/*model[i] = Model::CreateFromOBJ("BlueBox");
-		object[i] = Object3d::Create();
-		object[i]->SetModel(model[i]);*/
-		object->SetScale({ 1.f, 1.f, 1.f });
-		object->SetRotation({ 0, 180, 0 });
-	//}
+	object->SetScale({ 1.f, 1.f, 1.f });
+	object->SetRotation({ 0, 180, 0 });
+	position = GetPosition();
+	int x = rand() % 700;
+	float x2 = (float)x / 10 - 35;//10ï¿½`-10ï¿½Ì”Íˆï¿½
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0ï¿½Ì”Íˆï¿½
+	int z = rand() % 700;
+	float z2 = (float)z / 10 - 35;//6~0ï¿½Ì”Íˆï¿½
+	position = { x2, 35, 35 };
+	object->SetPosition(position);
 	AccessPhase();
-	this->position = position;
-	//position = object->GetPosition();
-	//position = { 8, 8, 40 };
-	//for (int i = 0; i < 11; i++) {
-		//position = object->GetPosition();
-	//}
-	//position[0] = { 8, 8, 60 };
-	//position[1] = { -8, 8, 60 };
-	/*position[2] = { 8, 8, 60 };
-	position[3] = { -8, 8, 60 };
-	position[4] = { 8, 8, 60 };
-	position[5] = { -8, 8, 60 };
-	position[6] = { 8, 8, 60 };
-	position[7] = { -8, 8, 60 };
-	position[8] = { 8, 8, 60 };
-	position[9] = { -8, 8, 60 };
-	position[10] = { 8, 8, 60 };*/
-	//for (int i = 0; i < 11; i++) {
-		//object->SetPosition(position);
-	//}
 	return true;
 }
 
 void FrontEnemy::Update()
 {
-	//for (int i = 0; i < 11; i++) {
 	if (alive) {
-		//è‘O‚ÉˆÚ“®‚µ‚Ä‚­‚éˆ—
 		appearance();
-		if (appFlag) {
+		if (!appFlag) {
 			Shoot();
 		}
 		object->SetPosition(position);
-		object->Update();
+
 	}
-	/*if (!alive[0]) {
-		appearance();
-		if (appFlag) {
-			Shoot();
-		}
-		object[1]->Update();
-	}*/
-	//}
+	object->Update();
 }
 
 void FrontEnemy::appearance()
 {
-	for (int i = 0; i < 11; i++) {
-		//è‘O‚ÉˆÚ“®‚³‚¹‚é
-		position.z -= moveZ;
-		//int y = rand() % 70;
-		//float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-		if (position.z <= 50) {
-			moveZ = 0;
-			appFlag = true;
-		}
+	position.y -= moveY;
+	int y = rand() % 70;
+	float y2 = (float)y / 10;//6~0ï¿½Ì”Íˆï¿½
+	if (position.y <= y2) {
+		moveY = 0;
+		appFlag = false;
 	}
 }
 
 void FrontEnemy::FrontShoot()
 {
 
-	//player‚ÉŒü‚©‚Á‚Ä’e”­Ë
+	//playerã«å‘ã‹ã£ã¦å¼¾ç™ºå°„
 	{
 		assert(this->player);
 
 		XMVECTOR playerPos = player->GetWorldPosition();
 		XMVECTOR enemyPos = GetWorldPosition();
 
-		//‘¬“x‚ğŒvZ
-		//©•ª‚©‚ç•W“I‚Ü‚Å‚ÌƒxƒNƒgƒ‹
+		//é€Ÿåº¦ã‚’è¨ˆç®—
+		//è‡ªåˆ†ã‹ã‚‰æ¨™çš„ã¾ã§ã®ãƒ™ã‚¯ãƒˆãƒ«
 		velocity = {
 			playerPos.m128_f32[0] - enemyPos.m128_f32[0],
 			playerPos.m128_f32[1] - enemyPos.m128_f32[1],
 			playerPos.m128_f32[2] - enemyPos.m128_f32[2]
 		};
-		//‘å‚«‚³‚ğ1‚É‚·‚é(ƒxƒNƒgƒ‹‚ğ³‹K‰»‚µ‚Ä•Ô‚µ‚Ä‚ ‚°‚éŠÖ”)
+		//å¤§ãã•ã‚’1ã«ã™ã‚‹(ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ã—ã¦è¿”ã—ã¦ã‚ã’ã‚‹é–¢æ•°)
 		velocity = XMVector3Normalize(velocity);
-		//‘å‚«‚³‚ğ”CˆÓ‚Ì’l‚É‚·‚é
+		//å¤§ãã•ã‚’ä»»æ„ã®å€¤ã«ã™ã‚‹
 		velocity = XMVectorScale(velocity, 1.5f);
 
-		//•W“I‚ÉŒü‚¯‚é
+		//æ¨™çš„ã«å‘ã‘ã‚‹
 		float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
 	}
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	EnemyBullet* newBullet = new EnemyBullet();
-	//‰Šú‰»
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å‘¼ã¶ã‚ˆ
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	//åˆæœŸåŒ–
 	newBullet->Initialize(position, velocity);
-	bullet.reset(newBullet);
+
+	bullets.push_back(std::move(newBullet));
 }
 
 void FrontEnemy::Shoot()
@@ -129,8 +99,7 @@ void FrontEnemy::Shoot()
 		FrontShoot();
 		shootTimer = kShootInterval;
 	}
-	//for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-	if (bullet) {
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Update();
 	}
 }
@@ -139,40 +108,35 @@ void FrontEnemy::OnCollision()
 {
 	for (int j = 0; j < 100; j++) {
 		//for (int i = 0; i < 11; i++) {
-			DirectX::XMFLOAT3 pos = object->GetPosition();
+		DirectX::XMFLOAT3 pos = object->GetPosition();
 
-			//X,Y,Z‘S‚Ä[-0.05f, +0.05f]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z
-			const float md_vel = 0.20f;
-			DirectX::XMFLOAT3 vel{};
-			vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-			vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-			vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-			//d—Í‚ÉŒ©—§‚Ä‚ÄY‚Ì‚İ[-0.001f, 0]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z
-			DirectX::XMFLOAT3 acc{};
-			const float rnd_acc = 0.005f;
-			acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-			//’Ç‰Á
-			particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+		//X,Y,Zå…¨ã¦[-0.05f, +0.05f]ã§ãƒ©ãƒ³ãƒ€ãƒ ã«åˆ†å¸ƒ
+		const float md_vel = 0.20f;
+		DirectX::XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		//é‡åŠ›ã«è¦‹ç«‹ã¦ã¦Yã®ã¿[-0.001f, 0]ã§ãƒ©ãƒ³ãƒ€ãƒ ã«åˆ†å¸ƒ
+		DirectX::XMFLOAT3 acc{};
+		const float rnd_acc = 0.005f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		//è¿½åŠ 
+		particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
 		//}
 	}
 
 	life--;
 	if (life == 0) {
-		for (int i = 0; i < 11; i++) {
 			alive = false;
 		}
-	}
 }
 
 void FrontEnemy::Draw()
 {
-	//ƒtƒ‰ƒO1‚Å“G•\¦
+	//ãƒ•ãƒ©ã‚°1ã§æ•µè¡¨ç¤º
 	if (alive) {
-		//for (int i = 0; i < 11; i++) {
-			object->Draw();
-		//}
-		//for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-		if (bullet) {
+		object->Draw();
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Draw();
 		}
 	}
@@ -181,15 +145,13 @@ void FrontEnemy::Draw()
 XMVECTOR FrontEnemy::GetWorldPosition()
 {
 	XMVECTOR worldPos{};
-	//for (int i = 0; i < 11; i++) {
 
-		//worldPos‚Éplayer‚Ìposition‚ğ‚¢‚ê‚é
+	//worldPosã«playerã®positionã‚’ã„ã‚Œã‚‹
 	worldPos.m128_f32[0] = position.x;
 	worldPos.m128_f32[1] = position.y;
 	worldPos.m128_f32[2] = position.z;
 
 
-	//}
 	return worldPos;
 }
 

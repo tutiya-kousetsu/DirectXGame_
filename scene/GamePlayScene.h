@@ -75,11 +75,6 @@ public:
 	//•Ç‚Ì”­¶(XV)
 	void UpdataWallPopCommand();
 
-	//“G‚Ì”­¶(“Ç‚İ‚İ)
-	void LoadFrontEnemyPopData();
-	//“G‚Ì”­¶(XV)
-	void UpdataFrontEnemyPopCommand();
-
 	//‘O“G‚Ì“–‚½‚è”»’è
 	void FrontColl();
 	//¶“G‚Ì“–‚½‚è”»’è
@@ -114,10 +109,7 @@ private:
 	Model* skyModel = nullptr;
 	Model* obModel = nullptr;
 	Player* player = nullptr;
-	//FrontEnemy* frontEnemy = nullptr;
-	std::list<std::unique_ptr<FrontEnemy>> frontEnemy;
-	//const std::unique_ptr<FrontEnemy>& GetFrontEnemy() { return frontEnemy; }
-	//std::unique_ptr<FrontEnemy> frontEnemy;
+	FrontEnemy* frontEnemy[11]{};
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};
 	BackEnemy* backEnemy[2]{};

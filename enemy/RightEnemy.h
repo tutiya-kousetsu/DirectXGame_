@@ -1,6 +1,5 @@
 #pragma once
 #include "EnemyBullet.h"
-#include "EnemyObject.h"
 #include <memory>
 #include <list>
 

@@ -12,15 +12,20 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/Title.png");
 	//スプライトの生成
-	sprite = Sprite::Create(1, { 0.0f,0.0f });
-	sprite->SetPosition({ 0,0 });
+	titleSp = Sprite::Create(1, { 0.0f,0.0f });
+	titleSp->SetPosition({ 0,0 });
+	//テクスチャ読み込み
+	Sprite::LoadTexture(2, L"Resources/space.png");
+	spaceSp = Sprite::Create(2, { 0.0f,0.0f });
+	spaceSp->SetPosition({ 0,0 });
 
 }
 
 void TitleScene::Finalize()
 {
 	//スプライト個別解放
-	delete sprite;
+	delete titleSp;
+	delete spaceSp;
 }
 
 void TitleScene::Update()
@@ -43,7 +48,8 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	//スプライト共通コマンド
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//スプライト描画
-	sprite->Draw();
+	titleSp->Draw();
+	spaceSp->Draw();
 	Sprite::PostDraw();
 		//描画後処理
 	dxCommon->PostDraw();

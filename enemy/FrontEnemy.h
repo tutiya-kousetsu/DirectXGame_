@@ -2,7 +2,6 @@
 #include "EnemyBullet.h"
 #include "Object3d.h"
 #include "GameObject.h"
-#include "EnemyObject.h"
 #include <memory>
 #include <list>
 

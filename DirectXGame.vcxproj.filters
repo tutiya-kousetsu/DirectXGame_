@@ -143,9 +143,6 @@
     <ClCompile Include="Obstacle.cpp">
       <Filter>ソース ファイル\game</Filter>
     </ClCompile>
-    <ClCompile Include="Line.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="2d\DebugText.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
@@ -254,16 +251,7 @@
     <ClCompile Include="3d\GameObject.cpp">
       <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBulletObject.cpp">
-      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="collision\TouchableObject.cpp">
-      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyObject.cpp">
-      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBulletObject.cpp">
       <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
     <ClCompile Include="enemy\BackEnemy.cpp">
@@ -338,9 +326,6 @@
     </ClInclude>
     <ClInclude Include="Obstacle.h">
       <Filter>ソース ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="3d\Fbx_Model.h">
       <Filter>ソース ファイル\Fbx</Filter>
@@ -477,19 +462,10 @@
     <ClInclude Include="collision\BaseCollider.h">
       <Filter>ソース ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBulletObject.h">
-      <Filter>ソース ファイル\game\gameObj</Filter>
-    </ClInclude>
     <ClInclude Include="collision\TouchableObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
     <ClInclude Include="3d\GameObject.h">
-      <Filter>ソース ファイル\game\gameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyObject.h">
-      <Filter>ソース ファイル\game\gameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBulletObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">

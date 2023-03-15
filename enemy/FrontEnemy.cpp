@@ -6,18 +6,10 @@
 #include "Player.h"
 #include "ParticleManager.h"
 
-FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("BlueBox"))
+FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 {
 	particleMan = ParticleManager::GetInstance();
-}
-
-FrontEnemy::~FrontEnemy()
-{
-}
-
-bool FrontEnemy::Initialize()
-{
-	object->SetScale({ 1.f, 1.f, 1.f });
+	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0, 180, 0 });
 	position = GetPosition();
 	int x = rand() % 700;
@@ -28,6 +20,14 @@ bool FrontEnemy::Initialize()
 	float z2 = (float)z / 10 - 35;//6~0�͈̔�
 	position = { x2, 35, 35 };
 	object->SetPosition(position);
+}
+
+FrontEnemy::~FrontEnemy()
+{
+}
+
+bool FrontEnemy::Initialize()
+{
 	AccessPhase();
 	return true;
 }

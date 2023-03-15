@@ -31,7 +31,8 @@ public:
 
 private:
 
-	Sprite* sprite = nullptr;
+	Sprite* titleSp = nullptr;
+	Sprite* spaceSp = nullptr;
 	DebugCamera* camera = nullptr;
 	Input* input = nullptr;
 };

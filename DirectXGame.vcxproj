@@ -198,8 +198,6 @@
     <ClCompile Include="collision\TouchableObject.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Easing.cpp" />
-    <ClCompile Include="EnemyBulletObject.cpp" />
-    <ClCompile Include="EnemyObject.cpp" />
     <ClCompile Include="enemy\BackEnemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="enemy\FrontEnemy.cpp" />
@@ -213,10 +211,8 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="input\Input.cpp" />
-    <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
-    <ClCompile Include="PlayerBulletObject.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -261,8 +257,6 @@
     <ClInclude Include="collision\TouchableObject.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Easing.h" />
-    <ClInclude Include="EnemyBulletObject.h" />
-    <ClInclude Include="EnemyObject.h" />
     <ClInclude Include="enemy\BackEnemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="enemy\FrontEnemy.h" />
@@ -278,10 +272,8 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="input\Input.h" />
-    <ClInclude Include="Line.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PipelineSet.h" />
-    <ClInclude Include="PlayerBulletObject.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="player\PlayerBullet.h" />
     <ClInclude Include="PostEffect.h" />

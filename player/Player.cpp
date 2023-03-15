@@ -50,35 +50,12 @@ void Player::Update()
 	move();
 	jump();
 	Input* input = Input::GetInstance();
-	/*if (bullet) {
-		bullet->SetAlive(false);*/
 		if (input->TriggerMouseLeft()) {
 			Shoot();
-			/*atTimer++;
-			bullet->SetAlive(true);
-			if (atTimer >= 120 && !atFlag && bullet->GetAlive()) {
-				Shoot();
-				atFlag = true;
-				atPower = 2;
-			}
-			if (atTimer >= 120 && !atFlag && bullet->GetAlive()) {
-				Shoot();
-				atFlag = true;
-				atPower = 1;
-			}*/
-			/*if () {
-				atTimer = 0;
-				atFlag = false;
-			}*/
 		}
-		//else {
-		//	//if () {};
-		//}
-	//}
 	for (std::unique_ptr<PlayerBullet>& bul : bullet) {
 		bul->Update();
 	}
-	//particleMan->Update();
 	Object3d::Update();
 }
 
@@ -215,9 +192,9 @@ void Player::jump()
 	if (onGround) {
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 3.0f + adsDistance)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
 			// 行列の更新など
 			Object3d::Update();
 		}
@@ -229,10 +206,10 @@ void Player::jump()
 	}
 	// 落下状態
 	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 3.0f)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f)) {
 			// 着地
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
 
 		}
 	}
@@ -250,12 +227,7 @@ bool Player::Shoot()
 	XMVECTOR velocity = XMVectorSet(0, 0, kBulletSpeed, 1);
 
 	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
-	//コンストラクタ呼ぶよ
-	//PlayerBullet* newBullet = new PlayerBullet();
-	////初期化行くよ
-	//newBullet->Initialize(position, velocity);
 
-	//bullet.reset(newBullet);
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化
@@ -296,7 +268,6 @@ void Player::Draw()
 {
 	if (alive) {
 		Object3d::Draw();
-		//particleMan->Draw();
 	}
 	for (std::unique_ptr<PlayerBullet>& bul : bullet) {
 		bul->Draw();

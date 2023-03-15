@@ -5,9 +5,10 @@
 #include "CollisionManager.h"
 #include "ParticleManager.h"
 
-BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("BlueBox"))
+BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("squid"))
 {
-	object->SetScale({ 1.f, 1.f, 1.f });
+	object->SetScale({ 1.3f, 1.3f, 1.3f });
+	object->SetRotation({ 0,0,0 });
 	particleMan = ParticleManager::GetInstance();
 	// Œ»İ‚ÌÀ•W‚ğæ“¾
 	position = GetPosition();

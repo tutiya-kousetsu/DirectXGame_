@@ -51,10 +51,6 @@ public:
 	/// </summary>
 	void Update() override;
 
-	void DoorMove();
-
-	void EnemyStartPos();
-
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -70,10 +66,6 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
-	//壁の発生(読み込み)
-	void LoadWallPopData();
-	//壁の発生(更新)
-	void UpdataWallPopCommand();
 
 	//前敵の当たり判定
 	void FrontColl();
@@ -91,6 +83,11 @@ private:
 	Sprite* LifeSprite = nullptr;
 	Sprite* LifeSprite2 = nullptr;
 	Sprite* LifeSprite3 = nullptr;
+	Sprite* LifeSprite4 = nullptr;
+	Sprite* LifeSprite5 = nullptr;
+	Sprite* LifeSprite6 = nullptr;
+	Sprite* LifeSprite7 = nullptr;
+	Sprite* LifeSprite8 = nullptr;
 	Sprite* spriteBG = nullptr;
 	// カメラ
 	std::unique_ptr<FollowingCamera> camera;
@@ -98,58 +95,56 @@ private:
 	Input* input = nullptr;
 	PostEffect* postEffect[2] = {};
 
+	
+	//障害物
 	std::list<std::unique_ptr<Obstacle>> obstacles;
-	std::list<std::unique_ptr<Wall>> walls;
-	Door* door[8] = {};
-	//障害物発生のコマンド
 	std::stringstream obstaclePopCom;
-	std::stringstream wallPopCom;
-	std::stringstream frontPopCom;
+
+	//プレイヤー
+	Player* player = nullptr;
+	PlayerBullet* playerBullet = nullptr;
+	int playerLife = 8;
+	//天球
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 	Model* obModel = nullptr;
-	Player* player = nullptr;
+	
+	//敵
 	FrontEnemy* frontEnemy[11]{};
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};
 	BackEnemy* backEnemy[2]{};
-	PlayerBullet* playerBullet = nullptr;
 	EnemyBullet* enemyBullet = nullptr;
+	//床
 	TouchableObject* floor = nullptr;
 	Model* floorModel = nullptr;
+	//パーティクル
 	ParticleManager* particleMan = nullptr;
 	CollisionManager* collisionMan = nullptr;
-	XMFLOAT3 enePos;
+	
 
 	//ポジション
 	XMFLOAT3 playerPos;
-	XMFLOAT2 spPos;
+	XMFLOAT3 enePos;
 	XMFLOAT3 bulPos;
-	XMFLOAT3 doorPos[8];
-	XMFLOAT3 doorRot[8];
+	//スプライト
+	XMFLOAT2 spPos;
+	//敵のポジション
 	XMFLOAT3 frontEnePos[11];
 	XMFLOAT3 leftEnePos[7];
 	XMFLOAT3 rightEnePos[4];
 	XMFLOAT3 backEnePos[2];
 
-	//プレイヤーのライフ
-	int playerLife = 3;
-
-	int gameScore = 0;
-	float flagTimer = 0;
-	float fEneTimer[3] = {};
-	float waitTimer = 0;
+	//タイマー
+	int waitTimer = 0;
 	//フラグ関係
 	bool bulFlag = true;
-	bool posFlag = false;
-
 	bool waitFlag = false;
 	bool lifeFlag = false;
 	int fEneFlag = 0;
 	int lEneFlag = 0;
 	int rEneFlag = 0;
 	int bEneFlag = 0;
-	int enemyScene = 0;
 	// カメラ関係
 	bool dirty = false;
 	float angleX = 0;

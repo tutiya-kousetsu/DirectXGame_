@@ -8,7 +8,6 @@
 #include "Enemy/EnemyBullet.h"
 #include "Collision.h"
 #include "ParticleManager.h"
-#include "Line.h"
 #include "SphereCollider.h"
 #include "CollisionManager.h"
 #include "MeshCollider.h"
@@ -28,7 +27,16 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	LifeSprite2 = Sprite::Create(4, { 26,0 });
 	Sprite::LoadTexture(5, L"Resources/Life.png");
 	LifeSprite3 = Sprite::Create(5, { 52,0 });
-
+	Sprite::LoadTexture(6, L"Resources/Life.png");
+	LifeSprite4 = Sprite::Create(6, { 78,0 });
+	Sprite::LoadTexture(7, L"Resources/Life.png");
+	LifeSprite5 = Sprite::Create(7, { 104,0 });
+	Sprite::LoadTexture(3, L"Resources/Life.png");
+	LifeSprite6 = Sprite::Create(8, { 130,0 });
+	Sprite::LoadTexture(4, L"Resources/Life.png");
+	LifeSprite7 = Sprite::Create(9, { 156,0 });
+	Sprite::LoadTexture(5, L"Resources/Life.png");
+	LifeSprite8 = Sprite::Create(10, { 182,0 });
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
 		postEffect[i] = new PostEffect();
@@ -37,13 +45,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	postEffect[0]->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
 
 	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
-
-
-	//音声読み込み
-	//Audio::GetInstance()->SoundLoadWave("Alarm01.wav");
-
-	//音声再生
-	//audio->SoundPlayWave("Alarm01.wav", true);
 
 	//カメラの初期化
 	camera.reset(new FollowingCamera());
@@ -67,37 +68,15 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//当たり判定のインスタンス
 	collisionMan = CollisionManager::GetInstance();
 	//自機のオブジェクトセット+初期化
-	player = player->Create(Model::CreateFromOBJ("player"));
+	player = player->Create(Model::CreateFromOBJ("octopus"));
 
 	//床のオブジェクト生成
 	floorModel = Model::CreateFromOBJ("FloorBox");
 	floor = TouchableObject::Create(floorModel);
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
-	//frontEnemy.reset(new FrontEnemy());
-
-	//ドアの初期化
-	for (int i = 0; i < 8; i++) {
-		door[i] = new Door();
-		door[i]->Initialize();
-		doorPos[i] = door[i]->GetPosition();
-		doorPos[0] = { 8, 8, 50 };
-		doorPos[1] = { -8,8,50 };
-		doorPos[2] = { -50, 8, 8 };
-		doorPos[3] = { -50,8,-8 };
-		doorPos[4] = { 50, 8, 8 };
-		doorPos[5] = { 50,8,-8 };
-		doorPos[6] = { 8, 8, -50 };
-		doorPos[7] = { -8,8,-50 };
-		doorRot[i] = door[i]->GetRotation();
-		doorRot[2] = { 0, 90 ,0 };
-		doorRot[3] = { 0, 90 ,0 };
-		doorRot[4] = { 0, 90 ,0 };
-		doorRot[5] = { 0, 90 ,0 };
-	}
-
+	//パーティクのインスタンス
 	particleMan = ParticleManager::GetInstance();
-	//line = new Line();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
 	for (int i = 0; i < 11; i++) {
@@ -128,7 +107,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
 		backEnemy[i]->SetPlayer(player);
 	}
-	EnemyStartPos();
 	//データ読み込み
 	skyModel = Model::CreateFromOBJ("skydome");
 	skyObj = Object3d::Create();
@@ -149,9 +127,6 @@ void GamePlayScene::Finalize()
 	delete floor;
 	delete player;
 	delete skyObj;
-	for (int i = 0; i < 8; i++) {
-		delete door[i];
-	}
 	for (int i = 0; i < 11; i++) {
 		delete frontEnemy[i];
 	}
@@ -229,17 +204,13 @@ void GamePlayScene::Update()
 		playerRot.y *= 180 / XM_PI;
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
-	//X座標,Y座標を指定して表示
-	//DebugText::GetInstance()->Print("Hello,DirectX!!", 0, 0);
-	//X座標,Y座標,縮尺を指定して表情
-	//DebugText::GetInstance()->Print("Nihon Kogakuin", 0, 20, 2.0f);
 
+	//プレイヤーの更新
 	player->Update();
 
-	//fbxObj->Update();
-
-	//更新
+	//カメラの更新
 	camera->Update();
+	//床の更新
 	floor->Update();
 	//敵の発生する順番
 	if (fEneFlag >= 0) {
@@ -280,80 +251,14 @@ void GamePlayScene::Update()
 	}
 
 	skyObj->Update();
-	DoorMove();
 	//障害物のマップチップ読み込み用
 	LoadObstaclePopData();
 	UpdataObstaclePopCommand();
-	//壁のマップチップ読み込み用
-	//LoadWallPopData();
-	//UpdataWallPopCommand();
-	for (auto& wall : walls) {
-		//wall->Update();
-	}
-
+	//当たり判定
 	collisionMan->CheckAllCollisions();
 	CheckAllCollision();
 
 	particleMan->Update();
-}
-
-void GamePlayScene::DoorMove()
-{
-	if (doorPos[0].x >= 0) {
-		doorPos[0].x -= 0.05f;
-	}
-	//for (int i = 0; i <= 0; i++) {
-		/*if (!frontEnemy[0]->GetAlive() && doorPos[0].x <= 8) {
-			doorPos[0].x += 0.05;
-		}
-		if (doorPos[0].x >= 8) {
-			fEneFlag = 1;
-		}*/
-		//}
-
-	if (doorPos[1].x >= -16 && fEneFlag >= 1) {
-		doorPos[1].x -= 0.05f;
-	}
-	/*if (doorPos[2].x >= 0) {
-		doorPos[2].x -= 0.05;
-	}
-	if (doorPos[3].x >= -16) {
-		doorPos[3].x -= 0.05;
-	}
-	if (doorPos[4].x >= 0) {
-		doorPos[4].x -= 0.05;
-	}
-	if (doorPos[5].x >= -16) {
-		doorPos[5].x -= 0.05;
-	}
-	if (doorPos[7].x >= 0) {
-		doorPos[7].x -= 0.05;
-	}
-	if (doorPos[8].x >= -16) {
-		doorPos[8].x -= 0.05;
-	}*/
-
-	for (int i = 0; i < 8; i++) {
-		door[i]->SetPosition(doorPos[i]);
-		door[i]->SetRotation(doorRot[i]);
-		door[i]->Update();
-	}
-}
-
-void GamePlayScene::EnemyStartPos()
-{
-	for (int i = 0; i < 7; i++) {
-		//左
-		leftEnemy[i]->SetPosition(leftEnePos[i]);
-	}
-	for (int i = 0; i < 4; i++) {
-		//右
-		rightEnemy[i]->SetPosition(rightEnePos[i]);
-	}
-	for (int i = 0; i < 2; i++) {
-		//後ろ
-		backEnemy[i]->SetPosition(backEnePos[i]);
-	}
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
@@ -381,30 +286,28 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	player->Draw();
+	//前敵
 	for (int i = 0; i < 11; i++) {
 		frontEnemy[i]->Draw();
 	}
+	//左敵
 	for (int i = 0; i < 7; i++) {
 		leftEnemy[i]->Draw();
 	}
+	//右敵
 	for (int i = 0; i < 4; i++) {
 		rightEnemy[i]->Draw();
 	}
+	//後ろ的
 	for (int i = 0; i < 2; i++) {
 		backEnemy[i]->Draw();
 	}
+	//障害物
 	for (auto& obstacle : obstacles) {
 		obstacle->Draw();
 	}
-	for (auto& wall : walls) {
-		wall->Draw();
-	}
-	//fbxObj->Draw(dxCommon->GetCmdList());
 	skyObj->Draw();
 	floor->Draw();
-	for (int i = 0; i < 8; i++) {
-		door[i]->Draw();
-	}
 	particleMan->Draw();
 	Object3d::PostDraw();
 
@@ -416,10 +319,14 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
+	if (playerLife >= 8) { LifeSprite5->Draw(); }
+	if (playerLife >= 7) { LifeSprite4->Draw(); }
+	if (playerLife >= 6) { LifeSprite3->Draw(); }
+	if (playerLife >= 5) { LifeSprite5->Draw(); }
+	if (playerLife >= 4) { LifeSprite4->Draw(); }
 	if (playerLife >= 3) { LifeSprite3->Draw(); }
 	if (playerLife >= 2) { LifeSprite2->Draw(); }
 	if (playerLife >= 1) { LifeSprite->Draw(); }
-	//spriteBG->Draw();
 	// デバッグテキストの描画
 	//debugText->DrawAll(cmdList);
 
@@ -492,74 +399,6 @@ void GamePlayScene::UpdataObstaclePopCommand()
 	}
 }
 
-void GamePlayScene::LoadWallPopData()
-{
-	//ファイルを開く
-	std::ifstream file;
-	file.open("Resources/wallPop.csv");
-	assert(file.is_open());
-
-	//ファイル内容を文字列ストリームにコピー
-	wallPopCom << file.rdbuf();
-
-	//ファイルを閉じる
-	file.close();
-}
-
-void GamePlayScene::UpdataWallPopCommand()
-{
-	//1行分の文字列を入れる変数
-	std::string line;
-	//コマンド実行ループ
-	while (getline(wallPopCom, line)) {
-		//1行分の文字列をストリームに変換して解析しやすくする
-		std::istringstream line_stream(line);
-
-		std::string word;
-		//,区切りで行の先頭文字列を取得
-		getline(line_stream, word, ',');
-
-		//"//"から始まる行はコメント
-		if (word.find("//") == 0) {
-			//コメント行は飛ばす
-			continue;
-		}
-
-		//POPコマンド
-		if (word.find("POP") == 0) {
-			//x座標
-			getline(line_stream, word, ',');
-			float x = (float)std::atof(word.c_str());
-
-			//y座標
-			getline(line_stream, word, ',');
-			float y = (float)std::atof(word.c_str());
-
-			//z座標
-			getline(line_stream, word, ',');
-			float z = (float)std::atof(word.c_str());
-
-			//x軸の回転
-			getline(line_stream, word, ',');
-			float rx = (float)std::atof(word.c_str());
-
-			//y軸の回転
-			getline(line_stream, word, ',');
-			float ry = (float)std::atof(word.c_str());
-
-			//z軸の回転
-			getline(line_stream, word, ',');
-			float rz = (float)std::atof(word.c_str());
-			//敵を発生させる
-			//コンストラクタ呼ぶよ
-			std::unique_ptr<Wall> newWall = std::make_unique<Wall>();
-			newWall->Initialize(XMFLOAT3(x, y, z), XMFLOAT3(rx, ry, rz));
-			//障害物を登録する
-			walls.push_back(std::move(newWall));
-		}
-	}
-}
-
 //前敵の弾の当たり判定
 void GamePlayScene::FrontColl()
 {
@@ -597,7 +436,6 @@ void GamePlayScene::FrontColl()
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
 							eb->OnCollision();
-							//obstacle->OnCollision();
 						}
 					}
 				}
@@ -644,7 +482,6 @@ void GamePlayScene::LeftColl()
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
 							eb->OnCollision();
-							//obstacle->OnCollision();
 						}
 					}
 				}
@@ -696,7 +533,6 @@ void GamePlayScene::RightColl()
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
 							eb->OnCollision();
-							//obstacle->OnCollision();
 						}
 					}
 				}
@@ -852,16 +688,6 @@ void GamePlayScene::CheckAllCollision()
 				if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
 					pb->OnCollision();
 					//obstacle->OnCollision();
-				}
-			}
-			//壁と自機弾の当たり判定
-			Sphere wallShape;
-			for (auto& wall : walls) {
-				wallShape.center = XMLoadFloat3(&wall->GetPosition());
-				wallShape.radius = wall->GetScale().x;
-
-				if (Collision::CheckSphere2Sphere(pBullet, wallShape)) {
-					pb->OnCollision();
 				}
 			}
 		}

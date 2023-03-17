@@ -33,7 +33,6 @@ void PlayerBullet::Update()
 		position.y += velocity.m128_f32[1];
 		position.z += velocity.m128_f32[2];
 
-		//敵が動いた値をゲームオブジェクトに渡す
 		object->SetPosition(position);
 
 		//ゲームオブジェクト更新

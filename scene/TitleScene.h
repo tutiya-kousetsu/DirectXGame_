@@ -48,6 +48,7 @@ private:
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 	std::unique_ptr<DebugCamera> camera;
+	DirectX::XMFLOAT3 cameraPos;
 	Player* player = nullptr;
 };
 

@@ -26,8 +26,9 @@ FrontEnemy::~FrontEnemy()
 {
 }
 
-bool FrontEnemy::Initialize()
+bool FrontEnemy::Initialize(XMFLOAT3 position)
 {
+	this->position = position;
 	AccessPhase();
 	return true;
 }
@@ -49,7 +50,7 @@ void FrontEnemy::appearance()
 {
 	position.y -= moveY;
 	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0�͈̔�
+	float y2 = (float)y / 10;//6~0
 	if (position.y <= y2) {
 		moveY = 0;
 		appFlag = false;

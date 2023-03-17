@@ -22,7 +22,7 @@ public:
 	/// ‰Šú‰»
 	/// </summary>
 	/// <returns>¬”Û</returns>
-	bool Initialize();
+	bool Initialize(XMFLOAT3 position);
 
 	//XV
 	void Update();

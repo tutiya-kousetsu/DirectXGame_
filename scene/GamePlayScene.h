@@ -65,6 +65,9 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
+	void LoadFrontEnemyPopData();
+
+	void UpdataFrontEnemyPopCommand();
 
 	//‘O“G‚Ì“–‚½‚è”»’è
 	void FrontColl();
@@ -109,7 +112,9 @@ private:
 	Model* obModel = nullptr;
 	
 	//“G
-	FrontEnemy* frontEnemy[11]{};
+	std::list < std::unique_ptr<FrontEnemy>> frontEnemy;
+	std::stringstream frontPopCom;
+	//FrontEnemy* frontEnemy[11]{};
 	LeftEnemy* leftEnemy[7]{};
 	RightEnemy* rightEnemy[4]{};
 	BackEnemy* backEnemy[2]{};
@@ -140,7 +145,8 @@ private:
 	bool bulFlag = true;
 	bool waitFlag = false;
 	bool lifeFlag = false;
-	int fEneFlag = 0;
+	int fEnePhase = 0;
+	int fWaitPhase = 0;
 	int lEneFlag = 0;
 	int rEneFlag = 0;
 	int bEneFlag = 0;

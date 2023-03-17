@@ -39,8 +39,8 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	player = player->Create(Model::CreateFromOBJ("octopus"));
 
 	// カメラ注視点をセット
-	camera->SetTarget({ 0, -30, -70 });
-	camera->SetEye({ 0, 15, 30 });
+	camera->SetTarget({ 0, -30, 70 });
+	camera->SetEye({ 0, 15, -30 });
 	camera->SetDistance(10.0f);
 }
 

@@ -37,6 +37,7 @@ bool Player::Initialize()
 	}
 	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
+	Object3d::SetScale({ 0.9f,0.9f,0.9f });
 	//コライダーの追加
 	float radius = 2.0f;
 	//半径だけ足元から浮いた座標を球の中心にする

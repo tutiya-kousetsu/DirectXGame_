@@ -79,13 +79,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	particleMan = ParticleManager::GetInstance();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
-	for (int i = 0; i < 11; i++) {
-		//前
-		frontEnemy[i] = new FrontEnemy();
-		frontEnemy[i]->Initialize();
-		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		frontEnemy[i]->SetPlayer(player);
-	}
+	//for (int i = 0; i < 11; i++) {
+	//	//前
+	//	frontEnemy[i] = new FrontEnemy();
+	//	frontEnemy[i]->Initialize();
+	//	//敵に自機のアドレスを渡して敵が自機を使えるようにする
+	//	frontEnemy[i]->SetPlayer(player);
+	//}
 	for (int i = 0; i < 7; i++) {
 		//左
 		leftEnemy[i] = new LeftEnemy();
@@ -130,9 +130,6 @@ void GamePlayScene::Finalize()
 	delete floor;
 	delete player;
 	delete skyObj;
-	for (int i = 0; i < 11; i++) {
-		delete frontEnemy[i];
-	}
 	for (int i = 0; i < 7; i++) {
 		delete leftEnemy[i];
 	}
@@ -211,40 +208,45 @@ void GamePlayScene::Update()
 	//プレイヤーの更新
 	player->Update();
 
+	LoadFrontEnemyPopData();
+	UpdataFrontEnemyPopCommand();
+	for (auto& front : frontEnemy) {
+		front->Update();
+	}
 	//カメラの更新
 	camera->Update();
 	//床の更新
 	floor->Update();
 	//敵の発生する順番
-	if (fEneFlag >= 0) {
-		frontEnemy[0]->Update();
+	if (fEnePhase >= 0) {
+		//frontEnemy[0]->Update();
 	}
-	if (fEneFlag >= 1) {
-		frontEnemy[1]->Update();
-		frontEnemy[2]->Update();
+	if (fEnePhase >= 1) {
+		/*frontEnemy[1]->Update();
+		frontEnemy[2]->Update();*/
 	}
-	if (fEneFlag >= 3 && lEneFlag >= 0) {
-		frontEnemy[3]->Update();
-		frontEnemy[4]->Update();
+	if (fEnePhase >= 3 && lEnePhase >= 0) {
+		/*frontEnemy[3]->Update();
+		frontEnemy[4]->Update();*/
 		leftEnemy[0]->Update();
 	}
-	if (fEneFlag >= 5 && lEneFlag >= 1) {
-		frontEnemy[5]->Update();
-		frontEnemy[6]->Update();
+	if (fEnePhase >= 5 && lEnePhase >= 1) {
+		/*frontEnemy[5]->Update();
+		frontEnemy[6]->Update();*/
 		leftEnemy[1]->Update();
 		leftEnemy[2]->Update();
 	}
-	if (fEneFlag >= 7 && lEneFlag >= 3 && rEneFlag >= 0) {
-		frontEnemy[7]->Update();
-		frontEnemy[8]->Update();
+	if (fEnePhase >= 7 && lEnePhase >= 3 && rEnePhase >= 0) {
+		/*frontEnemy[7]->Update();
+		frontEnemy[8]->Update();*/
 		leftEnemy[3]->Update();
 		leftEnemy[4]->Update();
 		rightEnemy[0]->Update();
 		rightEnemy[1]->Update();
 	}
-	if (fEneFlag >= 9 && lEneFlag >= 5 && rEneFlag >= 2) {
-		frontEnemy[9]->Update();
-		frontEnemy[10]->Update();
+	if (fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
+		/*frontEnemy[9]->Update();
+		frontEnemy[10]->Update();*/
 		leftEnemy[5]->Update();
 		leftEnemy[6]->Update();
 		rightEnemy[2]->Update();
@@ -290,8 +292,11 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	Object3d::PreDraw();
 	player->Draw();
 	//前敵
-	for (int i = 0; i < 11; i++) {
+	/*for (int i = 0; i < 11; i++) {
 		frontEnemy[i]->Draw();
+	}*/
+	for (auto& front : frontEnemy) {
+		front->Draw();
 	}
 	//左敵
 	for (int i = 0; i < 7; i++) {
@@ -338,6 +343,85 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	dxCommon->PostDraw();
 
 }
+
+void GamePlayScene::LoadFrontEnemyPopData()
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Resources/frontEnemyPop.csv");
+	assert(file.is_open());
+
+	//ファイル内容を文字列ストリームにコピー
+	frontPopCom << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GamePlayScene::UpdataFrontEnemyPopCommand()
+{
+	if(waitFlag){
+			//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
+			if (fWaitPhase == fEnePhase) {
+				waitFlag = false;
+			}
+			//一致していなかったらreturnで返す
+			else {
+				return;
+			}
+	}
+	//1行分の文字列を入れる変数
+	std::string line;
+	//コマンド実行ループ
+	while (getline(frontPopCom, line)) {
+		//1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		//"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			//コメント行は飛ばす
+			continue;
+		}
+
+		//POPコマンド
+		if (word.find("POP") == 0) {
+			//x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			//y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			//z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			//敵を発生させる
+			//コンストラクタ呼ぶよ
+			std::unique_ptr<FrontEnemy> newFront = std::make_unique<FrontEnemy>();
+			newFront->Initialize(XMFLOAT3(x, y, z));
+			newFront->SetPlayer(player);
+			//障害物を登録する
+			frontEnemy.push_back(std::move(newFront));
+		}
+		else if (word.find("FLAG") == 0) {
+			//flag
+			getline(line_stream, word, ',');
+			int flag = atoi(word.c_str());
+
+			waitFlag = true;
+			fWaitPhase = flag;
+
+			break;
+		}
+	}
+}
+
 
 void GamePlayScene::LoadObstaclePopData()
 {
@@ -402,8 +486,8 @@ void GamePlayScene::UpdataObstaclePopCommand()
 //前敵の弾の当たり判定
 void GamePlayScene::FrontColl()
 {
-	for (int i = 0; i < 11; i++) {
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = frontEnemy[i]->GetBullet();
+	for (auto& front : frontEnemy) {
+		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = front->GetBullet();
 #pragma region 敵弾と自機の当たり判定
 		for (auto& eb : enemyBullets) {
 			Sphere eBullet;
@@ -428,7 +512,7 @@ void GamePlayScene::FrontColl()
 			if (eb->GetAlive()) {
 				eBullet.center = XMLoadFloat3(&eb->GetPosition());
 				eBullet.radius = eb->GetScale().x;
-				if (leftEnemy[i]->GetAlive()) {
+				if (front->GetAlive()) {
 					Sphere obstacleShape;
 					for (auto& ob : obstacles) {
 						obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
@@ -609,21 +693,21 @@ void GamePlayScene::CheckAllCollision()
 			pBullet.radius = pb->GetScale().x;
 
 			//前の敵
-			for (int i = 0; i < 11; i++) {
-				if (frontEnemy[i]->GetAlive()) {
+			for (auto& front : frontEnemy) {
+				if (front->GetAlive()) {
 					Sphere fEnemyShape;
-					fEnemyShape.center = XMLoadFloat3(&frontEnemy[i]->GetPosition());
-					fEnemyShape.radius = frontEnemy[i]->GetScale().z;
+					fEnemyShape.center = XMLoadFloat3(&front->GetPosition());
+					fEnemyShape.radius = front->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
 						pb->OnCollision();
-						frontEnemy[i]->OnCollision();
-						if (!frontEnemy[i]->GetAlive()) {
-							fEneFlag++;
+						front->OnCollision();
+						if (!front->GetAlive()) {
+							fEnePhase++;
 						}
 					}
 				}
-				
+
 			}
 			for (int i = 0; i < 7; i++) {
 				//左の敵
@@ -636,7 +720,7 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						leftEnemy[i]->OnCollision();
 						if (!leftEnemy[i]->GetAlive()) {
-							lEneFlag++;
+							lEnePhase++;
 						}
 					}
 				}
@@ -653,7 +737,7 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						rightEnemy[i]->OnCollision();
 						if (!rightEnemy[i]->GetAlive()) {
-							rEneFlag++;
+							rEnePhase++;
 						}
 					}
 				}
@@ -670,7 +754,7 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						backEnemy[i]->OnCollision();
 						if (!backEnemy[i]->GetAlive()) {
-							bEneFlag++;
+							bEnePhase++;
 						}
 					}
 				}
@@ -701,7 +785,7 @@ void GamePlayScene::CheckAllCollision()
 			this->sceneManager->SetNextScene(scene);
 		}
 	}
-	if (fEneFlag >= 11 && lEneFlag >= 7 && rEneFlag >= 4 && bEneFlag >= 2) {
+	if (fEnePhase >= 11 && lEnePhase >= 7 && rEnePhase >= 4 && bEnePhase >= 2) {
 		//シーン切り替え
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);

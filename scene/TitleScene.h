@@ -6,6 +6,13 @@
 #include "DirectXCommon.h"
 #include "Fbx_Object3d.h"
 #include "Input.h"
+#include "TouchableObject.h"
+#include "Camera.h"
+#include "FollowingCamera.h"
+#include "DebugCamera.h"
+
+class Player;
+
 class TitleScene : public BaseScene
 {
 public:
@@ -33,7 +40,14 @@ private:
 
 	Sprite* titleSp = nullptr;
 	Sprite* spaceSp = nullptr;
-	DebugCamera* camera = nullptr;
+	Sprite* backSp = nullptr;
+	DirectX::XMFLOAT2 spacePos;
 	Input* input = nullptr;
+	TouchableObject* floor = nullptr;
+	//“V‹…
+	Object3d* skyObj = nullptr;
+	Model* skyModel = nullptr;
+	std::unique_ptr<DebugCamera> camera;
+	Player* player = nullptr;
 };
 

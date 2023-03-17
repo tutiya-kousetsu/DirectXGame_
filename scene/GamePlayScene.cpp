@@ -31,11 +31,11 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	LifeSprite4 = Sprite::Create(6, { 78,0 });
 	Sprite::LoadTexture(7, L"Resources/Life.png");
 	LifeSprite5 = Sprite::Create(7, { 104,0 });
-	Sprite::LoadTexture(3, L"Resources/Life.png");
+	Sprite::LoadTexture(8, L"Resources/Life.png");
 	LifeSprite6 = Sprite::Create(8, { 130,0 });
-	Sprite::LoadTexture(4, L"Resources/Life.png");
+	Sprite::LoadTexture(9, L"Resources/Life.png");
 	LifeSprite7 = Sprite::Create(9, { 156,0 });
-	Sprite::LoadTexture(5, L"Resources/Life.png");
+	Sprite::LoadTexture(10, L"Resources/Life.png");
 	LifeSprite8 = Sprite::Create(10, { 182,0 });
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
@@ -111,7 +111,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	skyModel = Model::CreateFromOBJ("skydome");
 	skyObj = Object3d::Create();
 	skyObj->SetModel(skyModel);
-
 }
 
 void GamePlayScene::Finalize()
@@ -121,7 +120,11 @@ void GamePlayScene::Finalize()
 	delete LifeSprite;
 	delete LifeSprite2;
 	delete LifeSprite3;
-
+	delete LifeSprite4;
+	delete LifeSprite5;
+	delete LifeSprite6;
+	delete LifeSprite7;
+	delete LifeSprite8;
 	//3Dオブジェクト解放
 	delete skyModel;
 	delete floor;
@@ -319,17 +322,14 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
-	if (playerLife >= 8) { LifeSprite5->Draw(); }
-	if (playerLife >= 7) { LifeSprite4->Draw(); }
-	if (playerLife >= 6) { LifeSprite3->Draw(); }
+	if (playerLife >= 8) { LifeSprite8->Draw(); }
+	if (playerLife >= 7) { LifeSprite7->Draw(); }
+	if (playerLife >= 6) { LifeSprite6->Draw(); }
 	if (playerLife >= 5) { LifeSprite5->Draw(); }
 	if (playerLife >= 4) { LifeSprite4->Draw(); }
 	if (playerLife >= 3) { LifeSprite3->Draw(); }
 	if (playerLife >= 2) { LifeSprite2->Draw(); }
 	if (playerLife >= 1) { LifeSprite->Draw(); }
-	// デバッグテキストの描画
-	//debugText->DrawAll(cmdList);
-
 	// スプライト描画後処理
 
 	Sprite::PostDraw();
@@ -515,12 +515,9 @@ void GamePlayScene::RightColl()
 				}
 			}
 
-
-
 #pragma endregion
 
 #pragma region 敵弾と障害物の当たり判定
-
 
 			if (eb->GetAlive()) {
 				eBullet.center = XMLoadFloat3(&eb->GetPosition());
@@ -583,7 +580,6 @@ void GamePlayScene::BackColl()
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
 							eb->OnCollision();
-							//obstacle->OnCollision();
 						}
 					}
 				}
@@ -687,7 +683,6 @@ void GamePlayScene::CheckAllCollision()
 
 				if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
 					pb->OnCollision();
-					//obstacle->OnCollision();
 				}
 			}
 		}

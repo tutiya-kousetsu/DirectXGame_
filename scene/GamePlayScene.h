@@ -13,7 +13,6 @@
 #include "FollowingCamera.h"
 #include "Input.h"
 #include "Obstacle.h"
-#include "Floor/Floor.h"
 #include "FrontEnemy.h"
 #include "LeftEnemy.h"
 #include "RightEnemy.h"

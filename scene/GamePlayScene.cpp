@@ -79,13 +79,27 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	particleMan = ParticleManager::GetInstance();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
-	//for (int i = 0; i < 11; i++) {
-	//	//前
-	//	frontEnemy[i] = new FrontEnemy();
-	//	frontEnemy[i]->Initialize();
-	//	//敵に自機のアドレスを渡して敵が自機を使えるようにする
-	//	frontEnemy[i]->SetPlayer(player);
-	//}
+	
+	//ドアの初期化
+	for (int i = 0; i < 8; i++) {
+		door[i] = new Door();
+		door[i]->Initialize();
+		doorPos[i] = door[i]->GetPosition();
+		doorPos[0] = { 8, 8, 50 };
+		doorPos[1] = { -8,8,50 };
+		doorPos[2] = { -50, 8, 8 };
+		doorPos[3] = { -50,8,-8 };
+		doorPos[4] = { 50, 8, 8 };
+		doorPos[5] = { 50,8,-8 };
+		doorPos[6] = { 8, 8, -50 };
+		doorPos[7] = { -8,8,-50 };
+		doorRot[i] = door[i]->GetRotation();
+		doorRot[2] = { 0, 90 ,0 };
+		doorRot[3] = { 0, 90 ,0 };
+		doorRot[4] = { 0, 90 ,0 };
+		doorRot[5] = { 0, 90 ,0 };
+	}
+
 	for (int i = 0; i < 7; i++) {
 		//左
 		leftEnemy[i] = new LeftEnemy();
@@ -130,6 +144,9 @@ void GamePlayScene::Finalize()
 	delete floor;
 	delete player;
 	delete skyObj;
+	for (int i = 0; i < 8; i++) {
+		delete door[i];
+	}
 	for (int i = 0; i < 7; i++) {
 		delete leftEnemy[i];
 	}
@@ -219,34 +236,23 @@ void GamePlayScene::Update()
 	floor->Update();
 	//敵の発生する順番
 	if (fEnePhase >= 0) {
-		//frontEnemy[0]->Update();
 	}
 	if (fEnePhase >= 1) {
-		/*frontEnemy[1]->Update();
-		frontEnemy[2]->Update();*/
 	}
 	if (fEnePhase >= 3 && lEnePhase >= 0) {
-		/*frontEnemy[3]->Update();
-		frontEnemy[4]->Update();*/
 		leftEnemy[0]->Update();
 	}
 	if (fEnePhase >= 5 && lEnePhase >= 1) {
-		/*frontEnemy[5]->Update();
-		frontEnemy[6]->Update();*/
 		leftEnemy[1]->Update();
 		leftEnemy[2]->Update();
 	}
 	if (fEnePhase >= 7 && lEnePhase >= 3 && rEnePhase >= 0) {
-		/*frontEnemy[7]->Update();
-		frontEnemy[8]->Update();*/
 		leftEnemy[3]->Update();
 		leftEnemy[4]->Update();
 		rightEnemy[0]->Update();
 		rightEnemy[1]->Update();
 	}
 	if (fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
-		/*frontEnemy[9]->Update();
-		frontEnemy[10]->Update();*/
 		leftEnemy[5]->Update();
 		leftEnemy[6]->Update();
 		rightEnemy[2]->Update();
@@ -259,12 +265,57 @@ void GamePlayScene::Update()
 	//障害物のマップチップ読み込み用
 	LoadObstaclePopData();
 	UpdataObstaclePopCommand();
+	//壁のマップチップ読み込み用
+	LoadWallPopData();
+	UpdataWallPopCommand();
+	for (auto& wall : walls) {
+		wall->Update();
+	}
+
+	DoorMove();
+
 	//当たり判定
 	collisionMan->CheckAllCollisions();
 	CheckAllCollision();
 
 	particleMan->Update();
 }
+
+void GamePlayScene::DoorMove()
+{
+	if (doorPos[0].x >= 0) {
+		doorPos[0].x -= 0.05f;
+	}
+
+	if (doorPos[1].x >= -16 && fEnePhase >= 1) {
+		doorPos[1].x -= 0.05f;
+	}
+	/*if (doorPos[2].x >= 0) {
+		doorPos[2].x -= 0.05;
+	}
+	if (doorPos[3].x >= -16) {
+		doorPos[3].x -= 0.05;
+	}
+	if (doorPos[4].x >= 0) {
+		doorPos[4].x -= 0.05;
+	}
+	if (doorPos[5].x >= -16) {
+		doorPos[5].x -= 0.05;
+	}
+	if (doorPos[7].x >= 0) {
+		doorPos[7].x -= 0.05;
+	}
+	if (doorPos[8].x >= -16) {
+		doorPos[8].x -= 0.05;
+	}*/
+
+	for (int i = 0; i < 8; i++) {
+		door[i]->SetPosition(doorPos[i]);
+		door[i]->SetRotation(doorRot[i]);
+		door[i]->Update();
+	}
+}
+
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
@@ -314,6 +365,13 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto& obstacle : obstacles) {
 		obstacle->Draw();
 	}
+	for (auto& wall : walls) {
+		wall->Draw();
+	}
+	for (int i = 0; i < 8; i++) {
+		door[i]->Draw();
+	}
+
 	skyObj->Draw();
 	floor->Draw();
 	particleMan->Draw();
@@ -480,6 +538,74 @@ void GamePlayScene::UpdataObstaclePopCommand()
 	}
 	for (auto& obstacle : obstacles) {
 		obstacle->Update();
+	}
+}
+
+void GamePlayScene::LoadWallPopData()
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Resources/wallPop.csv");
+	assert(file.is_open());
+
+	//ファイル内容を文字列ストリームにコピー
+	wallPopCom << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GamePlayScene::UpdataWallPopCommand()
+{
+	//1行分の文字列を入れる変数
+	std::string line;
+	//コマンド実行ループ
+	while (getline(wallPopCom, line)) {
+		//1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		//"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			//コメント行は飛ばす
+			continue;
+		}
+
+		//POPコマンド
+		if (word.find("POP") == 0) {
+			//x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			//y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			//z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			//x軸の回転
+			getline(line_stream, word, ',');
+			float rx = (float)std::atof(word.c_str());
+
+			//y軸の回転
+			getline(line_stream, word, ',');
+			float ry = (float)std::atof(word.c_str());
+
+			//z軸の回転
+			getline(line_stream, word, ',');
+			float rz = (float)std::atof(word.c_str());
+			//敵を発生させる
+			//コンストラクタ呼ぶよ
+			std::unique_ptr<Wall> newWall = std::make_unique<Wall>();
+			newWall->Initialize(XMFLOAT3(x, y, z), XMFLOAT3(rx, ry, rz));
+			//障害物を登録する
+			walls.push_back(std::move(newWall));
+		}
 	}
 }
 
@@ -707,7 +833,6 @@ void GamePlayScene::CheckAllCollision()
 						}
 					}
 				}
-
 			}
 			for (int i = 0; i < 7; i++) {
 				//左の敵

@@ -25,7 +25,6 @@
 
 //前方宣言
 class Player;
-class Line;
 class ParticleManager;
 class CollisionManager;
 class TouchableObject;
@@ -50,6 +49,8 @@ public:
 	/// </summary>
 	void Update() override;
 
+	void DoorMove();
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -68,6 +69,9 @@ public:
 	void LoadFrontEnemyPopData();
 
 	void UpdataFrontEnemyPopCommand();
+
+	void LoadWallPopData();
+	void UpdataWallPopCommand();
 
 	//前敵の当たり判定
 	void FrontColl();
@@ -126,7 +130,14 @@ private:
 	ParticleManager* particleMan = nullptr;
 	CollisionManager* collisionMan = nullptr;
 	
+	//ドア
+	Door* door[8]{};
+	XMFLOAT3 doorPos[8]{};
+	XMFLOAT3 doorRot[8]{};
 
+	//壁
+	std::list<std::unique_ptr<Wall>> walls;
+	std::stringstream wallPopCom;
 	//ポジション
 	XMFLOAT3 playerPos;
 	XMFLOAT3 enePos;
@@ -141,15 +152,16 @@ private:
 
 	//タイマー
 	int waitTimer = 0;
-	//フラグ関係
+	//フラグ
 	bool bulFlag = true;
 	bool waitFlag = false;
 	bool lifeFlag = false;
+	//フェーズ
 	int fEnePhase = 0;
 	int fWaitPhase = 0;
-	int lEneFlag = 0;
-	int rEneFlag = 0;
-	int bEneFlag = 0;
+	int lEnePhase = 0;
+	int rEnePhase = 0;
+	int bEnePhase = 0;
 	// カメラ関係
 	bool dirty = false;
 	float angleX = 0;

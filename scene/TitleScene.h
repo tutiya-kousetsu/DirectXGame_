@@ -10,8 +10,8 @@
 #include "Camera.h"
 #include "FollowingCamera.h"
 #include "DebugCamera.h"
-
-class Player;
+#include "FrontEnemy.h"
+#include "Player.h"
 
 class TitleScene : public BaseScene
 {
@@ -31,6 +31,8 @@ public:
 	/// </summary>
 	void Update() override;
 
+	void CheckCollision();
+
 	/// <summary>
 	/// •`‰æ
 	/// </summary>
@@ -41,14 +43,16 @@ private:
 	Sprite* titleSp = nullptr;
 	Sprite* spaceSp = nullptr;
 	Sprite* backSp = nullptr;
-	DirectX::XMFLOAT2 spacePos;
+	//XMFLOAT2 spacePos;
 	Input* input = nullptr;
-	TouchableObject* floor = nullptr;
+	std::unique_ptr<TouchableObject> floor;
 	//“V‹…
 	Object3d* skyObj = nullptr;
 	Model* skyModel = nullptr;
 	std::unique_ptr<DebugCamera> camera;
-	DirectX::XMFLOAT3 cameraPos;
-	Player* player = nullptr;
+	XMFLOAT3 cameraPos;
+	std::unique_ptr<Player> player;
+	std::unique_ptr<FrontEnemy> enemy;
+	XMFLOAT3 enemyPos;
 };
 

@@ -4,7 +4,6 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
-#include "Player.h"
 #include "Enemy/EnemyBullet.h"
 #include "Collision.h"
 #include "ParticleManager.h"
@@ -19,24 +18,24 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライトの生成
 	Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
-	sprite = Sprite::Create(2, { 0,0 });
+	sprite.reset(Sprite::Create(2, { 0,0 }));
 	sprite->SetPosition({ 0,0 });
 	Sprite::LoadTexture(3, L"Resources/Life.png");
-	LifeSprite = Sprite::Create(3, { 0,0 });
+	LifeSprite.reset(Sprite::Create(3, { 0,0 }));
 	Sprite::LoadTexture(4, L"Resources/Life.png");
-	LifeSprite2 = Sprite::Create(4, { 26,0 });
+	LifeSprite2.reset(Sprite::Create(4, { 26,0 }));
 	Sprite::LoadTexture(5, L"Resources/Life.png");
-	LifeSprite3 = Sprite::Create(5, { 52,0 });
+	LifeSprite3.reset(Sprite::Create(5, { 52,0 }));
 	Sprite::LoadTexture(6, L"Resources/Life.png");
-	LifeSprite4 = Sprite::Create(6, { 78,0 });
+	LifeSprite4.reset(Sprite::Create(6, { 78,0 }));
 	Sprite::LoadTexture(7, L"Resources/Life.png");
-	LifeSprite5 = Sprite::Create(7, { 104,0 });
+	LifeSprite5.reset(Sprite::Create(7, { 104,0 }));
 	Sprite::LoadTexture(8, L"Resources/Life.png");
-	LifeSprite6 = Sprite::Create(8, { 130,0 });
+	LifeSprite6 .reset(Sprite::Create(8, { 130,0 }));
 	Sprite::LoadTexture(9, L"Resources/Life.png");
-	LifeSprite7 = Sprite::Create(9, { 156,0 });
+	LifeSprite7.reset(Sprite::Create(9, { 156,0 }));
 	Sprite::LoadTexture(10, L"Resources/Life.png");
-	LifeSprite8 = Sprite::Create(10, { 182,0 });
+	LifeSprite8 .reset(Sprite::Create(10, { 182,0 }));
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
 		postEffect[i] = new PostEffect();
@@ -68,11 +67,10 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//当たり判定のインスタンス
 	collisionMan = CollisionManager::GetInstance();
 	//自機のオブジェクトセット+初期化
-	player = player->Create(Model::CreateFromOBJ("octopus"));
+	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
 
 	//床のオブジェクト生成
-	floorModel = Model::CreateFromOBJ("FloorBox");
-	floor = TouchableObject::Create(floorModel);
+	floor.reset(TouchableObject::Create(Model::CreateFromOBJ("FloorBox")));
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
 	//パーティクのインスタンス
@@ -105,45 +103,30 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		leftEnemy[i] = new LeftEnemy();
 		leftEnemy[i]->Initialize();
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		leftEnemy[i]->SetPlayer(player);
+		leftEnemy[i]->SetPlayer(player.get());
 	}
 	for (int i = 0; i < 4; i++) {
 		//右
 		rightEnemy[i] = new RightEnemy();
 		rightEnemy[i]->Initialize();
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		rightEnemy[i]->SetPlayer(player);
+		rightEnemy[i]->SetPlayer(player.get());
 	}
 	for (int i = 0; i < 2; i++) {
 		//後ろ
 		backEnemy[i] = new BackEnemy();
 		backEnemy[i]->Initialize();
 		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		backEnemy[i]->SetPlayer(player);
+		backEnemy[i]->SetPlayer(player.get());
 	}
 	//データ読み込み
-	skyModel = Model::CreateFromOBJ("skydome");
-	skyObj = Object3d::Create();
-	skyObj->SetModel(skyModel);
+	skyObj.reset(Object3d::Create());
+	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
 }
 
 void GamePlayScene::Finalize()
 {
-	//スプライト個別解放
-	delete sprite;
-	delete LifeSprite;
-	delete LifeSprite2;
-	delete LifeSprite3;
-	delete LifeSprite4;
-	delete LifeSprite5;
-	delete LifeSprite6;
-	delete LifeSprite7;
-	delete LifeSprite8;
 	//3Dオブジェクト解放
-	delete skyModel;
-	delete floor;
-	delete player;
-	delete skyObj;
 	for (int i = 0; i < 8; i++) {
 		delete door[i];
 	}
@@ -167,7 +150,7 @@ void GamePlayScene::Update()
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
 
-	camera->SetFollowingTarget(player);
+	camera->SetFollowingTarget(player.get());
 
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
@@ -463,7 +446,7 @@ void GamePlayScene::UpdataFrontEnemyPopCommand()
 			//コンストラクタ呼ぶよ
 			std::unique_ptr<FrontEnemy> newFront = std::make_unique<FrontEnemy>();
 			newFront->Initialize(XMFLOAT3(x, y, z));
-			newFront->SetPlayer(player);
+			newFront->SetPlayer(player.get());
 			//障害物を登録する
 			frontEnemy.push_back(std::move(newFront));
 		}

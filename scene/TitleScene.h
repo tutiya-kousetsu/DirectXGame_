@@ -40,15 +40,14 @@ public:
 
 private:
 
-	Sprite* titleSp = nullptr;
-	Sprite* spaceSp = nullptr;
-	Sprite* backSp = nullptr;
-	//XMFLOAT2 spacePos;
+	std::unique_ptr <Sprite> titleSp;
+	std::unique_ptr <Sprite> backSp;
 	Input* input = nullptr;
 	std::unique_ptr<TouchableObject> floor;
 	//天球
-	Object3d* skyObj = nullptr;
-	Model* skyModel = nullptr;
+	std::unique_ptr <Object3d> skyObj;
+	//スタート文字(3D)
+	std::unique_ptr<Object3d> startObj;
 	std::unique_ptr<DebugCamera> camera;
 	XMFLOAT3 cameraPos;
 	std::unique_ptr<Player> player;

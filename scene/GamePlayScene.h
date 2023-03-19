@@ -19,15 +19,15 @@
 #include "BackEnemy.h"
 #include "Wall.h"
 #include "Door.h"
+#include "Player.h"
+#include "TouchableObject.h"
 #include <memory>
 #include <list>
 #include <sstream>
 
 //前方宣言
-class Player;
 class ParticleManager;
 class CollisionManager;
-class TouchableObject;
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -85,16 +85,16 @@ public:
 	void CheckAllCollision();
 private:
 	//スプライト
-	Sprite* sprite = nullptr;
-	Sprite* LifeSprite = nullptr;
-	Sprite* LifeSprite2 = nullptr;
-	Sprite* LifeSprite3 = nullptr;
-	Sprite* LifeSprite4 = nullptr;
-	Sprite* LifeSprite5 = nullptr;
-	Sprite* LifeSprite6 = nullptr;
-	Sprite* LifeSprite7 = nullptr;
-	Sprite* LifeSprite8 = nullptr;
-	Sprite* spriteBG = nullptr;
+	std::unique_ptr<Sprite> sprite;
+	std::unique_ptr<Sprite> LifeSprite;
+	std::unique_ptr<Sprite> LifeSprite2;
+	std::unique_ptr<Sprite> LifeSprite3;
+	std::unique_ptr<Sprite> LifeSprite4;
+	std::unique_ptr<Sprite> LifeSprite5;
+	std::unique_ptr<Sprite> LifeSprite6;
+	std::unique_ptr<Sprite> LifeSprite7;
+	std::unique_ptr<Sprite> LifeSprite8;
+	std::unique_ptr<Sprite> spriteBG;
 	// カメラ
 	std::unique_ptr<FollowingCamera> camera;
 	DirectXCommon* dxCommon = nullptr;
@@ -107,12 +107,11 @@ private:
 	std::stringstream obstaclePopCom;
 
 	//プレイヤー
-	Player* player = nullptr;
+	std::unique_ptr<Player> player;
 	PlayerBullet* playerBullet = nullptr;
 	int playerLife = 8;
 	//天球
-	Object3d* skyObj = nullptr;
-	Model* skyModel = nullptr;
+	std::unique_ptr<Object3d> skyObj;
 	Model* obModel = nullptr;
 	
 	//敵
@@ -124,8 +123,8 @@ private:
 	BackEnemy* backEnemy[2]{};
 	EnemyBullet* enemyBullet = nullptr;
 	//床
-	TouchableObject* floor = nullptr;
-	Model* floorModel = nullptr;
+	std::unique_ptr<TouchableObject> floor;
+	//Model* floorModel = nullptr;
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 	CollisionManager* collisionMan = nullptr;

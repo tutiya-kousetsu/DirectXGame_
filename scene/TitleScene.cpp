@@ -17,11 +17,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/Title.png");
 	//スプライトの生成
-	titleSp = Sprite::Create(1, { 0.0f,400.0f });
-	//titleSp->SetPosition({ 0,0 });
-	//テクスチャ読み込み
-	Sprite::LoadTexture(2, L"Resources/space.png");
-	spaceSp = Sprite::Create(2, { 0.0f,0.0f });
+	titleSp.reset(Sprite::Create(1, { 0.0f,400.0f }));
 
 	//カメラの初期化
 	camera.reset(new DebugCamera(WinApp::window_width, WinApp::window_height));
@@ -29,59 +25,48 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	Object3d::SetCamera(camera.get());
 
 	//床のオブジェクト生成
-	//floorModel = Model::CreateFromOBJ("FloorBox");
 	floor.reset(TouchableObject::Create(Model::CreateFromOBJ("FloorBox")));
 	floor->SetScale({ 20.f, 5.0f, 20.f });
 	floor->SetPosition({ 0,-18.5f,0 });
 
 	//データ読み込み
-	skyModel = Model::CreateFromOBJ("skydome");
-	skyObj = Object3d::Create();
-	skyObj->SetModel(skyModel);
+	skyObj.reset(Object3d::Create());
+	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
+
+	//スタート文字のオブジェクト
+	startObj.reset(Object3d::Create());
+	startObj->SetModel(Model::CreateFromOBJ("letter"));
+	startObj->SetPosition({ 10.f, 7.5f, 30.f });
+	startObj->SetRotation({ 90,0,0 });
+	startObj->SetScale({ 4.0f, 4.0f, 4.0f });
 
 	//自機のオブジェクトセット+初期化
-	player.reset(player->Create(Model::CreateFromOBJ("octopus")));
+	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
 
 	enemy.reset(new FrontEnemy());
-	enemy->Initialize({ 0, 2, 30 });
+	enemy->Initialize({ 10, 6, 30 });
 	enemy->SetPlayer(player.get());
 	// カメラ注視点をセット
-	camera->SetTarget({ 0, -30, 70 });
-	camera->SetEye({ 0, 15, -30 });
-	camera->SetDistance(10.0f);
 }
 
 void TitleScene::Finalize()
 {
-	delete skyModel;
-	delete skyObj;
-	//スプライト個別解放
-	delete titleSp;
-	delete spaceSp;
-	delete backSp;
 }
 
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
+	//プレイヤーのx軸の位置に合わせてカメラも動かす
+	camera->SetTarget({ player->GetPosition().x, -20, 70 });
+	camera->SetEye({ player->GetPosition().x, 10, -30 });
+	camera->SetDistance(10.0f);
+
 	camera->Update();
-	//マウスの左クリックが押されていたら
-	//if (input->TriggerKey(DIK_SPACE))
-	//{
-	//	//spacePos = spaceSp->GetPosition();
-	//	//spacePos.y += 3.0f;
-	//	//spaceSp->SetPosition(spacePos);
-	//	//シーン切り替え
-	//	BaseScene* scene = new GamePlayScene();
-	//	this->sceneManager->SetNextScene(scene);
-	//}
-	//enemyPos = enemy->GetPosition();
-	//enemyPos = { 0,2,30 };
-	//enemy->SetPosition(enemyPos);
 	enemy->Update();
 	player->Update();
 	floor->Update();
 	skyObj->Update();
+	startObj->Update();
 	CheckCollision();
 }
 
@@ -90,7 +75,7 @@ void TitleScene::CheckCollision()
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 
 #pragma region 自弾と敵の当たり判定
-
+	//敵を倒したらゲームスタート
 	Sphere pBullet;
 	for (auto& pb : playerBullets) {
 		if (pb->GetAlive()) {
@@ -144,6 +129,7 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	Object3d::PreDraw();
 	floor->Draw();
 	skyObj->Draw();
+	startObj->Draw();
 	player->Draw();
 	enemy->Draw();
 	Object3d::PostDraw();
@@ -156,7 +142,6 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	titleSp->Draw();
-	//spaceSp->Draw();
 	// スプライト描画後処理
 
 	Sprite::PostDraw();

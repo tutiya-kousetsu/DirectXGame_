@@ -36,16 +36,30 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	//スタート文字のオブジェクト
 	startObj.reset(Object3d::Create());
 	startObj->SetModel(Model::CreateFromOBJ("letter"));
-	startObj->SetPosition({ 10.f, 7.5f, 30.f });
+	startObj->SetPosition({ 13.f, 8.5f, 30.f });
 	startObj->SetRotation({ 90,0,0 });
 	startObj->SetScale({ 4.0f, 4.0f, 4.0f });
+
+	//スタート文字のオブジェクト
+	endObj.reset(Object3d::Create());
+	endObj->SetModel(Model::CreateFromOBJ("endLetter"));
+	endObj->SetPosition({ -13.f, 12.5f, 30.f });
+	endObj->SetRotation({ 90,0,0 });
+	endObj->SetScale({ 4.0f, 4.0f, 4.0f });
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
 
-	enemy.reset(new FrontEnemy());
-	enemy->Initialize({ 10, 6, 30 });
-	enemy->SetPlayer(player.get());
+	startEnemy.reset(new FrontEnemy());
+	startEnemy->Initialize({ 13, 6, 30 });
+	startEnemy->SetPlayer(player.get());
+
+	endEnemy.reset(new FrontEnemy());
+	endEnemy->Initialize({ -13, 6, 30 });
+	endEnemy->SetPlayer(player.get());
+
+	frame.reset(new Framework());
+	//frame->Initialize();
 	// カメラ注視点をセット
 }
 
@@ -62,11 +76,13 @@ void TitleScene::Update()
 	camera->SetDistance(10.0f);
 
 	camera->Update();
-	enemy->Update();
+	startEnemy->TitleUpdate();
+	endEnemy->TitleUpdate();
 	player->Update();
 	floor->Update();
 	skyObj->Update();
 	startObj->Update();
+	endObj->Update();
 	CheckCollision();
 }
 
@@ -83,18 +99,35 @@ void TitleScene::CheckCollision()
 			pBullet.radius = pb->GetScale().x;
 
 			//前の敵
-			if (enemy) {
-				if (enemy->GetAlive()) {
+			if (startEnemy) {
+				if (startEnemy->GetAlive()) {
 					Sphere fEnemyShape;
-					fEnemyShape.center = XMLoadFloat3(&enemy->GetPosition());
-					fEnemyShape.radius = enemy->GetScale().z;
+					fEnemyShape.center = XMLoadFloat3(&startEnemy->GetPosition());
+					fEnemyShape.radius = startEnemy->GetScale().z;
 
 					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
 						pb->OnCollision();
-						enemy->OnCollision();
-						if (!enemy->GetAlive()) {
+						startEnemy->OnCollision();
+						if (!startEnemy->GetAlive()) {
 							BaseScene* scene = new GamePlayScene();
 							this->sceneManager->SetNextScene(scene);
+						}
+					}
+				}
+			}
+			if (endEnemy) {
+				if (endEnemy->GetAlive()) {
+					Sphere fEnemyShape;
+					fEnemyShape.center = XMLoadFloat3(&endEnemy->GetPosition());
+					fEnemyShape.radius = endEnemy->GetScale().z;
+
+					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
+						pb->OnCollision();
+						endEnemy->OnCollision();
+						if (!endEnemy->GetAlive()) {
+							if (!frame->IsEndRequst()) {
+								//frame->IsEndRequst() = true;
+							}
 						}
 					}
 				}
@@ -130,8 +163,10 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	floor->Draw();
 	skyObj->Draw();
 	startObj->Draw();
+	endObj->Draw();
 	player->Draw();
-	enemy->Draw();
+	startEnemy->Draw();
+	endEnemy->Draw();
 	Object3d::PostDraw();
 
 #pragma region 前景スプライト描画

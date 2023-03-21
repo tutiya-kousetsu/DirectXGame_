@@ -12,6 +12,7 @@
 #include "DebugCamera.h"
 #include "FrontEnemy.h"
 #include "Player.h"
+#include "Framework.h"
 
 class TitleScene : public BaseScene
 {
@@ -48,10 +49,13 @@ private:
 	std::unique_ptr <Object3d> skyObj;
 	//スタート文字(3D)
 	std::unique_ptr<Object3d> startObj;
+	std::unique_ptr<Object3d> endObj;
+	std::unique_ptr<Framework> frame;
 	std::unique_ptr<DebugCamera> camera;
 	XMFLOAT3 cameraPos;
 	std::unique_ptr<Player> player;
-	std::unique_ptr<FrontEnemy> enemy;
+	std::unique_ptr<FrontEnemy> startEnemy;
+	std::unique_ptr<FrontEnemy> endEnemy;
 	XMFLOAT3 enemyPos;
 };
 

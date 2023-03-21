@@ -67,8 +67,16 @@ public:
 	void UpdataObstaclePopCommand();
 
 	void LoadFrontEnemyPopData();
-
 	void UpdataFrontEnemyPopCommand();
+
+	void LoadLeftEnemyPopData();
+	void UpdataLeftEnemyPopCommand();
+
+	void LoadRightEnemyPopData();
+	void UpdataRightEnemyPopCommand();
+
+	void LoadBackEnemyPopData();
+	void UpdataBackEnemyPopCommand();
 
 	void LoadWallPopData();
 	void UpdataWallPopCommand();
@@ -112,19 +120,24 @@ private:
 	int playerLife = 8;
 	//天球
 	std::unique_ptr<Object3d> skyObj;
-	Model* obModel = nullptr;
-	
+
 	//敵
 	std::list < std::unique_ptr<FrontEnemy>> frontEnemy;
+	std::list < std::unique_ptr<LeftEnemy>> leftEnemy;
+	std::list < std::unique_ptr<RightEnemy>> rightEnemy;
+	std::list < std::unique_ptr<BackEnemy>> backEnemy;
+
 	std::stringstream frontPopCom;
-	//FrontEnemy* frontEnemy[11]{};
-	LeftEnemy* leftEnemy[7]{};
-	RightEnemy* rightEnemy[4]{};
-	BackEnemy* backEnemy[2]{};
+	std::stringstream leftPopCom;
+	std::stringstream rightPopCom;
+	std::stringstream backPopCom;
+	//LeftEnemy* leftEnemy[7]{};
+	//RightEnemy* rightEnemy[4]{};
+	//BackEnemy* backEnemy[2]{};
 	EnemyBullet* enemyBullet = nullptr;
 	//床
 	std::unique_ptr<TouchableObject> floor;
-	//Model* floorModel = nullptr;
+
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 	CollisionManager* collisionMan = nullptr;

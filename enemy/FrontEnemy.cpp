@@ -46,6 +46,14 @@ void FrontEnemy::Update()
 	object->Update();
 }
 
+void FrontEnemy::TitleUpdate()
+{
+	if (alive) {
+		object->SetPosition(position);
+	}
+	object->Update();
+}
+
 void FrontEnemy::appearance()
 {
 	position.y -= moveY;

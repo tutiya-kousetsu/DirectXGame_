@@ -98,27 +98,27 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		doorRot[5] = { 0, 90 ,0 };
 	}
 
-	for (int i = 0; i < 7; i++) {
-		//左
-		leftEnemy[i] = new LeftEnemy();
-		leftEnemy[i]->Initialize();
-		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		leftEnemy[i]->SetPlayer(player.get());
-	}
-	for (int i = 0; i < 4; i++) {
-		//右
-		rightEnemy[i] = new RightEnemy();
-		rightEnemy[i]->Initialize();
-		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		rightEnemy[i]->SetPlayer(player.get());
-	}
-	for (int i = 0; i < 2; i++) {
-		//後ろ
-		backEnemy[i] = new BackEnemy();
-		backEnemy[i]->Initialize();
-		//敵に自機のアドレスを渡して敵が自機を使えるようにする
-		backEnemy[i]->SetPlayer(player.get());
-	}
+	//for (int i = 0; i < 7; i++) {
+	//	//左
+	//	leftEnemy[i] = new LeftEnemy();
+	//	leftEnemy[i]->Initialize();
+	//	//敵に自機のアドレスを渡して敵が自機を使えるようにする
+	//	leftEnemy[i]->SetPlayer(player.get());
+	//}
+	//for (int i = 0; i < 4; i++) {
+	//	//右
+	//	rightEnemy[i] = new RightEnemy();
+	//	rightEnemy[i]->Initialize();
+	//	//敵に自機のアドレスを渡して敵が自機を使えるようにする
+	//	rightEnemy[i]->SetPlayer(player.get());
+	//}
+	//for (int i = 0; i < 2; i++) {
+	//	//後ろ
+	//	backEnemy[i] = new BackEnemy();
+	//	backEnemy[i]->Initialize();
+	//	//敵に自機のアドレスを渡して敵が自機を使えるようにする
+	//	backEnemy[i]->SetPlayer(player.get());
+	//}
 	//データ読み込み
 	skyObj.reset(Object3d::Create());
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
@@ -130,7 +130,7 @@ void GamePlayScene::Finalize()
 	for (int i = 0; i < 8; i++) {
 		delete door[i];
 	}
-	for (int i = 0; i < 7; i++) {
+	/*for (int i = 0; i < 7; i++) {
 		delete leftEnemy[i];
 	}
 	for (int i = 0; i < 4; i++) {
@@ -138,7 +138,7 @@ void GamePlayScene::Finalize()
 	}
 	for (int i = 0; i < 2; i++) {
 		delete backEnemy[i];
-	}
+	}*/
 }
 
 void GamePlayScene::Update()
@@ -218,7 +218,7 @@ void GamePlayScene::Update()
 	//床の更新
 	floor->Update();
 	//敵の発生する順番
-	if (fEnePhase >= 0) {
+	/*if (fEnePhase >= 0) {
 	}
 	if (fEnePhase >= 1) {
 	}
@@ -242,7 +242,7 @@ void GamePlayScene::Update()
 		rightEnemy[3]->Update();
 		backEnemy[0]->Update();
 		backEnemy[1]->Update();
-	}
+	}*/
 
 	skyObj->Update();
 	//障害物のマップチップ読み込み用
@@ -333,17 +333,17 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		front->Draw();
 	}
 	//左敵
-	for (int i = 0; i < 7; i++) {
-		leftEnemy[i]->Draw();
-	}
-	//右敵
-	for (int i = 0; i < 4; i++) {
-		rightEnemy[i]->Draw();
-	}
-	//後ろ的
-	for (int i = 0; i < 2; i++) {
-		backEnemy[i]->Draw();
-	}
+	//for (int i = 0; i < 7; i++) {
+	//	leftEnemy[i]->Draw();
+	//}
+	////右敵
+	//for (int i = 0; i < 4; i++) {
+	//	rightEnemy[i]->Draw();
+	//}
+	////後ろ的
+	//for (int i = 0; i < 2; i++) {
+	//	backEnemy[i]->Draw();
+	//}
 	//障害物
 	for (auto& obstacle : obstacles) {
 		obstacle->Draw();
@@ -449,6 +449,162 @@ void GamePlayScene::UpdataFrontEnemyPopCommand()
 			newFront->SetPlayer(player.get());
 			//障害物を登録する
 			frontEnemy.push_back(std::move(newFront));
+		}
+		else if (word.find("FLAG") == 0) {
+			//flag
+			getline(line_stream, word, ',');
+			int flag = atoi(word.c_str());
+
+			waitFlag = true;
+			fWaitPhase = flag;
+
+			break;
+		}
+	}
+}
+
+void GamePlayScene::LoadLeftEnemyPopData()
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Resources/leftEnemyPop.csv");
+	assert(file.is_open());
+
+	//ファイル内容を文字列ストリームにコピー
+	leftPopCom << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GamePlayScene::UpdataLeftEnemyPopCommand()
+{
+	if (waitFlag) {
+		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
+		if (fWaitPhase == fEnePhase) {
+			waitFlag = false;
+		}
+		//一致していなかったらreturnで返す
+		else {
+			return;
+		}
+	}
+	//1行分の文字列を入れる変数
+	std::string line;
+	//コマンド実行ループ
+	while (getline(leftPopCom, line)) {
+		//1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		//"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			//コメント行は飛ばす
+			continue;
+		}
+
+		//POPコマンド
+		if (word.find("POP") == 0) {
+			//x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			//y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			//z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			//敵を発生させる
+			//コンストラクタ呼ぶよ
+			std::unique_ptr<LeftEnemy> newLeft = std::make_unique<LeftEnemy>();
+			newLeft->Initialize(XMFLOAT3(x, y, z));
+			newLeft->SetPlayer(player.get());
+			//障害物を登録する
+			leftEnemy.push_back(std::move(newLeft));
+		}
+		else if (word.find("FLAG") == 0) {
+			//flag
+			getline(line_stream, word, ',');
+			int flag = atoi(word.c_str());
+
+			waitFlag = true;
+			fWaitPhase = flag;
+
+			break;
+		}
+	}
+}
+
+void GamePlayScene::LoadRightEnemyPopData()
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Resources/rightEnemyPop.csv");
+	assert(file.is_open());
+
+	//ファイル内容を文字列ストリームにコピー
+	rightPopCom << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GamePlayScene::UpdataRightEnemyPopCommand()
+{
+	if (waitFlag) {
+		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
+		if (fWaitPhase == fEnePhase) {
+			waitFlag = false;
+		}
+		//一致していなかったらreturnで返す
+		else {
+			return;
+		}
+	}
+	//1行分の文字列を入れる変数
+	std::string line;
+	//コマンド実行ループ
+	while (getline(rightPopCom, line)) {
+		//1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		//"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			//コメント行は飛ばす
+			continue;
+		}
+
+		//POPコマンド
+		if (word.find("POP") == 0) {
+			//x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			//y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			//z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			//敵を発生させる
+			//コンストラクタ呼ぶよ
+			std::unique_ptr<RightEnemy> newRight = std::make_unique<RightEnemy>();
+			newRight->Initialize(XMFLOAT3(x, y, z));
+			newRight->SetPlayer(player.get());
+			//障害物を登録する
+			rightEnemy.push_back(std::move(newRight));
 		}
 		else if (word.find("FLAG") == 0) {
 			//flag

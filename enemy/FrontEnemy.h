@@ -26,6 +26,10 @@ public:
 
 	//更新
 	void Update();
+
+	//タイトルで使う何もしてこない敵用
+	void TitleUpdate();
+
 	//登場
 	void appearance();
 	//弾の処理

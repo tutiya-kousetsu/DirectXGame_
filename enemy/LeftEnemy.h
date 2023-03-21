@@ -22,7 +22,6 @@ public:
 	/// <returns>¬”Û</returns>
 	bool Initialize();
 
-
 	//XV
 	void Update();
 

@@ -16,10 +16,6 @@
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
-	//スプライトの生成
-	//Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
-	//sprite.reset(Sprite::Create(2, { 0,0 }));
-	//sprite->SetPosition({ 0,0 });
 	Sprite::LoadTexture(2, L"Resources/HP.png");
 	LifeSprite.reset(Sprite::Create(2, { 930,590 }));
 	Sprite::LoadTexture(3, L"Resources/HP.png");
@@ -222,24 +218,24 @@ void GamePlayScene::DoorMove()
 	if (doorPos[1].x >= -16 && fEnePhase >= 1) {
 		doorPos[1].x -= 0.05f;
 	}
-	/*if (doorPos[2].x >= 0) {
-		doorPos[2].x -= 0.05;
+	if (doorPos[2].z >= 0 && fEnePhase >= 3 && lEnePhase >= 0) {
+		doorPos[2].z -= 0.05;
 	}
-	if (doorPos[3].x >= -16) {
-		doorPos[3].x -= 0.05;
+	if (doorPos[3].z >= -16 && fEnePhase >= 5 && lEnePhase >= 1 ) {
+		doorPos[3].z -= 0.05;
 	}
-	if (doorPos[4].x >= 0) {
-		doorPos[4].x -= 0.05;
+	if (doorPos[4].z >= 0 && fEnePhase >= 7 && lEnePhase >= 3) {
+		doorPos[4].z -= 0.05;
 	}
-	if (doorPos[5].x >= -16) {
-		doorPos[5].x -= 0.05;
+	if (doorPos[5].z >= -16 && fEnePhase >= 7 && lEnePhase >= 3) {
+		doorPos[5].z -= 0.05;
 	}
-	if (doorPos[7].x >= 0) {
+	if (doorPos[7].x >= 0 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
 		doorPos[7].x -= 0.05;
 	}
-	if (doorPos[8].x >= -16) {
+	if (doorPos[8].x >= -16 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
 		doorPos[8].x -= 0.05;
-	}*/
+	}
 
 	for (int i = 0; i < 8; i++) {
 		door[i]->SetPosition(doorPos[i]);
@@ -298,7 +294,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		wall->Draw();
 	}
 	for (int i = 0; i < 8; i++) {
-		//door[i]->Draw();
+		door[i]->Draw();
 	}
 
 	skyObj->Draw();

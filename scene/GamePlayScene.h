@@ -66,17 +66,8 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
-	void LoadFrontEnemyPopData();
-	void UpdataFrontEnemyPopCommand();
-
-	void LoadLeftEnemyPopData();
-	void UpdataLeftEnemyPopCommand();
-
-	void LoadRightEnemyPopData();
-	void UpdataRightEnemyPopCommand();
-
-	void LoadBackEnemyPopData();
-	void UpdataBackEnemyPopCommand();
+	void LoadEnemyPopData();
+	void UpdataEnemyPopCommand();
 
 	void LoadWallPopData();
 	void UpdataWallPopCommand();
@@ -127,7 +118,7 @@ private:
 	std::list < std::unique_ptr<RightEnemy>> rightEnemy;
 	std::list < std::unique_ptr<BackEnemy>> backEnemy;
 
-	std::stringstream frontPopCom;
+	std::stringstream enemyPopCom;
 	std::stringstream leftPopCom;
 	std::stringstream rightPopCom;
 	std::stringstream backPopCom;
@@ -172,8 +163,11 @@ private:
 	int fEnePhase = 0;
 	int fWaitPhase = 0;
 	int lEnePhase = 0;
+	int lWaitPhase = 0;
 	int rEnePhase = 0;
+	int rWaitPhase = 0;
 	int bEnePhase = 0;
+	int bWaitPhase = 0;
 	// ÉJÉÅÉâä÷åW
 	bool dirty = false;
 	float angleX = 0;

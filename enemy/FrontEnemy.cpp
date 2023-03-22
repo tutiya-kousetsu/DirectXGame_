@@ -11,15 +11,15 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 	particleMan = ParticleManager::GetInstance();
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0, 180, 0 });
-	position = GetPosition();
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10�`-10�͈̔�
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0�͈̔�
-	int z = rand() % 700;
-	float z2 = (float)z / 10 - 35;//6~0�͈̔�
-	position = { x2, 35, 35 };
-	object->SetPosition(position);
+	//position = GetPosition();
+	//int x = rand() % 700;
+	//float x2 = (float)x / 10 - 35;//10�`-10�͈̔�
+	//int y = rand() % 70;
+	//float y2 = (float)y / 10;//6~0�͈̔�
+	//int z = rand() % 700;
+	//float z2 = (float)z / 10 - 35;//6~0�͈̔�
+	//position = { x2, 35, 35 };
+	//object->SetPosition(position);
 }
 
 FrontEnemy::~FrontEnemy()

@@ -11,16 +11,16 @@ LeftEnemy::LeftEnemy() :LeftEnemy(Model::CreateFromOBJ("squid"))
 	object->SetRotation({ 0,90,0 });
 	particleMan = ParticleManager::GetInstance();
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
-	position = GetPosition();
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	int z = rand() % 600;
-	float z2 = (float)z / 10 - 30;//30~-30‚Ì”ÍˆÍ
-	position = { -35, 35, z2 };
-	// À•W‚Ì•ÏX‚ð”½‰f
-	SetPosition(position);
+	//position = GetPosition();
+	//int x = rand() % 700;
+	//float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
+	//int y = rand() % 70;
+	//float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	//int z = rand() % 600;
+	//float z2 = (float)z / 10 - 30;//30~-30‚Ì”ÍˆÍ
+	//position = { -35, 35, z2 };
+	//// À•W‚Ì•ÏX‚ð”½‰f
+	//SetPosition(position);
 
 }
 
@@ -28,8 +28,9 @@ LeftEnemy::~LeftEnemy()
 {
 }
 
-bool LeftEnemy::Initialize()
+bool LeftEnemy::Initialize(XMFLOAT3 position)
 {
+	this->position = position;
 	AccessPhase();
 	return true;
 }

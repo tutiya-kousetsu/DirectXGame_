@@ -18,7 +18,7 @@ public:
 	~BackEnemy();
 
 	//‰Šú‰»
-	bool Initialize();
+	bool Initialize(XMFLOAT3 position);
 
 	//XV
 	void Update() override;

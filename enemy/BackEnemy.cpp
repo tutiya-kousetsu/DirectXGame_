@@ -11,16 +11,16 @@ BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("squid"))
 	object->SetRotation({ 0,0,0 });
 	particleMan = ParticleManager::GetInstance();
 	// Œ»Ý‚ÌÀ•W‚ðŽæ“¾
-	position = GetPosition();
-	int x = rand() % 700;
-	float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	int z = rand() % 700;
-	//float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
-	position = { x2, 35, -35 };
-	// À•W‚Ì•ÏX‚ð”½‰f
-	SetPosition(position);
+	//position = GetPosition();
+	//int x = rand() % 700;
+	//float x2 = (float)x / 10 - 35;//10`-10‚Ì”ÍˆÍ
+	//int y = rand() % 70;
+	//float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
+	//int z = rand() % 700;
+	////float z2 = (float)z / 10 - 35;//6~0‚Ì”ÍˆÍ
+	//position = { x2, 35, -35 };
+	//// À•W‚Ì•ÏX‚ð”½‰f
+	//SetPosition(position);
 
 }
 
@@ -28,8 +28,9 @@ BackEnemy::~BackEnemy()
 {
 }
 
-bool BackEnemy::Initialize()
+bool BackEnemy::Initialize(XMFLOAT3 position)
 {
+	this->position = position;
 	AccessPhase();
 	return true;
 }

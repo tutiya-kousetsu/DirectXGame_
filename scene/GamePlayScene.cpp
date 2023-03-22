@@ -17,25 +17,25 @@
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	//スプライトの生成
-	Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
-	sprite.reset(Sprite::Create(2, { 0,0 }));
-	sprite->SetPosition({ 0,0 });
-	Sprite::LoadTexture(3, L"Resources/Life.png");
-	LifeSprite.reset(Sprite::Create(3, { 0,0 }));
-	Sprite::LoadTexture(4, L"Resources/Life.png");
-	LifeSprite2.reset(Sprite::Create(4, { 26,0 }));
-	Sprite::LoadTexture(5, L"Resources/Life.png");
-	LifeSprite3.reset(Sprite::Create(5, { 52,0 }));
-	Sprite::LoadTexture(6, L"Resources/Life.png");
-	LifeSprite4.reset(Sprite::Create(6, { 78,0 }));
-	Sprite::LoadTexture(7, L"Resources/Life.png");
-	LifeSprite5.reset(Sprite::Create(7, { 104,0 }));
-	Sprite::LoadTexture(8, L"Resources/Life.png");
-	LifeSprite6 .reset(Sprite::Create(8, { 130,0 }));
-	Sprite::LoadTexture(9, L"Resources/Life.png");
-	LifeSprite7.reset(Sprite::Create(9, { 156,0 }));
-	Sprite::LoadTexture(10, L"Resources/Life.png");
-	LifeSprite8 .reset(Sprite::Create(10, { 182,0 }));
+	//Sprite::LoadTexture(2, L"Resources/sosa_sinan.png");
+	//sprite.reset(Sprite::Create(2, { 0,0 }));
+	//sprite->SetPosition({ 0,0 });
+	Sprite::LoadTexture(2, L"Resources/HP.png");
+	LifeSprite.reset(Sprite::Create(2, { 930,590 }));
+	Sprite::LoadTexture(3, L"Resources/HP.png");
+	LifeSprite2.reset(Sprite::Create(3, { 970,590 }));
+	Sprite::LoadTexture(4, L"Resources/HP.png");
+	LifeSprite3.reset(Sprite::Create(4, { 1010,590 }));
+	Sprite::LoadTexture(5, L"Resources/HP.png");
+	LifeSprite4.reset(Sprite::Create(5, { 1050,590 }));
+	Sprite::LoadTexture(6, L"Resources/HP.png");
+	LifeSprite5.reset(Sprite::Create(6, { 1090,590 }));
+	Sprite::LoadTexture(7, L"Resources/HP.png");
+	LifeSprite6.reset(Sprite::Create(7, { 1130,590 }));
+	Sprite::LoadTexture(8, L"Resources/HP.png");
+	LifeSprite7.reset(Sprite::Create(8, { 1170,590 }));
+	Sprite::LoadTexture(9, L"Resources/HP.png");
+	LifeSprite8.reset(Sprite::Create(9, { 1210,590 }));
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
 		postEffect[i] = new PostEffect();
@@ -60,10 +60,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//乱数の初期化
 	srand((unsigned)time(NULL));
 
-	//自機弾の初期化
-	playerBullet = new PlayerBullet();
-	//敵弾の初期化
-	enemyBullet = new EnemyBullet();
 	//当たり判定のインスタンス
 	collisionMan = CollisionManager::GetInstance();
 	//自機のオブジェクトセット+初期化
@@ -317,7 +313,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite->Draw();
+	//sprite->Draw();
 	if (playerLife >= 8) { LifeSprite8->Draw(); }
 	if (playerLife >= 7) { LifeSprite7->Draw(); }
 	if (playerLife >= 6) { LifeSprite6->Draw(); }
@@ -660,6 +656,16 @@ void GamePlayScene::FrontColl()
 					}
 				}
 			}
+			//壁と自機弾の当たり判定
+			Sphere wallShape;
+			for (auto& wall : walls) {
+				wallShape.center = XMLoadFloat3(&wall->GetPosition());
+				wallShape.radius = wall->GetScale().x;
+
+				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
+					eb->OnCollision();
+				}
+			}
 		}
 	}
 #pragma endregion
@@ -704,6 +710,16 @@ void GamePlayScene::LeftColl()
 							eb->OnCollision();
 						}
 					}
+				}
+			}
+			//壁と自機弾の当たり判定
+			Sphere wallShape;
+			for (auto& wall : walls) {
+				wallShape.center = XMLoadFloat3(&wall->GetPosition());
+				wallShape.radius = wall->GetScale().x;
+
+				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
+					eb->OnCollision();
 				}
 			}
 		}
@@ -755,6 +771,16 @@ void GamePlayScene::RightColl()
 				}
 
 			}
+			//壁と自機弾の当たり判定
+			Sphere wallShape;
+			for (auto& wall : walls) {
+				wallShape.center = XMLoadFloat3(&wall->GetPosition());
+				wallShape.radius = wall->GetScale().x;
+
+				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
+					eb->OnCollision();
+				}
+			}
 		}
 
 #pragma endregion
@@ -804,6 +830,16 @@ void GamePlayScene::BackColl()
 					}
 				}
 
+			}
+			//壁と自機弾の当たり判定
+			Sphere wallShape;
+			for (auto& wall : walls) {
+				wallShape.center = XMLoadFloat3(&wall->GetPosition());
+				wallShape.radius = wall->GetScale().x;
+
+				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
+					eb->OnCollision();
+				}
 			}
 		}
 	}
@@ -901,6 +937,16 @@ void GamePlayScene::CheckAllCollision()
 				obstacleShape.radius = ob->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
+					pb->OnCollision();
+				}
+			}
+			//壁と自機弾の当たり判定
+			Sphere wallShape;
+			for (auto& wall : walls) {
+				wallShape.center = XMLoadFloat3(&wall->GetPosition());
+				wallShape.radius = wall->GetScale().x;
+
+				if (Collision::CheckSphere2Sphere(pBullet, wallShape)) {
 					pb->OnCollision();
 				}
 			}

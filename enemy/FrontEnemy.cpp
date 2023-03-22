@@ -35,6 +35,10 @@ bool FrontEnemy::Initialize(XMFLOAT3 position)
 
 void FrontEnemy::Update()
 {
+	//弾のフラグがfalseになったら削除する
+	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+		return !bullet->GetAlive();
+	});
 	if (alive) {
 		appearance();
 		if (!appFlag) {

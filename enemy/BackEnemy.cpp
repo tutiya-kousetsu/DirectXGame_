@@ -37,6 +37,10 @@ bool BackEnemy::Initialize(XMFLOAT3 position)
 
 void BackEnemy::Update()
 {
+	//’e‚Ìƒtƒ‰ƒO‚ªfalse‚É‚È‚Á‚½‚çíœ‚·‚é
+	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+		return !bullet->GetAlive();
+		});
 	if (alive) {
 		appearance();
 

@@ -48,13 +48,17 @@ bool Player::Initialize()
 
 void Player::Update()
 {
+	//’e‚Ìƒtƒ‰ƒO‚ªfalse‚É‚È‚Á‚½‚çíœ‚·‚é
+	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return !bullet->GetAlive();
+	});
 	move();
 	jump();
 	Input* input = Input::GetInstance();
 		if (input->TriggerMouseLeft()) {
 			Shoot();
 		}
-	for (std::unique_ptr<PlayerBullet>& bul : bullet) {
+	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 		bul->Update();
 	}
 	Object3d::Update();
@@ -234,7 +238,7 @@ bool Player::Shoot()
 	//‰Šú‰»
 	newBullet->Initialize(position, velocity);
 
-	bullet.push_back(std::move(newBullet));
+	bullets.push_back(std::move(newBullet));
 	return true;
 }
 
@@ -270,7 +274,7 @@ void Player::Draw()
 	if (alive) {
 		Object3d::Draw();
 	}
-	for (std::unique_ptr<PlayerBullet>& bul : bullet) {
+	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 		bul->Draw();
 	}
 }

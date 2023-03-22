@@ -107,7 +107,6 @@ private:
 
 	//プレイヤー
 	std::unique_ptr<Player> player;
-	PlayerBullet* playerBullet = nullptr;
 	int playerLife = 8;
 	//天球
 	std::unique_ptr<Object3d> skyObj;
@@ -122,10 +121,6 @@ private:
 	std::stringstream leftPopCom;
 	std::stringstream rightPopCom;
 	std::stringstream backPopCom;
-	//LeftEnemy* leftEnemy[7]{};
-	//RightEnemy* rightEnemy[4]{};
-	//BackEnemy* backEnemy[2]{};
-	EnemyBullet* enemyBullet = nullptr;
 	//床
 	std::unique_ptr<TouchableObject> floor;
 

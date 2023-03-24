@@ -17,8 +17,12 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/Title.png");
 	//スプライトの生成
-	titleSp.reset(Sprite::Create(1, { 0.0f,400.0f }));
+	titleSp.reset(Sprite::Create(1, { 0.0f,0.0f }));
 
+	//テクスチャ読み込み
+	Sprite::LoadTexture(2, L"Resources/space.png");
+	//スプライトの生成
+	spaceSp.reset(Sprite::Create(2, { 0.0f,0.0f }));
 	//カメラの初期化
 	camera.reset(new DebugCamera(WinApp::window_width, WinApp::window_height));
 	//カメラを3Dオブジェットにセット
@@ -33,34 +37,10 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	skyObj.reset(Object3d::Create());
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
 
-	//スタート文字のオブジェクト
-	startObj.reset(Object3d::Create());
-	startObj->SetModel(Model::CreateFromOBJ("letter"));
-	startObj->SetPosition({ 13.f, 8.5f, 30.f });
-	startObj->SetRotation({ 90,0,0 });
-	startObj->SetScale({ 4.0f, 4.0f, 4.0f });
-
-	//スタート文字のオブジェクト
-	endObj.reset(Object3d::Create());
-	endObj->SetModel(Model::CreateFromOBJ("endLetter"));
-	endObj->SetPosition({ -13.f, 12.5f, 30.f });
-	endObj->SetRotation({ 90,0,0 });
-	endObj->SetScale({ 4.0f, 4.0f, 4.0f });
-
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
 
-	startEnemy.reset(new FrontEnemy());
-	startEnemy->Initialize({ 13, 6, 30 });
-	startEnemy->SetPlayer(player.get());
-
-	endEnemy.reset(new FrontEnemy());
-	endEnemy->Initialize({ -13, 6, 30 });
-	endEnemy->SetPlayer(player.get());
-
 	frame.reset(new Framework());
-	//frame->Initialize();
-	// カメラ注視点をセット
 }
 
 void TitleScene::Finalize()
@@ -70,72 +50,24 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
+	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
+	{
+		//シーン切り替え
+		BaseScene* scene = new GamePlayScene();
+		this->sceneManager->SetNextScene(scene);
+	}
+
 	//プレイヤーのx軸の位置に合わせてカメラも動かす
 	camera->SetTarget({ player->GetPosition().x, -20, 70 });
 	camera->SetEye({ player->GetPosition().x, 10, -30 });
 	camera->SetDistance(10.0f);
 
 	camera->Update();
-	startEnemy->TitleUpdate();
-	endEnemy->TitleUpdate();
-	player->Update();
+	player->TitleUpdate();
+	player->SetRotation({ 0,180,0 });
 	floor->Update();
 	skyObj->Update();
-	startObj->Update();
-	endObj->Update();
-	CheckCollision();
 }
-
-void TitleScene::CheckCollision()
-{
-	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-
-#pragma region 自弾と敵の当たり判定
-	//敵を倒したらゲームスタート
-	Sphere pBullet;
-	for (auto& pb : playerBullets) {
-		if (pb->GetAlive()) {
-			pBullet.center = XMLoadFloat3(&pb->GetPosition());
-			pBullet.radius = pb->GetScale().x;
-
-			//前の敵
-			if (startEnemy) {
-				if (startEnemy->GetAlive()) {
-					Sphere fEnemyShape;
-					fEnemyShape.center = XMLoadFloat3(&startEnemy->GetPosition());
-					fEnemyShape.radius = startEnemy->GetScale().z;
-
-					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
-						pb->OnCollision();
-						startEnemy->OnCollision();
-						if (!startEnemy->GetAlive()) {
-							BaseScene* scene = new GamePlayScene();
-							this->sceneManager->SetNextScene(scene);
-						}
-					}
-				}
-			}
-			if (endEnemy) {
-				if (endEnemy->GetAlive()) {
-					Sphere fEnemyShape;
-					fEnemyShape.center = XMLoadFloat3(&endEnemy->GetPosition());
-					fEnemyShape.radius = endEnemy->GetScale().z;
-
-					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
-						pb->OnCollision();
-						endEnemy->OnCollision();
-						if (!endEnemy->GetAlive()) {
-							if (!frame->IsEndRequst()) {
-								//frame->IsEndRequst() = true;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
 
 void TitleScene::Draw(DirectXCommon* dxCommon)
 {
@@ -162,11 +94,7 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	Object3d::PreDraw();
 	floor->Draw();
 	skyObj->Draw();
-	startObj->Draw();
-	endObj->Draw();
 	player->Draw();
-	startEnemy->Draw();
-	endEnemy->Draw();
 	Object3d::PostDraw();
 
 #pragma region 前景スプライト描画
@@ -177,6 +105,7 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	titleSp->Draw();
+	spaceSp->Draw();
 	// スプライト描画後処理
 
 	Sprite::PostDraw();

@@ -28,6 +28,9 @@ public:
 	//更新
 	void Update() override;
 
+	//タイトル用更新
+	void TitleUpdate();
+
 	//移動
 	void move(float speed = 0.3f);
 

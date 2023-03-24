@@ -32,8 +32,6 @@ public:
 	/// </summary>
 	void Update() override;
 
-	void CheckCollision();
-
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -42,20 +40,15 @@ public:
 private:
 
 	std::unique_ptr <Sprite> titleSp;
+	std::unique_ptr <Sprite> spaceSp;
 	std::unique_ptr <Sprite> backSp;
 	Input* input = nullptr;
 	std::unique_ptr<TouchableObject> floor;
 	//天球
 	std::unique_ptr <Object3d> skyObj;
-	//スタート文字(3D)
-	std::unique_ptr<Object3d> startObj;
-	std::unique_ptr<Object3d> endObj;
 	std::unique_ptr<Framework> frame;
 	std::unique_ptr<DebugCamera> camera;
 	XMFLOAT3 cameraPos;
 	std::unique_ptr<Player> player;
-	std::unique_ptr<FrontEnemy> startEnemy;
-	std::unique_ptr<FrontEnemy> endEnemy;
-	XMFLOAT3 enemyPos;
 };
 

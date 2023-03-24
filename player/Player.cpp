@@ -64,6 +64,11 @@ void Player::Update()
 	Object3d::Update();
 }
 
+void Player::TitleUpdate()
+{
+	Object3d::Update();
+}
+
 void Player::move(float speed)
 {
 	Input* input = Input::GetInstance();

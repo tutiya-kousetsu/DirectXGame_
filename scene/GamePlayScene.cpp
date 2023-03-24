@@ -16,6 +16,8 @@
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
+	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
+	sprite.reset(Sprite::Create(1, { 0,0 }));
 	Sprite::LoadTexture(2, L"Resources/HP.png");
 	LifeSprite.reset(Sprite::Create(2, { 930,590 }));
 	Sprite::LoadTexture(3, L"Resources/HP.png");
@@ -74,6 +76,8 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	for (int i = 0; i < 8; i++) {
 		door[i] = new Door();
 		door[i]->Initialize();
+
+		//ドアの位置
 		doorPos[i] = door[i]->GetPosition();
 		doorPos[0] = { 8, 8, 50 };
 		doorPos[1] = { -8,8,50 };
@@ -83,6 +87,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 		doorPos[5] = { 50,8,-8 };
 		doorPos[6] = { 8, 8, -50 };
 		doorPos[7] = { -8,8,-50 };
+		//ドアの向き
 		doorRot[i] = door[i]->GetRotation();
 		doorRot[2] = { 0, 90 ,0 };
 		doorRot[3] = { 0, 90 ,0 };
@@ -101,10 +106,32 @@ void GamePlayScene::Finalize()
 	for (int i = 0; i < 8; i++) {
 		delete door[i];
 	}
+	//壁があったら削除する
+	walls.remove_if([](std::unique_ptr<Wall>& wall) {
+		return wall->GetAlive();
+		});
+	
 }
 
 void GamePlayScene::Update()
 {
+	//前敵が死んだら削除する
+	frontEnemy.remove_if([](std::unique_ptr<FrontEnemy>& front) {
+		return !front->GetAlive();
+		});
+	//左敵が死んだら削除する
+	leftEnemy.remove_if([](std::unique_ptr<LeftEnemy>& left) {
+		return !left->GetAlive();
+		});
+	//右敵が死んだら削除する
+	rightEnemy.remove_if([](std::unique_ptr<RightEnemy>& right) {
+		return !right->GetAlive();
+		});
+	//後ろ敵が死んだら削除する
+	backEnemy.remove_if([](std::unique_ptr<BackEnemy>& back) {
+		return !back->GetAlive();
+		});
+
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -209,6 +236,7 @@ void GamePlayScene::Update()
 	particleMan->Update();
 }
 
+//敵のPhaseに合わせて動かす
 void GamePlayScene::DoorMove()
 {
 	if (doorPos[0].x >= 0) {
@@ -230,11 +258,11 @@ void GamePlayScene::DoorMove()
 	if (doorPos[5].z >= -16 && fEnePhase >= 7 && lEnePhase >= 3) {
 		doorPos[5].z -= 0.05;
 	}
-	if (doorPos[7].x >= 0 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
-		doorPos[7].x -= 0.05;
+	if (doorPos[6].x >= 0 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
+		doorPos[6].x -= 0.05;
 	}
-	if (doorPos[8].x >= -16 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
-		doorPos[8].x -= 0.05;
+	if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
+		doorPos[7].x -= 0.05;
 	}
 
 	for (int i = 0; i < 8; i++) {
@@ -309,7 +337,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	//sprite->Draw();
+	sprite->Draw();
 	if (playerLife >= 8) { LifeSprite8->Draw(); }
 	if (playerLife >= 7) { LifeSprite7->Draw(); }
 	if (playerLife >= 6) { LifeSprite6->Draw(); }
@@ -408,7 +436,7 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			float z = (float)std::atof(word.c_str());
 
 			//敵を発生させる
-			//コンストラクタ呼ぶよ
+			//コンストラクタ呼ぶ
 			std::unique_ptr<LeftEnemy> newLeft = std::make_unique<LeftEnemy>();
 			newLeft->Initialize(XMFLOAT3(x, y, z));
 			newLeft->SetPlayer(player.get());
@@ -430,7 +458,7 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			float z = (float)std::atof(word.c_str());
 
 			//敵を発生させる
-			//コンストラクタ呼ぶよ
+			//コンストラクタ呼ぶ
 			std::unique_ptr<RightEnemy> newRight = std::make_unique<RightEnemy>();
 			newRight->Initialize(XMFLOAT3(x, y, z));
 			newRight->SetPlayer(player.get());
@@ -452,7 +480,7 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			float z = (float)std::atof(word.c_str());
 
 			//敵を発生させる
-			//コンストラクタ呼ぶよ
+			//コンストラクタ呼ぶ
 			std::unique_ptr<BackEnemy> newBack = std::make_unique<BackEnemy>();
 			newBack->Initialize(XMFLOAT3(x, y, z));
 			newBack->SetPlayer(player.get());
@@ -531,7 +559,7 @@ void GamePlayScene::UpdataObstaclePopCommand()
 			float z = (float)std::atof(word.c_str());
 
 			//敵を発生させる
-			//コンストラクタ呼ぶよ
+			//コンストラクタ呼ぶ
 			std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
 			newObstacle->Initialize(XMFLOAT3(x, y, z));
 			//障害物を登録する

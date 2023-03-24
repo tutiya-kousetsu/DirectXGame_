@@ -60,11 +60,9 @@ void FrontEnemy::TitleUpdate()
 
 void FrontEnemy::appearance()
 {
-	position.y -= moveY;
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0
-	if (position.y <= y2) {
-		moveY = 0;
+	position.z -= moveZ;
+	if (position.z <= 50) {
+		moveZ = 0;
 		appFlag = false;
 	}
 }

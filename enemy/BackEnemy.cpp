@@ -47,20 +47,6 @@ void BackEnemy::Update()
 		if (!appFlag) {
 			Shoot();
 
-			position.x += move;
-			if (position.x >= 35) {
-				move = move * -1;
-			}
-			if (position.x <= -35) {
-				move = move * -1;
-			}
-			position.y += bMoveY;
-			if (position.y >= 7) {
-				bMoveY = bMoveY * -1;
-			}
-			if (position.y <= 0) {
-				bMoveY = bMoveY * -1;
-			}
 		}
 		object->SetPosition(position);
 	}
@@ -70,12 +56,9 @@ void BackEnemy::Update()
 
 void BackEnemy::appearance()
 {
-	//•`‰æ‚³‚ê‚½‚çA“G‚ğƒ‰ƒ“ƒ_ƒ€‚ÅŒˆ‚ß‚½ˆÊ’u‚Ì‚‚³‚Ü‚Å‚¨‚ë‚·
-	position.y -= moveY;
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	if (position.y <= y2) {
-		moveY = 0;
+	position.z += moveZ;
+	if (position.z >= -50) {
+		moveZ = 0;
 		appFlag = false;
 	}
 }

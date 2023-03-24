@@ -49,6 +49,7 @@ public:
 	/// </summary>
 	void Update() override;
 
+	//ドアを敵のフェーズに合わせて動かす
 	void DoorMove();
 
 	/// <summary>
@@ -66,10 +67,14 @@ public:
 	/// </summary>
 	void UpdataObstaclePopCommand();
 
+	//敵の発生データの読み込み
 	void LoadEnemyPopData();
+	//敵配置のコマンド更新
 	void UpdataEnemyPopCommand();
 
+	//壁の発生データの読み込み
 	void LoadWallPopData();
+	//壁配置のコマンド更新
 	void UpdataWallPopCommand();
 
 	//前敵の当たり判定

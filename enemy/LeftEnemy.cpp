@@ -46,14 +46,6 @@ void LeftEnemy::Update()
 		if (!appFlag) {
 			Shoot();
 
-			//‰¡ˆÚ“®
-			position.z += move;
-			if (position.z >= 30) {
-				move = move * -1;
-			}
-			if (position.z <= -30) {
-				move = move * -1;
-			}
 		}
 		object->SetPosition(position);
 	}
@@ -63,12 +55,9 @@ void LeftEnemy::Update()
 
 void LeftEnemy::appearance()
 {
-	//•`‰æ‚³‚ê‚½‚çA“G‚ğƒ‰ƒ“ƒ_ƒ€‚ÅŒˆ‚ß‚½ˆÊ’u‚Ì‚‚³‚Ü‚Å‚¨‚ë‚·
-	position.y -= moveY;
-	int y = rand() % 70;
-	float y2 = (float)y / 10;//6~0‚Ì”ÍˆÍ
-	if (position.y <= y2) {
-		moveY = 0;
+	position.x += moveX;
+	if (position.x >= -50) {
+		moveX= 0;
 		appFlag = false;
 	}
 }

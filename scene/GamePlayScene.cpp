@@ -71,7 +71,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	particleMan = ParticleManager::GetInstance();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
-	
+
 	//ドアの初期化
 	for (int i = 0; i < 8; i++) {
 		door[i] = new Door();
@@ -110,28 +110,11 @@ void GamePlayScene::Finalize()
 	walls.remove_if([](std::unique_ptr<Wall>& wall) {
 		return wall->GetAlive();
 		});
-	
 }
 
 void GamePlayScene::Update()
 {
-	//前敵が死んだら削除する
-	frontEnemy.remove_if([](std::unique_ptr<FrontEnemy>& front) {
-		return !front->GetAlive();
-		});
-	//左敵が死んだら削除する
-	leftEnemy.remove_if([](std::unique_ptr<LeftEnemy>& left) {
-		return !left->GetAlive();
-		});
-	//右敵が死んだら削除する
-	rightEnemy.remove_if([](std::unique_ptr<RightEnemy>& right) {
-		return !right->GetAlive();
-		});
-	//後ろ敵が死んだら削除する
-	backEnemy.remove_if([](std::unique_ptr<BackEnemy>& back) {
-		return !back->GetAlive();
-		});
-
+	
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -196,6 +179,22 @@ void GamePlayScene::Update()
 
 	//プレイヤーの更新
 	player->Update();
+	//前敵が死んだら削除する
+	frontEnemy.remove_if([](std::unique_ptr<FrontEnemy>& front) {
+		return !front->GetAlive();
+		});
+	//左敵が死んだら削除する
+	leftEnemy.remove_if([](std::unique_ptr<LeftEnemy>& left) {
+		return !left->GetAlive();
+		});
+	//右敵が死んだら削除する
+	rightEnemy.remove_if([](std::unique_ptr<RightEnemy>& right) {
+		return !right->GetAlive();
+		});
+	//後ろ敵が死んだら削除する
+	backEnemy.remove_if([](std::unique_ptr<BackEnemy>& back) {
+		return !back->GetAlive();
+		});
 
 	LoadEnemyPopData();
 	UpdataEnemyPopCommand();
@@ -234,34 +233,38 @@ void GamePlayScene::Update()
 	CheckAllCollision();
 
 	particleMan->Update();
+
 }
 
 //敵のPhaseに合わせて動かす
 void GamePlayScene::DoorMove()
 {
+	//前ドア
 	if (doorPos[0].x >= 0) {
 		doorPos[0].x -= 0.05f;
 	}
-
-	if (doorPos[1].x >= -16 && fEnePhase >= 1) {
+	else if (doorPos[1].x >= -16 && fEnePhase >= 1) {
 		doorPos[1].x -= 0.05f;
 	}
-	if (doorPos[2].z >= 0 && fEnePhase >= 3 && lEnePhase >= 0) {
+	//左ドア
+	else if (doorPos[2].z >= 0 && fEnePhase >= 3) {
 		doorPos[2].z -= 0.05;
 	}
-	if (doorPos[3].z >= -16 && fEnePhase >= 5 && lEnePhase >= 1 ) {
+	else if (doorPos[3].z >= -16 && fEnePhase >= 5 && lEnePhase >= 2 && rEnePhase >= 1) {
 		doorPos[3].z -= 0.05;
 	}
-	if (doorPos[4].z >= 0 && fEnePhase >= 7 && lEnePhase >= 3) {
+	//右ドア
+	else if (doorPos[4].z >= 0 && fEnePhase >= 7 && lEnePhase >= 2) {
 		doorPos[4].z -= 0.05;
 	}
-	if (doorPos[5].z >= -16 && fEnePhase >= 7 && lEnePhase >= 3) {
+	else if (doorPos[5].z >= -16 && fEnePhase >= 5 && lEnePhase >= 1) {
 		doorPos[5].z -= 0.05;
 	}
-	if (doorPos[6].x >= 0 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
+	//後ろドア
+	else if (doorPos[6].x >= 0 && fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
 		doorPos[6].x -= 0.05;
 	}
-	if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2) {
+	else if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[7].x -= 0.05;
 	}
 
@@ -371,16 +374,16 @@ void GamePlayScene::LoadEnemyPopData()
 
 void GamePlayScene::UpdataEnemyPopCommand()
 {
-	if(waitFlag){
-			//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
-			if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase 
-				&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase) {
-				waitFlag = false;
-			}
-			//一致していなかったらreturnで返す
-			else {
-				return;
-			}
+	if (waitFlag) {
+		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
+		if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
+			&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase) {
+			waitFlag = false;
+		}
+		//一致していなかったらreturnで返す
+		else {
+			return;
+		}
 	}
 	//1行分の文字列を入れる変数
 	std::string line;
@@ -422,7 +425,7 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			frontEnemy.push_back(std::move(newFront));
 		}
 		//LEFTPOPコマンド(左の敵用の座標コマンド)
-		else if(word.find("LEFTPOP") == 0) {
+		else if (word.find("LEFTPOP") == 0) {
 			//x座標
 			getline(line_stream, word, ',');
 			float x = (float)std::atof(word.c_str());
@@ -990,7 +993,7 @@ void GamePlayScene::CheckAllCollision()
 			this->sceneManager->SetNextScene(scene);
 		}
 	}
-	if (fEnePhase >= 11 && lEnePhase >= 7 && rEnePhase >= 4 && bEnePhase >= 2) {
+	if (fEnePhase >= 11 && lEnePhase >= 6 && rEnePhase >= 5 && bEnePhase >= 2) {
 		//シーン切り替え
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);

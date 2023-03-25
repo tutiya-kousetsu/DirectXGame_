@@ -1,5 +1,4 @@
 // コマンド,x,y,z
-//----------------------前の壁
 PHASE,0,0,0,0
 FRONTPOP,8,7.5,60
 //----------------
@@ -16,17 +15,16 @@ PHASE,5,1,0,0
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
 LEFTPOP,-60, 7.5, 8
-LEFTPOP,-60, 7.5, -8
+RIGHTPOP,60, 7.5, -8
 //----------------
-PHASE,7,3,0,0
+PHASE,7,2,1,0
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
 LEFTPOP,-60, 7.5, 8
-LEFTPOP,-60, 7.5, -8
 RIGHTPOP,60, 7.5, 8
-RIGHTPOP,60, 7.5, -8
+BACKPOP,8, 7.5, -60
 //----------------
-PHASE,9,5,2,0
+PHASE,9,3,2,1
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
 LEFTPOP,-60, 7.5, 8

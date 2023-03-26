@@ -54,9 +54,16 @@ public:
 	//ƒ[ƒ‹ƒhÀ•W‚ðŽæ“¾
 	XMVECTOR GetWorldPosition();
 
-	inline bool GetAlive() const { return  alive; }
+	inline bool GetAlive() const { return alive; }
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
+	inline int GetPhase() { return operatePhase; }
+
+public:
+	int operatePhase = 0;
+	bool moveFlag = false;
+	bool jumpOpFlag = false;
+	bool shotFlag = false;
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	bool bulFlag = true;

@@ -53,7 +53,7 @@ void Material::LoadTexture(const std::string& directoryPath, CD3DX12_CPU_DESCRIP
 {
 	// テクスチャなし
 	if (textureFilename.size() == 0) {
-		textureFilename = "white1x1.png";
+		//textureFilename = "white1x1.png";
 	}
 
 	cpuDescHandleSRV = cpuHandle;

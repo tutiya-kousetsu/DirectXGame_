@@ -6,6 +6,7 @@
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
 #include "GamePlayScene.h"
+#include "Tutorial.h"
 #include "Collision.h"
 #include "SphereCollider.h"
 #include "CollisionManager.h"
@@ -39,8 +40,6 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
-
-	frame.reset(new Framework());
 }
 
 void TitleScene::Finalize()
@@ -53,7 +52,7 @@ void TitleScene::Update()
 	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
 	{
 		//シーン切り替え
-		BaseScene* scene = new GamePlayScene();
+		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
 	}
 

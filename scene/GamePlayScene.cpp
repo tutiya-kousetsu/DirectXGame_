@@ -239,32 +239,36 @@ void GamePlayScene::Update()
 //敵のPhaseに合わせて動かす
 void GamePlayScene::DoorMove()
 {
-	//前ドア
+	//前ドア(右)
 	if (doorPos[0].x >= 0) {
 		doorPos[0].x -= 0.05f;
 	}
+	//前ドア(左)
 	else if (doorPos[1].x >= -16 && fEnePhase >= 1) {
 		doorPos[1].x -= 0.05f;
 	}
-	//左ドア
+	//左ドア(右)
 	else if (doorPos[2].z >= 0 && fEnePhase >= 3) {
 		doorPos[2].z -= 0.05;
 	}
-	else if (doorPos[3].z >= -16 && fEnePhase >= 5 && lEnePhase >= 2 && rEnePhase >= 1) {
+	//左ドア(左)
+	else if (doorPos[3].z >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[3].z -= 0.05;
 	}
-	//右ドア
-	else if (doorPos[4].z >= 0 && fEnePhase >= 7 && lEnePhase >= 2) {
+	//右ドア(左)
+	else if (doorPos[4].z >= 0 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[4].z -= 0.05;
 	}
+	//右ドア(右)
 	else if (doorPos[5].z >= -16 && fEnePhase >= 5 && lEnePhase >= 1) {
 		doorPos[5].z -= 0.05;
 	}
-	//後ろドア
+	//後ろドア(左)
 	else if (doorPos[6].x >= 0 && fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
 		doorPos[6].x -= 0.05;
 	}
-	else if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 5 && rEnePhase >= 2 && bEnePhase >= 1) {
+	//後ろドア(右)
+	else if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[7].x -= 0.05;
 	}
 

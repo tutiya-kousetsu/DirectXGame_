@@ -46,7 +46,6 @@ private:
 	std::unique_ptr<TouchableObject> floor;
 	//“V‹…
 	std::unique_ptr <Object3d> skyObj;
-	std::unique_ptr<Framework> frame;
 	std::unique_ptr<DebugCamera> camera;
 	XMFLOAT3 cameraPos;
 	std::unique_ptr<Player> player;

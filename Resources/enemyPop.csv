@@ -1,36 +1,44 @@
 // コマンド,x,y,z
 PHASE,0,0,0,0
+//前ドア(右)
 FRONTPOP,8,7.5,60
 //----------------
 PHASE,1,0,0,0
 FRONTPOP,-8,7.5,60
+//前ドア(左)
 FRONTPOP,8,7.5,60
 //----------------
 PHASE,3,0,0,0
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
+//左ドア(右)
 LEFTPOP,-60, 7.5, 8
 //----------------
 PHASE,5,1,0,0
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
 LEFTPOP,-60, 7.5, 8
+//右ドア(右)
 RIGHTPOP,60, 7.5, -8
 //----------------
 PHASE,7,2,1,0
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
 LEFTPOP,-60, 7.5, 8
-RIGHTPOP,60, 7.5, 8
+RIGHTPOP,-60, 7.5, 8
+//後ろドア(左)
 BACKPOP,8, 7.5, -60
 //----------------
 PHASE,9,3,2,1
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
 LEFTPOP,-60, 7.5, 8
+//左ドア(左)
 LEFTPOP,-60, 7.5, -8
+//右ドア(左)
 RIGHTPOP,60, 7.5, 8
 RIGHTPOP,60, 7.5, -8
 BACKPOP,8, 7.5, -60
+//後ろドア(右)
 BACKPOP,-8, 7.5, -60
 

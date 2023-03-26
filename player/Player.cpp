@@ -57,6 +57,10 @@ void Player::Update()
 	Input* input = Input::GetInstance();
 		if (input->TriggerMouseLeft()) {
 			Shoot();
+			shotFlag = true;
+		}
+		if (shotFlag) {
+			operatePhase = 3;
 		}
 	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 		bul->Update();
@@ -96,22 +100,29 @@ void Player::move(float speed)
 		position.x += forwardVec.m128_f32[0];
 		position.x += forwardVec.m128_f32[1];
 		position.z += forwardVec.m128_f32[2];
+		moveFlag = true;
 	}
 	else if (input->PushKey(DIK_S)) {
 		position.x -= forwardVec.m128_f32[0];
 		position.x -= forwardVec.m128_f32[1];
 		position.z -= forwardVec.m128_f32[2];
+		moveFlag = true;
 	}
 
 	if (input->PushKey(DIK_D)) {
 		position.x += horizontalVec.m128_f32[0];
 		position.x += horizontalVec.m128_f32[1];
 		position.z += horizontalVec.m128_f32[2];
+		moveFlag = true;
 	}
 	else if (input->PushKey(DIK_A)) {
 		position.x -= horizontalVec.m128_f32[0];
 		position.x -= horizontalVec.m128_f32[1];
 		position.z -= horizontalVec.m128_f32[2];
+		moveFlag = true;
+	}
+	if (moveFlag) {
+		operatePhase = 1;
 	}
 	// 座標の変更を反映
 	Object3d::SetPosition(position);
@@ -142,8 +153,12 @@ void Player::jump()
 	//ジャンプ操作
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
 		onGround = false;
+		jumpOpFlag = true;
 		const float jumpVYFist = 0.56f;
 		fallV = { 0, jumpVYFist, 0, 0 };
+	}
+	if (jumpOpFlag) {
+		operatePhase = 2;
 	}
 
 	// ワールド行列更新

@@ -82,6 +82,18 @@
     <Filter Include="ソース ファイル\game\gameObj\cpp">
       <UniqueIdentifier>{0fb56a47-8d79-4954-8df9-bbe21388ab6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\easing">
+      <UniqueIdentifier>{98b355a8-0185-4820-ae9e-ac5ecd308999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\door">
+      <UniqueIdentifier>{969f9f93-036e-4c1b-9999-efe9d35d1a47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\wall">
+      <UniqueIdentifier>{e65f2d21-ca1f-4218-a4b2-52f64d4e5c50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\obstacle">
+      <UniqueIdentifier>{ad94c3dc-298d-4ed8-986c-f7cfe87681c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
@@ -139,9 +151,6 @@
     </ClCompile>
     <ClCompile Include="Floor\Floor.cpp">
       <Filter>ソース ファイル\game\Floor</Filter>
-    </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
-      <Filter>ソース ファイル\game</Filter>
     </ClCompile>
     <ClCompile Include="2d\DebugText.cpp">
       <Filter>ソース ファイル\2d</Filter>
@@ -245,9 +254,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Easing.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="3d\GameObject.cpp">
       <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
@@ -269,14 +275,20 @@
     <ClCompile Include="enemy\RightEnemy.cpp">
       <Filter>ソース ファイル\game\enemy\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>ソース ファイル\game</Filter>
+    <ClCompile Include="wall\Wall.cpp">
+      <Filter>ソース ファイル\game\wall</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>ソース ファイル\game</Filter>
+    <ClCompile Include="door\Door.cpp">
+      <Filter>ソース ファイル\game\door</Filter>
     </ClCompile>
-    <ClCompile Include="Tutorial.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="obstacle\Obstacle.cpp">
+      <Filter>ソース ファイル\game\obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\Tutorial.cpp">
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="easing\Easing.cpp">
+      <Filter>ソース ファイル\easing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,9 +338,6 @@
     </ClInclude>
     <ClInclude Include="Floor\Floor.h">
       <Filter>ソース ファイル\game\Floor</Filter>
-    </ClInclude>
-    <ClInclude Include="Obstacle.h">
-      <Filter>ソース ファイル\game</Filter>
     </ClInclude>
     <ClInclude Include="3d\Fbx_Model.h">
       <Filter>ソース ファイル\Fbx</Filter>
@@ -459,9 +468,6 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Easing.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="collision\BaseCollider.h">
       <Filter>ソース ファイル\3d</Filter>
     </ClInclude>
@@ -471,14 +477,20 @@
     <ClInclude Include="3d\GameObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>ソース ファイル\game</Filter>
+    <ClInclude Include="wall\Wall.h">
+      <Filter>ソース ファイル\game\wall</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>ソース ファイル\game</Filter>
+    <ClInclude Include="door\Door.h">
+      <Filter>ソース ファイル\game\door</Filter>
     </ClInclude>
-    <ClInclude Include="Tutorial.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="obstacle\Obstacle.h">
+      <Filter>ソース ファイル\game\obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\Tutorial.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="easing\Easing.h">
+      <Filter>ソース ファイル\easing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

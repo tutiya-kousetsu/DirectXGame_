@@ -3,8 +3,7 @@
 #include <cassert>
 Wall::Wall() :Wall(Model::CreateFromOBJ("wall"))
 {
-	//Initialize‚æ‚è‘O‚É‰Šú‰»‚Æ‚©‚ð‚â‚é‚ÆƒGƒ‰[‚ª‚Å‚Ä‚­‚é
-	//object->SetScale({ 1.0f, 1.0f, 1.0f });
+
 }
 
 Wall::~Wall()
@@ -21,10 +20,7 @@ void Wall::Initialize(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 rotation)
 }
 
 void Wall::Update()
-{
-	/*LoadWallPopData();
-	UpdataWallPopCommand();*/
-	
+{	
 	object->Update();
 }
 

@@ -77,7 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)input;$(ProjectDir)player;$(ProjectDir)collision;$(ProjectDir)enemy;$(ProjectDir)base</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)input;$(ProjectDir)player;$(ProjectDir)collision;$(ProjectDir)enemy;$(ProjectDir)base;$(ProjectDir)wall;$(ProjectDir)door;$(ProjectDir)obstacle;$(ProjectDir)easing</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -196,8 +196,8 @@
     <ClCompile Include="collision\MeshCollider.cpp" />
     <ClCompile Include="collision\SphereCollider.cpp" />
     <ClCompile Include="collision\TouchableObject.cpp" />
-    <ClCompile Include="Door.cpp" />
-    <ClCompile Include="Easing.cpp" />
+    <ClCompile Include="door\Door.cpp" />
+    <ClCompile Include="easing\Easing.cpp" />
     <ClCompile Include="enemy\BackEnemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="enemy\FrontEnemy.cpp" />
@@ -212,7 +212,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="obstacle\Obstacle.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -221,8 +221,8 @@
     <ClCompile Include="scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
-    <ClCompile Include="Tutorial.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="scene\Tutorial.cpp" />
+    <ClCompile Include="wall\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -256,8 +256,8 @@
     <ClInclude Include="collision\RaycastHit.h" />
     <ClInclude Include="collision\SphereCollider.h" />
     <ClInclude Include="collision\TouchableObject.h" />
-    <ClInclude Include="Door.h" />
-    <ClInclude Include="Easing.h" />
+    <ClInclude Include="door\Door.h" />
+    <ClInclude Include="easing\Easing.h" />
     <ClInclude Include="enemy\BackEnemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="enemy\FrontEnemy.h" />
@@ -273,7 +273,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="input\Input.h" />
-    <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="obstacle\Obstacle.h" />
     <ClInclude Include="PipelineSet.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="player\PlayerBullet.h" />
@@ -284,8 +284,8 @@
     <ClInclude Include="scene\GamePlayScene.h" />
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="scene\TitleScene.h" />
-    <ClInclude Include="Tutorial.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="scene\Tutorial.h" />
+    <ClInclude Include="wall\Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

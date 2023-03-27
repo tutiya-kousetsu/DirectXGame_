@@ -19,19 +19,7 @@ void Door::Initialize()
 
 void Door::Update()
 {
-	/*LoadWallPopData();
-	UpdataWallPopCommand();*/
-	//MoveSlide();
 	object->Update();
-}
-
-void Door::MoveSlide()
-{
-	/*position = object->GetPosition();
-	if (position.x >= 0) {
-		position.x -= 0.05;
-	}
-	object->SetPosition(position);*/
 }
 
 void Door::Draw()

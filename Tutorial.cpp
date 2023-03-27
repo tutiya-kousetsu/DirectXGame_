@@ -16,13 +16,13 @@
 void Tutorial::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/WASD_UI.png");
-	wasdUI.reset(Sprite::Create(1, { 580,380 }));
+	wasdUI.reset(Sprite::Create(1, { 530,380 }));
 
 	Sprite::LoadTexture(2, L"Resources/space_UI.png");
-	spaceUI.reset(Sprite::Create(2, { 540,380 }));
+	spaceUI.reset(Sprite::Create(2, { 510,380 }));
 
 	Sprite::LoadTexture(4, L"Resources/shot_UI.png");
-	shotUI.reset(Sprite::Create(4, { 580,380 }));
+	shotUI.reset(Sprite::Create(4, { 560,380 }));
 	//カメラの初期化
 	camera.reset(new FollowingCamera());
 	//カメラを3Dオブジェットにセット
@@ -127,21 +127,21 @@ void Tutorial::Update()
 		playerRot.y *= 180 / XM_PI;
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
-	if (player->GetPosition().x >= 0 && player->GetPosition().z >= 20) {
-		zoneFlag = true;
-	}
-	if (zoneFlag) {
-		BaseScene* scene = new GamePlayScene();
-		this->sceneManager->SetNextScene(scene);
-	}
-	player->Update();
+	//プレイヤーのHPが0になったら画面切り替え
+	if (player->GetPosition().y <= -5) {
 
+		player->SetPosition({0,10,0 });
+	}
+
+	//各オブジェクトの子往診
+	player->TutorialUpdate();
 	camera->Update();
 	floor->Update();
 	skyObj->Update();
 	enemy->TitleUpdate();
 	sceneMoveObj->Update();
 	arrowObj->Update();
+	//当たり判定
 	CheckAllCollision();
 	particleMan->Update();
 }
@@ -236,5 +236,24 @@ void Tutorial::CheckAllCollision()
 			}
 		}
 #pragma endregion
+	}
+
+	Sphere pShape;
+	if (player) {
+		if (player->GetAlive()) {
+			pShape.center = XMLoadFloat3(&player->GetPosition());
+			pShape.radius = player->GetScale().x;
+			//壁と自機弾の当たり判定
+			Sphere zoneShape;
+			if (sceneMoveObj) {
+				zoneShape.center = XMLoadFloat3(&sceneMoveObj->GetPosition());
+				zoneShape.radius = sceneMoveObj->GetScale().x - 1.0f;
+
+				if (Collision::CheckSphere2Sphere(pShape, zoneShape)) {
+					BaseScene* scene = new GamePlayScene();
+					this->sceneManager->SetNextScene(scene);
+				}
+			}
+		}
 	}
 }

@@ -252,23 +252,23 @@ void GamePlayScene::DoorMove()
 		doorPos[2].z -= 0.05;
 	}
 	//左ドア(左)
-	else if (doorPos[3].z >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
+	if (doorPos[3].z >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[3].z -= 0.05;
 	}
 	//右ドア(左)
-	else if (doorPos[4].z >= 0 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
+	if (doorPos[4].z >= 0 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[4].z -= 0.05;
 	}
 	//右ドア(右)
-	else if (doorPos[5].z >= -16 && fEnePhase >= 5 && lEnePhase >= 1) {
+	if (doorPos[5].z >= -16 && fEnePhase >= 5 && lEnePhase >= 1) {
 		doorPos[5].z -= 0.05;
 	}
 	//後ろドア(左)
-	else if (doorPos[6].x >= 0 && fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
+	if (doorPos[6].x >= 0 && fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
 		doorPos[6].x -= 0.05;
 	}
 	//後ろドア(右)
-	else if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
+	if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[7].x -= 0.05;
 	}
 
@@ -988,16 +988,14 @@ void GamePlayScene::CheckAllCollision()
 
 	//プレイヤーのHPが0になったら画面切り替え
 	if (playerLife <= 0 || playerPos.y <= -5) {
-		player->CreateParticle();
-		player->SetAlive(false);
-		waitTimer++;
-		if (waitTimer >= 30) {
+		
 			//シーン切り替え
 			BaseScene* scene = new GameOver();
 			this->sceneManager->SetNextScene(scene);
-		}
+			player->CreateParticle();
+			player->SetAlive(false);
 	}
-	if (fEnePhase >= 11 && lEnePhase >= 6 && rEnePhase >= 5 && bEnePhase >= 2) {
+	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
 		//シーン切り替え
 		BaseScene* scene = new GameClear();
 		this->sceneManager->SetNextScene(scene);

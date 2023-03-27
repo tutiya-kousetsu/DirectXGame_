@@ -31,6 +31,8 @@ public:
 	//タイトル用更新
 	void TitleUpdate();
 
+	void TutorialUpdate();
+
 	//移動
 	void move(float speed = 0.3f);
 

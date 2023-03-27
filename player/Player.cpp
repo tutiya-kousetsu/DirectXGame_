@@ -57,10 +57,6 @@ void Player::Update()
 	Input* input = Input::GetInstance();
 		if (input->TriggerMouseLeft()) {
 			Shoot();
-			shotFlag = true;
-		}
-		if (shotFlag) {
-			operatePhase = 3;
 		}
 	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 		bul->Update();
@@ -72,6 +68,33 @@ void Player::TitleUpdate()
 {
 	Object3d::Update();
 }
+
+void Player::TutorialUpdate()
+{
+	//’e‚Ìƒtƒ‰ƒO‚ªfalse‚É‚È‚Á‚½‚çíœ‚·‚é
+	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return !bullet->GetAlive();
+		});
+	move();
+	if (operatePhase >= 1) {
+		jump();
+	}
+	Input* input = Input::GetInstance();
+	if (operatePhase >= 2) {
+		if (input->TriggerMouseLeft()) {
+			Shoot();
+			shotFlag = true;
+		}
+		if (shotFlag) {
+			operatePhase = 3;
+		}
+	}
+	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
+		bul->Update();
+	}
+	Object3d::Update();
+}
+
 
 void Player::move(float speed)
 {

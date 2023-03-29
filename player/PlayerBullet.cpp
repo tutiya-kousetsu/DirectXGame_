@@ -24,6 +24,7 @@ void PlayerBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
 
 void PlayerBullet::Update()
 {
+	disappearTime--;
 	if (disappearTime < ++frameNum) {
 		alive = false;
 	}

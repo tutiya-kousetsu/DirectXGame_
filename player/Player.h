@@ -45,6 +45,8 @@ public:
 	//攻撃
 	bool Shoot();
 
+	void AccessPhase();
+
 	//当たり判定
 	void OnCollision(const CollisionInfo& info) override;
 
@@ -52,7 +54,7 @@ public:
 	void CreateParticle();
 	//弾リスト取得
 	//const std::unique_ptr<PlayerBullet>& GetBullet() { return bullet; }
-	const std::list < std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
 
@@ -72,6 +74,7 @@ private:
 	// マウス
 	POINT mousePos{};
 	ParticleManager* particleMan = nullptr;
+	int32_t shootTimer = 0;
 
 	//攻撃(長押しかどうかのフラグ、タイマー、力)
 	int atPower = 1;

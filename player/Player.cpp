@@ -69,6 +69,7 @@ void Player::TitleUpdate()
 	Object3d::Update();
 }
 
+//チュートリアル用のアップデート
 void Player::TutorialUpdate()
 {
 	//弾のフラグがfalseになったら削除する
@@ -76,6 +77,7 @@ void Player::TutorialUpdate()
 		return !bullet->GetAlive();
 		});
 	move();
+	//フェーズが位置にならないとjump出来ない
 	if (operatePhase >= 1) {
 		jump();
 	}
@@ -279,7 +281,7 @@ bool Player::Shoot()
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化
-	newBullet->Initialize(position, velocity);
+	newBullet->Initialize({position.x - 0.4f, position.y + 0.5f, position.z}, velocity);
 
 	bullets.push_back(std::move(newBullet));
 	return true;

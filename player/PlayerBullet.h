@@ -27,13 +27,12 @@ public:
 	void OnCollision();
 
 	//’e‚ªÁ‚¦‚éŠÔ
-	UINT disappearTime = 60 * 5;
+	UINT disappearTime = 60 * 2.2f;
 
 	UINT frameNum = 0;
 	UINT power = 1;
 private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
-	//int power = 1;
 };
 

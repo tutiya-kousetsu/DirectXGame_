@@ -25,7 +25,7 @@ PHASE,7,2,1,0
 FRONTPOP,-8,7.5,60
 FRONTPOP,8,7.5,60
 LEFTPOP,-60, 7.5, 8
-RIGHTPOP,60, 7.5, 8
+RIGHTPOP,60, 7.5, -8
 //後ろドア(左)
 BACKPOP,8, 7.5, -60
 //----------------

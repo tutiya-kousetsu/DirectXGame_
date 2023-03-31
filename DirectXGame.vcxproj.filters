@@ -46,9 +46,6 @@
     <Filter Include="ソース ファイル\game\enemy">
       <UniqueIdentifier>{82abdeb1-a0c6-4c2a-92bf-7542c62e8914}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\Floor">
-      <UniqueIdentifier>{7f4e8aad-70d7-476f-bf7c-ebc64acb9307}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\collision">
       <UniqueIdentifier>{20aea93f-537e-41f0-bd2a-fb432eb11f7c}</UniqueIdentifier>
     </Filter>
@@ -148,9 +145,6 @@
     </ClCompile>
     <ClCompile Include="player\PlayerBullet.cpp">
       <Filter>ソース ファイル\game\player</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor\Floor.cpp">
-      <Filter>ソース ファイル\game\Floor</Filter>
     </ClCompile>
     <ClCompile Include="2d\DebugText.cpp">
       <Filter>ソース ファイル\2d</Filter>
@@ -335,9 +329,6 @@
     </ClInclude>
     <ClInclude Include="player\PlayerBullet.h">
       <Filter>ソース ファイル\game\player</Filter>
-    </ClInclude>
-    <ClInclude Include="Floor\Floor.h">
-      <Filter>ソース ファイル\game\Floor</Filter>
     </ClInclude>
     <ClInclude Include="3d\Fbx_Model.h">
       <Filter>ソース ファイル\Fbx</Filter>

@@ -31,6 +31,7 @@ public:
 	//タイトル用更新
 	void TitleUpdate();
 
+	//チュートリアル用更新
 	void TutorialUpdate();
 
 	//移動
@@ -44,8 +45,6 @@ public:
 
 	//攻撃
 	bool Shoot();
-
-	void AccessPhase();
 
 	//当たり判定
 	void OnCollision(const CollisionInfo& info) override;

@@ -203,7 +203,6 @@
     <ClCompile Include="enemy\FrontEnemy.cpp" />
     <ClCompile Include="enemy\LeftEnemy.cpp" />
     <ClCompile Include="enemy\RightEnemy.cpp" />
-    <ClCompile Include="Floor\Floor.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -263,7 +262,6 @@
     <ClInclude Include="enemy\FrontEnemy.h" />
     <ClInclude Include="enemy\LeftEnemy.h" />
     <ClInclude Include="enemy\RightEnemy.h" />
-    <ClInclude Include="Floor\Floor.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx12.h" />

@@ -37,6 +37,7 @@ bool Player::Initialize()
 	}
 	particleMan = ParticleManager::GetInstance();
 	Object3d::SetPosition({ 0,0,0 });
+	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
 	//コライダーの追加
 	float radius = 2.0f;
@@ -64,6 +65,7 @@ void Player::Update()
 	Object3d::Update();
 }
 
+//タイトル用のアップデート
 void Player::TitleUpdate()
 {
 	Object3d::Update();
@@ -97,7 +99,7 @@ void Player::TutorialUpdate()
 	Object3d::Update();
 }
 
-
+//移動
 void Player::move(float speed)
 {
 	Input* input = Input::GetInstance();
@@ -154,6 +156,7 @@ void Player::move(float speed)
 
 }
 
+//ジャンプ
 void Player::jump()
 {
 	Input* input = Input::GetInstance();
@@ -203,14 +206,15 @@ void Player::jump()
 		bool OnQueryHit(const QueryHit& info) {
 
 			const XMVECTOR up = { 0,1,0,0 };
-
+			//排斥方向
 			XMVECTOR rejectDir = XMVector3Normalize(info.reject);
 			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
 
-			// 地面判定しきい値
+			// 地面判定しきい値角度
 			const float threshold = cosf(XMConvertToRadians(0.0f));
-
+			//角度差によって天井、地面と判定される場合を除いて
 			if (-threshold < cos && cos < threshold) {
+				//球を押し出す
 				sphere->center += info.reject;
 				move += info.reject;
 			}
@@ -218,6 +222,7 @@ void Player::jump()
 		}
 
 		Sphere* sphere = nullptr;
+		//押し出しによる移動量
 		DirectX::XMVECTOR move = {};
 	};
 
@@ -229,7 +234,7 @@ void Player::jump()
 	position.x += callback.move.m128_f32[0];
 	position.y += callback.move.m128_f32[1];
 	position.z += callback.move.m128_f32[2];
-	// ワールド行列更新
+	//コライダー更新
 	UpdateWorldMatrix();
 	collider->Update();
 
@@ -271,6 +276,7 @@ void Player::jump()
 	Object3d::Update();
 }
 
+//弾発射
 bool Player::Shoot()
 {
 	const float kBulletSpeed = 1.0f;
@@ -293,6 +299,7 @@ void Player::OnCollision(const CollisionInfo& info)
 
 }
 
+//パーティクルの生成
 void Player::CreateParticle()
 {
 	for (int j = 0; j < 100; j++) {

@@ -72,9 +72,9 @@ void Tutorial::Update()
 	ShowCursor(FALSE);
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
-
-	camera->SetFollowingTarget(player.get());
-
+	if (!rotateFlag) {
+		camera->SetFollowingTarget(player.get());
+	}
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
 	float dy = mouseMove.lX * scaleY;
@@ -127,9 +127,15 @@ void Tutorial::Update()
 		playerRot.y *= 180 / XM_PI;
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
+
+	if (rotateFlag) {
+		playerRot = player->GetRotation();
+		playerRot.y++;
+		player->SetRotation(playerRot);
+	}
+
 	//プレイヤーのHPが0になったら画面切り替え
 	if (player->GetPosition().y <= -5) {
-
 		player->SetPosition({0,10,0 });
 	}
 
@@ -238,6 +244,7 @@ void Tutorial::CheckAllCollision()
 #pragma endregion
 	}
 
+#pragma region 自機とワープゾーンの当たり判定
 	Sphere pShape;
 	if (player) {
 		if (player->GetAlive()) {
@@ -250,10 +257,13 @@ void Tutorial::CheckAllCollision()
 				zoneShape.radius = sceneMoveObj->GetScale().x - 1.0f;
 
 				if (Collision::CheckSphere2Sphere(pShape, zoneShape)) {
-					BaseScene* scene = new GamePlayScene();
-					this->sceneManager->SetNextScene(scene);
+					rotateFlag = true;
+					//BaseScene* scene = new GamePlayScene();
+					//this->sceneManager->SetNextScene(scene);
 				}
 			}
 		}
 	}
+#pragma endregion
+
 }

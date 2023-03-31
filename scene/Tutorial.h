@@ -67,8 +67,9 @@ private:
 	bool zoneFlag = false;
 	bool zonePop = false;
 	float rotateTime = 120;
+	float rotateFlag = false;
 	int operatePhase = 0;
-	XMFLOAT3 playerRotate;
+	XMFLOAT3 playerRot;
 	// ƒJƒƒ‰ŠÖŒW
 	bool dirty = false;
 	float angleX = 0;

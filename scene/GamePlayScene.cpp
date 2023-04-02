@@ -62,7 +62,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	collisionMan = CollisionManager::GetInstance();
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
-
+	player->SetPosition({ 0, 30.f, 0 });
 	//床のオブジェクト生成
 	floor.reset(TouchableObject::Create(Model::CreateFromOBJ("FloorBox")));
 	floor->SetScale({ 20.f, 5.0f, 20.f });
@@ -177,6 +177,10 @@ void GamePlayScene::Update()
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
 
+	if (playerPos.y <= 12.0f) {
+		DoorMove();
+	}
+
 	//プレイヤーの更新
 	player->Update();
 	//前敵が死んだら削除する
@@ -226,7 +230,12 @@ void GamePlayScene::Update()
 	for (auto& wall : walls) {
 		wall->Update();
 	}
-	DoorMove();
+
+	for (int i = 0; i < 8; i++) {
+		door[i]->SetPosition(doorPos[i]);
+		door[i]->SetRotation(doorRot[i]);
+		door[i]->Update();
+	}
 
 	//当たり判定
 	collisionMan->CheckAllCollisions();
@@ -270,12 +279,6 @@ void GamePlayScene::DoorMove()
 	//後ろドア(右)
 	if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
 		doorPos[7].x -= 0.05;
-	}
-
-	for (int i = 0; i < 8; i++) {
-		door[i]->SetPosition(doorPos[i]);
-		door[i]->SetRotation(doorRot[i]);
-		door[i]->Update();
 	}
 }
 
@@ -984,7 +987,7 @@ void GamePlayScene::CheckAllCollision()
 		}
 #pragma endregion
 	}
-	XMFLOAT3 playerPos = player->GetPosition();
+	playerPos = player->GetPosition();
 
 	//プレイヤーのHPが0になったら画面切り替え
 	if (playerLife <= 0 || playerPos.y <= -5) {

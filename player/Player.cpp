@@ -40,7 +40,7 @@ bool Player::Initialize()
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
 	//コライダーの追加
-	float radius = 2.0f;
+	float radius = 1.9f;
 	//半径だけ足元から浮いた座標を球の中心にする
 	SetCollider(new SphereCollider(DirectX::XMVECTOR({ 0, radius, 0, 0 }), radius));
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -65,8 +65,8 @@ void Player::Update()
 	Object3d::Update();
 }
 
-//タイトル用のアップデート
-void Player::TitleUpdate()
+//動かしたくない時用のアップデート
+void Player::StopUpdate()
 {
 	Object3d::Update();
 }
@@ -245,11 +245,10 @@ void Player::jump()
 	ray.dir = { 0,-1,0,0 };
 	RaycastHit raycastHit;
 	if (onGround) {
-		// スムーズに坂を下る為の吸着距離
-		const float adsDistance = 0.2f;
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
+		const float adsDistance = 0.18f;
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.4f + adsDistance)) {
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
+			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.4f);
 			// 行列の更新など
 			Object3d::Update();
 		}
@@ -261,11 +260,9 @@ void Player::jump()
 	}
 	// 落下状態
 	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.4f)) {
 			// 着地
 			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
-
 		}
 	}
 	// ワールド行列更新
@@ -287,7 +284,7 @@ bool Player::Shoot()
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化
-	newBullet->Initialize({position.x - 0.4f, position.y + 0.5f, position.z}, velocity);
+	newBullet->Initialize({position.x - 0.45f, position.y + 0.5f, position.z}, velocity);
 
 	bullets.push_back(std::move(newBullet));
 	return true;

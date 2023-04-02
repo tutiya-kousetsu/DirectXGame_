@@ -62,7 +62,7 @@ void TitleScene::Update()
 	camera->SetDistance(10.0f);
 
 	camera->Update();
-	player->TitleUpdate();
+	player->StopUpdate();
 	player->SetRotation({ 0,180,0 });
 	floor->Update();
 	skyObj->Update();

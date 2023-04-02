@@ -28,8 +28,8 @@ public:
 	//更新
 	void Update() override;
 
-	//タイトル用更新
-	void TitleUpdate();
+	//動かしたくない時用更新
+	void StopUpdate();
 
 	//チュートリアル用更新
 	void TutorialUpdate();

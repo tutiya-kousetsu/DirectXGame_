@@ -396,9 +396,6 @@
     <ClInclude Include="enemy\RightEnemy.h">
       <Filter>ソース ファイル\game\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="scene\BaseScene.h">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="scene\GameClear.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
@@ -482,6 +479,9 @@
     </ClInclude>
     <ClInclude Include="easing\Easing.h">
       <Filter>ソース ファイル\easing</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\BaseScene.h">
+      <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

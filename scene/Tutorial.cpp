@@ -51,7 +51,7 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
-
+	player->SetPosition({ 0, -1.f, 0 });
 	enemy.reset(new FrontEnemy());
 	enemy->Initialize({ 0, 5, 50 });
 
@@ -74,78 +74,96 @@ void Tutorial::Update()
 	SetCursorPos(960, 540);
 	if (!rotateFlag) {
 		camera->SetFollowingTarget(player.get());
+
+		// マウスの入力を取得
+		Input::MouseMove mouseMove = input->GetMouseMove();
+		float dy = mouseMove.lX * scaleY;
+		angleY = -dy * XM_PI;
+
+		{
+			// 追加回転分の回転行列を生成
+			XMMATRIX matRotNew = XMMatrixIdentity();
+			matRotNew *= XMMatrixRotationY(-angleY);
+			// 累積の回転行列を合成
+			matRot = matRotNew * matRot;
+
+			// 注視点から視点へのベクトルと、上方向ベクトル
+			XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
+			XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
+
+			// ベクトルを回転
+			vTargetEye = XMVector3Transform(vTargetEye, matRot);
+			vUp = XMVector3Transform(vUp, matRot);
+
+			// 長さ
+			float length = 0.0f;
+
+			XMFLOAT3 target1 = camera->GetTarget();
+			camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
+			camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
+
+			// 注視点からずらした位置に視点座標を決定
+			XMFLOAT3 target2 = camera->GetTarget();
+			XMFLOAT3 eye = camera->GetEye();
+
+			XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
+			XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
+			// FLOAT3に変換
+			XMStoreFloat3(&fTargetEye, vecF);
+			XMVECTOR vecTarget = XMLoadFloat3(&target2);
+			// FLOAT3に変換
+			XMStoreFloat3(&target2, vecTarget);
+			XMVECTOR vecEye = XMLoadFloat3(&eye);
+			// FLOAT3に変換
+			XMStoreFloat3(&eye, vecEye);
+			//正規化
+			fTargetEye.x = eye.x - target2.x;
+			fTargetEye.y = eye.y - target2.y;
+			fTargetEye.z = eye.z - target2.z;
+
+			//プレイヤーの回転
+			XMFLOAT3 playerRot = player->GetRotation();
+			playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
+			playerRot.y *= 180 / XM_PI;
+			player->SetRotation({ 0.0f, playerRot.y, 0.0f });
+		}
+		player->TutorialUpdate();
 	}
-	// マウスの入力を取得
-	Input::MouseMove mouseMove = input->GetMouseMove();
-	float dy = mouseMove.lX * scaleY;
-	angleY = -dy * XM_PI;
-
-	{
-		// 追加回転分の回転行列を生成
-		XMMATRIX matRotNew = XMMatrixIdentity();
-		matRotNew *= XMMatrixRotationY(-angleY);
-		// 累積の回転行列を合成
-		matRot = matRotNew * matRot;
-
-		// 注視点から視点へのベクトルと、上方向ベクトル
-		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
-		XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
-
-		// ベクトルを回転
-		vTargetEye = XMVector3Transform(vTargetEye, matRot);
-		vUp = XMVector3Transform(vUp, matRot);
-
-		// 長さ
-		float length = 0.0f;
-
-		XMFLOAT3 target1 = camera->GetTarget();
-		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
-		camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
-
-		// 注視点からずらした位置に視点座標を決定
-		XMFLOAT3 target2 = camera->GetTarget();
-		XMFLOAT3 eye = camera->GetEye();
-
-		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
-		XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
-		// FLOAT3に変換
-		XMStoreFloat3(&fTargetEye, vecF);
-		XMVECTOR vecTarget = XMLoadFloat3(&target2);
-		// FLOAT3に変換
-		XMStoreFloat3(&target2, vecTarget);
-		XMVECTOR vecEye = XMLoadFloat3(&eye);
-		// FLOAT3に変換
-		XMStoreFloat3(&eye, vecEye);
-		//正規化
-		fTargetEye.x = eye.x - target2.x;
-		fTargetEye.y = eye.y - target2.y;
-		fTargetEye.z = eye.z - target2.z;
-
-		//プレイヤーの回転
-		XMFLOAT3 playerRot = player->GetRotation();
-		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
-		playerRot.y *= 180 / XM_PI;
-		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
-	}
-
 	if (rotateFlag) {
+		rotateTime--;
+		//カメラをワープゾーンに固定
+		camera->SetFollowingTarget(sceneMoveObj.get());
+		//回転させる
 		playerRot = player->GetRotation();
-		playerRot.y++;
+		playerRot.y += 2.0f;
 		player->SetRotation(playerRot);
+		if (rotateTime <= 0) {
+			//タイムが0になったら自機を上にあげる
+			playerPos = player->GetPosition();
+			playerPos.y+= 0.6f;
+			if (playerPos.y >= 10.f) {
+				BaseScene* scene = new GamePlayScene();
+				this->sceneManager->SetNextScene(scene);
+			}
+			player->SetPosition(playerPos);
+		}
+		player->StopUpdate();
 	}
 
 	//プレイヤーのHPが0になったら画面切り替え
 	if (player->GetPosition().y <= -5) {
-		player->SetPosition({0,10,0 });
+		player->SetPosition({ 0,10,0 });
 	}
 
-	//各オブジェクトの子往診
-	player->TutorialUpdate();
+	//各オブジェクトの更新
+	
 	camera->Update();
 	floor->Update();
 	skyObj->Update();
 	enemy->TitleUpdate();
-	sceneMoveObj->Update();
+	if (zonePop) {
+		sceneMoveObj->Update();
+	}
 	arrowObj->Update();
 	//当たり判定
 	CheckAllCollision();
@@ -180,7 +198,7 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 	skyObj->Draw();
 	player->Draw();
 	enemy->Draw();
-	
+
 	if (zonePop) {
 		sceneMoveObj->Draw();
 		arrowObj->Draw();
@@ -246,7 +264,7 @@ void Tutorial::CheckAllCollision()
 
 #pragma region 自機とワープゾーンの当たり判定
 	Sphere pShape;
-	if (player) {
+	if (player && zonePop) {
 		if (player->GetAlive()) {
 			pShape.center = XMLoadFloat3(&player->GetPosition());
 			pShape.radius = player->GetScale().x;
@@ -258,8 +276,6 @@ void Tutorial::CheckAllCollision()
 
 				if (Collision::CheckSphere2Sphere(pShape, zoneShape)) {
 					rotateFlag = true;
-					//BaseScene* scene = new GamePlayScene();
-					//this->sceneManager->SetNextScene(scene);
 				}
 			}
 		}

@@ -66,10 +66,11 @@ private:
 	std::unique_ptr<Object3d> arrowObj;
 	bool zoneFlag = false;
 	bool zonePop = false;
-	float rotateTime = 120;
+	int32_t rotateTime = 120;
 	float rotateFlag = false;
 	int operatePhase = 0;
 	XMFLOAT3 playerRot;
+	XMFLOAT3 playerPos;
 	// ƒJƒƒ‰ŠÖŒW
 	bool dirty = false;
 	float angleX = 0;

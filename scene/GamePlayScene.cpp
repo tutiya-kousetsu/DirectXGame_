@@ -79,14 +79,14 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 		//ドアの位置
 		doorPos[i] = door[i]->GetPosition();
-		doorPos[0] = { 8, 8, 50 };
-		doorPos[1] = { -8,8,50 };
-		doorPos[2] = { -50, 8, 8 };
-		doorPos[3] = { -50,8,-8 };
-		doorPos[4] = { 50, 8, 8 };
-		doorPos[5] = { 50,8,-8 };
-		doorPos[6] = { 8, 8, -50 };
-		doorPos[7] = { -8,8,-50 };
+		doorPos[0] = { 8, 6, 50 };
+		doorPos[1] = { -8, 6,50 };
+		doorPos[2] = { -50, 6, 8 };
+		doorPos[3] = { -50, 6,-8 };
+		doorPos[4] = { 50, 6, 8 };
+		doorPos[5] = { 50, 6,-8 };
+		doorPos[6] = { 8, 6, -50 };
+		doorPos[7] = { -8, 6,-50 };
 		//ドアの向き
 		doorRot[i] = door[i]->GetRotation();
 		doorRot[2] = { 0, 90 ,0 };

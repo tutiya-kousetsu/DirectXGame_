@@ -212,6 +212,7 @@
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="obstacle\Obstacle.cpp" />
+    <ClCompile Include="Phasecpp.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="obstacle\Obstacle.h" />
+    <ClInclude Include="Phase.h" />
     <ClInclude Include="PipelineSet.h" />
     <ClInclude Include="player\Player.h" />
     <ClInclude Include="player\PlayerBullet.h" />

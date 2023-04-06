@@ -284,6 +284,9 @@
     <ClCompile Include="easing\Easing.cpp">
       <Filter>ソース ファイル\easing</Filter>
     </ClCompile>
+    <ClCompile Include="Phasecpp.cpp">
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -481,6 +484,9 @@
       <Filter>ソース ファイル\easing</Filter>
     </ClInclude>
     <ClInclude Include="scene\BaseScene.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
   </ItemGroup>

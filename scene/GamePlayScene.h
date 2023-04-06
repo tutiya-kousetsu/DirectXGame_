@@ -21,6 +21,7 @@
 #include "door/Door.h"
 #include "Player.h"
 #include "TouchableObject.h"
+#include "Phase.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -99,15 +100,10 @@ private:
 	std::unique_ptr<Sprite> LifeSprite6;
 	std::unique_ptr<Sprite> LifeSprite7;
 	std::unique_ptr<Sprite> LifeSprite8;
-	//Phase
-	std::unique_ptr<Sprite> phase1;
-	std::unique_ptr<Sprite> phase2;
-	std::unique_ptr<Sprite> phase3;
-	std::unique_ptr<Sprite> phase4;
-	std::unique_ptr<Sprite> phase5;
-	std::unique_ptr<Sprite> phase6;
-
+	int phaseCount = 0;
 	XMFLOAT2 phasePos;
+	std::unique_ptr<Phase> phase;
+
 	//イーズイン用frame
 	float inFrame = 0.f;
 	//イーズアウト用frame
@@ -169,7 +165,7 @@ private:
 	XMFLOAT3 backEnePos[2];
 
 	//タイマー
-	int32_t waitTimer = 0;
+	int32_t wait = 0;
 	//フラグ
 	bool bulFlag = true;
 	bool waitFlag = false;

@@ -37,20 +37,8 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	LifeSprite8.reset(Sprite::Create(9, { 1210,590 }));
 
 	//phase
-	//for (auto i = 10; i <= 16; i++) {
-		Sprite::LoadTexture(10, L"Resources/phase/phase1.png");
-		phase1.reset(Sprite::Create(10, { 1280, 0 }));
-		Sprite::LoadTexture(11, L"Resources/phase/phase2.png");
-		phase2.reset(Sprite::Create(11, { 1280, 0 }));
-		Sprite::LoadTexture(12, L"Resources/phase/phase3.png");
-		phase3.reset(Sprite::Create(12, { 1280, 0 }));
-		Sprite::LoadTexture(13, L"Resources/phase/phase4.png");
-		phase4.reset(Sprite::Create(13, { 1280, 0 }));
-		Sprite::LoadTexture(14, L"Resources/phase/phase5.png");
-		phase5.reset(Sprite::Create(14, { 1280, 0 }));
-		Sprite::LoadTexture(15, L"Resources/phase/phase6.png");
-		phase6.reset(Sprite::Create(15, { 1280, 0 }));
-	//}
+	phase.reset(new Phase());
+	phase->Initialize();
 
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
@@ -137,26 +125,7 @@ void GamePlayScene::Update()
 	//	frame += 0.01f;
 	//}
 	//pos.y = Ease(In, Qubic, frame, 0.0f, 5.0f);
-	if (!phaseFlag) {
-		phasePos = phase1->GetPosition();
-		if (phasePos.x >= -1280) {
-			if (outFrame < 1.0f) {
-				outFrame += 0.01f;
-			}
-			phasePos.x = Ease(Out, Cubic, outFrame, 1280.0f, 0.0f);
-			if (phasePos.x <= 0) {
-				if (inFrame < 1.0f) {
-					inFrame += 0.01f;
-				}
-				phasePos.x = Ease(In, Cubic, inFrame, 0.0f, -1280.0f);
-			}
-		}
-		if (phasePos.x <= -1280) {
-			phaseFlag = true;
-		}
-		phase1->SetPosition(phasePos);
-	}
-	
+
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -219,13 +188,6 @@ void GamePlayScene::Update()
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
 
-	if (phaseFlag) {
-		DoorMove();
-	}
-
-
-	//プレイヤーの更新
-	player->Update();
 	//前敵が死んだら削除する
 	frontEnemy.remove_if([](std::unique_ptr<FrontEnemy>& front) {
 		return !front->GetAlive();
@@ -243,8 +205,40 @@ void GamePlayScene::Update()
 		return !back->GetAlive();
 		});
 
-	LoadEnemyPopData();
-	UpdataEnemyPopCommand();
+
+	//プレイヤーの更新
+	player->Update();
+
+	if (!phase->GetPhase()) {
+		//フェーズ2
+		if (fEnePhase >= 1) {
+			phaseCount = 1;
+		}
+		//フェーズ3
+		if (fEnePhase >= 3) {
+			phaseCount = 2;
+		}
+		//フェーズ4
+		if (fEnePhase >= 5 && lEnePhase >= 1) {
+			phaseCount = 3;
+		}
+		//フェーズ5
+		if (fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
+			phaseCount = 4;
+		}
+		//フェーズ6
+		if (fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
+			phaseCount = 5;
+		}
+		phase->MovePhase(phaseCount);
+	}
+	if (phase->GetPhase()) {
+		DoorMove();
+		LoadEnemyPopData();
+		UpdataEnemyPopCommand();
+	}
+
+
 	for (auto& front : frontEnemy) {
 		front->Update();
 	}
@@ -400,15 +394,8 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	if (playerLife >= 2) { LifeSprite2->Draw(); }
 	if (playerLife >= 1) { LifeSprite->Draw(); }
 
-	//for (auto i = 0; i <= 6; i++) {
-		phase1->Draw();
-		phase2->Draw();
-		phase3->Draw();
-		phase4->Draw();
-		phase5->Draw();
-		phase6->Draw();
-
-	//}
+	//フェーズ変更時のスプライト
+	phase->Draw(phaseCount);
 	// スプライト描画後処理
 
 	Sprite::PostDraw();
@@ -434,13 +421,13 @@ void GamePlayScene::LoadEnemyPopData()
 
 void GamePlayScene::UpdataEnemyPopCommand()
 {
-	
+
 	if (waitFlag) {
 		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
 		if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
-			&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase && phaseFlag) {
+			&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase) {
 			waitFlag = false;
-			phaseFlag = false;
+			phase->SetPhase(false);
 		}
 		//一致していなかったらreturnで返す
 		else {
@@ -566,15 +553,11 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			getline(line_stream, word, ',');
 			int backPhase = atoi(word.c_str());
 
-			//if (phaseFlag) {
-				waitFlag = true;
-			//}
-			//waitFlag = true;
+			waitFlag = true;
 			fWaitPhase = frontPhase;
 			lWaitPhase = leftPhase;
 			rWaitPhase = rightPhase;
 			bWaitPhase = backPhase;
-
 			break;
 		}
 	}
@@ -1050,12 +1033,12 @@ void GamePlayScene::CheckAllCollision()
 
 	//プレイヤーのHPが0になったら画面切り替え
 	if (playerLife <= 0 || playerPos.y <= -5) {
-		
-			//シーン切り替え
-			BaseScene* scene = new GameOver();
-			this->sceneManager->SetNextScene(scene);
-			player->CreateParticle();
-			player->SetAlive(false);
+
+		//シーン切り替え
+		BaseScene* scene = new GameOver();
+		this->sceneManager->SetNextScene(scene);
+		player->CreateParticle();
+		player->SetAlive(false);
 	}
 	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
 		//シーン切り替え

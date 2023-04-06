@@ -90,6 +90,7 @@ public:
 private:
 	//スプライト
 	std::unique_ptr<Sprite> sprite;
+	//HP
 	std::unique_ptr<Sprite> LifeSprite;
 	std::unique_ptr<Sprite> LifeSprite2;
 	std::unique_ptr<Sprite> LifeSprite3;
@@ -98,6 +99,20 @@ private:
 	std::unique_ptr<Sprite> LifeSprite6;
 	std::unique_ptr<Sprite> LifeSprite7;
 	std::unique_ptr<Sprite> LifeSprite8;
+	//Phase
+	std::unique_ptr<Sprite> phase1;
+	std::unique_ptr<Sprite> phase2;
+	std::unique_ptr<Sprite> phase3;
+	std::unique_ptr<Sprite> phase4;
+	std::unique_ptr<Sprite> phase5;
+	std::unique_ptr<Sprite> phase6;
+
+	XMFLOAT2 phasePos;
+	//イーズイン用frame
+	float inFrame = 0.f;
+	//イーズアウト用frame
+	float outFrame = 0.f;
+	bool phaseFlag = false;
 	std::unique_ptr<Sprite> spriteBG;
 	// カメラ
 	std::unique_ptr<FollowingCamera> camera;
@@ -154,10 +169,11 @@ private:
 	XMFLOAT3 backEnePos[2];
 
 	//タイマー
-	int waitTimer = 0;
+	int32_t waitTimer = 0;
 	//フラグ
 	bool bulFlag = true;
 	bool waitFlag = false;
+	bool timeFlag = false;
 	bool lifeFlag = false;
 	//フェーズ
 	int fEnePhase = 0;

@@ -11,6 +11,7 @@
 #include "CollisionManager.h"
 #include "MeshCollider.h"
 #include "TouchableObject.h"
+#include "easing/Easing.h"
 #include <fstream>
 #include <cassert>
 
@@ -34,6 +35,23 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	LifeSprite7.reset(Sprite::Create(8, { 1170,590 }));
 	Sprite::LoadTexture(9, L"Resources/HP.png");
 	LifeSprite8.reset(Sprite::Create(9, { 1210,590 }));
+
+	//phase
+	//for (auto i = 10; i <= 16; i++) {
+		Sprite::LoadTexture(10, L"Resources/phase/phase1.png");
+		phase1.reset(Sprite::Create(10, { 1280, 0 }));
+		Sprite::LoadTexture(11, L"Resources/phase/phase2.png");
+		phase2.reset(Sprite::Create(11, { 1280, 0 }));
+		Sprite::LoadTexture(12, L"Resources/phase/phase3.png");
+		phase3.reset(Sprite::Create(12, { 1280, 0 }));
+		Sprite::LoadTexture(13, L"Resources/phase/phase4.png");
+		phase4.reset(Sprite::Create(13, { 1280, 0 }));
+		Sprite::LoadTexture(14, L"Resources/phase/phase5.png");
+		phase5.reset(Sprite::Create(14, { 1280, 0 }));
+		Sprite::LoadTexture(15, L"Resources/phase/phase6.png");
+		phase6.reset(Sprite::Create(15, { 1280, 0 }));
+	//}
+
 	//ポストエフェクトの初期化
 	for (int i = 0; i <= 1; i++) {
 		postEffect[i] = new PostEffect();
@@ -114,6 +132,30 @@ void GamePlayScene::Finalize()
 
 void GamePlayScene::Update()
 {
+	//イージング
+	//if (frame < 1.0f) {
+	//	frame += 0.01f;
+	//}
+	//pos.y = Ease(In, Qubic, frame, 0.0f, 5.0f);
+	if (!phaseFlag) {
+		phasePos = phase1->GetPosition();
+		if (phasePos.x >= -1280) {
+			if (outFrame < 1.0f) {
+				outFrame += 0.01f;
+			}
+			phasePos.x = Ease(Out, Cubic, outFrame, 1280.0f, 0.0f);
+			if (phasePos.x <= 0) {
+				if (inFrame < 1.0f) {
+					inFrame += 0.01f;
+				}
+				phasePos.x = Ease(In, Cubic, inFrame, 0.0f, -1280.0f);
+			}
+		}
+		if (phasePos.x <= -1280) {
+			phaseFlag = true;
+		}
+		phase1->SetPosition(phasePos);
+	}
 	
 	Input* input = Input::GetInstance();
 
@@ -177,9 +219,10 @@ void GamePlayScene::Update()
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
 
-	if (playerPos.y <= 12.0f) {
+	if (phaseFlag) {
 		DoorMove();
 	}
+
 
 	//プレイヤーの更新
 	player->Update();
@@ -356,6 +399,16 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	if (playerLife >= 3) { LifeSprite3->Draw(); }
 	if (playerLife >= 2) { LifeSprite2->Draw(); }
 	if (playerLife >= 1) { LifeSprite->Draw(); }
+
+	//for (auto i = 0; i <= 6; i++) {
+		phase1->Draw();
+		phase2->Draw();
+		phase3->Draw();
+		phase4->Draw();
+		phase5->Draw();
+		phase6->Draw();
+
+	//}
 	// スプライト描画後処理
 
 	Sprite::PostDraw();
@@ -381,11 +434,13 @@ void GamePlayScene::LoadEnemyPopData()
 
 void GamePlayScene::UpdataEnemyPopCommand()
 {
+	
 	if (waitFlag) {
 		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
 		if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
-			&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase) {
+			&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase && phaseFlag) {
 			waitFlag = false;
+			phaseFlag = false;
 		}
 		//一致していなかったらreturnで返す
 		else {
@@ -511,11 +566,15 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			getline(line_stream, word, ',');
 			int backPhase = atoi(word.c_str());
 
-			waitFlag = true;
+			//if (phaseFlag) {
+				waitFlag = true;
+			//}
+			//waitFlag = true;
 			fWaitPhase = frontPhase;
 			lWaitPhase = leftPhase;
 			rWaitPhase = rightPhase;
 			bWaitPhase = backPhase;
+
 			break;
 		}
 	}

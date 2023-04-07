@@ -100,6 +100,10 @@ private:
 	std::unique_ptr<Sprite> LifeSprite6;
 	std::unique_ptr<Sprite> LifeSprite7;
 	std::unique_ptr<Sprite> LifeSprite8;
+	std::unique_ptr<Sprite> alignment;
+	std::unique_ptr<Sprite> damage;
+	bool damageFlag = false;
+	int32_t damageTime = 60;
 	int phaseCount = 0;
 	XMFLOAT2 phasePos;
 	std::unique_ptr<Phase> phase;
@@ -107,8 +111,9 @@ private:
 	//イーズイン用frame
 	float inFrame = 0.f;
 	//イーズアウト用frame
-	float outFrame = 0.f;
-	bool phaseFlag = false;
+	float outFrame[8]{};
+
+	bool frameFlag = false;
 	std::unique_ptr<Sprite> spriteBG;
 	// カメラ
 	std::unique_ptr<FollowingCamera> camera;

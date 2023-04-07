@@ -6,7 +6,7 @@
 #include "Collision.h"
 #include <cassert>
 
-PlayerBullet::PlayerBullet() :PlayerBullet(Model::CreateFromOBJ("sphere"))
+PlayerBullet::PlayerBullet() :PlayerBullet(Model::CreateFromOBJ("playerCube"))
 {
 	object->SetScale({ 1.0f, 1.0f, 1.0f });
 }

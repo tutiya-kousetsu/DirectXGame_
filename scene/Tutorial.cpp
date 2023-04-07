@@ -23,6 +23,10 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 	Sprite::LoadTexture(4, L"Resources/shot_UI.png");
 	shotUI.reset(Sprite::Create(4, { 560,380 }));
+
+	Sprite::LoadTexture(16, L"Resources/alignment.png");
+	alignment.reset(Sprite::Create(16, { 600,200 }));
+
 	//カメラの初期化
 	camera.reset(new FollowingCamera());
 	//カメラを3Dオブジェットにセット
@@ -133,11 +137,16 @@ void Tutorial::Update()
 		rotateTime--;
 		//カメラをワープゾーンに固定
 		camera->SetFollowingTarget(sceneMoveObj.get());
+		//camera->SetTarget({ 0,0,18 });
 		//回転させる
 		playerRot = player->GetRotation();
 		playerRot.y += 2.0f;
 		player->SetRotation(playerRot);
 		if (rotateTime <= 0) {
+			//camera->SetFollowingTarget(player.get());
+			cameraTargetPos = camera->GetEye();
+			cameraTargetPos.y++;
+			camera->SetEye(cameraTargetPos);
 			//タイムが0になったら自機を上にあげる
 			playerPos = player->GetPosition();
 			playerPos.y+= 0.6f;
@@ -222,6 +231,8 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 	if (player->GetPhase() == 2) {
 		shotUI->Draw();
 	}
+	alignment->Draw();
+	
 	// スプライト描画後処理
 
 	Sprite::PostDraw();
@@ -268,11 +279,11 @@ void Tutorial::CheckAllCollision()
 		if (player->GetAlive()) {
 			pShape.center = XMLoadFloat3(&player->GetPosition());
 			pShape.radius = player->GetScale().x;
-			//壁と自機弾の当たり判定
+			
 			Sphere zoneShape;
 			if (sceneMoveObj) {
 				zoneShape.center = XMLoadFloat3(&sceneMoveObj->GetPosition());
-				zoneShape.radius = sceneMoveObj->GetScale().x - 1.0f;
+				zoneShape.radius = sceneMoveObj->GetScale().x - 2.0f;
 
 				if (Collision::CheckSphere2Sphere(pShape, zoneShape)) {
 					rotateFlag = true;

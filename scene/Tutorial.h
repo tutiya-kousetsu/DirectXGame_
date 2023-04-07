@@ -44,18 +44,20 @@ public:
 	void CheckAllCollision();
 
 private:
-
+	std::unique_ptr<Sprite> alignment;
 	std::unique_ptr <Sprite> sprite;
 	std::unique_ptr <Sprite> spaceUI;
 	std::unique_ptr <Sprite> mouseUI;
 	std::unique_ptr <Sprite> wasdUI;
 	std::unique_ptr <Sprite> shotUI;
+	
 	Input* input = nullptr;
 	std::unique_ptr<TouchableObject> floor;
 	//天球
 	std::unique_ptr <Object3d> skyObj;
 	std::unique_ptr<Framework> frame;
 	std::unique_ptr<FollowingCamera> camera;
+	std::unique_ptr<DebugCamera> debugCam;
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 
@@ -67,7 +69,8 @@ private:
 	bool zoneFlag = false;
 	bool zonePop = false;
 	int32_t rotateTime = 120;
-	float rotateFlag = false;
+	bool rotateFlag = false;
+	XMFLOAT3 cameraTargetPos;
 	int operatePhase = 0;
 	XMFLOAT3 playerRot;
 	XMFLOAT3 playerPos;

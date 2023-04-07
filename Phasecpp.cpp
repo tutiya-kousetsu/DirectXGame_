@@ -24,7 +24,7 @@ void Phase::MovePhase(int i)
 		if (outFrame < 1.0f) {
 			outFrame += 0.01f;
 		}
-		pos[i].x = Ease(InOut, Cubic, outFrame, 1280.0f, 0.0f);
+		pos[i].x = Ease(Out, Cubic, outFrame, 1280.0f, 0.0f);
 		if (pos[i].x <= 0) {
 			if (inFrame < 1.0f) {
 				inFrame += 0.01f;

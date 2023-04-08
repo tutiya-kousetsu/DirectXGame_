@@ -102,10 +102,12 @@ private:
 	std::unique_ptr<Sprite> LifeSprite8;
 	std::unique_ptr<Sprite> alignment;
 	std::unique_ptr<Sprite> damage;
+	
 	bool damageFlag = false;
-	int32_t damageTime = 60;
+	int32_t damageTime = 20;
 	int phaseCount = 0;
 	XMFLOAT2 phasePos;
+	XMFLOAT4 damageColor = {1.0f, 1.0f, 1.0f, 1.0f};
 	std::unique_ptr<Phase> phase;
 
 	//イーズイン用frame

@@ -37,7 +37,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	LifeSprite8.reset(Sprite::Create(9, { 1210,590 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 600,200 }));
+	alignment.reset(Sprite::Create(16, { 600,210 }));
 	Sprite::LoadTexture(17, L"Resources/damage.png");
 	damage.reset(Sprite::Create(17, { 0,0 }));
 
@@ -242,7 +242,7 @@ void GamePlayScene::Update()
 		LoadEnemyPopData();
 		UpdataEnemyPopCommand();
 	}
-
+	
 
 	for (auto& front : frontEnemy) {
 		front->Update();
@@ -298,54 +298,51 @@ void GamePlayScene::DoorMove()
 		doorPos[0].x = Ease(Out, Cubic, outFrame[0], 8.0f, 0.0f);
 	}
 	//前ドア(左)
-	if (phaseCount >= 1 && fEnePhase >= 1) {
+	if (phaseCount >= 1) {
 		if (outFrame[1] < 1.0f) {
 			outFrame[1] += 0.005f;
 		}
 		doorPos[1].x = Ease(Out, Cubic, outFrame[1], -8.0f, -16.0f);
 	}
 	//左ドア(右)
-	else if (doorPos[2].z >= 0 && fEnePhase >= 3) {
+	if (phaseCount >= 2) {
 		if (outFrame[2] < 1.0f) {
 			outFrame[2] += 0.005f;
 		}
 		doorPos[2].z = Ease(Out, Cubic, outFrame[2], 8.0f, 0.0f);
 	}
-	//左ドア(左)
-	if (doorPos[3].z >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
-		if (outFrame[3] < 1.0f) {
-			outFrame[3] += 0.005f;
-		}
-		doorPos[3].z = Ease(Out, Cubic, outFrame[3], -8.0f, -16.0f);
-	}
-	//右ドア(左)
-	if (doorPos[4].z >= 0 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
-		if (outFrame[4] < 1.0f) {
-			outFrame[4] += 0.005f;
-		}
-		doorPos[4].z = Ease(Out, Cubic, outFrame[4], 8.0f, 0.0f);
-	}
 	//右ドア(右)
-	if (doorPos[5].z >= -16 && fEnePhase >= 5 && lEnePhase >= 1) {
+	if (phaseCount >= 3) {
 		if (outFrame[5] < 1.0f) {
 			outFrame[5] += 0.005f;
 		}
 		doorPos[5].z = Ease(Out, Cubic, outFrame[5], -8.0f, -16.0f);
 	}
 	//後ろドア(左)
-	if (doorPos[6].x >= 0 && fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
+	if (phaseCount >= 4) {
 		if (outFrame[6] < 1.0f) {
 			outFrame[6] += 0.005f;
 		}
 		doorPos[6].x = Ease(Out, Cubic, outFrame[6], 8.0f, 0.0f);
 	}
-	//後ろドア(右)
-	if (doorPos[7].x >= -16 && fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
+	if (phaseCount >= 5) {
+		//左ドア(左)
+		if (outFrame[3] < 1.0f) {
+			outFrame[3] += 0.005f;
+		}
+		doorPos[3].z = Ease(Out, Cubic, outFrame[3], -8.0f, -16.0f);
+		//右ドア(左)
+		if (outFrame[4] < 1.0f) {
+			outFrame[4] += 0.005f;
+		}
+		doorPos[4].z = Ease(Out, Cubic, outFrame[4], 8.0f, 0.0f);
+		//後ろドア(右)
 		if (outFrame[7] < 1.0f) {
 			outFrame[7] += 0.005f;
 		}
 		doorPos[7].x = Ease(Out, Cubic, outFrame[7], -8.0f, -16.0f);
 	}
+
 }
 
 
@@ -572,12 +569,12 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			//障害物を登録する
 			backEnemy.push_back(std::move(newBack));
 		}
-		else if (word.find("TIME") == 0) {
+		/*else if (word.find("TIME") == 0) {
 			getline(line_stream, word, ',');
 			int32_t frontPhase = atoi(word.c_str());
 
 
-		}
+		}*/
 		//PHASEコマンド(敵の発生の順番)
 		else if (word.find("PHASE") == 0) {
 			getline(line_stream, word, ',');
@@ -747,20 +744,23 @@ void GamePlayScene::FrontColl()
 				playerShape.radius = player->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-					damageFlag = true;
 					
 					eb->OnCollision();
 					player->CreateParticle();
 					playerLife--;
-					
+					if (!damageFlag) {
+						damageFlag = true;
+					}
 				}
 				if (damageFlag) {
 					damageTime--;
+					damage->DamageColor();
 					if (damageTime <= 0) {
 						damageFlag = false;
-						damageTime = 60;
+						damageTime = 20;
 					}
 				}
+				
 			}
 
 #pragma endregion
@@ -816,11 +816,14 @@ void GamePlayScene::LeftColl()
 					eb->OnCollision();
 					player->CreateParticle();
 					damageFlag = true;
-					damageTime--;
 					playerLife--;
 				}
-				if (damageTime <= 0) {
-					damageFlag = false;
+				if (damageFlag) {
+					damageTime--;
+					if (damageTime <= 0) {
+						damageFlag = false;
+						damageTime = 60;
+					}
 				}
 			}
 
@@ -878,11 +881,14 @@ void GamePlayScene::RightColl()
 					eb->OnCollision();
 					player->CreateParticle();
 					damageFlag = true;
-					damageTime--;
 					playerLife--;
 				}
-				if (damageTime <= 0) {
-					damageFlag = false;
+				if (damageFlag) {
+					damageTime--;
+					if (damageTime <= 0) {
+						damageFlag = false;
+						damageTime = 60;
+					}
 				}
 			}
 
@@ -942,11 +948,14 @@ void GamePlayScene::BackColl()
 					eb->OnCollision();
 					player->CreateParticle();
 					damageFlag = true;
-					damageTime--;
 					playerLife--;
 				}
-				if (damageTime <= 0) {
-					damageFlag = false;
+				if (damageFlag) {
+					damageTime--;
+					if (damageTime <= 0) {
+						damageFlag = false;
+						damageTime = 60;
+					}
 				}
 			}
 

@@ -114,6 +114,8 @@ public: // メンバ関数
 	/// <returns>成否</returns>
 	bool Initialize();
 
+	void DamageColor();
+
 	/// <summary>
 	/// 角度の設定
 	/// </summary>
@@ -131,6 +133,10 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="position">座標</param>
 	void SetPosition(XMFLOAT2 position);
+
+	const XMFLOAT4& GetColor() { return color; }
+
+	void SetColor(XMFLOAT4 color);
 
 	/// <summary>
 	/// サイズの設定
@@ -189,6 +195,7 @@ protected: // メンバ変数
 	XMMATRIX matWorld{};
 	// 色
 	XMFLOAT4 color = { 1, 1, 1, 1 };
+	float changeColor = 1.0f;
 	// 左右反転
 	bool isFlipX = false;
 	// 上下反転

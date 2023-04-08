@@ -390,6 +390,19 @@ bool Sprite::Initialize()
 	return true;
 }
 
+void Sprite::DamageColor()
+{
+
+	//if (damageFlag) {
+		color.w -= 0.05f;
+	//}
+	if (color.w <= 0.0f) {
+		color.w = 1.0f;
+		//damageFlag = false;
+	}
+	SetColor(color);
+}
+
 void Sprite::SetRotation(float rotation)
 {
 	this->rotation = rotation;
@@ -403,6 +416,13 @@ void Sprite::SetPosition(XMFLOAT2 position)
 	this->position = position;
 
 	// 頂点バッファへのデータ転送
+	TransferVertices();
+}
+
+void Sprite::SetColor(XMFLOAT4 color)
+{
+	this->color = color;
+
 	TransferVertices();
 }
 

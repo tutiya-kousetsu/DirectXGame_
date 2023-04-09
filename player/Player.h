@@ -47,7 +47,7 @@ public:
 	bool Shoot();
 
 	//当たり判定
-	void OnCollision(const CollisionInfo& info) override;
+	void OnCollision();
 
 	//パーティク生成
 	void CreateParticle();
@@ -60,8 +60,13 @@ public:
 	inline bool GetAlive() const { return alive; }
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
-	inline int GetPhase() { return operatePhase; }
 
+	inline void SetLife(int life) { this->life = life; }
+	inline const int GetLife() const { return life; }
+
+
+	inline int GetPhase() { return operatePhase; }
+	
 public:
 	int operatePhase = 0;
 	bool moveFlag = false;
@@ -83,6 +88,7 @@ private:
 	bool canShot = false;
 	// ジャンプ
 	bool alive = true;
+	int life = 8;
 	bool jumpFlag = false;
 	bool secondFlag = false;
 	int jumpCount = 2;

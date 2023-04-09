@@ -19,22 +19,22 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
 	sprite.reset(Sprite::Create(1, { 0,0 }));
-	Sprite::LoadTexture(2, L"Resources/HP.png");
-	LifeSprite.reset(Sprite::Create(2, { 930,590 }));
-	Sprite::LoadTexture(3, L"Resources/HP.png");
-	LifeSprite2.reset(Sprite::Create(3, { 970,590 }));
-	Sprite::LoadTexture(4, L"Resources/HP.png");
-	LifeSprite3.reset(Sprite::Create(4, { 1010,590 }));
-	Sprite::LoadTexture(5, L"Resources/HP.png");
-	LifeSprite4.reset(Sprite::Create(5, { 1050,590 }));
-	Sprite::LoadTexture(6, L"Resources/HP.png");
-	LifeSprite5.reset(Sprite::Create(6, { 1090,590 }));
-	Sprite::LoadTexture(7, L"Resources/HP.png");
-	LifeSprite6.reset(Sprite::Create(7, { 1130,590 }));
-	Sprite::LoadTexture(8, L"Resources/HP.png");
-	LifeSprite7.reset(Sprite::Create(8, { 1170,590 }));
-	Sprite::LoadTexture(9, L"Resources/HP.png");
-	LifeSprite8.reset(Sprite::Create(9, { 1210,590 }));
+	//Sprite::LoadTexture(2, L"Resources/HP.png");
+	//LifeSprite.reset(Sprite::Create(2, { 930,590 }));
+	//Sprite::LoadTexture(3, L"Resources/HP.png");
+	//LifeSprite2.reset(Sprite::Create(3, { 970,590 }));
+	//Sprite::LoadTexture(4, L"Resources/HP.png");
+	//LifeSprite3.reset(Sprite::Create(4, { 1010,590 }));
+	//Sprite::LoadTexture(5, L"Resources/HP.png");
+	//LifeSprite4.reset(Sprite::Create(5, { 1050,590 }));
+	//Sprite::LoadTexture(6, L"Resources/HP.png");
+	//LifeSprite5.reset(Sprite::Create(6, { 1090,590 }));
+	//Sprite::LoadTexture(7, L"Resources/HP.png");
+	//LifeSprite6.reset(Sprite::Create(7, { 1130,590 }));
+	//Sprite::LoadTexture(8, L"Resources/HP.png");
+	//LifeSprite7.reset(Sprite::Create(8, { 1170,590 }));
+	//Sprite::LoadTexture(9, L"Resources/HP.png");
+	//LifeSprite8.reset(Sprite::Create(9, { 1210,590 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
 	alignment.reset(Sprite::Create(16, { 600,210 }));
@@ -74,6 +74,8 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
 	player->SetPosition({ 0, 30.f, 0 });
+	playerLife.reset(new PlayerLife());
+	playerLife->Initialize();
 	//床のオブジェクト生成
 	floor.reset(TouchableObject::Create(Model::CreateFromOBJ("FloorBox")));
 	floor->SetScale({ 20.f, 5.0f, 20.f });
@@ -262,6 +264,9 @@ void GamePlayScene::Update()
 	//床の更新
 	floor->Update();
 
+	life = player->GetLife();
+	playerLife->Update(life);
+	player->SetLife(life);
 	skyObj->Update();
 	//障害物のマップチップ読み込み用
 	LoadObstaclePopData();
@@ -411,15 +416,16 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
-	if (playerLife >= 8) { LifeSprite8->Draw(); }
+	/*if (playerLife >= 8) { LifeSprite8->Draw(); }
 	if (playerLife >= 7) { LifeSprite7->Draw(); }
 	if (playerLife >= 6) { LifeSprite6->Draw(); }
 	if (playerLife >= 5) { LifeSprite5->Draw(); }
 	if (playerLife >= 4) { LifeSprite4->Draw(); }
 	if (playerLife >= 3) { LifeSprite3->Draw(); }
 	if (playerLife >= 2) { LifeSprite2->Draw(); }
-	if (playerLife >= 1) { LifeSprite->Draw(); }
-
+	if (playerLife >= 1) { LifeSprite->Draw(); }*/
+	
+	playerLife->Draw();
 	alignment->Draw();
 	if (damageFlag) {
 		damage->Draw();
@@ -746,8 +752,7 @@ void GamePlayScene::FrontColl()
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 					
 					eb->OnCollision();
-					player->CreateParticle();
-					playerLife--;
+					player->OnCollision();
 					if (!damageFlag) {
 						damageFlag = true;
 					}
@@ -814,9 +819,8 @@ void GamePlayScene::LeftColl()
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 					eb->OnCollision();
-					player->CreateParticle();
+					player->OnCollision();
 					damageFlag = true;
-					playerLife--;
 				}
 				if (damageFlag) {
 					damageTime--;
@@ -879,9 +883,8 @@ void GamePlayScene::RightColl()
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 					eb->OnCollision();
-					player->CreateParticle();
+					player->OnCollision();
 					damageFlag = true;
-					playerLife--;
 				}
 				if (damageFlag) {
 					damageTime--;
@@ -946,9 +949,8 @@ void GamePlayScene::BackColl()
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 					eb->OnCollision();
-					player->CreateParticle();
+					player->OnCollision();
 					damageFlag = true;
-					playerLife--;
 				}
 				if (damageFlag) {
 					damageTime--;

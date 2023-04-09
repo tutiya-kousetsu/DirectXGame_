@@ -49,20 +49,25 @@ bool Player::Initialize()
 
 void Player::Update()
 {
-	//弾のフラグがfalseになったら削除する
-	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
-		return !bullet->GetAlive();
-	});
-	move();
-	jump();
-	Input* input = Input::GetInstance();
+	if (life >= 0) {
+		//弾のフラグがfalseになったら削除する
+		bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+			return !bullet->GetAlive();
+			});
+		move();
+		jump();
+		Input* input = Input::GetInstance();
 		if (input->TriggerMouseLeft()) {
 			Shoot();
 		}
-	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
-		bul->Update();
+		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
+			bul->Update();
+		}
+		Object3d::Update();
 	}
-	Object3d::Update();
+	else if (life <= 0) {
+		alive = false;
+	}
 }
 
 //動かしたくない時用のアップデート
@@ -291,9 +296,10 @@ bool Player::Shoot()
 }
 
 
-void Player::OnCollision(const CollisionInfo& info)
+void Player::OnCollision()
 {
-
+	life--;
+	CreateParticle();
 }
 
 //パーティクルの生成

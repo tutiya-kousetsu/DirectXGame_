@@ -287,6 +287,9 @@
     <ClCompile Include="Phasecpp.cpp">
       <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerLife.cpp">
+      <Filter>ソース ファイル\game\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -488,6 +491,9 @@
     </ClInclude>
     <ClInclude Include="Phase.h">
       <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLife.h">
+      <Filter>ソース ファイル\game\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

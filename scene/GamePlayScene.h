@@ -22,6 +22,7 @@
 #include "Player.h"
 #include "TouchableObject.h"
 #include "Phase.h"
+#include "PlayerLife.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -130,7 +131,8 @@ private:
 
 	//プレイヤー
 	std::unique_ptr<Player> player;
-	int playerLife = 8;
+	int life = 0;
+	std::unique_ptr<PlayerLife> playerLife;
 	//天球
 	std::unique_ptr<Object3d> skyObj;
 

@@ -8,8 +8,6 @@ class Phase
 public:
 	void Initialize();
 
-	void Update();
-
 	void MovePhase(int i);
 
 	void Draw(int i);

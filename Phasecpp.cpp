@@ -44,12 +44,5 @@ void Phase::MovePhase(int i)
 
 void Phase::Draw(int i)
 {
-	//for (auto i = 0; i <= 6; i++) {
-		phase[i]->Draw();
-	//}
-	/*phase2->Draw();
-	phase3->Draw();
-	phase4->Draw();
-	phase5->Draw();
-	phase6->Draw();*/
+	phase[i]->Draw();
 }

@@ -19,22 +19,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
 	sprite.reset(Sprite::Create(1, { 0,0 }));
-	//Sprite::LoadTexture(2, L"Resources/HP.png");
-	//LifeSprite.reset(Sprite::Create(2, { 930,590 }));
-	//Sprite::LoadTexture(3, L"Resources/HP.png");
-	//LifeSprite2.reset(Sprite::Create(3, { 970,590 }));
-	//Sprite::LoadTexture(4, L"Resources/HP.png");
-	//LifeSprite3.reset(Sprite::Create(4, { 1010,590 }));
-	//Sprite::LoadTexture(5, L"Resources/HP.png");
-	//LifeSprite4.reset(Sprite::Create(5, { 1050,590 }));
-	//Sprite::LoadTexture(6, L"Resources/HP.png");
-	//LifeSprite5.reset(Sprite::Create(6, { 1090,590 }));
-	//Sprite::LoadTexture(7, L"Resources/HP.png");
-	//LifeSprite6.reset(Sprite::Create(7, { 1130,590 }));
-	//Sprite::LoadTexture(8, L"Resources/HP.png");
-	//LifeSprite7.reset(Sprite::Create(8, { 1170,590 }));
-	//Sprite::LoadTexture(9, L"Resources/HP.png");
-	//LifeSprite8.reset(Sprite::Create(9, { 1210,590 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
 	alignment.reset(Sprite::Create(16, { 600,210 }));
@@ -127,12 +111,6 @@ void GamePlayScene::Finalize()
 
 void GamePlayScene::Update()
 {
-	//イージング
-	//if (frame < 1.0f) {
-	//	frame += 0.01f;
-	//}
-	//pos.y = Ease(In, Qubic, frame, 0.0f, 5.0f);
-
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -212,7 +190,6 @@ void GamePlayScene::Update()
 		return !back->GetAlive();
 		});
 
-
 	//プレイヤーの更新
 	player->Update();
 
@@ -257,6 +234,9 @@ void GamePlayScene::Update()
 	}
 	for (auto& back : backEnemy) {
 		back->Update();
+	}
+	for (auto& obstacle : obstacles) {
+		obstacle->Update();
 	}
 
 	//カメラの更新
@@ -416,15 +396,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
-	/*if (playerLife >= 8) { LifeSprite8->Draw(); }
-	if (playerLife >= 7) { LifeSprite7->Draw(); }
-	if (playerLife >= 6) { LifeSprite6->Draw(); }
-	if (playerLife >= 5) { LifeSprite5->Draw(); }
-	if (playerLife >= 4) { LifeSprite4->Draw(); }
-	if (playerLife >= 3) { LifeSprite3->Draw(); }
-	if (playerLife >= 2) { LifeSprite2->Draw(); }
-	if (playerLife >= 1) { LifeSprite->Draw(); }*/
-	
 	playerLife->Draw();
 	alignment->Draw();
 	if (damageFlag) {
@@ -660,9 +631,6 @@ void GamePlayScene::UpdataObstaclePopCommand()
 			obstacles.push_back(std::move(newObstacle));
 		}
 	}
-	for (auto& obstacle : obstacles) {
-		obstacle->Update();
-	}
 }
 
 void GamePlayScene::LoadWallPopData()
@@ -857,6 +825,7 @@ void GamePlayScene::LeftColl()
 
 				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
 					eb->OnCollision();
+
 				}
 			}
 		}
@@ -1107,13 +1076,11 @@ void GamePlayScene::CheckAllCollision()
 	playerPos = player->GetPosition();
 
 	//プレイヤーのHPが0になったら画面切り替え
-	if (playerLife <= 0 || playerPos.y <= -5) {
-
+	if (!player->GetAlive()) {
+		player->CreateParticle();
 		//シーン切り替え
 		BaseScene* scene = new GameOver();
 		this->sceneManager->SetNextScene(scene);
-		player->CreateParticle();
-		player->SetAlive(false);
 	}
 	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
 		//シーン切り替え

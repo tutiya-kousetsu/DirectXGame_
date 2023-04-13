@@ -114,8 +114,8 @@ bool Object3d::InitializeGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
-		L"Resources/shaders/OBJPixelShader.hlsl",
+		//L"Resources/shaders/BasicPixelShader.hlsl",
+		L"Resources/shaders/OBJPixelShader.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -306,7 +306,7 @@ void Object3d::Draw()
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelineSet.pipelinestate.Get());
 	//// ルートシグネチャの設定
-	cmdList->SetGraphicsRootSignature(pipelineSet.rootsignature.Get());
+ 	cmdList->SetGraphicsRootSignature(pipelineSet.rootsignature.Get());
 
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuffB0->GetGPUVirtualAddress());

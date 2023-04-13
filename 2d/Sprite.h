@@ -138,11 +138,14 @@ public: // メンバ関数
 
 	void SetColor(XMFLOAT4 color);
 
+
 	/// <summary>
 	/// サイズの設定
 	/// </summary>
 	/// <param name="size">サイズ</param>
 	void SetSize(XMFLOAT2 size);
+
+	const XMFLOAT2& GetSize() { return size; }
 
 	/// <summary>
 	/// アンカーポイントの設定

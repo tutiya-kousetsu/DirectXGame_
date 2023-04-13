@@ -1,8 +1,8 @@
 #pragma once
-
 #include "BaseScene.h"
 #include "Sprite.h"
 #include "DirectXCommon.h"
+
 class GameOver : public BaseScene
 {
 public:

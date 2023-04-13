@@ -63,6 +63,8 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	particleMan = ParticleManager::GetInstance();
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
+
+	
 }
 
 void Tutorial::Finalize()

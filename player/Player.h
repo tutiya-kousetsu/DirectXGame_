@@ -64,7 +64,6 @@ public:
 	inline void SetLife(int life) { this->life = life; }
 	inline const int GetLife() const { return life; }
 
-
 	inline int GetPhase() { return operatePhase; }
 	
 public:
@@ -88,7 +87,7 @@ private:
 	bool canShot = false;
 	// ƒWƒƒƒ“ƒv
 	bool alive = true;
-	int life = 8;
+	int life = 7;
 	bool jumpFlag = false;
 	bool secondFlag = false;
 	int jumpCount = 2;

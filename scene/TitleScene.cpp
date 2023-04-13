@@ -40,6 +40,9 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
+
+	/*circle.reset(new Circle());
+	circle->Initialize();*/
 }
 
 void TitleScene::Finalize()
@@ -51,9 +54,19 @@ void TitleScene::Update()
 	Input* input = Input::GetInstance();
 	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
 	{
-		//シーン切り替え
 		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
+		circleTime--;
+	//	circle->UpSize(circleTime);
+		if (circleTime <= 0) {
+			circleFlag = true;
+		}
+
+		
+	}
+	if (circleFlag) {
+		//シーン切り替え
+		
 	}
 
 	//プレイヤーのx軸の位置に合わせてカメラも動かす
@@ -105,6 +118,9 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 	titleSp->Draw();
 	spaceSp->Draw();
+	if (circleFlag) {
+		//circle->Draw();
+	}
 	// スプライト描画後処理
 
 	Sprite::PostDraw();

@@ -290,6 +290,9 @@
     <ClCompile Include="PlayerLife.cpp">
       <Filter>ソース ファイル\game\player</Filter>
     </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>ソース ファイル\game\scene\.cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -494,6 +497,9 @@
     </ClInclude>
     <ClInclude Include="PlayerLife.h">
       <Filter>ソース ファイル\game\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

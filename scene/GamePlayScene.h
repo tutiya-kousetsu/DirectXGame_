@@ -128,7 +128,6 @@ private:
 	//áŠQ•¨
 	std::list<std::unique_ptr<Obstacle>> obstacles;
 	std::stringstream obstaclePopCom;
-
 	//ƒvƒŒƒCƒ„[
 	std::unique_ptr<Player> player;
 	int life = 0;

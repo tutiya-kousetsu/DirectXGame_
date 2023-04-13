@@ -33,9 +33,13 @@ public:
 	inline void SetRotation(const DirectX::XMFLOAT3& rotation) { object->SetRotation(rotation); }
 	inline const DirectX::XMFLOAT3& GetRotation() const { return object->GetRotation(); }
 
+	inline bool GetAlive() const { return alive; }
+	inline void SetAlive(bool alive) { this->alive = alive; }
+
 protected:
 	DirectX::XMFLOAT3 position;
 	std::unique_ptr<TouchableObject> object;
 	std::unique_ptr<Object3d> obj;
+	bool alive = true;
 };
 

@@ -10,7 +10,7 @@ public:
 
 	void Update();
 
-	void UpSize(int32_t time);
+	void UpSize();
 
 	void DownSize(int32_t time);
 

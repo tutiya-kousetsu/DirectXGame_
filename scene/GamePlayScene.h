@@ -52,7 +52,7 @@ public:
 	void Update() override;
 
 	//ドアを敵のフェーズに合わせて動かす
-	void DoorMove();
+	//void DoorMove();
 
 	/// <summary>
 	/// 描画
@@ -153,9 +153,10 @@ private:
 	CollisionManager* collisionMan = nullptr;
 	
 	//ドア
-	Door* door[8]{};
-	XMFLOAT3 doorPos[8]{};
-	XMFLOAT3 doorRot[8]{};
+	//Door* door[8]{};
+	std::unique_ptr<Door> door;
+	XMFLOAT3 doorPos;
+	XMFLOAT3 doorRot;
 
 	//壁
 	std::list<std::unique_ptr<Wall>> walls;

@@ -11,9 +11,9 @@ void Circle::Update()
 	
 }
 
-void Circle::UpSize(int32_t time)
+void Circle::UpSize()
 {
-	if (time >= 0) {
+	//if (time >= 0) {
 		size = sprite->GetSize();
 		/*if (xFrame < 1.0f) {
 			xFrame += 0.01f;
@@ -27,7 +27,7 @@ void Circle::UpSize(int32_t time)
 		size.x++;
 		size.y++;
 		sprite->SetSize(size);
-	}
+	//}
 }
 
 void Circle::DownSize(int32_t time)

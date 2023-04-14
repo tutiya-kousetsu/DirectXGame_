@@ -16,7 +16,7 @@ void Obstacle::Initialize(DirectX::XMFLOAT3 pos)
 {
 	object.reset(new TouchableObject());
 	object->Initialize(Model::CreateFromOBJ("stone"));
-	object->SetScale({ 3.01f, 3.01f, 3.01f });
+	object->SetScale({ 3.4f, 3.21f, 3.4f });
 	object->SetPosition(pos);
 }
 

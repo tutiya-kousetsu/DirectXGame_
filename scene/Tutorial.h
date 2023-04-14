@@ -60,7 +60,8 @@ private:
 	std::unique_ptr<DebugCamera> debugCam;
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
-
+	std::unique_ptr<Material> material;
+	float alpha = 0.0f;
 	XMFLOAT3 cameraPos;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<FrontEnemy> enemy;

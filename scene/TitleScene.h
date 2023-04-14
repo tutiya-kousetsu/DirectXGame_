@@ -43,6 +43,8 @@ private:
 	std::unique_ptr <Sprite> titleSp;
 	std::unique_ptr <Sprite> spaceSp;
 	std::unique_ptr <Sprite> backSp;
+	std::unique_ptr <Sprite> circleSp;
+	DirectX::XMFLOAT2 size = {100.0f, 100.0f};
 	Input* input = nullptr;
 	std::unique_ptr<TouchableObject> floor;
 	//“V‹…
@@ -54,6 +56,5 @@ private:
 	bool circleFlag = false;
 	int32_t circleTime = 120;
 	float angle = 0.0f;
-	
 };
 

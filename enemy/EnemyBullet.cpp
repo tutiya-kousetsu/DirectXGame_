@@ -2,7 +2,7 @@
 #include <cassert>
 #include "Input.h"
 
-EnemyBullet::EnemyBullet() :EnemyBullet(Model::CreateFromOBJ("sphere", true))
+EnemyBullet::EnemyBullet() :EnemyBullet(Model::CreateFromOBJ("sphere"))
 {
 	object->SetScale({ 1.f, 1.f, 1.f });
 }

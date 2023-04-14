@@ -465,9 +465,6 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="collision\BaseCollider.h">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
     <ClInclude Include="collision\TouchableObject.h">
       <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
@@ -500,6 +497,9 @@
     </ClInclude>
     <ClInclude Include="Circle.h">
       <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\BaseCollider.h">
+      <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

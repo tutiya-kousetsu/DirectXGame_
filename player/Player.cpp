@@ -65,9 +65,10 @@ void Player::Update()
 		}
 		Object3d::Update();
 	}
-	else if (life <= 0) {
+	if (life <= 0 || position.y <= -10) {
 		alive = false;
 	}
+	Object3d::SetPosition(position);
 }
 
 //動かしたくない時用のアップデート
@@ -177,7 +178,7 @@ void Player::jump()
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
 
 		//移動
-		if (position.y >= -5.0f) {
+		if (position.y >= -10.0f) {
 			position.x += fallV.m128_f32[0];
 			position.y += fallV.m128_f32[1];
 			position.z += fallV.m128_f32[2];

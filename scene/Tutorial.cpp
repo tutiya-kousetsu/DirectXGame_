@@ -64,7 +64,6 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
 
-	
 }
 
 void Tutorial::Finalize()
@@ -286,7 +285,7 @@ void Tutorial::CheckAllCollision()
 			if (sceneMoveObj) {
 				zoneShape.center = XMLoadFloat3(&sceneMoveObj->GetPosition());
 				zoneShape.radius = sceneMoveObj->GetScale().x - 2.0f;
-
+				zoneShape.radius = sceneMoveObj->GetScale().y - 2.5f;
 				if (Collision::CheckSphere2Sphere(pShape, zoneShape)) {
 					rotateFlag = true;
 				}

@@ -3,13 +3,15 @@
 #include "Object3d.h"
 #include "GameObject.h"
 #include <DirectXMath.h>
-using namespace DirectX;
+//using namespace DirectX;
 
 class PlayerBullet : public GameObject
 {
 public:
 	//エイリアス、関数の継承など
 	using GameObject::GameObject;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMVECTOR = DirectX::XMVECTOR;
 
 	//コンストラクタ
 	PlayerBullet();

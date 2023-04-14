@@ -1,12 +1,10 @@
 #pragma once
-#include "GameObject.h"
+#include "Object3d.h"
 
-using namespace DirectX;
-
-class Door : public GameObject
+class Door
 {
 public:
-	using GameObject::GameObject;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
 
 public:
 	Door();
@@ -16,9 +14,14 @@ public:
 
 	void Update();
 
+	void DoorMove(int phaseCount);
+
 	void Draw();
 
 private:
-	XMFLOAT3 position;
-	XMFLOAT3 rotation;
+	std::unique_ptr<Object3d> object[8];
+	XMFLOAT3 position[8];
+	XMFLOAT3 rotation[8];
+	//イーズアウト用frame
+	float outFrame[8]{};
 };

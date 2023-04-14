@@ -11,7 +11,7 @@ using namespace DirectX;
 /// </summary>
 ID3D12Device* Mesh::device = nullptr;
 
-void Mesh::StaticInitialize(ID3D12Device * device)
+void Mesh::StaticInitialize(ID3D12Device* device)
 {
 	// 再初期化チェック
 	assert(!Mesh::device);
@@ -22,12 +22,17 @@ void Mesh::StaticInitialize(ID3D12Device * device)
 	Material::StaticInitialize(device);
 }
 
+Mesh::~Mesh()
+{
+	delete material;
+}
+
 void Mesh::SetName(const std::string& name)
 {
 	this->name = name;
 }
 
-void Mesh::AddVertex(const VertexPosNormalUv & vertex)
+void Mesh::AddVertex(const VertexPosNormalUv& vertex)
 {
 	vertices.emplace_back(vertex);
 }
@@ -56,12 +61,12 @@ void Mesh::CalculateSmoothedVertexNormals()
 		normal = XMVector3Normalize(normal / (float)v.size());
 
 		for (unsigned short index : v) {
-			vertices[index].normal = { normal.m128_f32[0], normal.m128_f32[1], normal.m128_f32[2]};
+			vertices[index].normal = { normal.m128_f32[0], normal.m128_f32[1], normal.m128_f32[2] };
 		}
 	}
 }
 
-void Mesh::SetMaterial(Material * material)
+void Mesh::SetMaterial(Material* material)
 {
 	this->material = material;
 }
@@ -69,8 +74,8 @@ void Mesh::SetMaterial(Material * material)
 void Mesh::CreateBuffers()
 {
 	HRESULT result;
-	
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)*vertices.size());
+
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices.size());
 	// 頂点バッファ生成
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
@@ -98,7 +103,7 @@ void Mesh::CreateBuffers()
 		return;
 	}
 
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short)*indices.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 	// インデックスバッファ生成
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
@@ -110,7 +115,7 @@ void Mesh::CreateBuffers()
 	if (FAILED(result)) {
 		assert(0);
 		return;
-	}	
+	}
 
 	// インデックスバッファへのデータ転送
 	unsigned short* indexMap = nullptr;
@@ -119,14 +124,14 @@ void Mesh::CreateBuffers()
 		std::copy(indices.begin(), indices.end(), indexMap);
 		indexBuff->Unmap(0, nullptr);
 	}
-	
+
 	// インデックスバッファビューの作成
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 }
 
-void Mesh::Draw(ID3D12GraphicsCommandList * cmdList)
+void Mesh::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	// 頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView);

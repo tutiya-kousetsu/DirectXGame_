@@ -244,6 +244,8 @@ Object3d::~Object3d()
 		CollisionManager::GetInstance()->RemoveCollider(collider);
 		delete collider;
 	}
+	delete parent;
+//	delete model;
 }
 
 bool Object3d::Initialize()

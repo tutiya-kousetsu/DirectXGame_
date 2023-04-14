@@ -107,9 +107,6 @@ void GamePlayScene::Finalize()
 	walls.remove_if([](std::unique_ptr<Wall>& wall) {
 		return wall->GetAlive();
 		});
-	obstacles.remove_if([](std::unique_ptr<Obstacle>& obstacle) {
-		return obstacle->GetAlive();
-		});
 }
 
 void GamePlayScene::Update()
@@ -227,16 +224,16 @@ void GamePlayScene::Update()
 	
 
 	for (auto& front : frontEnemy) {
-		//front->Update();
+		front->Update();
 	}
 	for (auto& left : leftEnemy) {
-		//left->Update();
+		left->Update();
 	}
 	for (auto& right : rightEnemy) {
-		//right->Update();
+		right->Update();
 	}
 	for (auto& back : backEnemy) {
-		//back->Update();
+		back->Update();
 	}
 	for (auto& obstacle : obstacles) {
 		obstacle->Update();
@@ -272,6 +269,7 @@ void GamePlayScene::Update()
 	CheckAllCollision();
 
 	particleMan->Update();
+
 }
 
 //敵のPhaseに合わせて動かす

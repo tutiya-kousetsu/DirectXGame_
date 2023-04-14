@@ -46,6 +46,7 @@ private: // 静的メンバ変数
 	static ID3D12Device* device;
 
 public: // メンバ関数
+	~Mesh();
 
 	/// <summary>
 	/// 名前を取得

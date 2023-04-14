@@ -43,6 +43,7 @@ Model::~Model()
 		delete m.second;
 	}
 	materials.clear();
+	delete defaultMaterial;
 }
 
 void Model::Initialize(const std::string& modelname, bool smoothing)

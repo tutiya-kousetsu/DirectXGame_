@@ -53,5 +53,7 @@ private:
 	std::unique_ptr<Circle> circle;
 	bool circleFlag = false;
 	int32_t circleTime = 120;
+	float angle = 0.0f;
+	
 };
 

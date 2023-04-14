@@ -52,27 +52,35 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
+	if (!circleFlag) {
+		angle += XMConvertToRadians(0.6f);
+		cameraPos = camera->GetEye();
+		cameraPos.x = 50 * sinf(angle);
+		cameraPos.y = 30;
+		cameraPos.z = 50 * cosf(angle);
+		//プレイヤーのx軸の位置に合わせてカメラも動かす
+		camera->SetTarget(player->GetPosition());
+		camera->SetEye(cameraPos);
+		camera->SetDistance(10.0f);
+	}
 	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
 	{
-		BaseScene* scene = new Tutorial();
-		this->sceneManager->SetNextScene(scene);
-		circleTime--;
-	//	circle->UpSize(circleTime);
-		if (circleTime <= 0) {
-			circleFlag = true;
-		}
+		circleFlag = true;
+		
+	//	circleTime--;
+	////	circle->UpSize(circleTime);
+	//	if (circleTime <= 0) {
+	//		circleFlag = true;
+	//	}
 
 		
 	}
 	if (circleFlag) {
 		//シーン切り替え
-		
+		BaseScene* scene = new Tutorial();
+		this->sceneManager->SetNextScene(scene);
 	}
 
-	//プレイヤーのx軸の位置に合わせてカメラも動かす
-	camera->SetTarget({ player->GetPosition().x, -20, 70 });
-	camera->SetEye({ player->GetPosition().x, 10, -30 });
-	camera->SetDistance(10.0f);
 
 	camera->Update();
 	player->StopUpdate();

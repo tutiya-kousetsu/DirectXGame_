@@ -1,5 +1,6 @@
 ﻿#include "WinApp.h"
 #include<windows.h>
+#include <d3d12sdklayers.h>
 
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -43,6 +44,16 @@ void WinApp::Initialize()
 		nullptr,                // メニューハンドル
 		w.hInstance,            // 呼び出しアプリケーションハンドル
 		nullptr);               // オプション
+
+//#ifdef _DEBUG
+//	ID3D12Debug1* debugContoroller = nullptr;
+//	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugContoroller)))) {
+//		//デバックレイヤーを有効化する
+//		debugContoroller->EnableDebugLayer();
+//		//さらにGPU側でもチェックを行うようにする
+//		debugContoroller->SetEnableGPUBasedValidation(TRUE);
+//	}
+//#endif
 
 	// ウィンドウ表示
 	ShowWindow(hwnd, SW_SHOW);

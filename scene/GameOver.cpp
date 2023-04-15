@@ -7,7 +7,7 @@ void GameOver::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/GameOver.png");
 	//スプライトの生成
-	sprite = Sprite::Create(1, { 0.0f,0.0f });
+	sprite.reset(Sprite::Create(1, { 0.0f,0.0f }));
 	sprite->SetPosition({ 0,0 });
 
 }
@@ -15,7 +15,6 @@ void GameOver::Initialize(DirectXCommon* dxCommon)
 void GameOver::Finalize()
 {
 	//スプライト個別解放
-	delete sprite;
 }
 
 void GameOver::Update()

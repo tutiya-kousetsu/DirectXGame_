@@ -75,9 +75,9 @@ void TitleScene::Update()
 	if (circleFlag) {
 		circleTime--;
 		if (circleTime >= 0) {
-			size = circleSp->GetSize();
-			size.x+= 50;
-			size.y+= 50;
+			//size = circleSp->GetSize();
+			size.x-= 1;
+			size.y-= 1;
 			circleSp->SetSize(size);
 		}
 		if (circleTime <= 0) {

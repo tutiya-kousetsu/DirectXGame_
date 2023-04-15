@@ -44,7 +44,7 @@ private:
 	std::unique_ptr <Sprite> spaceSp;
 	std::unique_ptr <Sprite> backSp;
 	std::unique_ptr <Sprite> circleSp;
-	DirectX::XMFLOAT2 size = {100.0f, 100.0f};
+	DirectX::XMFLOAT2 size = {1000.0f, 1000.0f};
 	Input* input = nullptr;
 	std::unique_ptr<TouchableObject> floor;
 	//“V‹…

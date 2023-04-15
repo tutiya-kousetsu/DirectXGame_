@@ -28,6 +28,7 @@ public:
 
 private:
 
-	Sprite* sprite = nullptr;
+	//Sprite* sprite = nullptr;
+	std::unique_ptr<Sprite> sprite;
 };
 

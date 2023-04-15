@@ -70,27 +70,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	particleMan->SetCamera(camera.get());
 
 	//ドアの初期化
-	//for (int i = 0; i < 8; i++) {
-	//	door[i] = new Door();
-	//	door[i]->Initialize();
-
-	//	//ドアの位置
-	//	doorPos[i] = door[i]->GetPosition();
-	//	doorPos[0] = { 8, 6, 50 };
-	//	doorPos[1] = { -8, 6,50 };
-	//	doorPos[2] = { -50, 6, 8 };
-	//	doorPos[3] = { -50, 6,-8 };
-	//	doorPos[4] = { 50, 6, 8 };
-	//	doorPos[5] = { 50, 6,-8 };
-	//	doorPos[6] = { 8, 6, -50 };
-	//	doorPos[7] = { -8, 6,-50 };
-	//	//ドアの向き
-	//	doorRot[i] = door[i]->GetRotation();
-	//	doorRot[2] = { 0, 90 ,0 };
-	//	doorRot[3] = { 0, 90 ,0 };
-	//	doorRot[4] = { 0, 90 ,0 };
-	//	doorRot[5] = { 0, 90 ,0 };
-	//}
 	door.reset(new Door());
 	door->Initialize();
 	//データ読み込み
@@ -100,10 +79,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 void GamePlayScene::Finalize()
 {
-	//3Dオブジェクト解放
-	/*for (int i = 0; i < 8; i++) {
-		delete door[i];
-	}*/
+	//解放
 	//壁があったら削除する
 	walls.remove_if([](std::unique_ptr<Wall>& wall) {
 		return wall->GetAlive();
@@ -218,11 +194,15 @@ void GamePlayScene::Update()
 		phase->MovePhase(phaseCount);
 	}
 	if (phase->GetPhase()) {
-		//DoorMove();
+		if (door) {
+			door->DoorMove(phaseCount);
+		}
 		LoadEnemyPopData();
 		UpdataEnemyPopCommand();
 	}
-	
+	if (door) {
+		door->Update();
+	}
 
 	for (auto& front : frontEnemy) {
 		front->Update();
@@ -259,16 +239,6 @@ void GamePlayScene::Update()
 		wall->Update();
 	}
 
-	/*for (int i = 0; i < 8; i++) {
-		door[i]->SetPosition(doorPos[i]);
-		door[i]->SetRotation(doorRot[i]);
-		door[i]->Update();
-	}*/
-	if (door) {
-		door->DoorMove(phaseCount);
-		door->Update();
-	}
-
 	//当たり判定
 	collisionMan->CheckAllCollisions();
 	CheckAllCollision();
@@ -276,65 +246,6 @@ void GamePlayScene::Update()
 	particleMan->Update();
 
 }
-
-//敵のPhaseに合わせて動かす
-//void GamePlayScene::DoorMove()
-//{
-//	//前ドア(右)
-//	if (phaseCount >= 0) {
-//		if (outFrame[0] < 1.0f) {
-//			outFrame[0] += 0.005f;
-//		}
-//		doorPos[0].x = Ease(Out, Cubic, outFrame[0], 8.0f, 0.0f);
-//	}
-//	//前ドア(左)
-//	if (phaseCount >= 1) {
-//		if (outFrame[1] < 1.0f) {
-//			outFrame[1] += 0.005f;
-//		}
-//		doorPos[1].x = Ease(Out, Cubic, outFrame[1], -8.0f, -16.0f);
-//	}
-//	//左ドア(右)
-//	if (phaseCount >= 2) {
-//		if (outFrame[2] < 1.0f) {
-//			outFrame[2] += 0.005f;
-//		}
-//		doorPos[2].z = Ease(Out, Cubic, outFrame[2], 8.0f, 0.0f);
-//	}
-//	//右ドア(右)
-//	if (phaseCount >= 3) {
-//		if (outFrame[5] < 1.0f) {
-//			outFrame[5] += 0.005f;
-//		}
-//		doorPos[5].z = Ease(Out, Cubic, outFrame[5], -8.0f, -16.0f);
-//	}
-//	//後ろドア(左)
-//	if (phaseCount >= 4) {
-//		if (outFrame[6] < 1.0f) {
-//			outFrame[6] += 0.005f;
-//		}
-//		doorPos[6].x = Ease(Out, Cubic, outFrame[6], 8.0f, 0.0f);
-//	}
-//	if (phaseCount >= 5) {
-//		//左ドア(左)
-//		if (outFrame[3] < 1.0f) {
-//			outFrame[3] += 0.005f;
-//		}
-//		doorPos[3].z = Ease(Out, Cubic, outFrame[3], -8.0f, -16.0f);
-//		//右ドア(左)
-//		if (outFrame[4] < 1.0f) {
-//			outFrame[4] += 0.005f;
-//		}
-//		doorPos[4].z = Ease(Out, Cubic, outFrame[4], 8.0f, 0.0f);
-//		//後ろドア(右)
-//		if (outFrame[7] < 1.0f) {
-//			outFrame[7] += 0.005f;
-//		}
-//		doorPos[7].x = Ease(Out, Cubic, outFrame[7], -8.0f, -16.0f);
-//	}
-//
-//}
-
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
@@ -384,9 +295,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto& wall : walls) {
 		wall->Draw();
 	}
-	/*for (int i = 0; i < 8; i++) {
-		door[i]->Draw();
-	}*/
 	if (door) {
 		door->Draw();
 	}

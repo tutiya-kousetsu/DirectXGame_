@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Framework.h"
 #include "Material.h"
+#include "PostEffect.h"
 
 //‘O•ûéŒ¾
 class ParticleManager;
@@ -53,6 +54,11 @@ private:
 	
 	Input* input = nullptr;
 	std::unique_ptr<TouchableObject> floor;
+
+	std::unique_ptr<PostEffect> postEffect;
+	bool startFlag = false;
+	float startEfRadius = 0;
+
 	//“V‹…
 	std::unique_ptr <Object3d> skyObj;
 	std::unique_ptr<Framework> frame;

@@ -64,6 +64,9 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	particleMan->Initialize();
 	particleMan->SetCamera(camera.get());
 
+	postEffect.reset(new PostEffect());
+	//シェーダーの挿入
+	postEffect->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
 }
 
 void Tutorial::Finalize()
@@ -72,6 +75,14 @@ void Tutorial::Finalize()
 
 void Tutorial::Update()
 {
+	if (!startFlag) {
+		//startEfRadius = postEffect->GetRadius();
+		startEfRadius += 10;
+		if (startEfRadius >= 1000) {
+			startFlag = true;
+		}
+		postEffect->SetRadius(startEfRadius);
+	}
 	Input* input = Input::GetInstance();
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
 	ShowCursor(FALSE);
@@ -183,9 +194,11 @@ void Tutorial::Update()
 void Tutorial::Draw(DirectXCommon* dxCommon)
 {
 	//描画前処理
-	dxCommon->PreDraw();
+	//dxCommon->PreDraw();
 	//スプライト描画
 #pragma region 背景スプライト描画
+	postEffect->PreDrawScene(dxCommon->GetCmdList());
+
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//背景スプライト描画
@@ -216,6 +229,12 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 	particleMan->Draw();
 	Object3d::PostDraw();
 
+	postEffect->PostDrawScene(dxCommon->GetCmdList());
+
+	//描画前処理
+	dxCommon->PreDraw();
+	postEffect->Draw(dxCommon->GetCmdList());
+
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
@@ -235,7 +254,6 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 	alignment->Draw();
 	
 	// スプライト描画後処理
-
 	Sprite::PostDraw();
 
 	//描画後処理

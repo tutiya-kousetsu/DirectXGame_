@@ -30,13 +30,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	phase->Initialize();
 
 	//ポストエフェクトの初期化
-	for (int i = 0; i <= 1; i++) {
-		postEffect[i] = new PostEffect();
-	}
+	postEffect.reset(new PostEffect());
 	//シェーダーの挿入
-	postEffect[0]->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
-
-	postEffect[1]->Initialize(L"Resources/shaders/PixelShader.hlsl");
+	postEffect->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
 
 	//カメラの初期化
 	camera.reset(new FollowingCamera());
@@ -219,7 +215,23 @@ void GamePlayScene::Update()
 	for (auto& obstacle : obstacles) {
 		obstacle->Update();
 	}
-
+	
+	//プレイヤーのHPが0になったら画面切り替え
+	if (!player->GetAlive()) {
+		player->CreateParticle();
+		endEfRadius = postEffect->GetRadius();
+		endEfRadius -= 10;
+		if (endEfRadius <= 0) {
+			endFlag = true;
+		}
+		postEffect->SetRadius(endEfRadius);
+	}
+	if (endFlag) {
+		//シーン切り替え
+		BaseScene* scene = new Tutorial();
+		this->sceneManager->SetNextScene(scene);
+	}
+	
 	//カメラの更新
 	camera->Update();
 	//床の更新
@@ -250,9 +262,11 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw(DirectXCommon* dxCommon)
 {
 	//描画前処理
-	dxCommon->PreDraw();
+	//dxCommon->PreDraw();
 	//スプライト描画
 #pragma region 背景スプライト描画
+	postEffect->PreDrawScene(dxCommon->GetCmdList());
+
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	//背景スプライト描画
@@ -304,7 +318,11 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	particleMan->Draw();
 	Object3d::PostDraw();
 
-#pragma region 前景スプライト描画
+	postEffect->PostDrawScene(dxCommon->GetCmdList());
+
+	//描画前処理
+	dxCommon->PreDraw();
+	postEffect->Draw(dxCommon->GetCmdList());
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCmdList());
 
@@ -322,9 +340,11 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// スプライト描画後処理
 
 	Sprite::PostDraw();
-
 	//描画後処理
 	dxCommon->PostDraw();
+
+#pragma region 前景スプライト描画
+
 
 }
 
@@ -989,13 +1009,7 @@ void GamePlayScene::CheckAllCollision()
 		}
 #pragma endregion
 	}
-	//プレイヤーのHPが0になったら画面切り替え
-	if (!player->GetAlive()) {
-		player->CreateParticle();
-		//シーン切り替え
-		BaseScene* scene = new GameOver();
-		this->sceneManager->SetNextScene(scene);
-	}
+	
 	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
 		//シーン切り替え
 		BaseScene* scene = new GameClear();

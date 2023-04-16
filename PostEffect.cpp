@@ -220,7 +220,8 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->color = this->color;
-		constMap->mat = XMMatrixIdentity();	// s—ñ‚Ì‡¬	
+		constMap->mat = XMMatrixIdentity();	// s—ñ‚Ì‡¬
+		constMap->radius = this->radius;
 		this->constBuff->Unmap(0, nullptr);
 	}
 	cmdList->SetPipelineState(pipelineState.Get());

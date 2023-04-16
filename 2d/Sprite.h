@@ -36,6 +36,7 @@ public: // サブクラス
 	{
 		XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
+		float radius;
 	};
 
 public: // 静的メンバ関数
@@ -101,6 +102,7 @@ protected: // 静的メンバ変数
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
 	// テクスチャバッファ
 	static ComPtr<ID3D12Resource> texBuff[srvCount];
+
 
 public: // メンバ関数
 	/// <summary>
@@ -177,6 +179,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void SetRadius(float radius);
+	const float& GetRadius() { return radius; }
 protected: // メンバ変数
 	// 頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
@@ -207,6 +211,8 @@ protected: // メンバ変数
 	XMFLOAT2 texBase = { 0, 0 };
 	// テクスチャ幅、高さ
 	XMFLOAT2 texSize = { 100.0f, 100.0f };
+
+	float radius = 1000;
 
 private: // メンバ関数
 	/// <summary>

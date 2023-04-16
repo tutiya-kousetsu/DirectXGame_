@@ -497,6 +497,11 @@ void Sprite::Draw()
 	cmdList->DrawInstanced(4, 1, 0, 0);
 }
 
+void Sprite::SetRadius(float radius)
+{
+	this->radius = radius;
+}
+
 void Sprite::TransferVertices()
 {
 	HRESULT result = S_FALSE;

@@ -9,6 +9,7 @@
 #include "PostEffect.h"
 #include "PlayerBullet.h"
 #include "GameOver.h"
+#include "Tutorial.h"
 #include "GameClear.h"
 #include "FollowingCamera.h"
 #include "Input.h"
@@ -122,8 +123,11 @@ private:
 	std::unique_ptr<FollowingCamera> camera;
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
-	PostEffect* postEffect[2] = {};
+	std::unique_ptr<PostEffect> postEffect;
 
+	//int32_t endEfTime = 0;
+	bool endFlag = false;
+	float endEfRadius = 1000;
 	
 	//è·äQï®
 	std::list<std::unique_ptr<Obstacle>> obstacles;

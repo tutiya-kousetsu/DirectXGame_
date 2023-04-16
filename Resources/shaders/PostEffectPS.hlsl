@@ -1,4 +1,4 @@
-#include "PostEffect.hlsli"
+#include "Sprite.hlsli"
 
 Texture2D<float4> tex0 : register(t0);   // 0番スロットに設定されたテクスチャ
 Texture2D<float4> tex1 : register(t1);   // 0番スロットに設定されたテクスチャ
@@ -24,6 +24,12 @@ PSOutput main(VSOutput input)
 	float4 colortex0 = tex0.Sample(smp, input.uv);
 	float4 colortex1 = tex1.Sample(smp, input.uv);
 	float4 color = colortex0;
+	float4 texcolor = tex0.Sample(smp, input.uv);
+	float v = pow(input.svpos.x - 640 , 2) + pow(input.svpos.y - 360 , 2) <= pow(radius , 2) ? 1 : -1;
+	//中心からradius以上離れた描画切る
+	clip(v);
+
+	//return float4(texcolor.rgb * 2.0f, 1);
 	//反転
 	//output.target1 = float4(1.0f - color.rgb, 1);
 	
@@ -46,7 +52,7 @@ PSOutput main(VSOutput input)
 	colortex0.g = Y;
 	colortex0.b = Y;*/
 	output.target0 = colortex0;
-	output.target1 = colortex0;
+	//output.target1 = texcolor;
 	//col.rgb = col.rgb / totalWeight;
 
 	//output.target0 = col;

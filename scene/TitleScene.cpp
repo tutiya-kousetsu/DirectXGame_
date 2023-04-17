@@ -25,8 +25,6 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	//スプライトの生成
 	spaceSp.reset(Sprite::Create(2, { 0.0f,0.0f }));
 
-	Sprite::LoadTexture(3, L"Resources/circle.png");
-	circleSp.reset(Sprite::Create(3, { 0.0f,0.0f }));
 	//カメラの初期化
 	camera.reset(new DebugCamera(WinApp::window_width, WinApp::window_height));
 	//カメラを3Dオブジェットにセット
@@ -56,37 +54,20 @@ void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
 	//フラグがfalseの時カメラをplayer中心にして回す
-	if (!circleFlag) {
-		angle += XMConvertToRadians(0.6f);
-		cameraPos = camera->GetEye();
-		cameraPos.x = 50 * sinf(angle);
-		cameraPos.y = 30;
-		cameraPos.z = 50 * cosf(angle);
-		//プレイヤーのx軸の位置に合わせてカメラも動かす
-		camera->SetTarget(player->GetPosition());
-		camera->SetEye(cameraPos);
-		camera->SetDistance(10.0f);
-	}
+	angle += XMConvertToRadians(0.6f);
+	cameraPos = camera->GetEye();
+	cameraPos.x = 50 * sinf(angle);
+	cameraPos.y = 30;
+	cameraPos.z = 50 * cosf(angle);
+	//プレイヤーのx軸の位置に合わせてカメラも動かす
+	camera->SetTarget(player->GetPosition());
+	camera->SetEye(cameraPos);
+	camera->SetDistance(10.0f);
 	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
 	{
-		circleFlag = true;
-	}
-	//フラグがtrueになったらシーン切り替え
-	if (circleFlag) {
-		circleTime--;
-		if (circleTime >= 0) {
-			//size = circleSp->GetSize();
-			size.x-= 1;
-			size.y-= 1;
-			circleSp->SetSize(size);
-		}
-		if (circleTime <= 0) {
-			circleFlag = false;
-			//シーン切り替え
-			BaseScene* scene = new Tutorial();
-			this->sceneManager->SetNextScene(scene);
-		}
-		
+		//シーン切り替え
+		BaseScene* scene = new Tutorial();
+		this->sceneManager->SetNextScene(scene);
 	}
 
 	camera->Update();
@@ -133,9 +114,6 @@ void TitleScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 	titleSp->Draw();
 	spaceSp->Draw();
-	if (circleFlag) {
-		circleSp->Draw();
-	}
 	// スプライト描画後処理
 
 	Sprite::PostDraw();

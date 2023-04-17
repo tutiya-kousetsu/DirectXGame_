@@ -190,7 +190,6 @@
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="camera\FollowingCamera.cpp" />
-    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="collision\Collision.cpp" />
     <ClCompile Include="collision\CollisionManager.cpp" />
     <ClCompile Include="collision\CollisionPrimitive.cpp" />
@@ -246,7 +245,6 @@
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
     <ClInclude Include="camera\FollowingCamera.h" />
-    <ClInclude Include="Circle.h" />
     <ClInclude Include="collision\BaseCollider.h" />
     <ClInclude Include="collision\Collision.h" />
     <ClInclude Include="collision\CollisionAttribute.h" />

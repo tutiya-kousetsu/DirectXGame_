@@ -216,12 +216,14 @@ void GamePlayScene::Update()
 		obstacle->Update();
 	}
 	
-	//プレイヤーのHPが0になったら画面切り替え
+	//プレイヤーのHPが0になったらポストエフェクト
 	if (!player->GetAlive()) {
 		player->CreateParticle();
+		//中心に向かって暗くする
 		endEfRadius = postEffect->GetRadius();
-		endEfRadius -= 10;
-		if (endEfRadius <= 0) {
+		endEfRadius -= 10.5f;
+		if (endEfRadius <= 0.f) {
+			endEfRadius = 0;
 			endFlag = true;
 		}
 		postEffect->SetRadius(endEfRadius);

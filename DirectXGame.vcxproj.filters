@@ -34,9 +34,6 @@
     <Filter Include="ソース ファイル\input">
       <UniqueIdentifier>{f3f6c241-755c-4385-bc51-48702dcc42eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\base\.h">
-      <UniqueIdentifier>{982fe784-f72d-4e57-be79-ab76cd798fb9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game">
       <UniqueIdentifier>{132cf5ff-a490-47c6-b259-302761cea30a}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,9 @@
     </Filter>
     <Filter Include="ソース ファイル\game\obstacle">
       <UniqueIdentifier>{ad94c3dc-298d-4ed8-986c-f7cfe87681c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\base\.cpp">
+      <UniqueIdentifier>{982fe784-f72d-4e57-be79-ab76cd798fb9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -151,21 +151,6 @@
     </ClCompile>
     <ClCompile Include="2d\Sprite.cpp">
       <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="base\DirectXCommon.cpp">
-      <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\Framework.cpp">
-      <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\MyGame.cpp">
-      <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="PostEffect.cpp">
-      <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\WinApp.cpp">
-      <Filter>ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="3d\Fbx_Model.cpp">
       <Filter>ソース ファイル\Fbx</Filter>
@@ -290,8 +275,20 @@
     <ClCompile Include="PlayerLife.cpp">
       <Filter>ソース ファイル\game\player</Filter>
     </ClCompile>
-    <ClCompile Include="Circle.cpp">
-      <Filter>ソース ファイル\game\scene\.cpp</Filter>
+    <ClCompile Include="base\DirectXCommon.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="base\Framework.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="base\MyGame.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="base\WinApp.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,21 +317,6 @@
     </ClInclude>
     <ClInclude Include="audio\Audio.h">
       <Filter>ソース ファイル\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="base\DirectXCommon.h">
-      <Filter>ソース ファイル\base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="base\Framework.h">
-      <Filter>ソース ファイル\base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="base\MyGame.h">
-      <Filter>ソース ファイル\base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="PostEffect.h">
-      <Filter>ソース ファイル\base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="base\WinApp.h">
-      <Filter>ソース ファイル\base\.h</Filter>
     </ClInclude>
     <ClInclude Include="player\PlayerBullet.h">
       <Filter>ソース ファイル\game\player</Filter>
@@ -495,11 +477,23 @@
     <ClInclude Include="PlayerLife.h">
       <Filter>ソース ファイル\game\player</Filter>
     </ClInclude>
-    <ClInclude Include="Circle.h">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="collision\BaseCollider.h">
       <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="base\DirectXCommon.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Framework.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\MyGame.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\WinApp.h">
+      <Filter>ソース ファイル\base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,7 +13,6 @@
 #include "FrontEnemy.h"
 #include "Player.h"
 #include "Framework.h"
-#include "Circle.h"
 
 class TitleScene : public BaseScene
 {
@@ -52,9 +51,6 @@ private:
 	std::unique_ptr<DebugCamera> camera;
 	XMFLOAT3 cameraPos;
 	std::unique_ptr<Player> player;
-	std::unique_ptr<Circle> circle;
-	bool circleFlag = false;
-	int32_t circleTime = 120;
 	float angle = 0.0f;
 };
 

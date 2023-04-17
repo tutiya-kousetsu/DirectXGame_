@@ -8,7 +8,6 @@ SamplerState smp : register(s0);        // 0番スロットに設定されたサンプラー
 struct PSOutput
 {
 	float4 target0 : SV_TARGET0;
-	float4 target1 : SV_TARGET1;
 };
 
 float4 Gaussian(float2 drawUv, float2 pickUv, float sigma)
@@ -22,7 +21,6 @@ PSOutput main(VSOutput input)
 	PSOutput output;
 
 	float4 colortex0 = tex0.Sample(smp, input.uv);
-	float4 colortex1 = tex1.Sample(smp, input.uv);
 	float4 color = colortex0;
 	float4 texcolor = tex0.Sample(smp, input.uv);
 	float v = pow(input.svpos.x - 640 , 2) + pow(input.svpos.y - 360 , 2) <= pow(radius , 2) ? 1 : -1;
@@ -52,7 +50,6 @@ PSOutput main(VSOutput input)
 	colortex0.g = Y;
 	colortex0.b = Y;*/
 	output.target0 = colortex0;
-	//output.target1 = texcolor;
 	//col.rgb = col.rgb / totalWeight;
 
 	//output.target0 = col;

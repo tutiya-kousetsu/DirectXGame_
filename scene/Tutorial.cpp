@@ -76,8 +76,8 @@ void Tutorial::Finalize()
 void Tutorial::Update()
 {
 	if (!startFlag) {
-		//startEfRadius = postEffect->GetRadius();
-		startEfRadius += 10;
+		//’†S‚©‚ç–¾‚é‚­‚·‚é
+		startEfRadius += 10.5f;
 		if (startEfRadius >= 1000) {
 			startFlag = true;
 		}
@@ -152,10 +152,9 @@ void Tutorial::Update()
 		//camera->SetTarget({ 0,0,18 });
 		//‰ñ“]‚³‚¹‚é
 		playerRot = player->GetRotation();
-		playerRot.y += 2.0f;
+		playerRot.y += 3.0f;
 		player->SetRotation(playerRot);
 		if (rotateTime <= 0) {
-			//camera->SetFollowingTarget(player.get());
 			cameraTargetPos = camera->GetEye();
 			cameraTargetPos.y++;
 			camera->SetEye(cameraTargetPos);

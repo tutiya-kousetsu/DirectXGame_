@@ -6,6 +6,7 @@
 #include "CollisionInfo.h"
 #include "CollisionPrimitive.h"
 #include "TouchableObject.h"
+#include "Material.h"
 #include <DirectXMath.h>
 #include <memory>
 
@@ -41,5 +42,8 @@ protected:
 	std::unique_ptr<TouchableObject> object;
 	std::unique_ptr<Object3d> obj;
 	bool alive = true;
+	//std::unique_ptr<Material> material;
+	DirectX:: XMFLOAT4 color;
+
 };
 

@@ -216,9 +216,15 @@ void GamePlayScene::Update()
 		obstacle->Update();
 	}
 	
-	//プレイヤーのHPが0になったらポストエフェクト
+	playerPos = player->GetPosition();
 	if (!player->GetAlive()) {
 		player->CreateParticle();
+	}
+	if (playerPos.y <= -10.0f) {
+		player->ScaleChange();
+	}
+	//プレイヤーのHPが0になったらポストエフェクト
+	if (!player->GetAlive() || playerPos.y <= -10.0f) {
 		//中心に向かって暗くする
 		endEfRadius = postEffect->GetRadius();
 		endEfRadius -= 10.5f;
@@ -233,7 +239,7 @@ void GamePlayScene::Update()
 		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
 	}
-	
+	player->SetPosition(playerPos);
 	//カメラの更新
 	camera->Update();
 	//床の更新
@@ -269,24 +275,16 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 #pragma region 背景スプライト描画
 	postEffect->PreDrawScene(dxCommon->GetCmdList());
 
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(dxCommon->GetCmdList());
-	//背景スプライト描画
-
-	/// <summary>
-	/// ここに背景スプライトの描画処理を追加できる
-	/// </summary>
-
-	// スプライト描画後処理
-	Sprite::PostDraw();
-	// 深度バッファクリア
-	dxCommon->ClearDepthBuffer(dxCommon->GetCmdList());
 #pragma endregion
 
 #pragma endregion
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
+	//障害物
+	for (auto& obstacle : obstacles) {
+		obstacle->Draw();
+	}
 	player->Draw();
 	//前敵
 	for (auto& front : frontEnemy) {
@@ -304,10 +302,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto& back : backEnemy) {
 		back->Draw();
 	}
-	//障害物
-	for (auto& obstacle : obstacles) {
-		obstacle->Draw();
-	}
+	
 	for (auto& wall : walls) {
 		wall->Draw();
 	}
@@ -346,8 +341,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	dxCommon->PostDraw();
 
 #pragma region 前景スプライト描画
-
-
 }
 
 void GamePlayScene::LoadEnemyPopData()

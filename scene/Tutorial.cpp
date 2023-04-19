@@ -12,6 +12,7 @@
 #include "CollisionManager.h"
 #include "MeshCollider.h"
 #include "ParticleManager.h"
+#include "easing/Easing.h"
 
 void Tutorial::Initialize(DirectXCommon* dxCommon)
 {
@@ -29,8 +30,8 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 	//カメラの初期化
 	camera.reset(new FollowingCamera());
-	//カメラを3Dオブジェットにセット
-	Object3d::SetCamera(camera.get());
+	//カメラの初期化
+	debugCam.reset(new DebugCamera(WinApp::window_width, WinApp::window_height));
 
 	//床のオブジェクト生成
 	floor.reset(TouchableObject::Create(Model::CreateFromOBJ("FloorBox")));
@@ -55,7 +56,7 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
-	player->SetPosition({ 0, -1.f, 0 });
+	player->SetPosition({ 0, -1.8f, 0 });
 	enemy.reset(new FrontEnemy());
 	enemy->Initialize({ 0, 5, 50 });
 
@@ -71,10 +72,12 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 void Tutorial::Finalize()
 {
+	//delete nowCamera;
 }
 
 void Tutorial::Update()
 {
+
 	if (!startFlag) {
 		//中心から明るくする
 		startEfRadius += 10.5f;
@@ -89,6 +92,11 @@ void Tutorial::Update()
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
 	if (!rotateFlag) {
+		//カメラを3Dオブジェットにセット
+		nowCamera = camera.get();
+		//カメラを3Dオブジェットにセット
+		Object3d::SetCamera(nowCamera);
+
 		camera->SetFollowingTarget(player.get());
 
 		// マウスの入力を取得
@@ -147,21 +155,26 @@ void Tutorial::Update()
 	}
 	if (rotateFlag) {
 		rotateTime--;
-		//カメラをワープゾーンに固定
-		camera->SetFollowingTarget(sceneMoveObj.get());
-		//camera->SetTarget({ 0,0,18 });
+		//追従カメラから普通のカメラに変更
+		nowCamera = debugCam.get();
+		Object3d::SetCamera(nowCamera);
+		nowCamera->SetEye({ player->GetPosition().x, 2.0f, 0 });
+		nowCamera->SetTarget(player->GetPosition());
 		//回転させる
 		playerRot = player->GetRotation();
 		playerRot.y += 3.0f;
 		player->SetRotation(playerRot);
 		if (rotateTime <= 0) {
-			cameraTargetPos = camera->GetEye();
-			cameraTargetPos.y++;
-			camera->SetEye(cameraTargetPos);
 			//タイムが0になったら自機を上にあげる
 			playerPos = player->GetPosition();
-			playerPos.y+= 0.6f;
-			if (playerPos.y >= 10.f) {
+			if (easFrame < 1.0f) {
+				easFrame += 0.01f;
+				player->ScaleChange();
+			}
+
+			playerPos.y = Ease(In, Cubic, easFrame, playerPos.y, 40.0f);
+			playerScale = player->GetScale();
+			if (playerScale.x <= 0.f && playerScale.y <= 0.f &&playerScale.z <= 0.f) {
 				BaseScene* scene = new GamePlayScene();
 				this->sceneManager->SetNextScene(scene);
 			}
@@ -178,6 +191,7 @@ void Tutorial::Update()
 	//各オブジェクトの更新
 	
 	camera->Update();
+	debugCam->Update();
 	floor->Update();
 	skyObj->Update();
 	enemy->TitleUpdate();

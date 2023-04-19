@@ -90,7 +90,7 @@ private:
 	// シェーダリソースビューのハンドル(CPU)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 
-private:
+public:
 	// コンストラクタ
 	Material() {
 		ambient = { 0.3f, 0.3f, 0.3f };

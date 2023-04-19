@@ -64,11 +64,14 @@ private:
 	std::unique_ptr<Framework> frame;
 	std::unique_ptr<FollowingCamera> camera;
 	std::unique_ptr<DebugCamera> debugCam;
+	Camera* nowCamera = nullptr;
+	XMFLOAT3 cameraPos;
+
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 	std::unique_ptr<Material> material;
 	float alpha = 0.0f;
-	XMFLOAT3 cameraPos;
+	//XMFLOAT3 cameraPos;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<FrontEnemy> enemy;
 	std::unique_ptr<Object3d> sceneMoveObj;
@@ -81,6 +84,8 @@ private:
 	int operatePhase = 0;
 	XMFLOAT3 playerRot;
 	XMFLOAT3 playerPos;
+	XMFLOAT3 playerScale;
+	float easFrame = 0.0f;
 	// カメラ関係
 	bool dirty = false;
 	float angleX = 0;

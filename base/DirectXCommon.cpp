@@ -278,7 +278,7 @@ void DirectXCommon::PreDraw()
 	cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
 	// ３．画面クリア           R     G     B    A
-	float clearColor[] = { 0.f,0.f, 0.f,0.0f }; // 青っぽい色
+	float clearColor[] = { 0.0f,0.0f,0.0f,0.0f }; // 青っぽい色
 	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
@@ -286,8 +286,6 @@ void DirectXCommon::PreDraw()
 	cmdList->RSSetViewports(1, &CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width, WinApp::window_height));
 	// シザー矩形の設定
 	cmdList->RSSetScissorRects(1, &CD3DX12_RECT(0, 0, WinApp::window_width, WinApp::window_height));
-
-
 }
 
 void DirectXCommon::PostDraw()

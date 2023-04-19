@@ -36,6 +36,9 @@ bool Player::Initialize()
 		return false;
 	}
 	particleMan = ParticleManager::GetInstance();
+	
+	//material->Initialize();
+
 	Object3d::SetPosition({ 0,0,0 });
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
@@ -65,7 +68,7 @@ void Player::Update()
 		}
 		Object3d::Update();
 	}
-	if (life <= 0 || position.y <= -10) {
+	if (life <= 0) {
 		alive = false;
 	}
 	Object3d::SetPosition(position);
@@ -178,11 +181,11 @@ void Player::jump()
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
 
 		//移動
-		if (position.y >= -10.0f) {
+	//if (position.y >= -10.0f) {
 			position.x += fallV.m128_f32[0];
 			position.y += fallV.m128_f32[1];
 			position.z += fallV.m128_f32[2];
-		}
+		//}
 	}
 	//ジャンプ操作
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
@@ -277,6 +280,17 @@ void Player::jump()
 
 	// 行列の更新など
 	Object3d::Update();
+}
+
+void Player::ScaleChange()
+{
+	scale = Object3d::GetScale();
+	if (scale.x >= 0.f && scale.y >= 0.f && scale.z >= 0.f) {
+		scale.x -= 0.01f;
+		scale.y -= 0.01f;
+		scale.z -= 0.01f;
+		Object3d::SetScale(scale);
+	}
 }
 
 //弾発射

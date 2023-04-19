@@ -134,11 +134,13 @@ private:
 	std::stringstream obstaclePopCom;
 	//プレイヤー
 	std::unique_ptr<Player> player;
+	XMFLOAT3 playerPos;
+	XMFLOAT3 playerScale;
 	int life = 0;
 	std::unique_ptr<PlayerLife> playerLife;
 	//天球
 	std::unique_ptr<Object3d> skyObj;
-
+	std::unique_ptr<Object3d> object;
 	//敵
 	std::list < std::unique_ptr<FrontEnemy>> frontEnemy;
 	std::list < std::unique_ptr<LeftEnemy>> leftEnemy;
@@ -166,7 +168,7 @@ private:
 	std::list<std::unique_ptr<Wall>> walls;
 	std::stringstream wallPopCom;
 	//ポジション
-	XMFLOAT3 playerPos;
+	
 	XMFLOAT3 enePos;
 	XMFLOAT3 bulPos;
 	//スプライト

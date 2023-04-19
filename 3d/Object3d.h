@@ -38,6 +38,7 @@ public: // サブクラス
 	// 定数バッファ用データ構造体
 	struct ConstBufferDataB0
 	{
+		XMFLOAT4 color;//色情報
 		//XMMATRIX mat;	// ３Ｄ変換行列
 		XMMATRIX viewproj;
 		XMMATRIX world;
@@ -232,6 +233,14 @@ public: // メンバ関数
 	void SetCollider(BaseCollider* collider);
 
 	/// <summary>
+	/// 色のセット
+	/// </summary>
+	/// <param name="color"></param>
+	void SetColor(XMFLOAT4 color) { this->color = color; }
+
+	const XMFLOAT4& GetColor() { return color; }
+
+	/// <summary>
 	/// 衝突時コールバック関数
 	/// </summary>
 	/// <param name="info">衝突情報</param>
@@ -256,6 +265,8 @@ protected: // メンバ変数
 	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
 	XMFLOAT3 position = { 0,0,0 };
+	//色情報
+	XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	XMMATRIX matRot;

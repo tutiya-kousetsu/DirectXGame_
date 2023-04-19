@@ -40,6 +40,9 @@ public:
 	//ジャンプ
 	void jump();
 
+	//スケールを小さくする
+	void ScaleChange();
+
 	//描画
 	void Draw() override;
 

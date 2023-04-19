@@ -75,8 +75,8 @@ Object3d* Object3d::Create()
 		return nullptr;
 	}
 	//3Dモデルの大きさを変える
-	float scale_val = 5;
-	object3d->scale = { scale_val , scale_val , scale_val };
+	/*float scale_val = 5;
+	object3d->scale = { scale_val , scale_val , scale_val };*/
 
 	return object3d;
 }
@@ -284,6 +284,7 @@ void Object3d::Update()
 	ConstBufferDataB0* constMap = nullptr;
 	result = this->constBuffB0->Map(0, nullptr, (void**)&constMap);
 	//constMap->mat = matWorld * matViewProjection;	// 行列の合成
+	constMap->color = color;
 	constMap->viewproj = matViewProjection;
 	constMap->world = this->matWorld;
 	constMap->cameraPos = cameraPos;
@@ -354,7 +355,6 @@ void Object3d::UpdateWorldMatrix()
 		matWorld *= parent->matWorld;
 	}
 }
-
 
 void Object3d::SetCollider(BaseCollider* collider)
 {

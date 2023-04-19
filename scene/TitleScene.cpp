@@ -41,9 +41,6 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
-
-	/*circle.reset(new Circle());
-	circle->Initialize();*/
 }
 
 void TitleScene::Finalize()

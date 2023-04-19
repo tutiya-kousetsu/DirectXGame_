@@ -12,5 +12,5 @@ float4 main(VSOutput input) : SV_TARGET
 	//アンビエント項を0.7にする
 	float brightness = diffuse + 0.7f;
 	float4 texcolor = float4(tex.Sample(smp, input.uv));
-	return float4(texcolor.rgb * brightness, texcolor.a);
+	return float4(texcolor.rgb * brightness , texcolor.a) * color.w;
 }

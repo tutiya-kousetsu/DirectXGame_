@@ -72,7 +72,6 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 void Tutorial::Finalize()
 {
-	//delete nowCamera;
 }
 
 void Tutorial::Update()
@@ -83,10 +82,12 @@ void Tutorial::Update()
 		startEfRadius += 10.5f;
 		if (startEfRadius >= 1000) {
 			startFlag = true;
+			startEfRadius -= 10.5f;
 		}
-		postEffect->SetRadius(startEfRadius);
+		
 	}
 	Input* input = Input::GetInstance();
+
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
 	ShowCursor(FALSE);
 	// 座標の変更を反映
@@ -174,6 +175,7 @@ void Tutorial::Update()
 
 			playerPos.y = Ease(In, Cubic, easFrame, playerPos.y, 40.0f);
 			playerScale = player->GetScale();
+			//プレイヤーのスケールが0になったらシーン移動
 			if (playerScale.x <= 0.f && playerScale.y <= 0.f &&playerScale.z <= 0.f) {
 				BaseScene* scene = new GamePlayScene();
 				this->sceneManager->SetNextScene(scene);
@@ -183,13 +185,14 @@ void Tutorial::Update()
 		player->StopUpdate();
 	}
 
-	//プレイヤーのHPが0になったら画面切り替え
+
+	//プレイヤーがステージから落ちたらステージの真ん中に戻す
 	if (player->GetPosition().y <= -5) {
 		player->SetPosition({ 0,10,0 });
 	}
 
 	//各オブジェクトの更新
-	
+	postEffect->SetRadius(startEfRadius);
 	camera->Update();
 	debugCam->Update();
 	floor->Update();
@@ -232,14 +235,16 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 
 	floor->Draw();
 	skyObj->Draw();
-	player->Draw();
+	player->TutorialDraw(rotateFlag);
 	enemy->Draw();
 
 	if (zonePop) {
 		sceneMoveObj->Draw();
 		arrowObj->Draw();
 	}
-	particleMan->Draw();
+	if (!rotateFlag) {
+		particleMan->Draw();
+	}
 	Object3d::PostDraw();
 
 	postEffect->PostDrawScene(dxCommon->GetCmdList());
@@ -264,7 +269,9 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 	if (player->GetPhase() == 2) {
 		shotUI->Draw();
 	}
-	alignment->Draw();
+	if (!rotateFlag) {
+		alignment->Draw();
+	}
 	
 	// スプライト描画後処理
 	Sprite::PostDraw();

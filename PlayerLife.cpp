@@ -28,12 +28,12 @@ void PlayerLife::Update(int playerLife)
 
 void PlayerLife::Draw()
 {
-	if (life >= 7) { lifeSprite[7]->Draw(); }
-	if (life >= 6) { lifeSprite[6]->Draw(); }
-	if (life >= 5) { lifeSprite[5]->Draw(); }
-	if (life >= 4) { lifeSprite[4]->Draw(); }
-	if (life >= 3) { lifeSprite[3]->Draw(); }
-	if (life >= 2) { lifeSprite[2]->Draw(); }
-	if (life >= 1) { lifeSprite[1]->Draw(); }
-	if (life >= 0) { lifeSprite[0]->Draw(); }
+	if (life >= 8) { lifeSprite[7]->Draw(); }
+	if (life >= 7) { lifeSprite[6]->Draw(); }
+	if (life >= 6) { lifeSprite[5]->Draw(); }
+	if (life >= 5) { lifeSprite[4]->Draw(); }
+	if (life >= 4) { lifeSprite[3]->Draw(); }
+	if (life >= 3) { lifeSprite[2]->Draw(); }
+	if (life >= 2) { lifeSprite[1]->Draw(); }
+	if (life >= 1) { lifeSprite[0]->Draw(); }
 }

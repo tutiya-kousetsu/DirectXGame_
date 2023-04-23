@@ -1,4 +1,5 @@
 #include "EnemyBullet.h"
+#include "SphereCollider.h"
 #include <cassert>
 #include "Input.h"
 
@@ -44,7 +45,7 @@ void EnemyBullet::Draw()
 	}
 }
 
-void EnemyBullet::OnCollision()
+void EnemyBullet::OnCollision(const CollisionInfo& info)
 {
 	alive = false;
 }

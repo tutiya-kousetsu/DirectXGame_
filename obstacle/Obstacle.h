@@ -3,10 +3,7 @@
 #include "Fbx_Object3d.h"
 #include "DirectXCommon.h"
 #include "Object3d.h"
-#include "CollisionInfo.h"
-#include "CollisionPrimitive.h"
 #include "TouchableObject.h"
-#include "Material.h"
 #include <DirectXMath.h>
 #include <memory>
 
@@ -40,7 +37,7 @@ public:
 protected:
 	DirectX::XMFLOAT3 position;
 	std::unique_ptr<TouchableObject> object;
-	std::unique_ptr<Object3d> obj;
+	//std::unique_ptr<Object3d> obj;
 	bool alive = true;
 	//std::unique_ptr<Material> material;
 	DirectX:: XMFLOAT4 color;

@@ -24,13 +24,13 @@
 #include "TouchableObject.h"
 #include "Phase.h"
 #include "PlayerLife.h"
+#include "CollisionManager.h"
 #include <memory>
 #include <list>
 #include <sstream>
 
 //前方宣言
 class ParticleManager;
-class CollisionManager;
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -135,6 +135,7 @@ private:
 	//プレイヤー
 	std::unique_ptr<Player> player;
 	XMFLOAT3 playerPos;
+	XMFLOAT3 playerRot;
 	XMFLOAT3 playerScale;
 	int life = 0;
 	std::unique_ptr<PlayerLife> playerLife;
@@ -204,4 +205,5 @@ private:
 	bool viewDirty = false;
 	float distance = 1.0f;
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
+
 };

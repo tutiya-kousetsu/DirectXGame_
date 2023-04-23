@@ -1,6 +1,7 @@
 #pragma once
 #include "Object3d.h"
 #include "PlayerBullet.h"
+#include "EnemyBullet.h"
 #include "GameObject.h"
 #include <memory>
 #include <list>
@@ -31,8 +32,6 @@ public:
 	//動かしたくない時用更新
 	void StopUpdate();
 
-	//チュートリアル用更新
-	void TutorialUpdate();
 
 	//移動
 	void move(float speed = 0.3f);
@@ -46,6 +45,11 @@ public:
 	//描画
 	void Draw() override;
 
+	//チュートリアル用更新
+	void TutorialUpdate();
+
+	//チュートリアル用描画
+	void TutorialDraw(bool flag);
 	//攻撃
 	bool Shoot();
 
@@ -76,6 +80,7 @@ public:
 	bool shotFlag = false;
 private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
+	std::unique_ptr<EnemyBullet> eb;
 	bool bulFlag = true;
 	// マウス
 	POINT mousePos{};
@@ -90,7 +95,7 @@ private:
 	bool canShot = false;
 	// ジャンプ
 	bool alive = true;
-	int life = 7;
+	int life = 8;
 	bool jumpFlag = false;
 	bool secondFlag = false;
 	int jumpCount = 2;

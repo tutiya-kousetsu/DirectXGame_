@@ -8,7 +8,6 @@
 #include "Collision.h"
 #include "ParticleManager.h"
 #include "SphereCollider.h"
-#include "CollisionManager.h"
 #include "MeshCollider.h"
 #include "TouchableObject.h"
 #include "easing/Easing.h"
@@ -54,6 +53,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
 	player->SetPosition({ 0, 30.f, 0 });
+	//player->SetCollider(new SphereCollider());
 	playerLife.reset(new PlayerLife());
 	playerLife->Initialize();
 	//床のオブジェクト生成
@@ -76,9 +76,19 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 void GamePlayScene::Finalize()
 {
 	//解放
+	camera.get_deleter();
+	skyObj.get_deleter();
+	door.get_deleter();
+	postEffect.get_deleter();
+	phase.get_deleter();
+	player.get_deleter();
+	playerLife.get_deleter();
 	//壁があったら削除する
 	walls.remove_if([](std::unique_ptr<Wall>& wall) {
 		return wall->GetAlive();
+		});
+	obstacles.remove_if([](std::unique_ptr<Obstacle>& obstacle) {
+		return obstacle->GetAlive();
 		});
 }
 
@@ -215,10 +225,10 @@ void GamePlayScene::Update()
 	for (auto& obstacle : obstacles) {
 		obstacle->Update();
 	}
-	
+
 	playerPos = player->GetPosition();
 	if (!player->GetAlive()) {
-		player->CreateParticle();
+		player->ScaleChange();
 	}
 	if (playerPos.y <= -10.0f) {
 		player->ScaleChange();
@@ -260,8 +270,8 @@ void GamePlayScene::Update()
 	}
 
 	//当たり判定
-	collisionMan->CheckAllCollisions();
 	CheckAllCollision();
+	collisionMan->CheckAllCollisions();
 
 	particleMan->Update();
 
@@ -282,10 +292,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
 	//障害物
+	player->Draw();
 	for (auto& obstacle : obstacles) {
 		obstacle->Draw();
 	}
-	player->Draw();
 	//前敵
 	for (auto& front : frontEnemy) {
 		front->Draw();
@@ -302,7 +312,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto& back : backEnemy) {
 		back->Draw();
 	}
-	
+
 	for (auto& wall : walls) {
 		wall->Draw();
 	}
@@ -635,68 +645,69 @@ void GamePlayScene::UpdataWallPopCommand()
 //前敵の弾の当たり判定
 void GamePlayScene::FrontColl()
 {
-	for (auto& front : frontEnemy) {
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = front->GetBullet();
-#pragma region 敵弾と自機の当たり判定
-		for (auto& eb : enemyBullets) {
-			Sphere eBullet;
-
-			if (eb->GetAlive()) {
-				eBullet.center = XMLoadFloat3(&eb->GetPosition());
-				eBullet.radius = eb->GetScale().x;
-				Sphere playerShape;
-				playerShape.center = XMLoadFloat3(&player->GetPosition());
-				playerShape.radius = player->GetScale().x;
-
-				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-					
-					eb->OnCollision();
-					player->OnCollision();
-					if (!damageFlag) {
-						damageFlag = true;
-					}
-				}
-				if (damageFlag) {
-					damageTime--;
-					damage->DamageColor();
-					if (damageTime <= 0) {
-						damageFlag = false;
-						damageTime = 20;
-					}
-				}
-				
-			}
-
-#pragma endregion
-
-#pragma region 敵弾と障害物の当たり判定
-			if (eb->GetAlive()) {
-				eBullet.center = XMLoadFloat3(&eb->GetPosition());
-				eBullet.radius = eb->GetScale().x;
-				if (front->GetAlive()) {
-					Sphere obstacleShape;
-					for (auto& ob : obstacles) {
-						obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-						obstacleShape.radius = ob->GetScale().x;
-
-						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-							eb->OnCollision();
-						}
-					}
-				}
-			}
-			//壁と自機弾の当たり判定
-			Sphere wallShape;
-			for (auto& wall : walls) {
-				wallShape.center = XMLoadFloat3(&wall->GetPosition());
-				wallShape.radius = wall->GetScale().x;
-
-				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
-					eb->OnCollision();
-				}
-			}
-		}
-	}
+//	for (auto& front : frontEnemy) {
+//		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = front->GetBullet();
+//#pragma region 敵弾と自機の当たり判定
+//		for (auto& eb : enemyBullets) {
+//			//eb->SetCollider()
+//			Sphere eBullet;
+//
+//			if (eb->GetAlive()) {
+//				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//				eBullet.radius = eb->GetScale().x;
+//				Sphere playerShape;
+//				playerShape.center = XMLoadFloat3(&player->GetPosition());
+//				playerShape.radius = player->GetScale().x;
+//
+//				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
+//
+//					//eb->OnCollision();
+//					//player->OnCollision();
+//					//if (!damageFlag) {
+//					damageFlag = true;
+//					//}
+//				}
+//				if (damageFlag) {
+//					damage->DamageColor();
+//					damageTime--;
+//					if (damageTime <= 0) {
+//						damageFlag = false;
+//						damageTime = 20;
+//					}
+//				}
+//
+//			}
+//
+//#pragma endregion
+//
+//#pragma region 敵弾と障害物の当たり判定
+//			if (eb->GetAlive()) {
+//				eBullet.center = XMLoadFloat3(&eb->GetPosition());
+//				eBullet.radius = eb->GetScale().x;
+//				if (front->GetAlive()) {
+//					Sphere obstacleShape;
+//					for (auto& ob : obstacles) {
+//						obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+//						obstacleShape.radius = ob->GetScale().x;
+//
+//						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
+//							//eb->OnCollision();
+//						}
+//					}
+//				}
+//			}
+//			//壁と自機弾の当たり判定
+//			Sphere wallShape;
+//			for (auto& wall : walls) {
+//				wallShape.center = XMLoadFloat3(&wall->GetPosition());
+//				wallShape.radius = wall->GetScale().x;
+//
+//				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
+//					//eb->OnCollision();
+//				}
+//			}
+//		}
+//	}
 #pragma endregion
 }
 
@@ -717,15 +728,19 @@ void GamePlayScene::LeftColl()
 				playerShape.radius = player->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-					eb->OnCollision();
-					player->OnCollision();
-					damageFlag = true;
+
+					//eb->OnCollision();
+					//player->OnCollision();
+					if (!damageFlag) {
+						damageFlag = true;
+					}
 				}
 				if (damageFlag) {
+					damage->DamageColor();
 					damageTime--;
 					if (damageTime <= 0) {
 						damageFlag = false;
-						damageTime = 60;
+						damageTime = 20;
 					}
 				}
 			}
@@ -743,7 +758,7 @@ void GamePlayScene::LeftColl()
 						obstacleShape.radius = ob->GetScale().x;
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-							eb->OnCollision();
+							//eb->OnCollision();
 						}
 					}
 				}
@@ -755,7 +770,7 @@ void GamePlayScene::LeftColl()
 				wallShape.radius = wall->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
-					eb->OnCollision();
+					//eb->OnCollision();
 
 				}
 			}
@@ -782,15 +797,19 @@ void GamePlayScene::RightColl()
 				playerShape.radius = player->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-					eb->OnCollision();
-					player->OnCollision();
+
+					//eb->OnCollision();
+					//player->OnCollision();
+					//if (!damageFlag) {
 					damageFlag = true;
+					//}
 				}
 				if (damageFlag) {
+					damage->DamageColor();
 					damageTime--;
 					if (damageTime <= 0) {
 						damageFlag = false;
-						damageTime = 60;
+						damageTime = 20;
 					}
 				}
 			}
@@ -809,7 +828,7 @@ void GamePlayScene::RightColl()
 						obstacleShape.radius = ob->GetScale().x;
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-							eb->OnCollision();
+							//eb->OnCollision();
 						}
 					}
 				}
@@ -822,7 +841,7 @@ void GamePlayScene::RightColl()
 				wallShape.radius = wall->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
-					eb->OnCollision();
+					//eb->OnCollision();
 				}
 			}
 		}
@@ -848,15 +867,19 @@ void GamePlayScene::BackColl()
 				playerShape.radius = player->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-					eb->OnCollision();
-					player->OnCollision();
+
+					//eb->OnCollision();
+					//player->OnCollision();
+					//if (!damageFlag) {
 					damageFlag = true;
+					//}
 				}
 				if (damageFlag) {
+					damage->DamageColor();
 					damageTime--;
 					if (damageTime <= 0) {
 						damageFlag = false;
-						damageTime = 60;
+						damageTime = 20;
 					}
 				}
 			}
@@ -876,7 +899,7 @@ void GamePlayScene::BackColl()
 						obstacleShape.radius = ob->GetScale().x;
 
 						if (Collision::CheckSphere2Sphere(eBullet, obstacleShape)) {
-							eb->OnCollision();
+							//eb->OnCollision();
 						}
 					}
 				}
@@ -889,7 +912,7 @@ void GamePlayScene::BackColl()
 				wallShape.radius = wall->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, wallShape)) {
-					eb->OnCollision();
+					//eb->OnCollision();
 				}
 			}
 		}
@@ -900,7 +923,7 @@ void GamePlayScene::BackColl()
 
 void GamePlayScene::CheckAllCollision()
 {
-	FrontColl();
+	//FrontColl();
 	LeftColl();
 	RightColl();
 	BackColl();
@@ -1004,7 +1027,7 @@ void GamePlayScene::CheckAllCollision()
 		}
 #pragma endregion
 	}
-	
+
 	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
 		//シーン切り替え
 		BaseScene* scene = new GameClear();

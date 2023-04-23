@@ -36,12 +36,13 @@ bool Player::Initialize()
 		return false;
 	}
 	particleMan = ParticleManager::GetInstance();
-	
+
 	//material->Initialize();
 
 	Object3d::SetPosition({ 0,0,0 });
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
+	//eb.reset(new EnemyBullet());
 	//コライダーの追加
 	float radius = 1.9f;
 	//半径だけ足元から浮いた座標を球の中心にする
@@ -181,11 +182,9 @@ void Player::jump()
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
 
 		//移動
-	//if (position.y >= -10.0f) {
-			position.x += fallV.m128_f32[0];
-			position.y += fallV.m128_f32[1];
-			position.z += fallV.m128_f32[2];
-		//}
+		position.x += fallV.m128_f32[0];
+		position.y += fallV.m128_f32[1];
+		position.z += fallV.m128_f32[2];
 	}
 	//ジャンプ操作
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
@@ -247,6 +246,10 @@ void Player::jump()
 	UpdateWorldMatrix();
 	collider->Update();
 
+	// 球と地形の交差を全検索
+	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_ENEMYS);
+
+
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
 	ray.start = sphereCollider->center;
@@ -293,6 +296,17 @@ void Player::ScaleChange()
 	}
 }
 
+void Player::TutorialDraw(bool flag)
+{
+	Object3d::Draw();
+	if (!flag) {
+		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
+			bul->Draw();
+		}
+	}
+
+}
+
 //弾発射
 bool Player::Shoot()
 {
@@ -304,7 +318,7 @@ bool Player::Shoot()
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化
-	newBullet->Initialize({position.x - 0.45f, position.y + 0.5f, position.z}, velocity);
+	newBullet->Initialize({ position.x - 0.45f, position.y + 0.5f, position.z }, velocity);
 
 	bullets.push_back(std::move(newBullet));
 	return true;
@@ -341,9 +355,7 @@ void Player::CreateParticle()
 
 void Player::Draw()
 {
-	if (alive) {
-		Object3d::Draw();
-	}
+	Object3d::Draw();
 	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 		bul->Draw();
 	}

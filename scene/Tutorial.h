@@ -59,6 +59,8 @@ private:
 	bool startFlag = false;
 	float startEfRadius = 0;
 
+	bool backFlag = false;
+	float backEfRadius = 1000.f;
 	//“V‹…
 	std::unique_ptr <Object3d> skyObj;
 	std::unique_ptr<Framework> frame;

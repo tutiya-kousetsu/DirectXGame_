@@ -1,5 +1,4 @@
 #include "Obstacle.h"
-#include "SphereCollider.h"
 #include "BaseCollider.h"
 #include "CollisionManager.h"
 
@@ -14,9 +13,6 @@ Obstacle::~Obstacle()
 
 void Obstacle::Initialize(DirectX::XMFLOAT3 pos)
 {
-	//material.reset(new Material());
-	//material->Initialize();
-
 	object.reset(new TouchableObject());
 	object->Initialize(Model::CreateFromOBJ("stone"));
 	object->SetScale({ 3.4f, 3.21f, 3.4f });
@@ -25,9 +21,9 @@ void Obstacle::Initialize(DirectX::XMFLOAT3 pos)
 
 void Obstacle::Update()
 {
-	//color = object->GetColor();
-	//color.w = 0.1f;
-	//object->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+	color = object->GetColor();
+	color.w = 0.1f;
+	object->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
 	object->Update();
 }
 

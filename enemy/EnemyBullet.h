@@ -23,7 +23,7 @@ public:
 	void Draw();
 
 	//Õ“Ë‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
-	void OnCollision();
+	void OnCollision(const CollisionInfo& info);
 public:
 
 	//’e‚ªÁ‚¦‚éŠÔ

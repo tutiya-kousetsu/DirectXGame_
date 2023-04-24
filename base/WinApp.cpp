@@ -2,6 +2,8 @@
 #include<windows.h>
 #include <d3d12sdklayers.h>
 
+#pragma comment(lib, "winmm.lib")
+
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg) {
@@ -57,6 +59,9 @@ void WinApp::Initialize()
 
 	// ウィンドウ表示
 	ShowWindow(hwnd, SW_SHOW);
+
+	//システムタイマーの分解能をあげる
+	timeBeginPeriod(1);
 }
 
 void WinApp::Update()

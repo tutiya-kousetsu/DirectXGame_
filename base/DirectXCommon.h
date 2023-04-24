@@ -3,7 +3,7 @@
 #include <dxgi1_6.h>
 #include <d3dx12.h>
 #include <wrl.h>
-
+#include <chrono>
 #include"WinApp.h"
 
 
@@ -38,6 +38,12 @@ private:
 
 	void InitializeFence();
 
+	//FPS固定初期化
+	void InitializeFixFPS();
+
+	//FPS固定更新
+	void UpdateFixFPS();
+
 public:
 	void ClearDepthBuffer(ID3D12GraphicsCommandList* cmdList);
 
@@ -59,5 +65,8 @@ public:
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
+private:
+	//記録時間(FPS固定用)
+	std::chrono::steady_clock::time_point reference_;
 };
 

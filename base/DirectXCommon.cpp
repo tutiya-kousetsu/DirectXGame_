@@ -1,5 +1,5 @@
 #include "DirectXCommon.h"
-
+#include <thread>
 #include<cassert>
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -21,6 +21,8 @@ void DirectXCommon::Initialize(WinApp* winApp)
 
 	//借りてきたWinAppのインスタンスを記録
 	this->winApp = winApp;
+	//FPS固定初期化
+	InitializeFixFPS();
 
 	InitializeDevice();
 //#ifdef _DEBUG
@@ -253,6 +255,36 @@ void DirectXCommon::InitializeFence()
 
 }
 
+void DirectXCommon::InitializeFixFPS()
+{
+	//現在時間を記録する
+	reference_ = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::UpdateFixFPS()
+{
+	//1/60秒ピッタリの時間
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
+	//1/60秒よりわずかに短い時間
+	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
+
+	//現在の時間を取得する
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	//前回記録からの経過時間を取得する
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
+
+	//1/60秒(よりわずかに短い時間)経っていない場合
+	if (elapsed < kMinCheckTime) {
+		//1/60秒経過するまで微小なスリープを繰り返す
+		while (std::chrono::steady_clock::now() - reference_ < kMinTime) {
+			//1マイクロ秒スリープ
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		}
+	}
+	reference_ = std::chrono::steady_clock::now();
+}
+
+
 void DirectXCommon::ClearDepthBuffer(ID3D12GraphicsCommandList* cmdList)
 {
 	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
@@ -310,6 +342,8 @@ void DirectXCommon::PostDraw()
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
+
+	UpdateFixFPS();
 
 	cmdAllocator->Reset(); // キューをクリア
 	cmdList->Reset(cmdAllocator.Get(), nullptr);  // 再びコマンドリストを貯める準備

@@ -15,7 +15,7 @@ const float PostEffect::clearColor[4] = { 0.25,0.5f,0.1f,0.0f };
 PostEffect::PostEffect()
 	: Sprite(
 		100,//テクスチャ番号
-		{ 0,0,0 },//座標
+		{ 0,0 },//座標
 		{ 500.0f, 500.0f },//サイズ
 		{ 1, 1, 1, 1 },//色
 		{ 0.0f, 0.0f },//アンカーポイント

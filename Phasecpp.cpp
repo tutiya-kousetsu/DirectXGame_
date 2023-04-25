@@ -4,17 +4,17 @@
 void Phase::Initialize()
 {
 	Sprite::LoadTexture(10, L"Resources/phase/phase1.png");
-	phase[0].reset(Sprite::Create(10, { 1280, 0 , 0}));
+	phase[0].reset(Sprite::Create(10, { 1280, 0 }));
 	Sprite::LoadTexture(11, L"Resources/phase/phase2.png");
-	phase[1].reset(Sprite::Create(11, { 1280, 0 , 0 }));
+	phase[1].reset(Sprite::Create(11, { 1280, 0 }));
 	Sprite::LoadTexture(12, L"Resources/phase/phase3.png");
-	phase[2].reset(Sprite::Create(12, { 1280, 0 , 0 }));
+	phase[2].reset(Sprite::Create(12, { 1280, 0 }));
 	Sprite::LoadTexture(13, L"Resources/phase/phase4.png");
-	phase[3].reset(Sprite::Create(13, { 1280, 0 , 0 }));
+	phase[3].reset(Sprite::Create(13, { 1280, 0 }));
 	Sprite::LoadTexture(14, L"Resources/phase/phase5.png");
-	phase[4].reset(Sprite::Create(14, { 1280, 0 , 0 }));
+	phase[4].reset(Sprite::Create(14, { 1280, 0 }));
 	Sprite::LoadTexture(15, L"Resources/phase/phase6.png");
-	phase[5].reset(Sprite::Create(15, { 1280, 0 , 0 }));
+	phase[5].reset(Sprite::Create(15, { 1280, 0 }));
 }
 
 void Phase::MovePhase(int i)

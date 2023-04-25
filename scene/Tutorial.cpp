@@ -17,16 +17,16 @@
 void Tutorial::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/WASD_UI.png");
-	wasdUI.reset(Sprite::Create(1, { 530,380,0 }));
+	wasdUI.reset(Sprite::Create(1, { 530,380 }));
 
 	Sprite::LoadTexture(2, L"Resources/space_UI.png");
-	spaceUI.reset(Sprite::Create(2, { 510,380,0 }));
+	spaceUI.reset(Sprite::Create(2, { 510,380 }));
 
 	Sprite::LoadTexture(4, L"Resources/shot_UI.png");
-	shotUI.reset(Sprite::Create(4, { 560,380,0 }));
+	shotUI.reset(Sprite::Create(4, { 560,380 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 600,200,0 }));
+	alignment.reset(Sprite::Create(16, { 600,200 }));
 
 	//ƒJƒƒ‰‚Ì‰Šú‰»
 	camera.reset(new FollowingCamera());

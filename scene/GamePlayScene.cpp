@@ -17,15 +17,15 @@
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
-	sprite.reset(Sprite::Create(1, { 0,0,0 }));
+	sprite.reset(Sprite::Create(1, { 0,0 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 600,210,0 }));
-	Sprite::LoadTexture(16, L"Resources/onAlignment.png");
-	onAlignment.reset(Sprite::Create(16, { 600,210,0 }));
+	alignment.reset(Sprite::Create(16, { 600,210 }));
+	Sprite::LoadTexture(18, L"Resources/onAlignment.png");
+	onAlignment.reset(Sprite::Create(18, { 600,210 }));
 
 	Sprite::LoadTexture(17, L"Resources/damage.png");
-	damage.reset(Sprite::Create(17, { 0,0,0 }));
+	damage.reset(Sprite::Create(17, { 0,0 }));
 
 	//phase
 	phase.reset(new Phase());

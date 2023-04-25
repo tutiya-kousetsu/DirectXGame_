@@ -295,7 +295,7 @@ void Sprite::PostDraw()
 	Sprite::cmdList = nullptr;
 }
 
-Sprite* Sprite::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+Sprite* Sprite::Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
 {
 	// ‰¼ƒTƒCƒY
 	XMFLOAT2 size = { 100.0f, 100.0f };
@@ -324,7 +324,7 @@ Sprite* Sprite::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT4 color, XMFLOA
 	return sprite;
 }
 
-Sprite::Sprite(UINT texNumber, XMFLOAT3 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+Sprite::Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
 {
 	this->position = position;
 	this->size = size;
@@ -411,7 +411,7 @@ void Sprite::SetRotation(float rotation)
 	TransferVertices();
 }
 
-void Sprite::SetPosition(XMFLOAT3 position)
+void Sprite::SetPosition(XMFLOAT2 position)
 {
 	this->position = position;
 

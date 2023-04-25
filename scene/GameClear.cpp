@@ -7,8 +7,8 @@ void GameClear::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/GameClear.png");
 	//スプライトの生成
-	sprite = Sprite::Create(1, { 0,0,0 });
-	sprite->SetPosition({ 0,0,0 });
+	sprite = Sprite::Create(1, { 0,0 });
+	sprite->SetPosition({ 0,0 });
 
 }
 

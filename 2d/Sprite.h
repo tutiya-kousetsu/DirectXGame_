@@ -79,7 +79,7 @@ public: // 静的メンバ関数
 	/// <param name="isFlipX">左右反転</param>
 	/// <param name="isFlipY">上下反転</param>
 	/// <returns>生成されたスプライト</returns>
-	static Sprite* Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f }, bool isFlipX = false, bool isFlipY = false);
+	static Sprite* Create(UINT texNumber, XMFLOAT3 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f }, bool isFlipX = false, bool isFlipY = false);
 
 protected: // 静的メンバ変数
 	// テクスチャの最大枚数
@@ -108,7 +108,7 @@ public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+	Sprite(UINT texNumber, XMFLOAT3 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
 
 	/// <summary>
 	/// 初期化
@@ -128,13 +128,13 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT2& GetPosition() { return position; }
+	const XMFLOAT3& GetPosition() { return position; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(XMFLOAT2 position);
+	void SetPosition(XMFLOAT3 position);
 
 	const XMFLOAT4& GetColor() { return color; }
 
@@ -193,7 +193,7 @@ protected: // メンバ変数
 	// Z軸回りの回転角
 	float rotation = 0.0f;
 	// 座標
-	XMFLOAT2 position{};
+	XMFLOAT3 position{};
 	// スプライト幅、高さ
 	XMFLOAT2 size = { 100.0f, 100.0f };
 	// アンカーポイント

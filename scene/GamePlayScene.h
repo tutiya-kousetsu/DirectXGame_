@@ -103,6 +103,7 @@ private:
 	std::unique_ptr<Sprite> LifeSprite7;
 	std::unique_ptr<Sprite> LifeSprite8;
 	std::unique_ptr<Sprite> alignment;
+	std::unique_ptr<Sprite> onAlignment;
 	std::unique_ptr<Sprite> damage;
 	
 	bool damageFlag = false;

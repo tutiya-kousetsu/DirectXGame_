@@ -17,7 +17,7 @@ public:
 public:
 
 private:
-	DirectX::XMFLOAT2 pos[6]{};
+	DirectX::XMFLOAT3 pos[6]{};
 	//Phase
 	std::unique_ptr<Sprite> phase[6]{};
 

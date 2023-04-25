@@ -7,8 +7,8 @@ void GameOver::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/GameOver.png");
 	//スプライトの生成
-	sprite.reset(Sprite::Create(1, { 0.0f,0.0f }));
-	sprite->SetPosition({ 0,0 });
+	sprite.reset(Sprite::Create(1, { 0,0,0 }));
+	sprite->SetPosition({ 0,0,0 });
 
 }
 

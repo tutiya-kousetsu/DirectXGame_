@@ -17,12 +17,15 @@
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
-	sprite.reset(Sprite::Create(1, { 0,0 }));
+	sprite.reset(Sprite::Create(1, { 0,0,0 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 600,210 }));
+	alignment.reset(Sprite::Create(16, { 600,210,0 }));
+	Sprite::LoadTexture(16, L"Resources/onAlignment.png");
+	onAlignment.reset(Sprite::Create(16, { 600,210,0 }));
+
 	Sprite::LoadTexture(17, L"Resources/damage.png");
-	damage.reset(Sprite::Create(17, { 0,0 }));
+	damage.reset(Sprite::Create(17, { 0,0,0 }));
 
 	//phase
 	phase.reset(new Phase());
@@ -76,13 +79,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 void GamePlayScene::Finalize()
 {
 	//解放
-	camera.get_deleter();
-	skyObj.get_deleter();
-	door.get_deleter();
-	postEffect.get_deleter();
-	phase.get_deleter();
-	player.get_deleter();
-	playerLife.get_deleter();
+	camera.reset();
+	skyObj.reset();
+	door.reset();
+	postEffect.reset();
+	phase.reset();
+	player.reset();
+	playerLife.reset();
 	//壁があったら削除する
 	walls.remove_if([](std::unique_ptr<Wall>& wall) {
 		return wall->GetAlive();
@@ -99,7 +102,7 @@ void GamePlayScene::Update()
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
 	ShowCursor(FALSE);
 	// 座標の変更を反映
-	SetCursorPos(960, 540);
+	SetCursorPos(600, 210);
 
 	camera->SetFollowingTarget(player.get());
 
@@ -154,6 +157,18 @@ void GamePlayScene::Update()
 		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
 		playerRot.y *= 180 / XM_PI;
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
+	}
+	//マウスカーソルのスクリーン座標をワールド座標にする
+	{
+		//POINT mousePosition;
+		////マウス座標(スクリーン座標)を取得
+		//GetCursorPos(&mousePosition);
+
+		////クライアント座標に変換
+		//HWND hwnd = WinApp::GetInstance()->GetHwnd();
+		//ScreenToClient(hwnd, &mousePosition);
+
+		//alignment->SetPosition(mousePosition);
 	}
 
 	//前敵が死んだら削除する

@@ -23,14 +23,14 @@ void DebugText::Initialize(UINT texnumber)
 	for (int i = 0; i < _countof(spriteDatas); i++)
 	{
 		// スプライトを生成する
-		spriteDatas[i] = Sprite::Create(texnumber, { 0,0 });
+		spriteDatas[i] = Sprite::Create(texnumber, { 0,0,0 });
 	}
 }
 
 // 1文字列追加
-void DebugText::Print(const std::string& text, float x, float y, float scale = 1.0f)
+void DebugText::Print(const std::string& text, float x, float y, float z, float scale = 1.0f)
 {
-	SetPos(x, y);
+	SetPos(x, y, z);
 	SetSize(scale);
 
 	NPrint((int)text.size(), text.c_str());
@@ -58,7 +58,7 @@ void DebugText::NPrint(int len, const char* text)
 		int fontIndexX = fontIndex % fontLineCount;
 
 		// 座標計算
-		spriteDatas[spriteIndex]->SetPosition({ this->posX + fontWidth * this->size * i, this->posY });
+		spriteDatas[spriteIndex]->SetPosition({ this->posX + fontWidth * this->size * i, this->posY, this->posZ });
 		spriteDatas[spriteIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
 		spriteDatas[spriteIndex]->SetSize({ fontWidth * this->size, fontHeight * this->size });
 

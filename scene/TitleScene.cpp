@@ -18,12 +18,12 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/Title.png");
 	//スプライトの生成
-	titleSp.reset(Sprite::Create(1, { 0.0f,0.0f }));
+	titleSp.reset(Sprite::Create(1, { 0,0,0 }));
 
 	//テクスチャ読み込み
 	Sprite::LoadTexture(2, L"Resources/space.png");
 	//スプライトの生成
-	spaceSp.reset(Sprite::Create(2, { 0.0f,0.0f }));
+	spaceSp.reset(Sprite::Create(2, { 0,0,0 }));
 
 	//カメラの初期化
 	camera.reset(new DebugCamera(WinApp::window_width, WinApp::window_height));

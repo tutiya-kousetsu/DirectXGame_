@@ -24,14 +24,15 @@ public:// ƒƒ“ƒoŠÖ”
 
 	void Initialize(UINT texnumber);
 
-	inline void SetPos(float x, float y) {
+	inline void SetPos(float x, float y, float z) {
 		posX = x;
 		posY = y;
+		posZ = z;
 	}
 
 	inline void SetSize(float size) { this->size = size; }
 
-	void Print(const std::string& text, float x, float y, float size);
+	void Print(const std::string& text, float x, float y, float z, float size);
 	void NPrint(int len, const char* text);
 	void Printf(const char* fmt, ...);
 
@@ -51,6 +52,7 @@ private:
 
 	float posX = 0.0f;
 	float posY = 0.0f;
+	float posZ = 0.0f;
 	float size = 1.0f;
 
 	char buffer[bufferSize];

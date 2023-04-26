@@ -105,8 +105,13 @@ private:
 	std::unique_ptr<Sprite> alignment;
 	std::unique_ptr<Sprite> onAlignment;
 	std::unique_ptr<Sprite> damage;
+	XMFLOAT4 color;
 	
-	bool damageFlag = false;
+	bool damageFlag1 = false;
+	bool damageFlag2 = false;
+	bool damageFlag3 = false;
+	bool damageFlag4 = false;
+
 	int32_t damageTime = 20;
 	int phaseCount = 0;
 	XMFLOAT2 phasePos;

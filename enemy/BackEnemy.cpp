@@ -148,7 +148,6 @@ void BackEnemy::OnCollision()
 XMVECTOR BackEnemy::GetWorldPosition()
 {
 	XMVECTOR worldPos;
-	//worldPos‚Éplayer‚Ìposition‚ð‚¢‚ê‚é
 	worldPos.m128_f32[0] = position.x;
 	worldPos.m128_f32[1] = position.y;
 	worldPos.m128_f32[2] = position.z;

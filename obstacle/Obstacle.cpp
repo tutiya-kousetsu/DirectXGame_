@@ -23,7 +23,7 @@ void Obstacle::Update()
 {
 	color = object->GetColor();
 	color.w = 0.1f;
-	object->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+	object->SetColor({ 1.0f, 1.0f, 1.0f, 0.45f });
 	object->Update();
 }
 

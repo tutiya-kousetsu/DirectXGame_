@@ -45,7 +45,7 @@ void EnemyBullet::Draw()
 	}
 }
 
-void EnemyBullet::OnCollision(const CollisionInfo& info)
+void EnemyBullet::OnCollision()
 {
 	alive = false;
 }

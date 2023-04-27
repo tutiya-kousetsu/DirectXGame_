@@ -43,12 +43,6 @@ PSOutput main(VSOutput input)
 		}
 	}*/
 
-	/*ÉÇÉmÉNÉçâª*/
-	/*float Y = 0.299f * colortex0.r + 0.587f * colortex0.b + 0.114f * colortex0.b;
-
-	colortex0.r = Y;
-	colortex0.g = Y;
-	colortex0.b = Y;*/
 	output.target0 = colortex0;
 	//col.rgb = col.rgb / totalWeight;
 

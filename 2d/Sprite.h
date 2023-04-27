@@ -116,8 +116,6 @@ public: // ƒƒ“ƒoŠÖ”
 	/// <returns>¬”Û</returns>
 	bool Initialize();
 
-	void DamageColor();
-
 	/// <summary>
 	/// Šp“x‚Ìİ’è
 	/// </summary>

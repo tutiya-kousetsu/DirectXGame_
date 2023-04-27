@@ -9,6 +9,7 @@
 FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 {
 	particleMan = ParticleManager::GetInstance();
+//	particleMan->LoadTexture(L"Resource/effect.png");
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0, 180, 0 });
 }

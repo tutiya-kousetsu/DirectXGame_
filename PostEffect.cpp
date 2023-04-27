@@ -24,11 +24,9 @@ PostEffect::PostEffect()
 {
 }
 
-void PostEffect::Initialize(const wchar_t* psName)
+void PostEffect::Initialize()
 {
 	HRESULT result;
-
-	//Sprite::Initialize();
 
 	//頂点バッファ生成
 	result = device->CreateCommittedResource(
@@ -189,7 +187,7 @@ void PostEffect::Initialize(const wchar_t* psName)
 		descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 
 	//パイプライン生成
-	CreateGraphicsPipelineState(psName);
+	//CreateGraphicsPipelineState(psName);
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)

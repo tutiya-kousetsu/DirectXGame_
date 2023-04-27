@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize(const wchar_t* psName);
+	void Initialize();
 
 	/// <summary>
 	/// •`‰æ

@@ -33,8 +33,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//ポストエフェクトの初期化
 	postEffect.reset(new PostEffect());
+	postEffect->CreateGraphicsPipelineState(L"Resources/shaders/PostEffectPS.hlsl");
 	//シェーダーの挿入
-	postEffect->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
+	postEffect->Initialize();
 
 	//カメラの初期化
 	camera.reset(new FollowingCamera());
@@ -1054,8 +1055,9 @@ void GamePlayScene::CheckAllCollision()
 	}
 
 	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
+		postEffect->CreateGraphicsPipelineState(L"Resources/shaders/PixelShader.hlsl");
 		//シーン切り替え
-		BaseScene* scene = new GameClear();
-		this->sceneManager->SetNextScene(scene);
+		//BaseScene* scene = new GameClear();
+		//this->sceneManager->SetNextScene(scene);
 	}
 }

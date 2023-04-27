@@ -66,8 +66,9 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	particleMan->SetCamera(camera.get());
 
 	postEffect.reset(new PostEffect());
+	postEffect->CreateGraphicsPipelineState(L"Resources/shaders/PostEffectPS.hlsl");
 	//シェーダーの挿入
-	postEffect->Initialize(L"Resources/shaders/PostEffectPS.hlsl");
+	postEffect->Initialize();
 }
 
 void Tutorial::Finalize()
@@ -187,7 +188,7 @@ void Tutorial::Update()
 
 
 	//プレイヤーがステージから落ちたらステージの真ん中に戻す
-	if (player->GetPosition().y <= -5) {
+	if (player->GetPosition().y <= -20) {
 		player->SetPosition({ 0,10,0 });
 	}
 
@@ -199,6 +200,8 @@ void Tutorial::Update()
 	skyObj->Update();
 	enemy->TitleUpdate();
 	if (zonePop) {
+		postEffect->CreateGraphicsPipelineState(L"Resources/shaders/PixelShader.hlsl");
+
 		sceneMoveObj->Update();
 	}
 	arrowObj->Update();

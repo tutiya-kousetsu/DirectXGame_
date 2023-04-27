@@ -390,19 +390,6 @@ bool Sprite::Initialize()
 	return true;
 }
 
-void Sprite::DamageColor()
-{
-
-	//if (damageFlag) {
-		color.w -= 0.05f;
-	//}
-	if (color.w <= 0.0f) {
-		color.w = 1.0f;
-		//damageFlag = false;
-	}
-	SetColor(color);
-}
-
 void Sprite::SetRotation(float rotation)
 {
 	this->rotation = rotation;

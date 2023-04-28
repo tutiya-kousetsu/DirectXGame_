@@ -27,6 +27,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	Sprite::LoadTexture(17, L"Resources/damage.png");
 	damage.reset(Sprite::Create(17, { 0,0 }));
 
+	Sprite::LoadTexture(19, L"Resources/clear.png");
+	clear.reset(Sprite::Create(19, { 0,-720 }));
+
 	//phase
 	phase.reset(new Phase());
 	phase->Initialize();
@@ -159,23 +162,6 @@ void GamePlayScene::Update()
 		playerRot.y *= 180 / XM_PI;
 		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
-	//マウスカーソルのスクリーン座標をワールド座標にする
-	{
-		POINT mousePosition;
-		//マウス座標(スクリーン座標)を取得
-		GetCursorPos(&mousePosition);
-
-		//クライアント座標に変換
-		HWND hwnd = WinApp::GetInstance()->GetHwnd();
-		ScreenToClient(hwnd, &mousePosition);
-
-		//alignment->SetPosition();
-
-		//ビュープロジェクションビューポート合成行列
-		//XMMATRIX matVPV = ;
-			//合成行列の逆行列を計算する
-		//XMMATRIX matInverseVPV = MathUtility::Matrix4Inverse(matVPV);
-	}
 
 	//前敵が死んだら削除する
 	frontEnemy.remove_if([](std::unique_ptr<FrontEnemy>& front) {
@@ -270,6 +256,41 @@ void GamePlayScene::Update()
 		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
 	}
+
+	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
+		clearFlag = true;
+	}
+	if (clearFlag) {
+		clearPos = clear->GetPosition();
+		if (clearPos.y <= 0) {
+			if (easFrame < 1.0f) {
+				easFrame += 0.009f;
+			}
+			clearPos.y = Ease(In, Elastic, easFrame, -720.0f, 15.0f);
+
+			clear->SetPosition(clearPos);
+		}
+		else {
+			clearTime++;
+		}
+		
+		if (clearTime >= 120) {
+		endEfRadius = postEffect->GetRadius();
+		endEfRadius -= 15.5f;
+		if (endEfRadius <= 0.f) {
+			endEfRadius = 0;
+			clearTFlag = true;
+		}
+		postEffect->SetRadius(endEfRadius);
+
+		}
+	}
+	if (clearTFlag) {
+		//シーン切り替え
+		BaseScene* scene = new TitleScene();
+		this->sceneManager->SetNextScene(scene);
+	}
+
 	player->SetPosition(playerPos);
 	//カメラの更新
 	camera->Update();
@@ -366,6 +387,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	}
 	//フェーズ変更時のスプライト
 	phase->Draw(phaseCount);
+	//クリア時表示する
+	if (clearFlag) {
+		clear->Draw();
+	}
 	// スプライト描画後処理
 
 	Sprite::PostDraw();
@@ -1052,12 +1077,5 @@ void GamePlayScene::CheckAllCollision()
 			}
 		}
 #pragma endregion
-	}
-
-	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
-		postEffect->CreateGraphicsPipelineState(L"Resources/shaders/PixelShader.hlsl");
-		//シーン切り替え
-		//BaseScene* scene = new GameClear();
-		//this->sceneManager->SetNextScene(scene);
 	}
 }

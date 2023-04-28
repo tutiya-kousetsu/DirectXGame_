@@ -11,6 +11,7 @@
 #include "GameOver.h"
 #include "Tutorial.h"
 #include "GameClear.h"
+#include "TitleScene.h"
 #include "FollowingCamera.h"
 #include "Input.h"
 #include "obstacle/Obstacle.h"
@@ -105,25 +106,22 @@ private:
 	std::unique_ptr<Sprite> alignment;
 	std::unique_ptr<Sprite> onAlignment;
 	std::unique_ptr<Sprite> damage;
+	std::unique_ptr<Sprite> clear;
 	XMFLOAT4 color;
 	
-	bool damageFlag1 = false;
-	bool damageFlag2 = false;
-	bool damageFlag3 = false;
-	bool damageFlag4 = false;
+	
 
 	int32_t damageTime = 20;
 	int phaseCount = 0;
 	XMFLOAT2 phasePos;
+	XMFLOAT2 clearPos;
 	XMFLOAT4 damageColor = {1.0f, 1.0f, 1.0f, 1.0f};
 	std::unique_ptr<Phase> phase;
 
 	//イーズイン用frame
 	float inFrame = 0.f;
-	//イーズアウト用frame
-	float outFrame[8]{};
-
-	bool frameFlag = false;
+	float easFrame = 0.f;
+	
 	std::unique_ptr<Sprite> spriteBG;
 	// カメラ
 	std::unique_ptr<FollowingCamera> camera;
@@ -132,7 +130,7 @@ private:
 	std::unique_ptr<PostEffect> postEffect;
 
 	//int32_t endEfTime = 0;
-	bool endFlag = false;
+	
 	float endEfRadius = 1000;
 	
 	//障害物
@@ -188,11 +186,21 @@ private:
 
 	//タイマー
 	int32_t wait = 0;
+	int32_t clearTime = 0;
 	//フラグ
 	bool bulFlag = true;
 	bool waitFlag = false;
 	bool timeFlag = false;
 	bool lifeFlag = false;
+	bool clearFlag = false;
+	bool clearTFlag = false;
+	bool damageFlag1 = false;
+	bool damageFlag2 = false;
+	bool damageFlag3 = false;
+	bool damageFlag4 = false;
+	bool frameFlag = false;
+	bool endFlag = false;
+
 	//フェーズ
 	int fEnePhase = 0;
 	int fWaitPhase = 0;

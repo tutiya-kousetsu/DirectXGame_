@@ -194,17 +194,17 @@ void Tutorial::Update()
 
 	//各オブジェクトの更新
 	postEffect->SetRadius(startEfRadius);
-	camera->Update();
-	debugCam->Update();
-	floor->Update();
 	skyObj->Update();
 	enemy->TitleUpdate();
-	if (zonePop) {
-		postEffect->CreateGraphicsPipelineState(L"Resources/shaders/PixelShader.hlsl");
 
+	floor->Update();
+	if (zonePop) {
 		sceneMoveObj->Update();
 	}
 	arrowObj->Update();
+	camera->Update();
+	debugCam->Update();
+
 	//当たり判定
 	CheckAllCollision();
 	particleMan->Update();
@@ -235,11 +235,11 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw();
+	skyObj->Draw();
+	enemy->Draw();
 
 	floor->Draw();
-	skyObj->Draw();
 	player->TutorialDraw(rotateFlag);
-	enemy->Draw();
 
 	if (zonePop) {
 		sceneMoveObj->Draw();

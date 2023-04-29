@@ -1,5 +1,5 @@
 #include "Door.h"
-#include "SourceCode/engin/easing/Easing.h"
+#include "Easing.h"
 Door::Door()
 {
 }

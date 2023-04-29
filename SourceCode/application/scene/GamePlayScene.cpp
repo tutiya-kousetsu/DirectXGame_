@@ -4,13 +4,13 @@
 #include "DebugText.h"
 #include "FbxLoader.h"
 #include "Fbx_Object3d.h"
-#include "SourceCode/application/enemy/EnemyBullet.h"
+#include "EnemyBullet.h"
 #include "Collision.h"
 #include "ParticleManager.h"
 #include "SphereCollider.h"
 #include "MeshCollider.h"
 #include "TouchableObject.h"
-#include "SourceCode/engin/easing/Easing.h"
+#include "Easing.h"
 #include <fstream>
 #include <cassert>
 

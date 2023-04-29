@@ -1,5 +1,5 @@
 #include "Phase.h"
-#include "SourceCode/engin/easing/Easing.h"
+#include "Easing.h"
 
 void Phase::Initialize()
 {

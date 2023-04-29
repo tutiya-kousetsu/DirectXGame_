@@ -12,7 +12,7 @@
 #include "CollisionManager.h"
 #include "MeshCollider.h"
 #include "ParticleManager.h"
-#include "SourceCode/engin/easing/Easing.h"
+#include "Easing.h"
 
 void Tutorial::Initialize(DirectXCommon* dxCommon)
 {

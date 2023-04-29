@@ -12,7 +12,7 @@
 #include "CollisionManager.h"
 #include "MeshCollider.h"
 #include "ParticleManager.h"
-#include "easing/Easing.h"
+#include "SourceCode/engin/easing/Easing.h"
 
 void Tutorial::Initialize(DirectXCommon* dxCommon)
 {
@@ -39,17 +39,17 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	floor->SetPosition({ 0,-18.5f,0 });
 
 	//データ読み込み
-	skyObj.reset(Object3d::Create());
+	skyObj = Object3d::Create();
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
 
 	//データ読み込み
-	sceneMoveObj.reset(Object3d::Create());
+	sceneMoveObj = Object3d::Create();
 	sceneMoveObj->SetModel(Model::CreateFromOBJ("sceneMove"));
 	sceneMoveObj->SetScale({ 3,3,3 });
 	sceneMoveObj->SetPosition({ 0, -2.02f, 20 });
 
 	//データ読み込み
-	arrowObj.reset(Object3d::Create());
+	arrowObj = Object3d::Create();
 	arrowObj->SetModel(Model::CreateFromOBJ("arrow"));
 	arrowObj->SetScale({ 1.5f,1.5f,1.5f });
 	arrowObj->SetPosition({ 0, 2.02f, 20 });

@@ -10,7 +10,7 @@
 #include "SphereCollider.h"
 #include "MeshCollider.h"
 #include "TouchableObject.h"
-#include "easing/Easing.h"
+#include "SourceCode/engin/easing/Easing.h"
 #include <fstream>
 #include <cassert>
 
@@ -76,7 +76,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	door.reset(new Door());
 	door->Initialize();
 	//データ読み込み
-	skyObj.reset(Object3d::Create());
+	skyObj = Object3d::Create();
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
 }
 

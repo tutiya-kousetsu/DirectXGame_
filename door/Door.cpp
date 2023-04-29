@@ -1,5 +1,5 @@
 #include "Door.h"
-#include "easing/Easing.h"
+#include "SourceCode/engin/easing/Easing.h"
 Door::Door()
 {
 }
@@ -11,7 +11,7 @@ Door::~Door()
 void Door::Initialize()
 {
 	for (int i = 0; i < 8; i++) {
-		object[i].reset(Object3d::Create());
+		object[i] = Object3d::Create();
 		object[i]->SetModel(Model::CreateFromOBJ("door"));
 
 		object[i]->SetScale({4.0f, 4.0f, 4.0f});

@@ -77,7 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)input;$(ProjectDir)player;$(ProjectDir)collision;$(ProjectDir)enemy;$(ProjectDir)base;$(ProjectDir)wall;$(ProjectDir)door;$(ProjectDir)obstacle;$(ProjectDir)easing</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)scene;$(ProjectDir)player;$(ProjectDir)enemy;$(ProjectDir)wall;$(ProjectDir)door;$(ProjectDir)obstacle</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -171,33 +171,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2d\DebugText.cpp" />
-    <ClCompile Include="2d\Sprite.cpp" />
-    <ClCompile Include="3d\FbxLoader.cpp" />
-    <ClCompile Include="3d\Fbx_Model.cpp" />
-    <ClCompile Include="3d\Fbx_Object3d.cpp" />
-    <ClCompile Include="3d\GameObject.cpp" />
-    <ClCompile Include="3d\Material.cpp" />
-    <ClCompile Include="3d\Mesh.cpp" />
-    <ClCompile Include="3d\Model.cpp" />
-    <ClCompile Include="3d\Object3d.cpp" />
-    <ClCompile Include="3d\ParticleManager.cpp" />
-    <ClCompile Include="audio\Audio.cpp" />
-    <ClCompile Include="base\DirectXCommon.cpp" />
-    <ClCompile Include="base\Framework.cpp" />
-    <ClCompile Include="base\MyGame.cpp" />
-    <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="camera\Camera.cpp" />
-    <ClCompile Include="camera\DebugCamera.cpp" />
-    <ClCompile Include="camera\FollowingCamera.cpp" />
-    <ClCompile Include="collision\Collision.cpp" />
-    <ClCompile Include="collision\CollisionManager.cpp" />
-    <ClCompile Include="collision\CollisionPrimitive.cpp" />
-    <ClCompile Include="collision\MeshCollider.cpp" />
-    <ClCompile Include="collision\SphereCollider.cpp" />
-    <ClCompile Include="collision\TouchableObject.cpp" />
     <ClCompile Include="door\Door.cpp" />
-    <ClCompile Include="easing\Easing.cpp" />
     <ClCompile Include="enemy\BackEnemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="enemy\FrontEnemy.cpp" />
@@ -209,7 +183,6 @@
     <ClCompile Include="imgui\imgui_impl_dx12.cpp" />
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="obstacle\Obstacle.cpp" />
     <ClCompile Include="Phasecpp.cpp" />
@@ -223,42 +196,37 @@
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
     <ClCompile Include="scene\Tutorial.cpp" />
+    <ClCompile Include="SourceCode\engin\2d\DebugText.cpp" />
+    <ClCompile Include="SourceCode\engin\2d\Sprite.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\FbxLoader.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\Fbx_Model.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\Fbx_Object3d.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\GameObject.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\Material.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\Mesh.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\Model.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\Object3d.cpp" />
+    <ClCompile Include="SourceCode\engin\3d\ParticleManager.cpp" />
+    <ClCompile Include="SourceCode\engin\audio\Audio.cpp" />
+    <ClCompile Include="SourceCode\engin\base\DirectXCommon.cpp" />
+    <ClCompile Include="SourceCode\engin\base\Framework.cpp" />
+    <ClCompile Include="SourceCode\engin\base\MyGame.cpp" />
+    <ClCompile Include="SourceCode\engin\base\WinApp.cpp" />
+    <ClCompile Include="SourceCode\engin\camera\Camera.cpp" />
+    <ClCompile Include="SourceCode\engin\camera\DebugCamera.cpp" />
+    <ClCompile Include="SourceCode\engin\camera\FollowingCamera.cpp" />
+    <ClCompile Include="SourceCode\engin\collision\Collision.cpp" />
+    <ClCompile Include="SourceCode\engin\collision\CollisionManager.cpp" />
+    <ClCompile Include="SourceCode\engin\collision\CollisionPrimitive.cpp" />
+    <ClCompile Include="SourceCode\engin\collision\MeshCollider.cpp" />
+    <ClCompile Include="SourceCode\engin\collision\SphereCollider.cpp" />
+    <ClCompile Include="SourceCode\engin\collision\TouchableObject.cpp" />
+    <ClCompile Include="SourceCode\engin\easing\Easing.cpp" />
+    <ClCompile Include="SourceCode\engin\input\Input.cpp" />
     <ClCompile Include="wall\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2d\DebugText.h" />
-    <ClInclude Include="2d\Sprite.h" />
-    <ClInclude Include="3d\FbxLoader.h" />
-    <ClInclude Include="3d\Fbx_Model.h" />
-    <ClInclude Include="3d\Fbx_Object3d.h" />
-    <ClInclude Include="3d\GameObject.h" />
-    <ClInclude Include="3d\Material.h" />
-    <ClInclude Include="3d\Mesh.h" />
-    <ClInclude Include="3d\Model.h" />
-    <ClInclude Include="3d\Object3d.h" />
-    <ClInclude Include="3d\ParticleManager.h" />
-    <ClInclude Include="audio\Audio.h" />
-    <ClInclude Include="base\DirectXCommon.h" />
-    <ClInclude Include="base\Framework.h" />
-    <ClInclude Include="base\MyGame.h" />
-    <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="camera\Camera.h" />
-    <ClInclude Include="camera\DebugCamera.h" />
-    <ClInclude Include="camera\FollowingCamera.h" />
-    <ClInclude Include="collision\BaseCollider.h" />
-    <ClInclude Include="collision\Collision.h" />
-    <ClInclude Include="collision\CollisionAttribute.h" />
-    <ClInclude Include="collision\CollisionInfo.h" />
-    <ClInclude Include="collision\CollisionManager.h" />
-    <ClInclude Include="collision\CollisionPrimitive.h" />
-    <ClInclude Include="collision\CollisionTypes.h" />
-    <ClInclude Include="collision\MeshCollider.h" />
-    <ClInclude Include="collision\QueryCallback.h" />
-    <ClInclude Include="collision\RaycastHit.h" />
-    <ClInclude Include="collision\SphereCollider.h" />
-    <ClInclude Include="collision\TouchableObject.h" />
     <ClInclude Include="door\Door.h" />
-    <ClInclude Include="easing\Easing.h" />
     <ClInclude Include="enemy\BackEnemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="enemy\FrontEnemy.h" />
@@ -272,7 +240,6 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="input\Input.h" />
     <ClInclude Include="obstacle\Obstacle.h" />
     <ClInclude Include="Phase.h" />
     <ClInclude Include="PipelineSet.h" />
@@ -287,6 +254,39 @@
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="scene\TitleScene.h" />
     <ClInclude Include="scene\Tutorial.h" />
+    <ClInclude Include="SourceCode\engin\2d\DebugText.h" />
+    <ClInclude Include="SourceCode\engin\2d\Sprite.h" />
+    <ClInclude Include="SourceCode\engin\3d\FbxLoader.h" />
+    <ClInclude Include="SourceCode\engin\3d\Fbx_Model.h" />
+    <ClInclude Include="SourceCode\engin\3d\Fbx_Object3d.h" />
+    <ClInclude Include="SourceCode\engin\3d\GameObject.h" />
+    <ClInclude Include="SourceCode\engin\3d\Material.h" />
+    <ClInclude Include="SourceCode\engin\3d\Mesh.h" />
+    <ClInclude Include="SourceCode\engin\3d\Model.h" />
+    <ClInclude Include="SourceCode\engin\3d\Object3d.h" />
+    <ClInclude Include="SourceCode\engin\3d\ParticleManager.h" />
+    <ClInclude Include="SourceCode\engin\audio\Audio.h" />
+    <ClInclude Include="SourceCode\engin\base\DirectXCommon.h" />
+    <ClInclude Include="SourceCode\engin\base\Framework.h" />
+    <ClInclude Include="SourceCode\engin\base\MyGame.h" />
+    <ClInclude Include="SourceCode\engin\base\WinApp.h" />
+    <ClInclude Include="SourceCode\engin\camera\Camera.h" />
+    <ClInclude Include="SourceCode\engin\camera\DebugCamera.h" />
+    <ClInclude Include="SourceCode\engin\camera\FollowingCamera.h" />
+    <ClInclude Include="SourceCode\engin\collision\BaseCollider.h" />
+    <ClInclude Include="SourceCode\engin\collision\Collision.h" />
+    <ClInclude Include="SourceCode\engin\collision\CollisionAttribute.h" />
+    <ClInclude Include="SourceCode\engin\collision\CollisionInfo.h" />
+    <ClInclude Include="SourceCode\engin\collision\CollisionManager.h" />
+    <ClInclude Include="SourceCode\engin\collision\CollisionPrimitive.h" />
+    <ClInclude Include="SourceCode\engin\collision\CollisionTypes.h" />
+    <ClInclude Include="SourceCode\engin\collision\MeshCollider.h" />
+    <ClInclude Include="SourceCode\engin\collision\QueryCallback.h" />
+    <ClInclude Include="SourceCode\engin\collision\RaycastHit.h" />
+    <ClInclude Include="SourceCode\engin\collision\SphereCollider.h" />
+    <ClInclude Include="SourceCode\engin\collision\TouchableObject.h" />
+    <ClInclude Include="SourceCode\engin\easing\Easing.h" />
+    <ClInclude Include="SourceCode\engin\input\Input.h" />
     <ClInclude Include="wall\Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

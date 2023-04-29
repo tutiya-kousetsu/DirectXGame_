@@ -134,62 +134,11 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="audio\Audio.cpp">
-      <Filter>ソース ファイル\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="input\Input.cpp">
-      <Filter>ソース ファイル\input</Filter>
-    </ClCompile>
     <ClCompile Include="player\Player.cpp">
       <Filter>ソース ファイル\game\player</Filter>
     </ClCompile>
     <ClCompile Include="player\PlayerBullet.cpp">
       <Filter>ソース ファイル\game\player</Filter>
-    </ClCompile>
-    <ClCompile Include="2d\DebugText.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d\Sprite.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Fbx_Model.cpp">
-      <Filter>ソース ファイル\Fbx</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Fbx_Object3d.cpp">
-      <Filter>ソース ファイル\Fbx</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\FbxLoader.cpp">
-      <Filter>ソース ファイル\Fbx</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Object3d.cpp">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\ParticleManager.cpp">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Model.cpp">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Mesh.cpp">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Material.cpp">
-      <Filter>ソース ファイル\3d\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="camera\Camera.cpp">
-      <Filter>ソース ファイル\camera\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="camera\DebugCamera.cpp">
-      <Filter>ソース ファイル\camera\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="camera\FollowingCamera.cpp">
-      <Filter>ソース ファイル\camera\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\Collision.cpp">
-      <Filter>ソース ファイル\game\collision\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\SphereCollider.cpp">
-      <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="scene\GameClear.cpp">
       <Filter>ソース ファイル\game\scene\.cpp</Filter>
@@ -205,15 +154,6 @@
     </ClCompile>
     <ClCompile Include="scene\TitleScene.cpp">
       <Filter>ソース ファイル\game\scene\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\MeshCollider.cpp">
-      <Filter>ソース ファイル\game\collision\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\CollisionManager.cpp">
-      <Filter>ソース ファイル\game\collision\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\CollisionPrimitive.cpp">
-      <Filter>ソース ファイル\game\collision\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui</Filter>
@@ -232,12 +172,6 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\GameObject.cpp">
-      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\TouchableObject.cpp">
-      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
     <ClCompile Include="enemy\BackEnemy.cpp">
       <Filter>ソース ファイル\game\enemy\.cpp</Filter>
@@ -266,29 +200,95 @@
     <ClCompile Include="scene\Tutorial.cpp">
       <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="easing\Easing.cpp">
-      <Filter>ソース ファイル\easing</Filter>
-    </ClCompile>
     <ClCompile Include="Phasecpp.cpp">
       <Filter>ソース ファイル\game\scene\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="PlayerLife.cpp">
       <Filter>ソース ファイル\game\player</Filter>
     </ClCompile>
-    <ClCompile Include="base\DirectXCommon.cpp">
-      <Filter>ソース ファイル\base\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="base\Framework.cpp">
-      <Filter>ソース ファイル\base\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="base\MyGame.cpp">
-      <Filter>ソース ファイル\base\.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="PostEffect.cpp">
       <Filter>ソース ファイル\base\.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="base\WinApp.cpp">
+    <ClCompile Include="SourceCode\engin\2d\DebugText.cpp">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\2d\Sprite.cpp">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\Material.cpp">
+      <Filter>ソース ファイル\3d\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\Mesh.cpp">
+      <Filter>ソース ファイル\3d\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\Model.cpp">
+      <Filter>ソース ファイル\3d\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\Object3d.cpp">
+      <Filter>ソース ファイル\3d\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\ParticleManager.cpp">
+      <Filter>ソース ファイル\3d\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\audio\Audio.cpp">
+      <Filter>ソース ファイル\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\base\DirectXCommon.cpp">
       <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\base\Framework.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\base\MyGame.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\base\WinApp.cpp">
+      <Filter>ソース ファイル\base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\camera\Camera.cpp">
+      <Filter>ソース ファイル\camera\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\camera\DebugCamera.cpp">
+      <Filter>ソース ファイル\camera\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\camera\FollowingCamera.cpp">
+      <Filter>ソース ファイル\camera\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\easing\Easing.cpp">
+      <Filter>ソース ファイル\easing</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\Fbx_Model.cpp">
+      <Filter>ソース ファイル\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\Fbx_Object3d.cpp">
+      <Filter>ソース ファイル\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\FbxLoader.cpp">
+      <Filter>ソース ファイル\Fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\input\Input.cpp">
+      <Filter>ソース ファイル\input</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\collision\Collision.cpp">
+      <Filter>ソース ファイル\game\collision\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\collision\CollisionManager.cpp">
+      <Filter>ソース ファイル\game\collision\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\collision\CollisionPrimitive.cpp">
+      <Filter>ソース ファイル\game\collision\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\collision\MeshCollider.cpp">
+      <Filter>ソース ファイル\game\collision\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\collision\SphereCollider.cpp">
+      <Filter>ソース ファイル\game\collision\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\collision\TouchableObject.cpp">
+      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engin\3d\GameObject.cpp">
+      <Filter>ソース ファイル\game\gameObj\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -312,65 +312,11 @@
     <ClInclude Include="player\Player.h">
       <Filter>ソース ファイル\game\player</Filter>
     </ClInclude>
-    <ClInclude Include="input\Input.h">
-      <Filter>ソース ファイル\input</Filter>
-    </ClInclude>
-    <ClInclude Include="audio\Audio.h">
-      <Filter>ソース ファイル\audio</Filter>
-    </ClInclude>
     <ClInclude Include="player\PlayerBullet.h">
       <Filter>ソース ファイル\game\player</Filter>
     </ClInclude>
-    <ClInclude Include="3d\Fbx_Model.h">
-      <Filter>ソース ファイル\Fbx</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Fbx_Object3d.h">
-      <Filter>ソース ファイル\Fbx</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\FbxLoader.h">
-      <Filter>ソース ファイル\Fbx</Filter>
-    </ClInclude>
     <ClInclude Include="PipelineSet.h">
       <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Material.h">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Mesh.h">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Model.h">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Object3d.h">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\ParticleManager.h">
-      <Filter>ソース ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="camera\Camera.h">
-      <Filter>ソース ファイル\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="camera\DebugCamera.h">
-      <Filter>ソース ファイル\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="camera\FollowingCamera.h">
-      <Filter>ソース ファイル\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\Collision.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionInfo.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionPrimitive.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionTypes.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\SphereCollider.h">
-      <Filter>ソース ファイル\game\collision</Filter>
     </ClInclude>
     <ClInclude Include="enemy\BackEnemy.h">
       <Filter>ソース ファイル\game\enemy</Filter>
@@ -402,27 +348,6 @@
     <ClInclude Include="scene\TitleScene.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="2d\Sprite.h">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d\DebugText.h">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\RaycastHit.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionManager.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\MeshCollider.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionAttribute.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\QueryCallback.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -447,12 +372,6 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="collision\TouchableObject.h">
-      <Filter>ソース ファイル\game\gameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\GameObject.h">
-      <Filter>ソース ファイル\game\gameObj</Filter>
-    </ClInclude>
     <ClInclude Include="wall\Wall.h">
       <Filter>ソース ファイル\game\wall</Filter>
     </ClInclude>
@@ -465,9 +384,6 @@
     <ClInclude Include="scene\Tutorial.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="easing\Easing.h">
-      <Filter>ソース ファイル\easing</Filter>
-    </ClInclude>
     <ClInclude Include="scene\BaseScene.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
@@ -477,23 +393,107 @@
     <ClInclude Include="PlayerLife.h">
       <Filter>ソース ファイル\game\player</Filter>
     </ClInclude>
-    <ClInclude Include="collision\BaseCollider.h">
-      <Filter>ソース ファイル\game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="base\DirectXCommon.h">
-      <Filter>ソース ファイル\base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\Framework.h">
-      <Filter>ソース ファイル\base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\MyGame.h">
-      <Filter>ソース ファイル\base</Filter>
-    </ClInclude>
     <ClInclude Include="PostEffect.h">
       <Filter>ソース ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="base\WinApp.h">
+    <ClInclude Include="SourceCode\engin\2d\DebugText.h">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\2d\Sprite.h">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\Material.h">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\Mesh.h">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\Model.h">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\Object3d.h">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\ParticleManager.h">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\audio\Audio.h">
+      <Filter>ソース ファイル\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\base\DirectXCommon.h">
       <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\base\Framework.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\base\MyGame.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\base\WinApp.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\camera\Camera.h">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\camera\DebugCamera.h">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\camera\FollowingCamera.h">
+      <Filter>ソース ファイル\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\easing\Easing.h">
+      <Filter>ソース ファイル\easing</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\Fbx_Model.h">
+      <Filter>ソース ファイル\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\Fbx_Object3d.h">
+      <Filter>ソース ファイル\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\FbxLoader.h">
+      <Filter>ソース ファイル\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\input\Input.h">
+      <Filter>ソース ファイル\input</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\BaseCollider.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\Collision.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\CollisionAttribute.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\CollisionInfo.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\CollisionManager.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\CollisionPrimitive.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\CollisionTypes.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\MeshCollider.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\QueryCallback.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\RaycastHit.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\SphereCollider.h">
+      <Filter>ソース ファイル\game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\collision\TouchableObject.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engin\3d\GameObject.h">
+      <Filter>ソース ファイル\game\gameObj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

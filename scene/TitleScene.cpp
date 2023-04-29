@@ -36,7 +36,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	floor->SetPosition({ 0,-18.5f,0 });
 
 	//データ読み込み
-	skyObj.reset(Object3d::Create());
+	skyObj = Object3d::Create();
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
 
 	//自機のオブジェクトセット+初期化

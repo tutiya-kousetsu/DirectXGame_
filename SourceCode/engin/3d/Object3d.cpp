@@ -60,8 +60,7 @@ void Object3d::PostDraw()
 	//Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create()
-{
+std::unique_ptr<Object3d> Object3d::Create() {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
 	if (object3d == nullptr) {
@@ -74,13 +73,10 @@ Object3d* Object3d::Create()
 		assert(0);
 		return nullptr;
 	}
-	//3Dモデルの大きさを変える
-	/*float scale_val = 5;
-	object3d->scale = { scale_val , scale_val , scale_val };*/
 
-	return object3d;
+	// ユニークポインタを作成してreturn
+	return std::unique_ptr<Object3d>(object3d);
 }
-
 bool Object3d::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;

@@ -77,7 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)scene;$(ProjectDir)player;$(ProjectDir)enemy;$(ProjectDir)wall;$(ProjectDir)door;$(ProjectDir)obstacle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -171,12 +171,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="door\Door.cpp" />
-    <ClCompile Include="enemy\BackEnemy.cpp" />
-    <ClCompile Include="enemy\EnemyBullet.cpp" />
-    <ClCompile Include="enemy\FrontEnemy.cpp" />
-    <ClCompile Include="enemy\LeftEnemy.cpp" />
-    <ClCompile Include="enemy\RightEnemy.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -184,19 +178,26 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="obstacle\Obstacle.cpp" />
-    <ClCompile Include="Phasecpp.cpp" />
-    <ClCompile Include="PlayerLife.cpp" />
-    <ClCompile Include="player\Player.cpp" />
-    <ClCompile Include="player\PlayerBullet.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="scene\GameClear.cpp" />
-    <ClCompile Include="scene\GameOver.cpp" />
-    <ClCompile Include="scene\GamePlayScene.cpp" />
-    <ClCompile Include="scene\SceneManager.cpp" />
-    <ClCompile Include="scene\TitleScene.cpp" />
-    <ClCompile Include="scene\Tutorial.cpp" />
+    <ClCompile Include="SourceCode\application\door\Door.cpp" />
+    <ClCompile Include="SourceCode\application\enemy\BackEnemy.cpp" />
+    <ClCompile Include="SourceCode\application\enemy\EnemyBullet.cpp" />
+    <ClCompile Include="SourceCode\application\enemy\FrontEnemy.cpp" />
+    <ClCompile Include="SourceCode\application\enemy\LeftEnemy.cpp" />
+    <ClCompile Include="SourceCode\application\enemy\RightEnemy.cpp" />
+    <ClCompile Include="SourceCode\application\obstacle\Obstacle.cpp" />
+    <ClCompile Include="SourceCode\application\player\Player.cpp" />
+    <ClCompile Include="SourceCode\application\player\PlayerBullet.cpp" />
+    <ClCompile Include="SourceCode\application\player\PlayerLife.cpp" />
+    <ClCompile Include="SourceCode\application\scene\GameClear.cpp" />
+    <ClCompile Include="SourceCode\application\scene\GameOver.cpp" />
+    <ClCompile Include="SourceCode\application\scene\GamePlayScene.cpp" />
+    <ClCompile Include="SourceCode\application\scene\Phasecpp.cpp" />
+    <ClCompile Include="SourceCode\application\scene\SceneManager.cpp" />
+    <ClCompile Include="SourceCode\application\scene\TitleScene.cpp" />
+    <ClCompile Include="SourceCode\application\scene\Tutorial.cpp" />
+    <ClCompile Include="SourceCode\application\wall\Wall.cpp" />
     <ClCompile Include="SourceCode\engin\2d\DebugText.cpp" />
+    <ClCompile Include="SourceCode\engin\2d\PostEffect.cpp" />
     <ClCompile Include="SourceCode\engin\2d\Sprite.cpp" />
     <ClCompile Include="SourceCode\engin\3d\FbxLoader.cpp" />
     <ClCompile Include="SourceCode\engin\3d\Fbx_Model.cpp" />
@@ -223,15 +224,8 @@
     <ClCompile Include="SourceCode\engin\collision\TouchableObject.cpp" />
     <ClCompile Include="SourceCode\engin\easing\Easing.cpp" />
     <ClCompile Include="SourceCode\engin\input\Input.cpp" />
-    <ClCompile Include="wall\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="door\Door.h" />
-    <ClInclude Include="enemy\BackEnemy.h" />
-    <ClInclude Include="enemy\EnemyBullet.h" />
-    <ClInclude Include="enemy\FrontEnemy.h" />
-    <ClInclude Include="enemy\LeftEnemy.h" />
-    <ClInclude Include="enemy\RightEnemy.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx12.h" />
@@ -240,21 +234,27 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="obstacle\Obstacle.h" />
-    <ClInclude Include="Phase.h" />
-    <ClInclude Include="PipelineSet.h" />
-    <ClInclude Include="PlayerLife.h" />
-    <ClInclude Include="player\Player.h" />
-    <ClInclude Include="player\PlayerBullet.h" />
-    <ClInclude Include="PostEffect.h" />
-    <ClInclude Include="scene\BaseScene.h" />
-    <ClInclude Include="scene\GameClear.h" />
-    <ClInclude Include="scene\GameOver.h" />
-    <ClInclude Include="scene\GamePlayScene.h" />
-    <ClInclude Include="scene\SceneManager.h" />
-    <ClInclude Include="scene\TitleScene.h" />
-    <ClInclude Include="scene\Tutorial.h" />
+    <ClInclude Include="SourceCode\application\door\Door.h" />
+    <ClInclude Include="SourceCode\application\enemy\BackEnemy.h" />
+    <ClInclude Include="SourceCode\application\enemy\EnemyBullet.h" />
+    <ClInclude Include="SourceCode\application\enemy\FrontEnemy.h" />
+    <ClInclude Include="SourceCode\application\enemy\LeftEnemy.h" />
+    <ClInclude Include="SourceCode\application\enemy\RightEnemy.h" />
+    <ClInclude Include="SourceCode\application\obstacle\Obstacle.h" />
+    <ClInclude Include="SourceCode\application\player\Player.h" />
+    <ClInclude Include="SourceCode\application\player\PlayerBullet.h" />
+    <ClInclude Include="SourceCode\application\player\PlayerLife.h" />
+    <ClInclude Include="SourceCode\application\scene\BaseScene.h" />
+    <ClInclude Include="SourceCode\application\scene\GameClear.h" />
+    <ClInclude Include="SourceCode\application\scene\GameOver.h" />
+    <ClInclude Include="SourceCode\application\scene\GamePlayScene.h" />
+    <ClInclude Include="SourceCode\application\scene\Phase.h" />
+    <ClInclude Include="SourceCode\application\scene\SceneManager.h" />
+    <ClInclude Include="SourceCode\application\scene\TitleScene.h" />
+    <ClInclude Include="SourceCode\application\scene\Tutorial.h" />
+    <ClInclude Include="SourceCode\application\wall\Wall.h" />
     <ClInclude Include="SourceCode\engin\2d\DebugText.h" />
+    <ClInclude Include="SourceCode\engin\2d\PostEffect.h" />
     <ClInclude Include="SourceCode\engin\2d\Sprite.h" />
     <ClInclude Include="SourceCode\engin\3d\FbxLoader.h" />
     <ClInclude Include="SourceCode\engin\3d\Fbx_Model.h" />
@@ -265,6 +265,7 @@
     <ClInclude Include="SourceCode\engin\3d\Model.h" />
     <ClInclude Include="SourceCode\engin\3d\Object3d.h" />
     <ClInclude Include="SourceCode\engin\3d\ParticleManager.h" />
+    <ClInclude Include="SourceCode\engin\3d\PipelineSet.h" />
     <ClInclude Include="SourceCode\engin\audio\Audio.h" />
     <ClInclude Include="SourceCode\engin\base\DirectXCommon.h" />
     <ClInclude Include="SourceCode\engin\base\Framework.h" />
@@ -287,7 +288,6 @@
     <ClInclude Include="SourceCode\engin\collision\TouchableObject.h" />
     <ClInclude Include="SourceCode\engin\easing\Easing.h" />
     <ClInclude Include="SourceCode\engin\input\Input.h" />
-    <ClInclude Include="wall\Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

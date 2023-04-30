@@ -19,7 +19,7 @@ protected:
 	float move = 0.2f;
 	float moveY = 0.2f;
 	float moveZ = 0.05f;
-	float moveX = 0.05;
+	float moveX = 0.05f;
 	bool appFlag = true;
 
 

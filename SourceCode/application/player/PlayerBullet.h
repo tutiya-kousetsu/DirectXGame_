@@ -29,9 +29,9 @@ public:
 	void OnCollision();
 
 	//’e‚ªÁ‚¦‚éŠÔ
-	UINT disappearTime = 60 * 2.2f;
+	int32_t disappearTime = 60 * 2;
 
-	UINT frameNum = 0;
+	int32_t frameNum = 0;
 	UINT power = 1;
 private:
 	XMFLOAT3 position;

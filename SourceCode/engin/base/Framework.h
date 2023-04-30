@@ -9,11 +9,8 @@
 #include "Fbx_Object3d.h"
 #include "Sprite.h"
 #include "SceneManager.h"
-<<<<<<< HEAD:Framework.h
-=======
 #include "PostEffect.h"
 
->>>>>>> ã‚¤ã‚«ã‚¿ã‚³æˆ¦äº‰:SourceCode/engin/base/Framework.h
 /// <summary>
 /// ƒtƒŒ[ƒ€ƒ[ƒN
 /// </summary>
@@ -55,13 +52,8 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	Audio* audio = nullptr;
 	DebugText* debugText = nullptr;
-<<<<<<< HEAD:Framework.h
-	SpriteCommon* spriteCommon = nullptr;
-	SceneManager* sceneManager = nullptr;
-=======
 	SceneManager* sceneManager = nullptr;
 	PostEffect* postEffect = nullptr;
 
->>>>>>> ã‚¤ã‚«ã‚¿ã‚³æˆ¦äº‰:SourceCode/engin/base/Framework.h
 };
 

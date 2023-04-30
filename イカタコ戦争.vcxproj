@@ -16,6 +16,7 @@
     <ProjectGuid>{26dd8dfc-3b13-41b6-addc-3ffed3091a03}</ProjectGuid>
     <RootNamespace>DirectXGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>イカタコ戦争</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -50,13 +51,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-<<<<<<< HEAD
-    <IncludePath>$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)input;$(ProjectDir)base;$(ProjectDir)audio;$(ProjectDir)scene;$(ProjectDir)camera;$(ProjectDir)FBX;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectrDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
-=======
     <IncludePath>$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)External\DirectXTex\include</IncludePath>
     <LibraryPath>$(ProjectDir)External\lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
->>>>>>> イカタコ戦争
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -176,56 +172,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DebugCamera.cpp" />
-    <ClCompile Include="DebugText.cpp" />
-    <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="FbxLoader.cpp" />
-    <ClCompile Include="Fbx_Model.cpp" />
-    <ClCompile Include="Fbx_Object3d.cpp" />
-    <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="GamePlayScene.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="MyGame.cpp" />
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteCommon.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="WinApp.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="BaseScene.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="DebugText.h" />
-    <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="FbxLoader.h" />
-    <ClInclude Include="Fbx_Model.h" />
-    <ClInclude Include="Fbx_Object3d.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="GamePlayScene.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="MyGame.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="PipelineSet.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteCommon.h" />
-    <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="WinApp.h" />
-=======
     <ClCompile Include="External\imgui\imgui.cpp" />
     <ClCompile Include="External\imgui\imgui_demo.cpp" />
     <ClCompile Include="External\imgui\imgui_draw.cpp" />
@@ -245,7 +191,7 @@
     <ClCompile Include="SourceCode\application\scene\GameClear.cpp" />
     <ClCompile Include="SourceCode\application\scene\GameOver.cpp" />
     <ClCompile Include="SourceCode\application\scene\GamePlayScene.cpp" />
-    <ClCompile Include="SourceCode\application\scene\Phasecpp.cpp" />
+    <ClCompile Include="SourceCode\application\scene\Phase.cpp" />
     <ClCompile Include="SourceCode\application\scene\SceneManager.cpp" />
     <ClCompile Include="SourceCode\application\scene\TitleScene.cpp" />
     <ClCompile Include="SourceCode\application\scene\Tutorial.cpp" />
@@ -343,7 +289,6 @@
     <ClInclude Include="SourceCode\engin\collision\TouchableObject.h" />
     <ClInclude Include="SourceCode\engin\easing\Easing.h" />
     <ClInclude Include="SourceCode\engin\input\Input.h" />
->>>>>>> イカタコ戦争
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

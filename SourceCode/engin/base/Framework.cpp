@@ -65,21 +65,14 @@ void Framework::Initialize()
 
 	//3DƒIƒuƒWƒFƒbƒgÃ“I‰Šú‰»
 	Object3d::StaticInitialize(dxCommon->GetDev(),dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
-<<<<<<< HEAD:Framework.cpp
-=======
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
->>>>>>> ã‚¤ã‚«ã‚¿ã‚³æˆ¦äº‰:SourceCode/engin/base/Framework.cpp
 	//ƒV[ƒ“ƒ}ƒl[ƒMƒƒ[‚Ì¶¬
 	this->sceneManager = new SceneManager();
 }
 
 void Framework::Finalize()
 {
-<<<<<<< HEAD:Framework.cpp
-
-=======
 	
->>>>>>> ã‚¤ã‚«ã‚¿ã‚³æˆ¦äº‰:SourceCode/engin/base/Framework.cpp
 	//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‰ğ•ú
 	delete sceneManager;
 	//ƒVƒ“ƒOƒ‹ƒgƒ“‚É‚µ‚½‚çdeleteƒ_ƒ
@@ -112,22 +105,8 @@ void Framework::Update()
 
 void Framework::Draw()
 {
-<<<<<<< HEAD:Framework.cpp
-	//•`‰æ‘Oˆ—
-	dxCommon->PreDraw();
-
-	//ƒV[ƒ“•`‰æ
-	this->sceneManager->Draw(dxCommon);
-
-	//ƒfƒoƒbƒNƒeƒLƒXƒg•`‰æ
-	debugText->DrawAll();
-
-	//•`‰æŒãˆ—
-	dxCommon->PostDraw();
-=======
 	//ƒV[ƒ“•`‰æ
 	this->sceneManager->Draw(dxCommon);
 	//ƒfƒoƒbƒNƒeƒLƒXƒg•`‰æ
 	//debugText->DrawAll();
->>>>>>> ã‚¤ã‚«ã‚¿ã‚³æˆ¦äº‰:SourceCode/engin/base/Framework.cpp
 }

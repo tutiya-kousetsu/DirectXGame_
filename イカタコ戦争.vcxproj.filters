@@ -168,12 +168,6 @@
     <ClCompile Include="SourceCode\application\enemy\RightEnemy.cpp">
       <Filter>application\enemy\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\application\scene\GameClear.cpp">
-      <Filter>application\scene\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\application\scene\GameOver.cpp">
-      <Filter>application\scene\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\application\scene\GamePlayScene.cpp">
       <Filter>application\scene\cpp</Filter>
     </ClCompile>
@@ -255,12 +249,6 @@
       <Filter>application\scene</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\application\scene\GamePlayScene.h">
-      <Filter>application\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\application\scene\GameOver.h">
-      <Filter>application\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\application\scene\GameClear.h">
       <Filter>application\scene</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\engin\input\Input.h">

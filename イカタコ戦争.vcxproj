@@ -188,8 +188,6 @@
     <ClCompile Include="SourceCode\application\player\Player.cpp" />
     <ClCompile Include="SourceCode\application\player\PlayerBullet.cpp" />
     <ClCompile Include="SourceCode\application\player\PlayerLife.cpp" />
-    <ClCompile Include="SourceCode\application\scene\GameClear.cpp" />
-    <ClCompile Include="SourceCode\application\scene\GameOver.cpp" />
     <ClCompile Include="SourceCode\application\scene\GamePlayScene.cpp" />
     <ClCompile Include="SourceCode\application\scene\Phase.cpp" />
     <ClCompile Include="SourceCode\application\scene\SceneManager.cpp" />
@@ -246,8 +244,6 @@
     <ClInclude Include="SourceCode\application\player\PlayerBullet.h" />
     <ClInclude Include="SourceCode\application\player\PlayerLife.h" />
     <ClInclude Include="SourceCode\application\scene\BaseScene.h" />
-    <ClInclude Include="SourceCode\application\scene\GameClear.h" />
-    <ClInclude Include="SourceCode\application\scene\GameOver.h" />
     <ClInclude Include="SourceCode\application\scene\GamePlayScene.h" />
     <ClInclude Include="SourceCode\application\scene\Phase.h" />
     <ClInclude Include="SourceCode\application\scene\SceneManager.h" />

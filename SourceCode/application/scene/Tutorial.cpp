@@ -73,6 +73,7 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 void Tutorial::Finalize()
 {
+	delete particleMan;
 }
 
 void Tutorial::Update()

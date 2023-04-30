@@ -172,6 +172,7 @@ void Tutorial::Update()
 			playerPos = player->GetPosition();
 			if (easFrame < 1.0f) {
 				easFrame += 0.01f;
+				//Ž©‹@‚Ì‘å‚«‚³‚ð¬‚³‚­‚³‚¹‚éŠÖ”
 				player->ScaleChange();
 			}
 

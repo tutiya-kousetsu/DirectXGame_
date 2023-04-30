@@ -15,7 +15,6 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 
 FrontEnemy::~FrontEnemy()
 {
-	delete particleMan;
 }
 
 bool FrontEnemy::Initialize(XMFLOAT3 position)

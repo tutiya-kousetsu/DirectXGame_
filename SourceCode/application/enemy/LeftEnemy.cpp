@@ -14,7 +14,6 @@ LeftEnemy::LeftEnemy() :LeftEnemy(Model::CreateFromOBJ("squid"))
 
 LeftEnemy::~LeftEnemy()
 {
-	delete particleMan;
 }
 
 bool LeftEnemy::Initialize(XMFLOAT3 position)

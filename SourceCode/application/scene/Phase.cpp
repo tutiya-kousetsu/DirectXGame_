@@ -20,11 +20,13 @@ void Phase::Initialize()
 void Phase::MovePhase(int i)
 {
 	pos[i] = phase[i]->GetPosition();
+	//フェーズスプライトが右にあったら中心までイージングで動かす
 	if (pos[i].x >= -1280) {
 		if (outFrame < 1.0f) {
 			outFrame += 0.01f;
 		}
 		pos[i].x = Ease(Out, Cubic, outFrame, 1280.0f, 0.0f);
+		//フェーズスプライトが中心に来たら左に向かってイージングで動かす
 		if (pos[i].x <= 0) {
 			if (inFrame < 1.0f) {
 				inFrame += 0.01f;
@@ -32,9 +34,11 @@ void Phase::MovePhase(int i)
 			pos[i].x = Ease(In, Cubic, inFrame, 0.0f, -1280.0f);
 		}
 	}
+	//スプライトが左の画面外に出たらフラグを立たせる
 	else if (pos[i].x <= -1280) {
 		phaseFlag = true;
 	}
+	//フラグが立ったら初期化
 	if (phaseFlag) {
 		outFrame = 0;
 		inFrame = 0;

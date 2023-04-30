@@ -257,10 +257,13 @@ void GamePlayScene::Update()
 		this->sceneManager->SetNextScene(scene);
 	}
 
+	//クリア条件
 	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
 		clearFlag = true;
 	}
+	//クリアフラグが立ったらif文通す
 	if (clearFlag) {
+		//クリアしたらイージングでクリアのスプライト動かす
 		clearPos = clear->GetPosition();
 		if (clearPos.y <= 0) {
 			if (easFrame < 1.0f) {
@@ -270,10 +273,11 @@ void GamePlayScene::Update()
 
 			clear->SetPosition(clearPos);
 		}
+		//クリアスプライトが降りきったらタイマースタートさせる
 		else {
 			clearTime++;
 		}
-		
+		//タイマーが120経ったらポストエフェクトで中心に向かって暗くする
 		if (clearTime >= 120) {
 		endEfRadius = postEffect->GetRadius();
 		endEfRadius -= 15.5f;
@@ -285,6 +289,7 @@ void GamePlayScene::Update()
 
 		}
 	}
+	//全部暗くなったらタイトルに戻す
 	if (clearTFlag) {
 		//シーン切り替え
 		BaseScene* scene = new TitleScene();

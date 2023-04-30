@@ -28,6 +28,7 @@ Player* Player::Create(Model* model)
 
 Player::~Player()
 {
+	//delete particleMan;
 }
 
 bool Player::Initialize()

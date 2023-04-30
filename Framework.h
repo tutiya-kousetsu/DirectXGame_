@@ -7,7 +7,7 @@
 #include "Audio.h"
 #include "Object3d.h"
 #include "Sprite.h"
-
+#include "SceneManager.h"
 /// <summary>
 /// フレームワーク
 /// </summary>
@@ -37,7 +37,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	virtual void Draw() = 0;
+	virtual void Draw();
 
 	virtual bool IsEndRequst() { return endRequst; }
 
@@ -50,5 +50,6 @@ protected:
 	Audio* audio = nullptr;
 	DebugText* debugText = nullptr;
 	SpriteCommon* spriteCommon = nullptr;
+	SceneManager* sceneManager = nullptr;
 };
 

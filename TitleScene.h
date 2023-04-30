@@ -1,15 +1,12 @@
 #pragma once
-
 #include "BaseScene.h"
 #include "Object3d.h"
 #include "Sprite.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Fbx_Object3d.h"
-/// <summary>
-/// ゲームプレイシーン
-/// </summary>
-class GamePlayScene : public BaseScene
+
+class TitleScene : public BaseScene
 {
 public:
 	/// <summary>
@@ -33,14 +30,8 @@ public:
 	void Draw(DirectXCommon* dxCommon) override;
 
 private:
-	
-	Sprite* sprite = nullptr;
-	Model* modelPost = nullptr;
-	Object3d* objPost = nullptr;
-	DebugCamera* camera = nullptr;
-	DirectXCommon* dxCommon = nullptr;
 
-	Fbx_Model* fbxmodel1 = nullptr;
-	Fbx_Object3d* fbxobject1 = nullptr;
+	Sprite* sprite = nullptr;
+	DebugCamera* camera = nullptr;
 };
 

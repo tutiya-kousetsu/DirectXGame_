@@ -3,8 +3,6 @@
 
 #include "Framework.h"
 
-class GamePlayScene;
-
 /// <summary>
 /// ゲーム固有のクラス
 /// </summary>
@@ -33,7 +31,6 @@ public:
 	void Draw() override;
 
 private:
-	//シーン
-	GamePlayScene* scene = nullptr;
+
 };
 

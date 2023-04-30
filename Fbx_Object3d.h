@@ -1,7 +1,7 @@
 #pragma once
 #include "Fbx_Model.h"
 #include "Camera.h"
-//#include "FbxLoader.h"
+#include "FbxLoader.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -20,6 +20,10 @@ protected://エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+public://定数
+	//ボーンの最大数
+	static const int MAX_BONES = 32;
+
 public://サブクラス
 //定数バッファ用データ構造体
 	struct ConstBufferDataTransform
@@ -28,6 +32,24 @@ public://サブクラス
 		XMMATRIX world;		//ワールド行列
 		XMFLOAT3 cameraPos;	//カメラ座標
 	};
+
+	//定数バッファ用データ構造体(スキニング)
+	struct ConstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
+
+public://関数定義
+	//1フレームの時間
+	FbxTime frameTime;
+	//アニメーション開始時間
+	FbxTime startTime;
+	//アニメーション終了時間
+	FbxTime endTime;
+	//現在時間(アニメーション)
+	FbxTime currentTime;
+	//アニメーション再生中
+	bool isPlay = false;
 
 public://メンバ関数
 	/// <summary>
@@ -44,6 +66,11 @@ public://メンバ関数
 	/// 毎フレーム処理
 	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// アニメーション開始
+	/// </summary>
+	void PlayAnimation();
 
 	/// <summary>
 	/// 描画
@@ -68,6 +95,8 @@ public://静的メンバ関数
 private://静的メンバ変数
 	// コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
+	//定数バッファ(スキン)
+	ComPtr<ID3D12Resource> constBuffSkin;
 	//ローカルスケール
 	XMFLOAT3 scale = { 1, 1, 1 };
 	//x, y, z軸回りのローカル回転角

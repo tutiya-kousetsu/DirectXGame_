@@ -37,7 +37,8 @@ bool Player::Initialize()
 		return false;
 	}
 	particleMan = ParticleManager::GetInstance();
-
+	obstacle = new Obstacle();
+	//obstacle->Initialize();
 	//material->Initialize();
 
 	Object3d::SetPosition({ 0,0,0 });
@@ -61,6 +62,7 @@ void Player::Update()
 			});
 		move();
 		jump();
+
 		Input* input = Input::GetInstance();
 		if (input->TriggerMouseLeft()) {
 			Shoot();
@@ -68,6 +70,7 @@ void Player::Update()
 		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 			bul->Update();
 		}
+		//CheckCollision();
 		Object3d::Update();
 	}
 	if (life <= 0) {
@@ -330,6 +333,50 @@ void Player::OnCollision()
 {
 	life--;
 	CreateParticle();
+}
+
+void Player::CheckCollision()
+{
+	SphereCollider* sphereCollider2 = dynamic_cast<SphereCollider*>(collider);
+	assert(sphereCollider2);
+	// 球の上端から球の下端までのレイキャスト
+	Ray ray;
+	ray.start = sphereCollider2->center;
+	ray.start.m128_f32[2] += sphereCollider2->GetRadius() + 5;
+	ray.dir = { 0,0,-1,0 };
+	RaycastHit raycastHit;
+	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit)) {
+		//obstacle->OnCollision();
+		color = obstacle->GetColor();
+		color.w = 0.45f;
+		obstacle->SetColor(color);
+	}
+	
+	//if (onGround) {
+	//	const float adsDistance = 0.18f;
+	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.4f + adsDistance)) {
+	//		onGround = true;
+	//		position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.4f);
+	//		// 行列の更新など
+	//		Object3d::Update();
+	//	}
+	//	// 地面がないので落下
+	//	else {
+	//		onGround = false;
+	//		fallV = {};
+	//	}
+	//}
+	//// 落下状態
+	//else if (fallV.m128_f32[1] <= 0.0f) {
+	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.4f)) {
+	//		// 着地
+	//		onGround = true;
+	//	}
+	//}
+	// ワールド行列更新
+	UpdateWorldMatrix();
+	collider->Update();
+
 }
 
 //パーティクルの生成

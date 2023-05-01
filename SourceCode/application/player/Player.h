@@ -3,6 +3,7 @@
 #include "PlayerBullet.h"
 #include "EnemyBullet.h"
 #include "GameObject.h"
+#include "Obstacle.h"
 #include <memory>
 #include <list>
 #include <forward_list>
@@ -56,6 +57,8 @@ public:
 	//当たり判定
 	void OnCollision();
 
+	void CheckCollision();
+
 	//パーティク生成
 	void CreateParticle();
 	//弾リスト取得
@@ -108,5 +111,7 @@ private:
 	bool onGround = true;
 	//落下ベクトル
 	DirectX::XMVECTOR fallV;
+	Obstacle* obstacle = nullptr;
+	DirectX::XMFLOAT4 color;
 };
 

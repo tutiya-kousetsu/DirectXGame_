@@ -21,9 +21,6 @@ void Obstacle::Initialize(DirectX::XMFLOAT3 pos)
 
 void Obstacle::Update()
 {
-	color = object->GetColor();
-	color.w = 0.1f;
-	//object->SetColor({ 1.0f, 1.0f, 1.0f, 0.45f });
 	object->Update();
 }
 
@@ -32,6 +29,15 @@ void Obstacle::Draw()
 	object->Draw();
 }
 
-void Obstacle::OnCollision()
+void Obstacle::OnCollision(bool flag)
 {
+	if (flag) {
+		color = object->GetColor();
+		color.w = 0.45f;
+		object->SetColor({ 1.0f, 1.0f, 1.0f, color.w });
+	}
+	if (!flag) {
+		object->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+
+	}
 }

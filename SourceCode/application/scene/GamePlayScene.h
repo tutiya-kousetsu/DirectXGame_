@@ -24,6 +24,7 @@
 #include "Phase.h"
 #include "PlayerLife.h"
 #include "CollisionManager.h"
+#include "BaseCollider.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -161,6 +162,8 @@ private:
 	ParticleManager* particleMan = nullptr;
 	CollisionManager* collisionMan = nullptr;
 	
+	BaseCollider* collider = nullptr;
+
 	//ドア
 	//Door* door[8]{};
 	std::unique_ptr<Door> door;
@@ -198,7 +201,7 @@ private:
 	bool damageFlag4 = false;
 	bool frameFlag = false;
 	bool endFlag = false;
-
+	bool rayFlag = false;
 	//フェーズ
 	int fEnePhase = 0;
 	int fWaitPhase = 0;
@@ -218,4 +221,10 @@ private:
 	float distance = 1.0f;
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
 
+	XMVECTOR p;
+	float radius;
+	XMVECTOR sp;
+	XMVECTOR ep;
+	float segLen;
+	XMVECTOR pv;
 };

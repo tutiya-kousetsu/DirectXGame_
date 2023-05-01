@@ -20,10 +20,13 @@ public:
 
 	void Draw();
 
-	void OnCollision();
+	void OnCollision(bool flag = false);
 public:
 	inline void SetPosition(const DirectX::XMFLOAT3& position) { object->SetPosition(position); }
 	inline const DirectX::XMFLOAT3& GetPosition() const { return object->GetPosition(); }
+
+	inline void SetColor(const DirectX::XMFLOAT4& position) { object->SetColor(color); }
+	inline const DirectX::XMFLOAT4& GetColor() const { return object->GetColor(); }
 
 	inline void SetScale(const DirectX::XMFLOAT3& scale) { object->SetScale(scale); }
 	inline const DirectX::XMFLOAT3& GetScale() const { return object->GetScale(); }
@@ -40,7 +43,7 @@ protected:
 	//std::unique_ptr<Object3d> obj;
 	bool alive = true;
 	//std::unique_ptr<Material> material;
-	DirectX:: XMFLOAT4 color;
+	DirectX::XMFLOAT4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 
 };
 

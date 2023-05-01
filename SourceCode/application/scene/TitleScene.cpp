@@ -63,7 +63,7 @@ void TitleScene::Update()
 	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
 	{
 		//シーン切り替え
-		BaseScene* scene = new Tutorial();
+		BaseScene* scene = new GamePlayScene();
 		this->sceneManager->SetNextScene(scene);
 	}
 

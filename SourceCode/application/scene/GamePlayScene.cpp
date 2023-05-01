@@ -8,6 +8,7 @@
 #include "Collision.h"
 #include "ParticleManager.h"
 #include "SphereCollider.h"
+#include "CollisionAttribute.h"
 #include "MeshCollider.h"
 #include "TouchableObject.h"
 #include "Easing.h"
@@ -318,6 +319,7 @@ void GamePlayScene::Update()
 
 	//当たり判定
 	CheckAllCollision();
+	//player->CheckCollision();
 	collisionMan->CheckAllCollisions();
 
 	particleMan->Update();
@@ -984,6 +986,28 @@ void GamePlayScene::CheckAllCollision()
 	RightColl();
 	BackColl();
 
+	//SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
+	//assert(sphereCollider);
+	Sphere pl;
+	Sphere obstacleShape;
+	if (player->GetAlive()) {
+		pl.center = XMLoadFloat3(&player->GetPosition());
+		pl.radius = player->GetScale().z + 5;
+		Ray ray;
+		ray.start = pl.center;
+		//ray.start.m128_f32[2] += pl.radius;
+		ray.dir = { 0,0,-1,0 };
+		RaycastHit raycastHit;
+		for (auto& ob : obstacles) {
+			obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
+			obstacleShape.radius = ob->GetScale().x;
+
+			if (Collision::CheckRay2Sphere(ray, obstacleShape)) {
+				rayFlag = true;
+				ob->OnCollision(rayFlag);
+			}
+		}
+	}
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 
 #pragma region 自弾と敵の当たり判定
@@ -1068,6 +1092,8 @@ void GamePlayScene::CheckAllCollision()
 
 				if (Collision::CheckSphere2Sphere(pBullet, obstacleShape)) {
 					pb->OnCollision();
+					ob->OnCollision();
+
 				}
 			}
 			//壁と自機弾の当たり判定

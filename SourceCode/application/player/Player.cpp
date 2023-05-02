@@ -28,7 +28,6 @@ Player* Player::Create(Model* model)
 
 Player::~Player()
 {
-	//delete particleMan;
 }
 
 bool Player::Initialize()
@@ -329,9 +328,9 @@ bool Player::Shoot()
 }
 
 
-void Player::OnCollision()
+void Player::OnCollision(int i)
 {
-	life--;
+	life -= i;
 	CreateParticle();
 }
 
@@ -352,27 +351,6 @@ void Player::CheckCollision()
 		obstacle->SetColor(color);
 	}
 	
-	//if (onGround) {
-	//	const float adsDistance = 0.18f;
-	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.4f + adsDistance)) {
-	//		onGround = true;
-	//		position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.4f);
-	//		// 行列の更新など
-	//		Object3d::Update();
-	//	}
-	//	// 地面がないので落下
-	//	else {
-	//		onGround = false;
-	//		fallV = {};
-	//	}
-	//}
-	//// 落下状態
-	//else if (fallV.m128_f32[1] <= 0.0f) {
-	//	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.4f)) {
-	//		// 着地
-	//		onGround = true;
-	//	}
-	//}
 	// ワールド行列更新
 	UpdateWorldMatrix();
 	collider->Update();

@@ -36,6 +36,7 @@ public:
 struct Ray {
 	// Žn“_
 	DirectX::XMVECTOR start = { 0, 0, 0, 1 };
+	DirectX::XMVECTOR end = { 1,1,1,1 };
 	// •ûŒü
 	DirectX::XMVECTOR dir = { 1, 0, 0, 0 };
 };

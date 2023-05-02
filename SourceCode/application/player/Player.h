@@ -55,7 +55,7 @@ public:
 	bool Shoot();
 
 	//“–‚½‚è”»’è
-	void OnCollision();
+	void OnCollision(int i);
 
 	void CheckCollision();
 

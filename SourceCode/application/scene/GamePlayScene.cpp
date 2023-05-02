@@ -109,6 +109,7 @@ void GamePlayScene::Update()
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
 
+	//カメラにプレイヤーを固定させる
 	camera->SetFollowingTarget(player.get());
 
 	// マウスの入力を取得
@@ -207,6 +208,7 @@ void GamePlayScene::Update()
 		}
 		phase->MovePhase(phaseCount);
 	}
+	//フェーズ
 	if (phase->GetPhase()) {
 		if (door) {
 			door->DoorMove(phaseCount);
@@ -235,15 +237,17 @@ void GamePlayScene::Update()
 	}
 
 	playerPos = player->GetPosition();
+	//自機のHPが0になったら小さくする
 	if (!player->GetAlive()) {
 		player->ScaleChange();
 	}
+	//自機がステージから落ちたら小さくする
 	if (playerPos.y <= -10.0f) {
 		player->ScaleChange();
 	}
 	//プレイヤーのHPが0になったらポストエフェクト
 	if (!player->GetAlive() || playerPos.y <= -10.0f) {
-		//中心に向かって暗くする
+		//中心に向かってポストエフェクトで暗くする
 		endEfRadius = postEffect->GetRadius();
 		endEfRadius -= 10.5f;
 		if (endEfRadius <= 0.f) {
@@ -716,7 +720,7 @@ void GamePlayScene::FrontColl()
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 
 					eb->OnCollision();
-					player->OnCollision();
+					player->OnCollision(1);
 					if (!damageFlag1) {
 						damageFlag1 = true;
 					}
@@ -785,7 +789,7 @@ void GamePlayScene::LeftColl()
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 
 					eb->OnCollision();
-					player->OnCollision();
+					player->OnCollision(1);
 					if (!damageFlag2) {
 						damageFlag2 = true;
 					}
@@ -855,7 +859,7 @@ void GamePlayScene::RightColl()
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 
 					eb->OnCollision();
-					player->OnCollision();
+					player->OnCollision(2);
 					if (!damageFlag3) {
 						damageFlag3 = true;
 					}
@@ -926,7 +930,7 @@ void GamePlayScene::BackColl()
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 
 					eb->OnCollision();
-					player->OnCollision();
+					player->OnCollision(1);
 					if (!damageFlag4) {
 						damageFlag4 = true;
 					}
@@ -986,25 +990,22 @@ void GamePlayScene::CheckAllCollision()
 	RightColl();
 	BackColl();
 
-	//SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
-	//assert(sphereCollider);
-	Sphere pl;
-	Sphere obstacleShape;
+	//レイの当たり判定(当たったら岩を透明にする)->線分と円の当たり判定に切り替える予定
+	Sphere obShape;
 	if (player->GetAlive()) {
-		pl.center = XMLoadFloat3(&player->GetPosition());
-		pl.radius = player->GetScale().z + 5;
+		playerPos = player->GetPosition();
 		Ray ray;
-		ray.start = pl.center;
-		//ray.start.m128_f32[2] += pl.radius;
-		ray.dir = { 0,0,-1,0 };
-		RaycastHit raycastHit;
+		ray.start = XMLoadFloat3(&camera->GetTarget());
+		ray.dir = XMLoadFloat3(&camera->GetEye());
 		for (auto& ob : obstacles) {
-			obstacleShape.center = XMLoadFloat3(&ob->GetPosition());
-			obstacleShape.radius = ob->GetScale().x;
-
-			if (Collision::CheckRay2Sphere(ray, obstacleShape)) {
+			obShape.center = XMLoadFloat3(&ob->GetPosition());
+			obShape.radius = ob->GetScale().x;
+			if (Collision::CheckRay2Sphere(ray, obShape)) {
 				rayFlag = true;
 				ob->OnCollision(rayFlag);
+			}
+			else {
+				ob->OnCollision(!rayFlag);
 			}
 		}
 	}

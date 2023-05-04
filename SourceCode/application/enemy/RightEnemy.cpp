@@ -5,7 +5,7 @@
 #include "CollisionManager.h"
 #include "ParticleManager.h"
 
-RightEnemy::RightEnemy() :RightEnemy(Model::CreateFromOBJ("squid"))
+RightEnemy::RightEnemy() :RightEnemy(Model::CreateFromOBJ("purpleSquid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0,270,0 });

@@ -57,3 +57,14 @@ void FollowingCamera::startUpdate()
 		SetTarget(target);
 	}
 }
+
+XMVECTOR FollowingCamera::GetWorldPosition()
+{
+	XMVECTOR worldPos{};
+
+	worldPos.m128_f32[0] = target.x;
+	worldPos.m128_f32[1] = target.y;
+	worldPos.m128_f32[2] = target.z;
+
+	return worldPos;
+}

@@ -15,6 +15,9 @@ public:
 
 	void startUpdate()override;
 
+	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	XMVECTOR GetWorldPosition();
+
 private:
 	Object3d* followingTarget;
 

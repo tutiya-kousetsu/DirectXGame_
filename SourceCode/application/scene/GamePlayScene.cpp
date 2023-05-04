@@ -284,13 +284,13 @@ void GamePlayScene::Update()
 		}
 		//タイマーが120経ったらポストエフェクトで中心に向かって暗くする
 		if (clearTime >= 120) {
-		endEfRadius = postEffect->GetRadius();
-		endEfRadius -= 15.5f;
-		if (endEfRadius <= 0.f) {
-			endEfRadius = 0;
-			clearTFlag = true;
-		}
-		postEffect->SetRadius(endEfRadius);
+			endEfRadius = postEffect->GetRadius();
+			endEfRadius -= 15.5f;
+			if (endEfRadius <= 0.f) {
+				endEfRadius = 0;
+				clearTFlag = true;
+			}
+			postEffect->SetRadius(endEfRadius);
 
 		}
 	}
@@ -992,11 +992,48 @@ void GamePlayScene::CheckAllCollision()
 
 	//レイの当たり判定(当たったら岩を透明にする)->線分と円の当たり判定に切り替える予定
 	Sphere obShape;
+
 	if (player->GetAlive()) {
-		playerPos = player->GetPosition();
+		XMVECTOR playerPos = player->GetWorldPosition();
+		XMVECTOR cameraPos = camera->GetWorldPosition();
+
+			// 注視点から視点へのベクトルと、上方向ベクトル
+			XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
+			XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
+
+			// ベクトルを回転
+			vTargetEye = XMVector3Transform(vTargetEye, matRot);
+			vUp = XMVector3Transform(vUp, matRot);
+
+			// 長さ
+			float length = 0.0f;
+
+			XMFLOAT3 target1 = camera->GetTarget();
+			camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
+			camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
+
+			// 注視点からずらした位置に視点座標を決定
+			XMFLOAT3 target2 = camera->GetTarget();
+			XMFLOAT3 eye = camera->GetEye();
+
+			XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
+			XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
+			// FLOAT3に変換
+			XMStoreFloat3(&fTargetEye, vecF);
+			XMVECTOR vecTarget = XMLoadFloat3(&target2);
+			// FLOAT3に変換
+			XMStoreFloat3(&target2, vecTarget);
+			XMVECTOR vecEye = XMLoadFloat3(&eye);
+			// FLOAT3に変換
+			XMStoreFloat3(&eye, vecEye);
+			//正規化
+			fTargetEye.x = eye.x - target2.x;
+			fTargetEye.y = eye.y - target2.y;
+			fTargetEye.z = eye.z - target2.z;
+
 		Ray ray;
-		ray.start = XMLoadFloat3(&camera->GetTarget());
-		ray.dir = XMLoadFloat3(&camera->GetEye());
+		ray.start = XMLoadFloat3(&target2);
+		ray.dir = XMLoadFloat3(&fTargetEye);
 		for (auto& ob : obstacles) {
 			obShape.center = XMLoadFloat3(&ob->GetPosition());
 			obShape.radius = ob->GetScale().x;

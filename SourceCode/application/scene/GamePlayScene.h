@@ -138,6 +138,7 @@ private:
 	//ÉvÉåÉCÉÑÅ[
 	std::unique_ptr<Player> player;
 	XMFLOAT3 playerPos;
+
 	XMFLOAT3 playerRot;
 	XMFLOAT3 playerScale;
 	int life = 0;
@@ -221,10 +222,11 @@ private:
 	float distance = 1.0f;
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
 
-	XMVECTOR p;
+	XMVECTOR startToCenter;
 	float radius;
-	XMVECTOR sp;
-	XMVECTOR ep;
+	XMVECTOR endToCenter;
+	XMVECTOR startToEnd;
 	float segLen;
 	XMVECTOR pv;
+	XMVECTOR cameraVel;
 };

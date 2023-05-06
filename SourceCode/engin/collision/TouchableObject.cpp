@@ -36,3 +36,9 @@ bool TouchableObject::Initialize(Model* model)
 	collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 	return true;
 }
+
+void TouchableObject::Pop(DirectX::XMFLOAT3 position)
+{
+	this->position = position;
+	//SetPosition(position);
+}

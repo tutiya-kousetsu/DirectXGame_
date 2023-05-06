@@ -52,9 +52,6 @@ public:
 	/// </summary>
 	void Update() override;
 
-	//ドアを敵のフェーズに合わせて動かす
-	//void DoorMove();
-
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -107,8 +104,6 @@ private:
 	std::unique_ptr<Sprite> damage;
 	std::unique_ptr<Sprite> clear;
 	XMFLOAT4 color;
-	
-	
 
 	int32_t damageTime = 20;
 	int phaseCount = 0;
@@ -124,6 +119,9 @@ private:
 	std::unique_ptr<Sprite> spriteBG;
 	// カメラ
 	std::unique_ptr<FollowingCamera> camera;
+	std::unique_ptr<DebugCamera> debugCam;
+	Camera* nowCamera = nullptr;
+
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
 	std::unique_ptr<PostEffect> postEffect;
@@ -153,9 +151,6 @@ private:
 	std::list < std::unique_ptr<BackEnemy>> backEnemy;
 
 	std::stringstream enemyPopCom;
-	std::stringstream leftPopCom;
-	std::stringstream rightPopCom;
-	std::stringstream backPopCom;
 	//床
 	std::unique_ptr<TouchableObject> floor;
 
@@ -166,7 +161,6 @@ private:
 	BaseCollider* collider = nullptr;
 
 	//ドア
-	//Door* door[8]{};
 	std::unique_ptr<Door> door;
 	XMFLOAT3 doorPos;
 	XMFLOAT3 doorRot;
@@ -175,7 +169,6 @@ private:
 	std::list<std::unique_ptr<Wall>> walls;
 	std::stringstream wallPopCom;
 	//ポジション
-	
 	XMFLOAT3 enePos;
 	XMFLOAT3 bulPos;
 	//スプライト
@@ -221,12 +214,4 @@ private:
 	bool viewDirty = false;
 	float distance = 1.0f;
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
-
-	XMVECTOR startToCenter;
-	float radius;
-	XMVECTOR endToCenter;
-	XMVECTOR startToEnd;
-	float segLen;
-	XMVECTOR pv;
-	XMVECTOR cameraVel;
 };

@@ -15,7 +15,10 @@ public:
 	/// <returns>成否</returns>
 	bool Initialize(Model* model);
 	
+	void Pop(DirectX::XMFLOAT3 position);
+
 protected:
 	std::unique_ptr<Object3d> object;
+	DirectX::XMFLOAT3 position;
 };
 

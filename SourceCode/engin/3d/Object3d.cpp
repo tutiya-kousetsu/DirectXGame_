@@ -352,6 +352,11 @@ void Object3d::UpdateWorldMatrix()
 	}
 }
 
+void Object3d::Pop(XMFLOAT3 position)
+{
+	this->position = position;
+}
+
 void Object3d::SetCollider(BaseCollider* collider)
 {
 	collider->SetObject(this);

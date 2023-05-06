@@ -191,6 +191,8 @@ public: // メンバ関数
 	/// </summary>
 	void UpdateWorldMatrix();
 
+	void Pop(XMFLOAT3 position);
+
 	/// <summary>
 	/// 座標の取得
 	/// </summary>

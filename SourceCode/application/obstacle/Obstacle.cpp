@@ -1,6 +1,7 @@
 #include "Obstacle.h"
 #include "BaseCollider.h"
 #include "CollisionManager.h"
+#include <fstream>
 
 Obstacle::~Obstacle()
 {
@@ -11,12 +12,14 @@ Obstacle::~Obstacle()
 	}
 }
 
-void Obstacle::Initialize(DirectX::XMFLOAT3 pos)
+bool Obstacle::Initialize(XMFLOAT3 position)
 {
 	object.reset(new TouchableObject());
 	object->Initialize(Model::CreateFromOBJ("stone"));
 	object->SetScale({ 3.4f, 3.21f, 3.4f });
-	object->SetPosition(pos);
+	object->SetPosition(position);
+	return true;
+
 }
 
 void Obstacle::Update()
@@ -31,6 +34,7 @@ void Obstacle::Draw()
 
 void Obstacle::OnCollision(bool flag)
 {
+
 	if (flag) {
 		color = object->GetColor();
 		color.w = 0.45f;

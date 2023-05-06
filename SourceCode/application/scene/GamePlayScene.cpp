@@ -91,6 +91,9 @@ void GamePlayScene::Finalize()
 	phase.reset();
 	player.reset();
 	playerLife.reset();
+	CollisionManager::GetInstance()->RemoveCollider(collider);
+	delete collider;
+	delete input;
 	//壁があったら削除する
 	walls.remove_if([](std::unique_ptr<Wall>& wall) {
 		return wall->GetAlive();
@@ -132,9 +135,6 @@ void GamePlayScene::Update()
 		vTargetEye = XMVector3Transform(vTargetEye, matRot);
 		vUp = XMVector3Transform(vUp, matRot);
 
-		// 長さ
-		float length = 0.0f;
-
 		XMFLOAT3 target1 = camera->GetTarget();
 		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
 		camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
@@ -142,17 +142,7 @@ void GamePlayScene::Update()
 		// 注視点からずらした位置に視点座標を決定
 		XMFLOAT3 target2 = camera->GetTarget();
 		XMFLOAT3 eye = camera->GetEye();
-
 		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
-		XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
-		// FLOAT3に変換
-		XMStoreFloat3(&fTargetEye, vecF);
-		XMVECTOR vecTarget = XMLoadFloat3(&target2);
-		// FLOAT3に変換
-		XMStoreFloat3(&target2, vecTarget);
-		XMVECTOR vecEye = XMLoadFloat3(&eye);
-		// FLOAT3に変換
-		XMStoreFloat3(&eye, vecEye);
 		//正規化
 		fTargetEye.x = eye.x - target2.x;
 		fTargetEye.y = eye.y - target2.y;
@@ -990,49 +980,30 @@ void GamePlayScene::CheckAllCollision()
 	RightColl();
 	BackColl();
 
-	//レイの当たり判定(当たったら岩を透明にする)->線分と円の当たり判定に切り替える予定
+	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
 
 	if (player->GetAlive()) {
-		XMVECTOR playerPos = player->GetWorldPosition();
-		XMVECTOR cameraPos = camera->GetWorldPosition();
+		// 注視点から視点へのベクトル
+		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
 
-			// 注視点から視点へのベクトルと、上方向ベクトル
-			XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
-			XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
+		// ベクトルを回転
+		vTargetEye = XMVector3Transform(vTargetEye, matRot);
 
-			// ベクトルを回転
-			vTargetEye = XMVector3Transform(vTargetEye, matRot);
-			vUp = XMVector3Transform(vUp, matRot);
+		XMFLOAT3 target1 = camera->GetTarget();
+		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
 
-			// 長さ
-			float length = 0.0f;
-
-			XMFLOAT3 target1 = camera->GetTarget();
-			camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
-			camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
-
-			// 注視点からずらした位置に視点座標を決定
-			XMFLOAT3 target2 = camera->GetTarget();
-			XMFLOAT3 eye = camera->GetEye();
-
-			XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
-			XMVECTOR vecF = XMLoadFloat3(&fTargetEye);
-			// FLOAT3に変換
-			XMStoreFloat3(&fTargetEye, vecF);
-			XMVECTOR vecTarget = XMLoadFloat3(&target2);
-			// FLOAT3に変換
-			XMStoreFloat3(&target2, vecTarget);
-			XMVECTOR vecEye = XMLoadFloat3(&eye);
-			// FLOAT3に変換
-			XMStoreFloat3(&eye, vecEye);
-			//正規化
-			fTargetEye.x = eye.x - target2.x;
-			fTargetEye.y = eye.y - target2.y;
-			fTargetEye.z = eye.z - target2.z;
+		// 注視点からずらした位置に視点座標を決定
+		XMFLOAT3 target2 = camera->GetTarget();
+		XMFLOAT3 eye = camera->GetEye();
+		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
+		//正規化
+		fTargetEye.x = eye.x - target2.x;
+		fTargetEye.y = eye.y - target2.y;
+		fTargetEye.z = eye.z - target2.z;
 
 		Ray ray;
-		ray.start = XMLoadFloat3(&target2);
+		ray.start = XMLoadFloat3(&camera->GetTarget());
 		ray.dir = XMLoadFloat3(&fTargetEye);
 		for (auto& ob : obstacles) {
 			obShape.center = XMLoadFloat3(&ob->GetPosition());

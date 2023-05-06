@@ -73,6 +73,7 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 void Tutorial::Finalize()
 {
+	delete nowCamera;
 }
 
 void Tutorial::Update()

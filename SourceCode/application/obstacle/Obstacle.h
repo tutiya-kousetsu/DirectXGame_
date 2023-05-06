@@ -12,9 +12,13 @@ using namespace DirectX;
 class Obstacle : TouchableObject
 {
 public:
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+
+public:
 	~Obstacle();
 
-	void Initialize(DirectX::XMFLOAT3 pos);
+	bool Initialize(XMFLOAT3 pos);
 
 	void Update();
 
@@ -22,28 +26,25 @@ public:
 
 	void OnCollision(bool flag = false);
 public:
-	inline void SetPosition(const DirectX::XMFLOAT3& position) { object->SetPosition(position); }
-	inline const DirectX::XMFLOAT3& GetPosition() const { return object->GetPosition(); }
+	inline void SetPosition(const XMFLOAT3& position) { object->SetPosition(position); }
+	inline const XMFLOAT3& GetPosition() const { return object->GetPosition(); }
 
-	inline void SetColor(const DirectX::XMFLOAT4& position) { object->SetColor(color); }
-	inline const DirectX::XMFLOAT4& GetColor() const { return object->GetColor(); }
+	inline void SetColor(const XMFLOAT4& position) { object->SetColor(color); }
+	inline const XMFLOAT4& GetColor() const { return object->GetColor(); }
 
-	inline void SetScale(const DirectX::XMFLOAT3& scale) { object->SetScale(scale); }
-	inline const DirectX::XMFLOAT3& GetScale() const { return object->GetScale(); }
+	inline void SetScale(const XMFLOAT3& scale) { object->SetScale(scale); }
+	inline const XMFLOAT3& GetScale() const { return object->GetScale(); }
 
-	inline void SetRotation(const DirectX::XMFLOAT3& rotation) { object->SetRotation(rotation); }
-	inline const DirectX::XMFLOAT3& GetRotation() const { return object->GetRotation(); }
+	inline void SetRotation(const XMFLOAT3& rotation) { object->SetRotation(rotation); }
+	inline const XMFLOAT3& GetRotation() const { return object->GetRotation(); }
 
 	inline bool GetAlive() const { return alive; }
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
 protected:
-	DirectX::XMFLOAT3 position;
+	XMFLOAT3 position;
 	std::unique_ptr<TouchableObject> object;
-	//std::unique_ptr<Object3d> obj;
 	bool alive = true;
-	//std::unique_ptr<Material> material;
-	DirectX::XMFLOAT4 color = {1.0f, 1.0f, 1.0f, 1.0f};
-
+	XMFLOAT4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 };
 

@@ -182,6 +182,7 @@ private:
 	//タイマー
 	int32_t wait = 0;
 	int32_t clearTime = 0;
+	int32_t landTime = 0;
 	//フラグ
 	bool bulFlag = true;
 	bool waitFlag = false;
@@ -196,6 +197,7 @@ private:
 	bool frameFlag = false;
 	bool endFlag = false;
 	bool rayFlag = false;
+	bool landFlag = false;
 	//フェーズ
 	int fEnePhase = 0;
 	int fWaitPhase = 0;

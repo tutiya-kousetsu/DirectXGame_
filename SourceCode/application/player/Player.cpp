@@ -288,7 +288,7 @@ void Player::jump()
 	Object3d::Update();
 }
 
-void Player::ScaleChange()
+void Player::ScaleSmall()
 {
 	scale = Object3d::GetScale();
 	if (scale.x >= 0.f && scale.y >= 0.f && scale.z >= 0.f) {
@@ -297,6 +297,18 @@ void Player::ScaleChange()
 		scale.z -= 0.01f;
 		Object3d::SetScale(scale);
 	}
+}
+
+void Player::ScaleLarge()
+{
+	scale = Object3d::GetScale();
+	if (scale.x <= 0.9f && scale.y <= 0.9f && scale.z <= 0.9f) {
+		scale.x += 0.01f;
+		scale.y += 0.01f;
+		scale.z += 0.01f;
+		Object3d::SetScale(scale);
+	}
+
 }
 
 void Player::TutorialDraw(bool flag)

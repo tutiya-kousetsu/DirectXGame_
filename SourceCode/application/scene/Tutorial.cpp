@@ -46,7 +46,7 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	sceneMoveObj = Object3d::Create();
 	sceneMoveObj->SetModel(Model::CreateFromOBJ("sceneMove"));
 	sceneMoveObj->SetScale({ 3,3,3 });
-	sceneMoveObj->SetPosition({ 0, -2.02f, 20 });
+	sceneMoveObj->SetPosition({ 0.f, -2.02f, 20.f });
 
 	//データ読み込み
 	arrowObj = Object3d::Create();
@@ -73,7 +73,6 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 
 void Tutorial::Finalize()
 {
-	delete nowCamera;
 }
 
 void Tutorial::Update()
@@ -173,7 +172,7 @@ void Tutorial::Update()
 			if (easFrame < 1.0f) {
 				easFrame += 0.01f;
 				//自機の大きさを小さくさせる関数
-				player->ScaleChange();
+				player->ScaleSmall();
 			}
 
 			playerPos.y = Ease(In, Cubic, easFrame, playerPos.y, 40.0f);

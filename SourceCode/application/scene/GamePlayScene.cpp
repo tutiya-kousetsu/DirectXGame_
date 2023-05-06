@@ -45,6 +45,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	camera.reset(new FollowingCamera());
 	//カメラを3Dオブジェットにセット
 	Object3d::SetCamera(camera.get());
+	debugCam.reset(new DebugCamera(WinApp::window_width, WinApp::window_height));
 
 	//デバイスをセット
 	Fbx_Object3d::SetDevice(dxCommon->GetDev());
@@ -60,7 +61,8 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	collisionMan = CollisionManager::GetInstance();
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
-	player->SetPosition({ 0, 30.f, 0 });
+	player->SetPosition({ 0.f, 30.f, 0.f });
+	player->SetScale({ 0.f,0.f,0.f });
 	//player->SetCollider(new SphereCollider());
 	playerLife.reset(new PlayerLife());
 	playerLife->Initialize();
@@ -105,6 +107,56 @@ void GamePlayScene::Finalize()
 
 void GamePlayScene::Update()
 {
+	playerPos = player->GetPosition();
+	if (!landFlag) {
+		//追従カメラから普通のカメラに変更
+		nowCamera = debugCam.get();
+		Object3d::SetCamera(nowCamera);
+		nowCamera->SetEye({ playerPos.x, 2.f, 20.f });
+		nowCamera->SetTarget(playerPos);
+
+		if (easFrame < 1.0f) {
+			easFrame += 0.01f;
+			player->ScaleLarge();
+		}
+		playerPos.y = Ease(In, Cubic, easFrame, 30.f, -10.0f);
+		playerScale = player->GetScale();
+		if (playerScale.x >= 0.9f && playerScale.y >= 0.9f && playerScale.z >= 0.9f) {
+			landFlag = true;
+		}
+		player->SetPosition(playerPos);
+	}
+	if (landFlag) {
+		landTime++;
+		if (landTime >= 60) {
+			nowCamera = camera.get();
+			Object3d::SetCamera(nowCamera);
+
+			if (!phase->GetPhase()) {
+				//フェーズ2
+				if (fEnePhase >= 1) {
+					phaseCount = 1;
+				}
+				//フェーズ3
+				if (fEnePhase >= 3) {
+					phaseCount = 2;
+				}
+				//フェーズ4
+				if (fEnePhase >= 5 && lEnePhase >= 1) {
+					phaseCount = 3;
+				}
+				//フェーズ5
+				if (fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
+					phaseCount = 4;
+				}
+				//フェーズ6
+				if (fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
+					phaseCount = 5;
+				}
+				phase->MovePhase(phaseCount);
+			}
+		}
+	}
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -175,29 +227,6 @@ void GamePlayScene::Update()
 	//プレイヤーの更新
 	player->Update();
 
-	if (!phase->GetPhase()) {
-		//フェーズ2
-		if (fEnePhase >= 1) {
-			phaseCount = 1;
-		}
-		//フェーズ3
-		if (fEnePhase >= 3) {
-			phaseCount = 2;
-		}
-		//フェーズ4
-		if (fEnePhase >= 5 && lEnePhase >= 1) {
-			phaseCount = 3;
-		}
-		//フェーズ5
-		if (fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
-			phaseCount = 4;
-		}
-		//フェーズ6
-		if (fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
-			phaseCount = 5;
-		}
-		phase->MovePhase(phaseCount);
-	}
 	//フェーズ
 	if (phase->GetPhase()) {
 		if (door) {
@@ -229,11 +258,11 @@ void GamePlayScene::Update()
 	playerPos = player->GetPosition();
 	//自機のHPが0になったら小さくする
 	if (!player->GetAlive()) {
-		player->ScaleChange();
+		player->ScaleSmall();
 	}
 	//自機がステージから落ちたら小さくする
 	if (playerPos.y <= -10.0f) {
-		player->ScaleChange();
+		player->ScaleSmall();
 	}
 	//プレイヤーのHPが0になったらポストエフェクト
 	if (!player->GetAlive() || playerPos.y <= -10.0f) {
@@ -294,6 +323,8 @@ void GamePlayScene::Update()
 	player->SetPosition(playerPos);
 	//カメラの更新
 	camera->Update();
+	debugCam->Update();
+
 	//床の更新
 	floor->Update();
 
@@ -313,7 +344,6 @@ void GamePlayScene::Update()
 
 	//当たり判定
 	CheckAllCollision();
-	//player->CheckCollision();
 	collisionMan->CheckAllCollisions();
 
 	particleMan->Update();

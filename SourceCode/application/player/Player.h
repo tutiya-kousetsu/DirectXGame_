@@ -41,7 +41,9 @@ public:
 	void jump();
 
 	//ƒXƒP[ƒ‹‚ğ¬‚³‚­‚·‚é
-	void ScaleChange();
+	void ScaleSmall();
+
+	void ScaleLarge();
 
 	//•`‰æ
 	void Draw() override;

@@ -53,7 +53,7 @@ private:
 	XMVECTOR velocity;
 	float resurrectionTimer = 0;
 	int aliveCount = 0;
-
+	int life = 3;
 	ParticleManager* particleMan = nullptr;
 	std::list < std::unique_ptr<EnemyBullet>> bullets;
 };

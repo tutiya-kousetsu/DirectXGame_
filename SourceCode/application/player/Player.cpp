@@ -40,7 +40,7 @@ bool Player::Initialize()
 	//obstacle->Initialize();
 	//material->Initialize();
 
-	Object3d::SetPosition({ 0,0,0 });
+	//Object3d::SetPosition({ 0,0,0 });
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
 	//eb.reset(new EnemyBullet());

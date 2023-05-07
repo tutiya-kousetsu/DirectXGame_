@@ -115,19 +115,21 @@ void GamePlayScene::Update()
 		nowCamera->SetEye({ playerPos.x, 2.f, 20.f });
 		nowCamera->SetTarget(playerPos);
 
-		if (easFrame < 1.0f) {
-			easFrame += 0.01f;
+		if (inFrame < 1.0f) {
+			inFrame += 0.01f;
 			player->ScaleLarge();
 		}
-		playerPos.y = Ease(In, Cubic, easFrame, 30.f, -10.0f);
+		playerPos.y = Ease(In, Cubic, inFrame, 30.f, -12.0f);
 		playerScale = player->GetScale();
 		if (playerScale.x >= 0.9f && playerScale.y >= 0.9f && playerScale.z >= 0.9f) {
 			landFlag = true;
 		}
 		player->SetPosition(playerPos);
+		player->StopUpdate();
 	}
 	if (landFlag) {
 		landTime++;
+		player->StopUpdate();
 		if (landTime >= 60) {
 			nowCamera = camera.get();
 			Object3d::SetCamera(nowCamera);
@@ -155,6 +157,7 @@ void GamePlayScene::Update()
 				}
 				phase->MovePhase(phaseCount);
 			}
+			
 		}
 	}
 	Input* input = Input::GetInstance();
@@ -224,8 +227,11 @@ void GamePlayScene::Update()
 		return !back->GetAlive();
 		});
 
-	//プレイヤーの更新
-	player->Update();
+	if (landTime >= 60) {
+		//プレイヤーの更新
+		player->Update();
+	}
+
 
 	//フェーズ
 	if (phase->GetPhase()) {
@@ -412,7 +418,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 	sprite->Draw();
 	playerLife->Draw();
-	alignment->Draw();
+	if (landTime >= 60) {
+		alignment->Draw();
+	}
 	if (damageFlag1 || damageFlag2 || damageFlag3 || damageFlag4) {
 		damage->Draw();
 	}
@@ -1013,7 +1021,7 @@ void GamePlayScene::CheckAllCollision()
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
 
-	if (player->GetAlive()) {
+	if (landTime >= 60) {
 		// 注視点から視点へのベクトル
 		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
 

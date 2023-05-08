@@ -108,6 +108,7 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	playerPos = player->GetPosition();
+	//着地する前
 	if (!landFlag) {
 		//追従カメラから普通のカメラに変更
 		nowCamera = debugCam.get();
@@ -127,6 +128,7 @@ void GamePlayScene::Update()
 		player->SetPosition(playerPos);
 		player->StopUpdate();
 	}
+	//着地した後
 	if (landFlag) {
 		landTime++;
 		player->StopUpdate();
@@ -1020,14 +1022,11 @@ void GamePlayScene::CheckAllCollision()
 
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
-
 	if (landTime >= 60) {
 		// 注視点から視点へのベクトル
 		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
-
 		// ベクトルを回転
 		vTargetEye = XMVector3Transform(vTargetEye, matRot);
-
 		XMFLOAT3 target1 = camera->GetTarget();
 		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
 

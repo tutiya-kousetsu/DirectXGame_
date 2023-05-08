@@ -5,7 +5,7 @@
 #include "CollisionManager.h"
 #include "ParticleManager.h"
 
-BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("yellowSquid"))
+BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("squid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0,0,0 });

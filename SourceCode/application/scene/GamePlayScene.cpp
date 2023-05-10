@@ -81,6 +81,10 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//データ読み込み
 	skyObj = Object3d::Create();
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
+
+	//壁のマップチップ読み込み用
+	LoadWallPopData();
+	UpdataWallPopCommand();
 }
 
 void GamePlayScene::Finalize()
@@ -110,6 +114,7 @@ void GamePlayScene::Update()
 	playerPos = player->GetPosition();
 	//着地する前
 	if (!landFlag) {
+		sceneTime++;
 		//追従カメラから普通のカメラに変更
 		nowCamera = debugCam.get();
 		Object3d::SetCamera(nowCamera);
@@ -120,7 +125,7 @@ void GamePlayScene::Update()
 			inFrame += 0.01f;
 			player->ScaleLarge();
 		}
-		playerPos.y = Ease(In, Cubic, inFrame, 30.f, -12.0f);
+		playerPos.y = Ease(InOut, Cubic, inFrame, 30.f, -1.83f);
 		playerScale = player->GetScale();
 		if (playerScale.x >= 0.9f && playerScale.y >= 0.9f && playerScale.z >= 0.9f) {
 			landFlag = true;
@@ -130,12 +135,18 @@ void GamePlayScene::Update()
 	}
 	//着地した後
 	if (landFlag) {
+		for (auto& ob : obstacles) {
+			ob->UpMove(landFlag);
+		}
 		landTime++;
 		player->StopUpdate();
-		if (landTime >= 60) {
+		if (landTime >= 230) {
+			//landFlag = false;
+			for (auto& ob : obstacles) {
+				ob->UpMove(!landFlag);
+			}
 			nowCamera = camera.get();
 			Object3d::SetCamera(nowCamera);
-
 			if (!phase->GetPhase()) {
 				//フェーズ2
 				if (fEnePhase >= 1) {
@@ -161,7 +172,15 @@ void GamePlayScene::Update()
 			}
 			
 		}
+		//障害物のマップチップ読み込み用
+		LoadObstaclePopData();
+		UpdataObstaclePopCommand();
+		for (auto& obstacle : obstacles) {
+			obstacle->Update();
+		}
+
 	}
+
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -229,7 +248,7 @@ void GamePlayScene::Update()
 		return !back->GetAlive();
 		});
 
-	if (landTime >= 60) {
+	if (landTime >= 230) {
 		//プレイヤーの更新
 		player->Update();
 	}
@@ -259,9 +278,7 @@ void GamePlayScene::Update()
 	for (auto& back : backEnemy) {
 		back->Update();
 	}
-	for (auto& obstacle : obstacles) {
-		obstacle->Update();
-	}
+
 
 	playerPos = player->GetPosition();
 	//自機のHPが0になったら小さくする
@@ -340,12 +357,6 @@ void GamePlayScene::Update()
 	playerLife->Update(life);
 	player->SetLife(life);
 	skyObj->Update();
-	//障害物のマップチップ読み込み用
-	LoadObstaclePopData();
-	UpdataObstaclePopCommand();
-	//壁のマップチップ読み込み用
-	LoadWallPopData();
-	UpdataWallPopCommand();
 	for (auto& wall : walls) {
 		wall->Update();
 	}
@@ -391,16 +402,19 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto& back : backEnemy) {
 		back->Draw();
 	}
-	for (auto& wall : walls) {
-		wall->Draw();
-	}
-	if (door) {
+	
+	if (sceneTime >= 10) {
+		for (auto& wall : walls) {
+			wall->Draw();
+		}
 		door->Draw();
 	}
 	player->Draw();
 	//障害物
-	for (auto& obstacle : obstacles) {
-		obstacle->Draw();
+	if (landTime >= 10) {
+		for (auto& obstacle : obstacles) {
+			obstacle->Draw();
+		}
 	}
 
 	particleMan->Draw();
@@ -420,7 +434,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 	sprite->Draw();
 	playerLife->Draw();
-	if (landTime >= 60) {
+	if (landTime >= 230) {
 		alignment->Draw();
 	}
 	if (damageFlag1 || damageFlag2 || damageFlag3 || damageFlag4) {

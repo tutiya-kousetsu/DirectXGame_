@@ -60,7 +60,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -78,7 +78,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -223,6 +223,7 @@
     <ClCompile Include="SourceCode\engin\collision\TouchableObject.cpp" />
     <ClCompile Include="SourceCode\engin\easing\Easing.cpp" />
     <ClCompile Include="SourceCode\engin\input\Input.cpp" />
+    <ClCompile Include="SourceCode\engin\shake\Shake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui\imconfig.h" />
@@ -285,6 +286,7 @@
     <ClInclude Include="SourceCode\engin\collision\TouchableObject.h" />
     <ClInclude Include="SourceCode\engin\easing\Easing.h" />
     <ClInclude Include="SourceCode\engin\input\Input.h" />
+    <ClInclude Include="SourceCode\engin\shake\Shake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -25,6 +25,7 @@
 #include "PlayerLife.h"
 #include "CollisionManager.h"
 #include "BaseCollider.h"
+#include "Shake.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -103,13 +104,9 @@ private:
 	std::unique_ptr<Sprite> onAlignment;
 	std::unique_ptr<Sprite> damage;
 	std::unique_ptr<Sprite> clear;
-	XMFLOAT4 color;
-
+	//表示されている間の秒数
 	int32_t damageTime = 20;
 	int phaseCount = 0;
-	XMFLOAT2 phasePos;
-	XMFLOAT2 clearPos;
-	XMFLOAT4 damageColor = {1.0f, 1.0f, 1.0f, 1.0f};
 	std::unique_ptr<Phase> phase;
 
 	//イーズイン用frame
@@ -125,9 +122,8 @@ private:
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
 	std::unique_ptr<PostEffect> postEffect;
-
-	//int32_t endEfTime = 0;
 	
+	//ゲームが終わった時に暗くするやつの半径
 	float endEfRadius = 1000;
 	
 	//障害物
@@ -135,10 +131,6 @@ private:
 	std::stringstream obstaclePopCom;
 	//プレイヤー
 	std::unique_ptr<Player> player;
-	XMFLOAT3 playerPos;
-
-	XMFLOAT3 playerRot;
-	XMFLOAT3 playerScale;
 	int life = 0;
 	std::unique_ptr<PlayerLife> playerLife;
 	//天球
@@ -162,49 +154,55 @@ private:
 
 	//ドア
 	std::unique_ptr<Door> door;
-	XMFLOAT3 doorPos;
-	XMFLOAT3 doorRot;
-
 	//壁
 	std::list<std::unique_ptr<Wall>> walls;
 	std::stringstream wallPopCom;
-	//ポジション
-	XMFLOAT3 enePos;
-	XMFLOAT3 bulPos;
 	//スプライト
+	XMFLOAT2 phasePos;
+	XMFLOAT2 clearPos;
 	XMFLOAT2 spPos;
-	//敵のポジション
-	XMFLOAT3 frontEnePos[11];
-	XMFLOAT3 leftEnePos[7];
-	XMFLOAT3 rightEnePos[4];
-	XMFLOAT3 backEnePos[2];
+	//ポジション
+	//ドア
+	XMFLOAT3 doorPos;
+	//自機
+	XMFLOAT3 playerPos;
+	//自機のスケール
+	XMFLOAT3 playerScale;
+	//ローテーション
+	XMFLOAT3 doorRot;
+	XMFLOAT3 playerRot;
+	//スプライトのカラー
+	XMFLOAT4 damageColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	XMFLOAT4 color;
 
 	//タイマー
 	int32_t wait = 0;
 	int32_t clearTime = 0;
 	int32_t landTime = 0;
+	int32_t sceneTime = 0;
 	//フラグ
-	bool bulFlag = true;
-	bool waitFlag = false;
-	bool timeFlag = false;
-	bool lifeFlag = false;
+	bool bulFlag = true;//弾のフラグ
+	bool waitFlag = false;//待ってるときのフラグ
 	bool clearFlag = false;
 	bool clearTFlag = false;
-	bool damageFlag1 = false;
-	bool damageFlag2 = false;
-	bool damageFlag3 = false;
-	bool damageFlag4 = false;
-	bool frameFlag = false;
-	bool endFlag = false;
+	bool damageFlag1 = false;//敵弾に当たった時
+	bool damageFlag2 = false;//敵弾に当たった時
+	bool damageFlag3 = false;//敵弾に当たった時
+	bool damageFlag4 = false;//敵弾に当たった時
 	bool rayFlag = false;
-	bool landFlag = false;
+	bool endFlag = false;//ゲームが終わったか
+	bool landFlag = false;//着地しているか
 	//フェーズ
+	//前の敵
 	int fEnePhase = 0;
 	int fWaitPhase = 0;
+	//左の敵
 	int lEnePhase = 0;
 	int lWaitPhase = 0;
+	//右の敵
 	int rEnePhase = 0;
 	int rWaitPhase = 0;
+	//後ろの敵
 	int bEnePhase = 0;
 	int bWaitPhase = 0;
 	// カメラ関係

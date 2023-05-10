@@ -4,6 +4,7 @@
 #include "DirectXCommon.h"
 #include "Object3d.h"
 #include "TouchableObject.h"
+#include "Shake.h"
 #include <DirectXMath.h>
 #include <memory>
 
@@ -23,6 +24,8 @@ public:
 	void Update();
 
 	void Draw();
+
+	void UpMove(bool landF = false);
 
 	void OnCollision(bool flag = false);
 public:
@@ -46,5 +49,7 @@ protected:
 	std::unique_ptr<TouchableObject> object;
 	bool alive = true;
 	XMFLOAT4 color = {1.0f, 1.0f, 1.0f, 1.0f};
+	float easFrame = 0.0f;
+	std::unique_ptr<Shake> shake;
 };
 

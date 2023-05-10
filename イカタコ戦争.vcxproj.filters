@@ -192,6 +192,9 @@
     <ClCompile Include="SourceCode\application\player\PlayerLife.cpp">
       <Filter>application\player\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\engin\shake\Shake.cpp">
+      <Filter>engin\shake</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui\imconfig.h">
@@ -374,6 +377,9 @@
     <ClInclude Include="SourceCode\engin\collision\RaycastHit.h">
       <Filter>engin\collision</Filter>
     </ClInclude>
+    <ClInclude Include="SourceCode\engin\shake\Shake.h">
+      <Filter>engin\shake</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\FBX.hlsli">
@@ -467,6 +473,9 @@
     </Filter>
     <Filter Include="application\player\cpp">
       <UniqueIdentifier>{6c6cf8a5-22cb-4fd0-b751-b82201439065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engin\shake">
+      <UniqueIdentifier>{7982d312-2697-4df3-a4e3-8fec44563c64}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

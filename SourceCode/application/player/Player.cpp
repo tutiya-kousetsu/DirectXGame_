@@ -36,7 +36,6 @@ bool Player::Initialize()
 		return false;
 	}
 	particleMan = ParticleManager::GetInstance();
-	obstacle = new Obstacle();
 
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
@@ -340,29 +339,6 @@ void Player::OnCollision(int i)
 {
 	life -= i;
 	CreateParticle();
-}
-
-void Player::CheckCollision()
-{
-	SphereCollider* sphereCollider2 = dynamic_cast<SphereCollider*>(collider);
-	assert(sphereCollider2);
-	// 球の上端から球の下端までのレイキャスト
-	Ray ray;
-	ray.start = sphereCollider2->center;
-	ray.start.m128_f32[2] += sphereCollider2->GetRadius() + 5;
-	ray.dir = { 0,0,-1,0 };
-	RaycastHit raycastHit;
-	if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit)) {
-		//obstacle->OnCollision();
-		color = obstacle->GetColor();
-		color.w = 0.45f;
-		obstacle->SetColor(color);
-	}
-	
-	// ワールド行列更新
-	UpdateWorldMatrix();
-	collider->Update();
-
 }
 
 //パーティクルの生成

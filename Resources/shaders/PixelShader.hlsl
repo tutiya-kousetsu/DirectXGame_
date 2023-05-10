@@ -17,7 +17,7 @@ PSOutput main(VSOutput input)
 	/*if (fmod(input.uv.y, 0.1f) < 0.05f) {
 		 return tex0.Sample(smp, input.uv);
 	}*/
-	//F”½“]
+	//ƒ‚ƒmƒNƒ
 	float Y = 0.299f * colortex0.r + 0.587f * colortex0.b + 0.114f * colortex0.b;
 
 	colortex0.r = Y;

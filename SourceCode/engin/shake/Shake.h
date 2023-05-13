@@ -7,7 +7,7 @@
 class Shake
 {
 public:
-	void ShakePos(float pos, const int shakeMax, const int shakeMin, const int TargetTim, const int Division);
+	void ShakePos(float& pos, const int shakeMax, const int shakeMin, const int TargetTim, const int Division);
 public:
 	bool GetShakeStart() { return shakeStart; }
 	void SetShakeStart(bool shakeStart) { this->shakeStart = shakeStart; }

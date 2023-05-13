@@ -135,10 +135,12 @@ void GamePlayScene::Update()
 	}
 	//着地した後
 	if (landFlag) {
+		landTime++;
 		for (auto& ob : obstacles) {
 			ob->UpMove(landFlag);
+			//ob->shakeMove(landTime, landFlag);
 		}
-		landTime++;
+
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;

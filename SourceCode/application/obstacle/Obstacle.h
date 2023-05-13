@@ -25,7 +25,7 @@ public:
 
 	void Draw();
 
-	void UpMove(bool landF = false);
+	bool UpMove(bool landF = false);
 
 	void OnCollision(bool flag = false);
 public:
@@ -50,6 +50,9 @@ protected:
 	bool alive = true;
 	XMFLOAT4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 	float easFrame = 0.0f;
-	std::unique_ptr<Shake> shake;
+	//シェイク用
+	std::unique_ptr<Shake> shake = nullptr;
+	bool shakeF = false;
+	XMFLOAT3 shakePos = { 0.0f,0.0f,0.0f };
 };
 

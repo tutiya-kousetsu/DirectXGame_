@@ -36,16 +36,28 @@ void Obstacle::Draw()
 	object->Draw();
 }
 
-void Obstacle::UpMove(bool landF)
+bool Obstacle::UpMove(bool landF)
 {
-	float shakePos = 10;
 	if (landF) {
+		shake->SetShakeStart(true);
 		if (easFrame < 1.0f) {
 			easFrame += 0.0001f;
 		}
 		position.y = Ease(Out, Quad, easFrame, position.y, 0);
+		if (position.y >= -0.1) {
+			shake->SetShakeStart(false);
+		}
 	}
+	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
+	shake->ShakePos(shakePos.z, 1, -1, 10, 20);
+	if (!shake->GetShakeStart()) {
+		shakePos = { 0.0f, 0.0f, 0.0f };
+	}
+	position.x += shakePos.x;
+	position.z += shakePos.y;
+
 	SetPosition(position);
+	return false;
 }
 
 void Obstacle::OnCollision(bool flag)

@@ -39,6 +39,7 @@ bool Player::Initialize()
 
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
+	shake.reset(new Shake());
 	//コライダーの追加
 	float radius = 1.9f;
 	//半径だけ足元から浮いた座標を球の中心にする
@@ -332,6 +333,27 @@ bool Player::Shoot()
 
 	bullets.push_back(std::move(newBullet));
 	return true;
+}
+
+void Player::Numb(bool flag)
+{
+	if (flag) {
+		shake->SetShakeStart(true);
+	}
+	else {
+		shake->SetShakeStart(false);
+	}
+	//シェイクの最大値最小値などを入れる
+	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
+	shake->ShakePos(shakePos.z, 1, -1, 10, 20);
+	//フラグがfalseだったらシェイクをともる
+	if (!shake->GetShakeStart()) {
+		shakePos = { 0.0f, 0.0f, 0.0f };
+	}
+	//ポジションにシェイクの動きを足す
+	position.x += shakePos.x;
+	position.z += shakePos.z;
+	Object3d::SetPosition(position);
 }
 
 

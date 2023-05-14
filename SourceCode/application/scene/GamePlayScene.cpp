@@ -138,7 +138,6 @@ void GamePlayScene::Update()
 		landTime++;
 		for (auto& ob : obstacles) {
 			ob->UpMove(landFlag);
-			//ob->shakeMove(landTime, landFlag);
 		}
 
 		player->StopUpdate();
@@ -195,42 +194,44 @@ void GamePlayScene::Update()
 
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
-	float dy = mouseMove.lX * scaleY;
-	angleY = -dy * XM_PI;
+	if (!numbFlag) {
+		float dy = mouseMove.lX * scaleY;
+		angleY = -dy * XM_PI;
 
-	{
-		// 追加回転分の回転行列を生成
-		XMMATRIX matRotNew = XMMatrixIdentity();
-		matRotNew *= XMMatrixRotationY(-angleY);
-		// 累積の回転行列を合成
-		matRot = matRotNew * matRot;
+		{
+			// 追加回転分の回転行列を生成
+			XMMATRIX matRotNew = XMMatrixIdentity();
+			matRotNew *= XMMatrixRotationY(-angleY);
+			// 累積の回転行列を合成
+			matRot = matRotNew * matRot;
 
-		// 注視点から視点へのベクトルと、上方向ベクトル
-		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
-		XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
+			// 注視点から視点へのベクトルと、上方向ベクトル
+			XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
+			XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
 
-		// ベクトルを回転
-		vTargetEye = XMVector3Transform(vTargetEye, matRot);
-		vUp = XMVector3Transform(vUp, matRot);
+			// ベクトルを回転
+			vTargetEye = XMVector3Transform(vTargetEye, matRot);
+			vUp = XMVector3Transform(vUp, matRot);
 
-		XMFLOAT3 target1 = camera->GetTarget();
-		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
-		camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
+			XMFLOAT3 target1 = camera->GetTarget();
+			camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
+			camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
 
-		// 注視点からずらした位置に視点座標を決定
-		XMFLOAT3 target2 = camera->GetTarget();
-		XMFLOAT3 eye = camera->GetEye();
-		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
-		//正規化
-		fTargetEye.x = eye.x - target2.x;
-		fTargetEye.y = eye.y - target2.y;
-		fTargetEye.z = eye.z - target2.z;
+			// 注視点からずらした位置に視点座標を決定
+			XMFLOAT3 target2 = camera->GetTarget();
+			XMFLOAT3 eye = camera->GetEye();
+			XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
+			//正規化
+			fTargetEye.x = eye.x - target2.x;
+			fTargetEye.y = eye.y - target2.y;
+			fTargetEye.z = eye.z - target2.z;
 
-		//プレイヤーの回転
-		XMFLOAT3 playerRot = player->GetRotation();
-		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
-		playerRot.y *= 180 / XM_PI;
-		player->SetRotation({ 0.0f, playerRot.y, 0.0f });
+			//プレイヤーの回転
+			XMFLOAT3 playerRot = player->GetRotation();
+			playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
+			playerRot.y *= 180 / XM_PI;
+			player->SetRotation({ 0.0f, playerRot.y, 0.0f });
+		}
 	}
 
 	//前敵が死んだら削除する
@@ -250,11 +251,14 @@ void GamePlayScene::Update()
 		return !back->GetAlive();
 		});
 
-	if (landTime >= 230) {
+	if (numbFlag) {
+		player->StopUpdate();
+		player->Numb(numbFlag);
+	}
+	if (landTime >= 230 && !numbFlag) {
 		//プレイヤーの更新
 		player->Update();
 	}
-
 
 	//フェーズ
 	if (phase->GetPhase()) {
@@ -461,7 +465,7 @@ void GamePlayScene::LoadEnemyPopData()
 {
 	//ファイルを開く
 	std::ifstream file;
-	file.open("Resources/enemyPop.csv");
+	file.open("Resources/csv/enemyPop.csv");
 	assert(file.is_open());
 
 	//ファイル内容を文字列ストリームにコピー
@@ -625,7 +629,7 @@ void GamePlayScene::LoadObstaclePopData()
 {
 	//ファイルを開く
 	std::ifstream file;
-	file.open("Resources/ObstaclePop.csv");
+	file.open("Resources/csv/ObstaclePop.csv");
 	assert(file.is_open());
 
 	//ファイル内容を文字列ストリームにコピー
@@ -682,7 +686,7 @@ void GamePlayScene::LoadWallPopData()
 {
 	//ファイルを開く
 	std::ifstream file;
-	file.open("Resources/wallPop.csv");
+	file.open("Resources/csv/wallPop.csv");
 	assert(file.is_open());
 
 	//ファイル内容を文字列ストリームにコピー
@@ -977,6 +981,9 @@ void GamePlayScene::BackColl()
 
 					eb->OnCollision();
 					player->OnCollision(1);
+					if (!numbFlag) {
+						numbFlag = true;
+					}
 					if (!damageFlag4) {
 						damageFlag4 = true;
 					}
@@ -989,6 +996,15 @@ void GamePlayScene::BackColl()
 						damageFlag4 = false;
 					}
 					damage->SetColor(color);
+				}
+				//フラグが立ったらタイムを進める
+				if (numbFlag) {
+					numbTime++;
+				}
+				//Timeが1秒経ったら初期化
+				if (numbTime >= 45) {
+					numbFlag = false;
+					numbTime = 0;
 				}
 			}
 
@@ -1038,7 +1054,7 @@ void GamePlayScene::CheckAllCollision()
 
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
-	if (landTime >= 60) {
+	if (landTime >= 230) {
 		// 注視点から視点へのベクトル
 		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
 		// ベクトルを回転

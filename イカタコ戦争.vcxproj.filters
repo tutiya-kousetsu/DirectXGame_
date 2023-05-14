@@ -195,6 +195,9 @@
     <ClCompile Include="SourceCode\engin\shake\Shake.cpp">
       <Filter>engin\shake</Filter>
     </ClCompile>
+    <ClCompile Include="CsvLoader.cpp">
+      <Filter>application\csvLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui\imconfig.h">
@@ -380,6 +383,9 @@
     <ClInclude Include="SourceCode\engin\shake\Shake.h">
       <Filter>engin\shake</Filter>
     </ClInclude>
+    <ClInclude Include="CsvLoader.h">
+      <Filter>application\csvLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\FBX.hlsli">
@@ -476,6 +482,9 @@
     </Filter>
     <Filter Include="engin\shake">
       <UniqueIdentifier>{7982d312-2697-4df3-a4e3-8fec44563c64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\csvLoader">
+      <UniqueIdentifier>{4b1fb0b1-965c-41f6-8c63-50c0f7cf1409}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -25,6 +25,7 @@ public:
 
 	void Draw();
 
+	//岩の押し上げ
 	bool UpMove(bool landF = false);
 
 	void OnCollision(bool flag = false);
@@ -49,6 +50,7 @@ protected:
 	std::unique_ptr<TouchableObject> object;
 	bool alive = true;
 	XMFLOAT4 color = {1.0f, 1.0f, 1.0f, 1.0f};
+	//イージング用
 	float easFrame = 0.0f;
 	//シェイク用
 	std::unique_ptr<Shake> shake = nullptr;

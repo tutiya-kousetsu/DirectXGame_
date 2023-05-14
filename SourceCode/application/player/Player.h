@@ -3,6 +3,7 @@
 #include "PlayerBullet.h"
 #include "EnemyBullet.h"
 #include "GameObject.h"
+#include "Shake.h"
 #include <memory>
 #include <list>
 #include <forward_list>
@@ -12,6 +13,10 @@ using namespace DirectX;
 
 class Player : public Object3d
 {
+public:
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+
 public:
 	/// <summary>
 	/// 3Dオブジェクト生成
@@ -54,6 +59,8 @@ public:
 	void TutorialDraw(bool flag);
 	//攻撃
 	bool Shoot();
+
+	void Numb(bool flag = false);
 
 	//当たり判定
 	void OnCollision(int i);
@@ -109,6 +116,10 @@ private:
 	//接地フラグ
 	bool onGround = true;
 	//落下ベクトル
-	DirectX::XMVECTOR fallV;
+	XMVECTOR fallV;
+	//シェイク用
+	std::unique_ptr<Shake> shake = nullptr;
+	bool shakeF = false;
+	XMFLOAT3 shakePos = { 0.0f,0.0f,0.0f };
 };
 

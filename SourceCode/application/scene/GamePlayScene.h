@@ -180,6 +180,7 @@ private:
 	int32_t clearTime = 0;
 	int32_t landTime = 0;
 	int32_t sceneTime = 0;
+	int32_t numbTime = 0;
 	//フラグ
 	bool bulFlag = true;//弾のフラグ
 	bool waitFlag = false;//待ってるときのフラグ
@@ -192,6 +193,7 @@ private:
 	bool rayFlag = false;
 	bool endFlag = false;//ゲームが終わったか
 	bool landFlag = false;//着地しているか
+	bool numbFlag = false;
 	//フェーズ
 	//前の敵
 	int fEnePhase = 0;

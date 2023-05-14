@@ -38,23 +38,30 @@ void Obstacle::Draw()
 
 bool Obstacle::UpMove(bool landF)
 {
+	//着地したら
 	if (landF) {
-		shake->SetShakeStart(true);
+		//イージングで押し上げる
 		if (easFrame < 1.0f) {
 			easFrame += 0.0001f;
 		}
 		position.y = Ease(Out, Quad, easFrame, position.y, 0);
+		//シェイクのフラグを立てる
+		shake->SetShakeStart(true);
+		//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
 		if (position.y >= -0.1) {
 			shake->SetShakeStart(false);
 		}
 	}
+	//シェイクの最大値最小値などを入れる
 	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
 	shake->ShakePos(shakePos.z, 1, -1, 10, 20);
+	//フラグがfalseだったらシェイクをともる
 	if (!shake->GetShakeStart()) {
 		shakePos = { 0.0f, 0.0f, 0.0f };
 	}
+	//ポジションにシェイクの動きを足す
 	position.x += shakePos.x;
-	position.z += shakePos.y;
+	position.z += shakePos.z;
 
 	SetPosition(position);
 	return false;

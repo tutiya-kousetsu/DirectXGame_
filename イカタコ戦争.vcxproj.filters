@@ -195,7 +195,7 @@
     <ClCompile Include="SourceCode\engin\shake\Shake.cpp">
       <Filter>engin\shake</Filter>
     </ClCompile>
-    <ClCompile Include="CsvLoader.cpp">
+    <ClCompile Include="SourceCode\application\csvLoader\CsvLoader.cpp">
       <Filter>application\csvLoader</Filter>
     </ClCompile>
   </ItemGroup>
@@ -383,7 +383,7 @@
     <ClInclude Include="SourceCode\engin\shake\Shake.h">
       <Filter>engin\shake</Filter>
     </ClInclude>
-    <ClInclude Include="CsvLoader.h">
+    <ClInclude Include="SourceCode\application\csvLoader\CsvLoader.h">
       <Filter>application\csvLoader</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,7 +20,7 @@ public:
 	/// èâä˙âª
 	/// </summary>
 	/// <returns>ê¨î€</returns>
-	bool Initialize(XMFLOAT3 position);
+	bool Initialize(XMFLOAT3 position, XMFLOAT3 rotation);
 
 	//çXêV
 	void Update();
@@ -49,7 +49,8 @@ public:
 
 private:
 	Player* player = nullptr;
-	DirectX::XMFLOAT3 position;
+	XMFLOAT3 position;
+	XMFLOAT3 rotation;
 	XMVECTOR velocity;
 	float resurrectionTimer = 0;
 	int aliveCount = 0;

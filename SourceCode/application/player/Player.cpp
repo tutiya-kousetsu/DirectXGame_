@@ -335,6 +335,7 @@ bool Player::Shoot()
 	return true;
 }
 
+//当たったらシェイク掛ける(麻痺)
 void Player::Numb(bool flag)
 {
 	if (flag) {

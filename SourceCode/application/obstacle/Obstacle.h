@@ -28,6 +28,8 @@ public:
 	//Šâ‚Ì‰Ÿ‚µã‚°
 	bool UpMove(bool landF = false);
 
+	void DownMove(int32_t time = 0);
+
 	void OnCollision(bool flag = false);
 public:
 	inline void SetPosition(const XMFLOAT3& position) { object->SetPosition(position); }

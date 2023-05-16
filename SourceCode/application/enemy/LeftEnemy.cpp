@@ -8,7 +8,7 @@
 LeftEnemy::LeftEnemy() :LeftEnemy(Model::CreateFromOBJ("blueSquid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
-	object->SetRotation({ 0,90,0 });
+	//object->SetRotation({ 0,90,0 });
 	particleMan = ParticleManager::GetInstance();
 }
 
@@ -16,9 +16,11 @@ LeftEnemy::~LeftEnemy()
 {
 }
 
-bool LeftEnemy::Initialize(XMFLOAT3 position)
+bool LeftEnemy::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 {
 	this->position = position;
+	this->rotation = rotation;
+	SetRotation(rotation);
 	AccessPhase();
 	return true;
 }
@@ -43,10 +45,19 @@ void LeftEnemy::Update()
 
 void LeftEnemy::appearance()
 {
-	position.x += moveX;
-	if (position.x >= -50) {
-		moveX= 0;
-		appFlag = false;
+	if (position.x <= -50) {
+		position.x += moveX;
+		if (position.x >= -50) {
+			moveX = 0;
+			appFlag = false;
+		}
+	}
+	if (position.z >= 50) {
+		position.z -= moveZ;
+		if (position.z <= 50) {
+			moveZ = 0;
+			appFlag = false;
+		}
 	}
 }
 

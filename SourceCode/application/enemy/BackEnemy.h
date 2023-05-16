@@ -38,7 +38,7 @@ public:
 
 public:
 
-	static const int kShootInterval = 100;
+	static const int kShootInterval = 150;
 	//’eƒŠƒXƒgæ“¾
 	const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
 

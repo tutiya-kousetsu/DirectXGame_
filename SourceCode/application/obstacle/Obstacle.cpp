@@ -27,7 +27,6 @@ bool Obstacle::Initialize(XMFLOAT3 position)
 
 void Obstacle::Update()
 {
-	
 	object->Update();
 }
 
@@ -65,6 +64,36 @@ bool Obstacle::UpMove(bool landF)
 
 	SetPosition(position);
 	return false;
+}
+
+void Obstacle::DownMove(int32_t time)
+{
+	//着地したら
+	if (time <= 230) {
+		//イージングで押し上げる
+		if (easFrame < 1.0f) {
+			easFrame += 0.0001f;
+		}
+		position.y = Ease(Out, Quad, easFrame, position.y, -10);
+		//シェイクのフラグを立てる
+		shake->SetShakeStart(true);
+		//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
+		if (position.y >= -10) {
+			shake->SetShakeStart(false);
+		}
+	}
+	//シェイクの最大値最小値などを入れる
+	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
+	shake->ShakePos(shakePos.z, 1, -1, 10, 20);
+	//フラグがfalseだったらシェイクをともる
+	if (!shake->GetShakeStart()) {
+		shakePos = { 0.0f, 0.0f, 0.0f };
+	}
+	//ポジションにシェイクの動きを足す
+	position.x += shakePos.x;
+	position.z += shakePos.z;
+
+	SetPosition(position);
 }
 
 void Obstacle::OnCollision(bool flag)

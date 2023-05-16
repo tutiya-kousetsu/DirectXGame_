@@ -143,35 +143,38 @@ void GamePlayScene::Update()
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;
-			for (auto& ob : obstacles) {
-				ob->UpMove(!landFlag);
-			}
 			nowCamera = camera.get();
 			Object3d::SetCamera(nowCamera);
 			if (!phase->GetPhase()) {
 				//フェーズ2
 				if (fEnePhase >= 1) {
-					phaseCount = 1;
+					downTime++;
+					//for (auto& ob : obstacles) {
+						//ob->DownMove(downTime);
+					//}
+					//if (downTime >= 230) {
+						phaseCount = 1;
+					//}
 				}
 				//フェーズ3
-				if (fEnePhase >= 3) {
+				if (fEnePhase >= 2 && lEnePhase >= 1) {
 					phaseCount = 2;
 				}
 				//フェーズ4
-				if (fEnePhase >= 5 && lEnePhase >= 1) {
+				if (fEnePhase >= 4 && lEnePhase >= 2) {
 					phaseCount = 3;
 				}
 				//フェーズ5
-				if (fEnePhase >= 7 && lEnePhase >= 2 && rEnePhase >= 1) {
+				if (fEnePhase >= 6 && lEnePhase >= 3 && rEnePhase >= 1) {
 					phaseCount = 4;
 				}
 				//フェーズ6
-				if (fEnePhase >= 9 && lEnePhase >= 3 && rEnePhase >= 2 && bEnePhase >= 1) {
+				if (fEnePhase >= 8 && lEnePhase >= 4 && rEnePhase >= 2 && bEnePhase >= 1) {
 					phaseCount = 5;
 				}
 				phase->MovePhase(phaseCount);
 			}
-			
+
 		}
 		//障害物のマップチップ読み込み用
 		LoadObstaclePopData();
@@ -193,8 +196,9 @@ void GamePlayScene::Update()
 	camera->SetFollowingTarget(player.get());
 
 	// マウスの入力を取得
-	Input::MouseMove mouseMove = input->GetMouseMove();
-	if (!numbFlag) {
+	if (landTime >= 230 && !numbFlag) {
+
+		Input::MouseMove mouseMove = input->GetMouseMove();
 		float dy = mouseMove.lX * scaleY;
 		angleY = -dy * XM_PI;
 
@@ -360,7 +364,7 @@ void GamePlayScene::Update()
 	floor->Update();
 
 	life = player->GetLife();
-	playerLife->Update(life);
+	playerLife->MoveUpdate(life);
 	player->SetLife(life);
 	skyObj->Update();
 	for (auto& wall : walls) {
@@ -408,7 +412,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	for (auto& back : backEnemy) {
 		back->Draw();
 	}
-	
+
 	if (sceneTime >= 10) {
 		for (auto& wall : walls) {
 			wall->Draw();
@@ -439,7 +443,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	sprite->Draw();
-	playerLife->Draw();
+	playerLife->Draw(life);
 	if (landTime >= 230) {
 		alignment->Draw();
 	}
@@ -542,11 +546,21 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			//z座標
 			getline(line_stream, word, ',');
 			float z = (float)std::atof(word.c_str());
+			//x軸の回転
+			getline(line_stream, word, ',');
+			float rx = (float)std::atof(word.c_str());
 
+			//y軸の回転
+			getline(line_stream, word, ',');
+			float ry = (float)std::atof(word.c_str());
+
+			//z軸の回転
+			getline(line_stream, word, ',');
+			float rz = (float)std::atof(word.c_str());
 			//敵を発生させる
 			//コンストラクタ呼ぶ
 			std::unique_ptr<LeftEnemy> newLeft = std::make_unique<LeftEnemy>();
-			newLeft->Initialize(XMFLOAT3(x, y, z));
+			newLeft->Initialize(XMFLOAT3(x, y, z), XMFLOAT3(rx, ry, rz));
 			newLeft->SetPlayer(player.get());
 			//障害物を登録する
 			leftEnemy.push_back(std::move(newLeft));
@@ -1002,7 +1016,7 @@ void GamePlayScene::BackColl()
 					numbTime++;
 				}
 				//Timeが1秒経ったら初期化
-				if (numbTime >= 45) {
+				if (numbTime >= 5) {
 					numbFlag = false;
 					numbTime = 0;
 				}

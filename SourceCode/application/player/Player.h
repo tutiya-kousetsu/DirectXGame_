@@ -60,6 +60,7 @@ public:
 	//攻撃
 	bool Shoot();
 
+	//当たったらシェイク掛ける(麻痺)
 	void Numb(bool flag = false);
 
 	//当たり判定

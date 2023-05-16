@@ -2,7 +2,7 @@
 #include "Sprite.h"
 #include "DirectXCommon.h"
 #include <DirectXMath.h>
-
+#include <memory>
 class Phase
 {
 public:
@@ -14,7 +14,6 @@ public:
 
 	inline bool GetPhase() const { return phaseFlag; }
 	inline void SetPhase(bool phaseFlag) { this->phaseFlag = phaseFlag; }
-public:
 
 private:
 	DirectX::XMFLOAT2 pos[6]{};

@@ -85,6 +85,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//壁のマップチップ読み込み用
 	LoadWallPopData();
 	UpdataWallPopCommand();
+	LoadEnemyPopData();
 }
 
 void GamePlayScene::Finalize()
@@ -143,18 +144,21 @@ void GamePlayScene::Update()
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;
+			for (auto& ob : obstacles) {
+				ob->UpMove(false);
+			}
 			nowCamera = camera.get();
 			Object3d::SetCamera(nowCamera);
 			if (!phase->GetPhase()) {
 				//フェーズ2
 				if (fEnePhase >= 1) {
 					downTime++;
-					//for (auto& ob : obstacles) {
-						//ob->DownMove(downTime);
-					//}
-					//if (downTime >= 230) {
-						phaseCount = 1;
-					//}
+					for (auto& ob : obstacles) {
+						ob->DownMove(downTime);
+					}
+					if (downTime >= 230) {
+					phaseCount = 1;
+					}
 				}
 				//フェーズ3
 				if (fEnePhase >= 2 && lEnePhase >= 1) {
@@ -269,7 +273,7 @@ void GamePlayScene::Update()
 		if (door) {
 			door->DoorMove(phaseCount);
 		}
-		LoadEnemyPopData();
+
 		UpdataEnemyPopCommand();
 	}
 	if (door) {
@@ -317,7 +321,7 @@ void GamePlayScene::Update()
 	}
 
 	//クリア条件
-	if (fEnePhase >= 11 && lEnePhase >= 5 && rEnePhase >= 4 && bEnePhase >= 3) {
+	if (fEnePhase >= 10 && lEnePhase >= 6 && rEnePhase >= 4 && bEnePhase >= 3) {
 		clearFlag = true;
 	}
 	//クリアフラグが立ったらif文通す
@@ -424,6 +428,12 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	if (landTime >= 10) {
 		for (auto& obstacle : obstacles) {
 			obstacle->Draw();
+		}
+		//フラグが立ったら半透明の岩を後に描画する
+		if (rayFlag) {
+			for (auto& obstacle : obstacles) {
+				obstacle->Draw();
+			}
 		}
 	}
 
@@ -995,7 +1005,7 @@ void GamePlayScene::BackColl()
 
 					eb->OnCollision();
 					player->OnCollision(1);
-					if (!numbFlag) {
+					if (!numbFlag && life > 0) {
 						numbFlag = true;
 					}
 					if (!damageFlag4) {

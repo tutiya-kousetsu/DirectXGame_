@@ -78,7 +78,7 @@ void Obstacle::DownMove(int32_t time)
 		//シェイクのフラグを立てる
 		shake->SetShakeStart(true);
 		//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
-		if (position.y >= -10) {
+		if (position.y <= -10) {
 			shake->SetShakeStart(false);
 		}
 	}

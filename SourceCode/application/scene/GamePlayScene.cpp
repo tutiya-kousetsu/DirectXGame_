@@ -85,7 +85,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//壁のマップチップ読み込み用
 	LoadWallPopData();
 	UpdataWallPopCommand();
-	LoadEnemyPopData();
 }
 
 void GamePlayScene::Finalize()
@@ -137,30 +136,26 @@ void GamePlayScene::Update()
 	//着地した後
 	if (landFlag) {
 		landTime++;
-		if (landTime <= 230) {
-			for (auto& ob : obstacles) {
-				ob->UpMove(landFlag);
-			}
+		for (auto& ob : obstacles) {
+			ob->UpMove(landFlag);
 		}
 
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;
-			for (auto& ob : obstacles) {
-				ob->UpMove(!landFlag);
-			}
 			nowCamera = camera.get();
 			Object3d::SetCamera(nowCamera);
 			if (!phase->GetPhase()) {
 				//フェーズ2
 				if (fEnePhase >= 1) {
-					/*downTime++;
-					for (auto& ob : obstacles) {
-						ob->DownMove(downTime);
-					}*/
- 					phaseFlag = true;
+					downTime++;
+					//for (auto& ob : obstacles) {
+						//ob->DownMove(downTime);
+					//}
+					//if (downTime >= 230) {
+					phaseCount = 1;
+					//}
 				}
-				
 				//フェーズ3
 				if (fEnePhase >= 2 && lEnePhase >= 1) {
 					phaseCount = 2;
@@ -177,40 +172,8 @@ void GamePlayScene::Update()
 				if (fEnePhase >= 8 && lEnePhase >= 4 && rEnePhase >= 2 && bEnePhase >= 1) {
 					phaseCount = 5;
 				}
-				//if (downTime >= 230) {
-					phase->MovePhase(phaseCount);
-				//}
+				phase->MovePhase(phaseCount);
 			}
-			if (phaseFlag) {
-				nowCamera = debugCam.get();
-				Object3d::SetCamera(nowCamera);
-				nowCamera->SetEye({ 0, 50.f, -1.f });
-				nowCamera->SetTarget({ 0, -90, 0 });
-				for (auto& ob : obstacles) {
-					ob->DownMove(phaseFlag);
-				}
-				downTime++;
-			}
-			if (downTime >= 230) {
-				upFlag = true;
-				for (auto& ob : obstacles) {
-					ob->DownMove(false);
-					//if (ob->GetPosition().y <= -9.9f) {
-						ob->UpMove(upFlag);
-					//}
-				}
-			}
-			if (downTime >= 230) {
-				phaseCount = 1;
-				phaseFlag = false;
-				//upFlag = false;
-				downTime = 0;
-			}
-			if(!phaseFlag) {
-				nowCamera = camera.get();
-				Object3d::SetCamera(nowCamera);
-			}
-			
 
 		}
 		//障害物のマップチップ読み込み用
@@ -306,7 +269,7 @@ void GamePlayScene::Update()
 		if (door) {
 			door->DoorMove(phaseCount);
 		}
-
+		LoadEnemyPopData();
 		UpdataEnemyPopCommand();
 	}
 	if (door) {
@@ -461,12 +424,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	if (landTime >= 10) {
 		for (auto& obstacle : obstacles) {
 			obstacle->Draw();
-		}
-		//フラグが立ったら半透明の岩を後に描画する
-		if (rayFlag) {
-			for (auto& obstacle : obstacles) {
-				obstacle->Draw();
-			}
 		}
 	}
 
@@ -1038,7 +995,7 @@ void GamePlayScene::BackColl()
 
 					eb->OnCollision();
 					player->OnCollision(1);
-					if (!numbFlag && life > 0) {
+					if (!numbFlag) {
 						numbFlag = true;
 					}
 					if (!damageFlag4) {

@@ -35,21 +35,28 @@ void Obstacle::Draw()
 	object->Draw();
 }
 
-bool Obstacle::UpMove(bool landF)
+void Obstacle::UpMove(bool landF)
 {
+	float move = 0.1f;
 	//着地したら
 	if (landF) {
-		//イージングで押し上げる
-		if (easFrame < 1.0f) {
-			easFrame += 0.0001f;
+			//イージングで押し上げる
+			/*if (easFrame < 1.0f) {
+				easFrame += 0.0001f;
+			}
+			position.y = Ease(Out, Cubic, easFrame, position.y, 0);*/
+		if (position.y <= 0) {
+			position.y += move;
 		}
-		position.y = Ease(Out, Quad, easFrame, position.y, 0);
-		//シェイクのフラグを立てる
-		shake->SetShakeStart(true);
-		//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
-		if (position.y >= -0.1) {
-			shake->SetShakeStart(false);
-		}
+			//シェイクのフラグを立てる
+			shake->SetShakeStart(true);
+			//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
+			
+	}
+	if (position.y >= -0.1f) {
+		shake->SetShakeStart(false);
+		easFrame = 0;
+		move = 0;
 	}
 	//シェイクの最大値最小値などを入れる
 	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
@@ -63,24 +70,29 @@ bool Obstacle::UpMove(bool landF)
 	position.z += shakePos.z;
 
 	SetPosition(position);
-	return false;
 }
 
-void Obstacle::DownMove(int32_t time)
+void Obstacle::DownMove(bool flag)
 {
+	float move = 0.05f;
 	//着地したら
-	if (time <= 230) {
-		//イージングで押し上げる
-		if (easFrame < 1.0f) {
-			easFrame += 0.0001f;
+	if (flag) {
+			//イージングで押し上げる
+			/*if (downFrame < 1.0f) {
+				downFrame += 0.0001f;
+			}
+			position.y = Ease(Out, Quad, downFrame, position.y, -10.0f);*/
+		if (position.y >= -9.9f) {
+			position.y -= move;
 		}
-		position.y = Ease(Out, Quad, easFrame, position.y, -10);
-		//シェイクのフラグを立てる
-		shake->SetShakeStart(true);
-		//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
-		if (position.y <= -10) {
-			shake->SetShakeStart(false);
-		}
+			//シェイクのフラグを立てる
+			shake->SetShakeStart(true);
+			//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
+			if (position.y <= -9.9f) {
+				shake->SetShakeStart(false);
+				downFrame = 0;
+				move = 0;
+			}
 	}
 	//シェイクの最大値最小値などを入れる
 	shake->ShakePos(shakePos.x, 1, -1, 10, 20);

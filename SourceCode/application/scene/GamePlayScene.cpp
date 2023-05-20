@@ -137,29 +137,30 @@ void GamePlayScene::Update()
 	//着地した後
 	if (landFlag) {
 		landTime++;
-		for (auto& ob : obstacles) {
-			ob->UpMove(landFlag);
+		if (landTime <= 230) {
+			for (auto& ob : obstacles) {
+				ob->UpMove(landFlag);
+			}
 		}
 
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;
 			for (auto& ob : obstacles) {
-				ob->UpMove(false);
+				ob->UpMove(!landFlag);
 			}
 			nowCamera = camera.get();
 			Object3d::SetCamera(nowCamera);
 			if (!phase->GetPhase()) {
 				//フェーズ2
 				if (fEnePhase >= 1) {
-					downTime++;
+					/*downTime++;
 					for (auto& ob : obstacles) {
 						ob->DownMove(downTime);
-					}
-					if (downTime >= 230) {
-					phaseCount = 1;
-					}
+					}*/
+ 					phaseFlag = true;
 				}
+				
 				//フェーズ3
 				if (fEnePhase >= 2 && lEnePhase >= 1) {
 					phaseCount = 2;
@@ -176,8 +177,40 @@ void GamePlayScene::Update()
 				if (fEnePhase >= 8 && lEnePhase >= 4 && rEnePhase >= 2 && bEnePhase >= 1) {
 					phaseCount = 5;
 				}
-				phase->MovePhase(phaseCount);
+				//if (downTime >= 230) {
+					phase->MovePhase(phaseCount);
+				//}
 			}
+			if (phaseFlag) {
+				nowCamera = debugCam.get();
+				Object3d::SetCamera(nowCamera);
+				nowCamera->SetEye({ 0, 50.f, -1.f });
+				nowCamera->SetTarget({ 0, -90, 0 });
+				for (auto& ob : obstacles) {
+					ob->DownMove(phaseFlag);
+				}
+				downTime++;
+			}
+			if (downTime >= 230) {
+				upFlag = true;
+				for (auto& ob : obstacles) {
+					ob->DownMove(false);
+					//if (ob->GetPosition().y <= -9.9f) {
+						ob->UpMove(upFlag);
+					//}
+				}
+			}
+			if (downTime >= 230) {
+				phaseCount = 1;
+				phaseFlag = false;
+				//upFlag = false;
+				downTime = 0;
+			}
+			if(!phaseFlag) {
+				nowCamera = camera.get();
+				Object3d::SetCamera(nowCamera);
+			}
+			
 
 		}
 		//障害物のマップチップ読み込み用

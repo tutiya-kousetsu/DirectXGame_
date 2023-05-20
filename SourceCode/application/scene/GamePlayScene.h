@@ -196,6 +196,8 @@ private:
 	bool landFlag = false;//着地しているか
 	bool numbFlag = false;
 	bool hpFlag = false;
+	bool phaseFlag = false;
+	bool upFlag = false;
 	//フェーズ
 	//前の敵
 	int fEnePhase = 0;

@@ -26,9 +26,9 @@ public:
 	void Draw();
 
 	//岩の押し上げ
-	bool UpMove(bool landF = false);
+	void UpMove(bool landF = false);
 
-	void DownMove(int32_t time = 0);
+	void DownMove(bool flag = false);
 
 	void OnCollision(bool flag = false);
 public:
@@ -54,6 +54,7 @@ protected:
 	XMFLOAT4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 	//イージング用
 	float easFrame = 0.0f;
+	float downFrame = 0.0f;
 	//シェイク用
 	std::unique_ptr<Shake> shake = nullptr;
 	bool shakeF = false;

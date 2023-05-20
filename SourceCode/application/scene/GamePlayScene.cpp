@@ -148,13 +148,7 @@ void GamePlayScene::Update()
 			if (!phase->GetPhase()) {
 				//フェーズ2
 				if (fEnePhase >= 1) {
-					downTime++;
-					//for (auto& ob : obstacles) {
-						//ob->DownMove(downTime);
-					//}
-					//if (downTime >= 230) {
 					phaseCount = 1;
-					//}
 				}
 				//フェーズ3
 				if (fEnePhase >= 2 && lEnePhase >= 1) {

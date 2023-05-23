@@ -172,9 +172,7 @@ void GamePlayScene::Update()
 				if (fEnePhase >= 8 && lEnePhase >= 4 && rEnePhase >= 2 && bEnePhase >= 1) {
 					phaseCount = 5;
 				}
-				//if (downTime >= 230) {
-					phase->MovePhase(phaseCount);
-				//}
+				phase->MovePhase(phaseCount);
 			}
 			if (phaseFlag) {
 				nowCamera = debugCam.get();
@@ -191,22 +189,19 @@ void GamePlayScene::Update()
 			if (downTime >= 230) {
 				upFlag = true;
 				for (auto& ob : obstacles) {
-					ob->DownMove(false);
 					ob->UpMove(upFlag);
 				}
 			}
-			if (downTime >= 700) {
+			if (downTime >= 460) {
 				phaseCount = 1;
 				phaseFlag = false;
-				//upFlag = false;
+				upFlag = false;
 				downTime = 0;
 			}
 			if(!phaseFlag) {
 				nowCamera = camera.get();
 				Object3d::SetCamera(nowCamera);
 			}
-			
-
 		}
 		//障害物のマップチップ読み込み用
 		LoadObstaclePopData();
@@ -229,45 +224,7 @@ void GamePlayScene::Update()
 
 	// マウスの入力を取得
 	if (landTime >= 230 && !numbFlag) {
-
-		Input::MouseMove mouseMove = input->GetMouseMove();
-		float dy = mouseMove.lX * scaleY;
-		angleY = -dy * XM_PI;
-
-		{
-			// 追加回転分の回転行列を生成
-			XMMATRIX matRotNew = XMMatrixIdentity();
-			matRotNew *= XMMatrixRotationY(-angleY);
-			// 累積の回転行列を合成
-			matRot = matRotNew * matRot;
-
-			// 注視点から視点へのベクトルと、上方向ベクトル
-			XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
-			XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
-
-			// ベクトルを回転
-			vTargetEye = XMVector3Transform(vTargetEye, matRot);
-			vUp = XMVector3Transform(vUp, matRot);
-
-			XMFLOAT3 target1 = camera->GetTarget();
-			camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
-			camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
-
-			// 注視点からずらした位置に視点座標を決定
-			XMFLOAT3 target2 = camera->GetTarget();
-			XMFLOAT3 eye = camera->GetEye();
-			XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
-			//正規化
-			fTargetEye.x = eye.x - target2.x;
-			fTargetEye.y = eye.y - target2.y;
-			fTargetEye.z = eye.z - target2.z;
-
-			//プレイヤーの回転
-			XMFLOAT3 playerRot = player->GetRotation();
-			playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
-			playerRot.y *= 180 / XM_PI;
-			player->SetRotation({ 0.0f, playerRot.y, 0.0f });
-		}
+		player->Mouse();
 	}
 
 	//前敵が死んだら削除する
@@ -693,6 +650,18 @@ void GamePlayScene::LoadObstaclePopData()
 
 void GamePlayScene::UpdataObstaclePopCommand()
 {
+	if (phFlag) {
+		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
+		if (obWaitPhase == phaseCount) {
+			phFlag = false;
+			//phase->SetPhase(false);
+		}
+		//一致していなかったらreturnで返す
+		else {
+			return;
+		}
+	}
+
 	//1行分の文字列を入れる変数
 	std::string line;
 	//コマンド実行ループ
@@ -730,6 +699,14 @@ void GamePlayScene::UpdataObstaclePopCommand()
 			newObstacle->Initialize(XMFLOAT3(x, y, z));
 			//障害物を登録する
 			obstacles.push_back(std::move(newObstacle));
+		}
+		else if (word.find("PHASE") == 0) {
+			getline(line_stream, word, ',');
+			int obPhase = atoi(word.c_str());
+
+			phFlag = true;
+			obWaitPhase = obPhase;
+			break;
 		}
 	}
 }

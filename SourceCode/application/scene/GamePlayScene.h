@@ -129,6 +129,7 @@ private:
 	//障害物
 	std::list<std::unique_ptr<Obstacle>> obstacles;
 	std::stringstream obstaclePopCom;
+	int obWaitPhase = 0;
 	//プレイヤー
 	std::unique_ptr<Player> player;
 	int life = 0;
@@ -185,6 +186,7 @@ private:
 	//フラグ
 	bool bulFlag = true;//弾のフラグ
 	bool waitFlag = false;//待ってるときのフラグ
+	bool phFlag = false;
 	bool clearFlag = false;
 	bool clearTFlag = false;
 	bool damageFlag1 = false;//敵弾に当たった時

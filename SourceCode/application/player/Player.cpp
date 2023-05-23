@@ -39,6 +39,9 @@ bool Player::Initialize()
 
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
+	camera.reset(new FollowingCamera());
+	Object3d::SetCamera(camera.get());
+	input = new Input();
 	shake.reset(new Shake());
 	//コライダーの追加
 	float radius = 1.9f;
@@ -71,6 +74,7 @@ void Player::Update()
 	if (life <= 0) {
 		alive = false;
 	}
+	
 	Object3d::SetPosition(position);
 }
 
@@ -78,6 +82,48 @@ void Player::Update()
 void Player::StopUpdate()
 {
 	Object3d::Update();
+}
+
+void Player::Mouse()
+{
+	Input::MouseMove mouseMove = input->GetMouseMove();
+	float dy = mouseMove.lX * scaleY;
+	angleY = -dy * XM_PI;
+	{
+		// 追加回転分の回転行列を生成
+		XMMATRIX matRotNew = XMMatrixIdentity();
+		matRotNew *= XMMatrixRotationY(-angleY);
+		// 累積の回転行列を合成
+		matRot = matRotNew * matRot;
+
+		// 注視点から視点へのベクトルと、上方向ベクトル
+		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
+		XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
+
+		// ベクトルを回転
+		vTargetEye = XMVector3Transform(vTargetEye, matRot);
+		vUp = XMVector3Transform(vUp, matRot);
+
+		XMFLOAT3 target1 = camera->GetTarget();
+		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
+		camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
+
+		// 注視点からずらした位置に視点座標を決定
+		XMFLOAT3 target2 = camera->GetTarget();
+		XMFLOAT3 eye = camera->GetEye();
+		XMFLOAT3 fTargetEye = { 0.0f, 0.0f, 0.0f };
+		//正規化
+		fTargetEye.x = eye.x - target2.x;
+		fTargetEye.y = eye.y - target2.y;
+		fTargetEye.z = eye.z - target2.z;
+
+		//プレイヤーの回転
+		XMFLOAT3 playerRot = GetRotation();
+		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
+		playerRot.y *= 180 / XM_PI;
+		SetRotation({ 0.0f, playerRot.y, 0.0f });
+	}
+	camera->Update();
 }
 
 //チュートリアル用のアップデート

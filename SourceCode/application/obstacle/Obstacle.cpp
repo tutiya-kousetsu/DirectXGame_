@@ -20,7 +20,6 @@ bool Obstacle::Initialize(XMFLOAT3 position)
 	object->SetScale({ 3.4f, 3.21f, 3.4f });
 	shake.reset(new Shake());
 	this->position = position;
-	//object->SetPosition(position);
 	return true;
 
 }

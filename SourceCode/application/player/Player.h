@@ -4,9 +4,13 @@
 #include "EnemyBullet.h"
 #include "GameObject.h"
 #include "Shake.h"
+#include "Input.h"
+#include "FollowingCamera.h"
+#include "Framework.h"
 #include <memory>
 #include <list>
 #include <forward_list>
+#include <DirectXMath.h>
 class ParticleManager;
 
 using namespace DirectX;
@@ -16,7 +20,8 @@ class Player : public Object3d
 public:
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
-
+	using XMMATRIX = DirectX::XMMATRIX;
+	using XMVECTOR = DirectX::XMVECTOR;
 public:
 	/// <summary>
 	/// 3Dオブジェクト生成
@@ -37,6 +42,7 @@ public:
 	//動かしたくない時用更新
 	void StopUpdate();
 
+	void Mouse();
 
 	//移動
 	void move(float speed = 0.3f);
@@ -94,8 +100,10 @@ private:
 	bool bulFlag = true;
 	// マウス
 	POINT mousePos{};
+	Input* input = nullptr;
 	ParticleManager* particleMan = nullptr;
 	int32_t shootTimer = 0;
+	std::unique_ptr<Framework> frame;
 
 	//攻撃(長押しかどうかのフラグ、タイマー、力)
 	int atPower = 1;
@@ -122,5 +130,15 @@ private:
 	std::unique_ptr<Shake> shake = nullptr;
 	bool shakeF = false;
 	XMFLOAT3 shakePos = { 0.0f,0.0f,0.0f };
+	// カメラ関係
+	bool dirty = false;
+	float angleX = 0;
+	float angleY = 0;
+	float scaleX = 0.35f / (float)WinApp::window_width;
+	float scaleY = 0.35f / (float)WinApp::window_height;
+	bool viewDirty = false;
+	float distance = 1.0f;
+	XMMATRIX matRot = DirectX::XMMatrixIdentity();
+	std::unique_ptr<FollowingCamera> camera;
 };
 

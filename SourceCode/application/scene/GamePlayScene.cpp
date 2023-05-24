@@ -151,10 +151,12 @@ void GamePlayScene::Update()
 			}
 			nowCamera = camera.get();
 			Object3d::SetCamera(nowCamera);
-			if (!phase->GetPhase()) {
+			phaseFlag = phase->GetPhase();
+			if (!phaseFlag) {
 				//フェーズ2
 				if (fEnePhase >= 1) {
- 					phaseFlag = true;
+					phaseCountFlag = true;
+					phaseCount = 1;
 				}
 				//フェーズ3
 				if (fEnePhase >= 2 && lEnePhase >= 1) {
@@ -174,14 +176,14 @@ void GamePlayScene::Update()
 				}
 				phase->MovePhase(phaseCount);
 			}
-			if (phaseFlag) {
+			if (phaseCountFlag) {
 				nowCamera = debugCam.get();
 				Object3d::SetCamera(nowCamera);
 				nowCamera->SetEye({ 0, 50.f, -1.f });
 				nowCamera->SetTarget({ 0, -90, 0 });
 				if (downTime <= 230) {
 					for (auto& ob : obstacles) {
-						ob->DownMove(phaseFlag);
+						ob->DownMove(phaseCountFlag);
 					}
 				}
 				downTime++;
@@ -193,12 +195,12 @@ void GamePlayScene::Update()
 				}
 			}
 			if (downTime >= 460) {
-				phaseCount = 1;
-				phaseFlag = false;
+
+				phaseCountFlag = false;
 				upFlag = false;
 				downTime = 0;
 			}
-			if(!phaseFlag) {
+			if (!phaseCountFlag) {
 				nowCamera = camera.get();
 				Object3d::SetCamera(nowCamera);
 			}
@@ -211,7 +213,6 @@ void GamePlayScene::Update()
 		}
 
 	}
-
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -254,28 +255,29 @@ void GamePlayScene::Update()
 	}
 
 	//フェーズ
-	if (phase->GetPhase()) {
+	if (phaseFlag) {
 		if (door) {
 			door->DoorMove(phaseCount);
 		}
 
 		UpdataEnemyPopCommand();
+
+
+		for (auto& front : frontEnemy) {
+			front->Update();
+		}
+		for (auto& left : leftEnemy) {
+			left->Update();
+		}
+		for (auto& right : rightEnemy) {
+			right->Update();
+		}
+		for (auto& back : backEnemy) {
+			back->Update();
+		}
 	}
 	if (door) {
 		door->Update();
-	}
-
-	for (auto& front : frontEnemy) {
-		front->Update();
-	}
-	for (auto& left : leftEnemy) {
-		left->Update();
-	}
-	for (auto& right : rightEnemy) {
-		right->Update();
-	}
-	for (auto& back : backEnemy) {
-		back->Update();
 	}
 
 	playerPos = player->GetPosition();
@@ -475,7 +477,20 @@ void GamePlayScene::LoadEnemyPopData()
 
 void GamePlayScene::UpdataEnemyPopCommand()
 {
-
+	//if (waitFlag && timeFlag) {
+	//	wait--;
+	//	//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
+	//	if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
+	//		&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase
+	//		&& wait <= 0) {
+	//		timeFlag = false;
+	//		waitFlag = false;
+	//		phase->SetPhase(false);
+	//	}else{
+	//		//一致していなかったらreturnで返す
+	//			return;
+	//	}
+	//}
 	if (waitFlag) {
 		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
 		if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
@@ -483,8 +498,8 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			waitFlag = false;
 			phase->SetPhase(false);
 		}
-		//一致していなかったらreturnで返す
 		else {
+			//一致していなかったらreturnで返す
 			return;
 		}
 	}
@@ -605,8 +620,10 @@ void GamePlayScene::UpdataEnemyPopCommand()
 		}
 		/*else if (word.find("TIME") == 0) {
 			getline(line_stream, word, ',');
-			int32_t frontPhase = atoi(word.c_str());
+			int32_t time = atoi(word.c_str());
 
+			timeFlag = true;
+			wait = time;
 
 		}*/
 		//PHASEコマンド(敵の発生の順番)
@@ -1079,16 +1096,30 @@ void GamePlayScene::CheckAllCollision()
 	LeftColl();
 	RightColl();
 	BackColl();
-
+	Input* input = Input::GetInstance();
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
 	if (landTime >= 230) {
-		// 注視点から視点へのベクトル
+		Input::MouseMove mouseMove = input->GetMouseMove();
+		float dy = mouseMove.lX * scaleY;
+		angleY = -dy * XM_PI;
+		// 追加回転分の回転行列を生成
+		XMMATRIX matRotNew = XMMatrixIdentity();
+		matRotNew *= XMMatrixRotationY(-angleY);
+		// 累積の回転行列を合成
+		matRot = matRotNew * matRot;
+
+		// 注視点から視点へのベクトルと、上方向ベクトル
 		XMVECTOR vTargetEye = { 0.0f, 0.0f, -distance, 1.0f };
+		XMVECTOR vUp = { 0.0f, 0.5f, 0.0f, 0.0f };
+
 		// ベクトルを回転
 		vTargetEye = XMVector3Transform(vTargetEye, matRot);
+		vUp = XMVector3Transform(vUp, matRot);
+
 		XMFLOAT3 target1 = camera->GetTarget();
 		camera->SetEye({ target1.x + vTargetEye.m128_f32[0], target1.y + vTargetEye.m128_f32[1], target1.z + vTargetEye.m128_f32[2] });
+		camera->SetUp({ vUp.m128_f32[0], vUp.m128_f32[1], vUp.m128_f32[2] });
 
 		// 注視点からずらした位置に視点座標を決定
 		XMFLOAT3 target2 = camera->GetTarget();
@@ -1136,6 +1167,7 @@ void GamePlayScene::CheckAllCollision()
 						front->OnCollision();
 						if (!front->GetAlive()) {
 							fEnePhase++;
+							wait--;
 						}
 					}
 				}

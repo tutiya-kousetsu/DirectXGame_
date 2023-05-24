@@ -25,4 +25,5 @@ private:
 	//イーズアウト用frame
 	float outFrame = 0.f;
 	bool phaseFlag = false;
+	int32_t timer = 120;
 };

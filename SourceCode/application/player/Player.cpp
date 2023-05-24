@@ -37,7 +37,7 @@ bool Player::Initialize()
 	}
 	particleMan = ParticleManager::GetInstance();
 
-	//Object3d::SetRotation({ 0,0,0 });
+	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
 	camera.reset(new FollowingCamera());
 	shake.reset(new Shake());
@@ -72,7 +72,7 @@ void Player::Update()
 	if (life <= 0) {
 		alive = false;
 	}
-	
+
 	Object3d::SetPosition(position);
 }
 
@@ -82,8 +82,10 @@ void Player::StopUpdate()
 	Object3d::Update();
 }
 
+//マウス関数
 void Player::Mouse()
 {
+	//インスタンスを持ってきてinputクラスを使えるようにする
 	Input* input = Input::GetInstance();
 
 	Input::MouseMove mouseMove = input->GetMouseMove();
@@ -123,36 +125,8 @@ void Player::Mouse()
 		playerRot.y *= 180 / XM_PI;
 		Object3d::SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
-	//camera->Update();
 }
 
-//チュートリアル用のアップデート
-void Player::TutorialUpdate()
-{
-	//弾のフラグがfalseになったら削除する
-	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
-		return !bullet->GetAlive();
-		});
-	move();
-	//フェーズが位置にならないとjump出来ない
-	if (operatePhase >= 1) {
-		jump();
-	}
-	Input* input = Input::GetInstance();
-	if (operatePhase >= 2) {
-		if (input->TriggerMouseLeft()) {
-			Shoot();
-			shotFlag = true;
-		}
-		if (shotFlag) {
-			operatePhase = 3;
-		}
-	}
-	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
-		bul->Update();
-	}
-	Object3d::Update();
-}
 
 //移動
 void Player::move(float speed)
@@ -294,7 +268,6 @@ void Player::jump()
 	// 球と地形の交差を全検索
 	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_ENEMYS);
 
-
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
 	ray.start = sphereCollider->center;
@@ -330,6 +303,7 @@ void Player::jump()
 	Object3d::Update();
 }
 
+//スケールを小さくする用関数
 void Player::ScaleSmall()
 {
 	scale = Object3d::GetScale();
@@ -341,6 +315,7 @@ void Player::ScaleSmall()
 	}
 }
 
+//スケールを大きくする用関数
 void Player::ScaleLarge()
 {
 	scale = Object3d::GetScale();
@@ -349,17 +324,6 @@ void Player::ScaleLarge()
 		scale.y += 0.01f;
 		scale.z += 0.01f;
 		Object3d::SetScale(scale);
-	}
-
-}
-
-void Player::TutorialDraw(bool flag)
-{
-	Object3d::Draw();
-	if (!flag) {
-		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
-			bul->Draw();
-		}
 	}
 
 }
@@ -431,7 +395,6 @@ void Player::CreateParticle()
 	}
 }
 
-
 void Player::Draw()
 {
 	Object3d::Draw();
@@ -449,4 +412,44 @@ XMVECTOR Player::GetWorldPosition()
 	worldPos.m128_f32[2] = position.z;
 
 	return worldPos;
+}
+
+//チュートリアル用のアップデート
+void Player::TutorialUpdate()
+{
+	//弾のフラグがfalseになったら削除する
+	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return !bullet->GetAlive();
+		});
+	move();
+	//フェーズが位置にならないとjump出来ない
+	if (operatePhase >= 1) {
+		jump();
+	}
+	Input* input = Input::GetInstance();
+	if (operatePhase >= 2) {
+		if (input->TriggerMouseLeft()) {
+			Shoot();
+			shotFlag = true;
+		}
+		if (shotFlag) {
+			operatePhase = 3;
+		}
+	}
+	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
+		bul->Update();
+	}
+	Object3d::Update();
+}
+
+//チュートリアル用の描画関数
+void Player::TutorialDraw(bool flag)
+{
+	Object3d::Draw();
+	if (!flag) {
+		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
+			bul->Draw();
+		}
+	}
+
 }

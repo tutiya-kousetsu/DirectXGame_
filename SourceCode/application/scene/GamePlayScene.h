@@ -177,7 +177,7 @@ private:
 	XMFLOAT4 color;
 
 	//タイマー
-	int32_t wait = 0;
+	int32_t wait = 460;
 	int32_t clearTime = 0;
 	int32_t landTime = 0;
 	int32_t sceneTime = 0;
@@ -186,6 +186,7 @@ private:
 	//フラグ
 	bool bulFlag = true;//弾のフラグ
 	bool waitFlag = false;//待ってるときのフラグ
+	bool timeFlag = false;
 	bool phFlag = false;
 	bool clearFlag = false;
 	bool clearTFlag = false;
@@ -198,6 +199,7 @@ private:
 	bool landFlag = false;//着地しているか
 	bool numbFlag = false;
 	bool hpFlag = false;
+	bool phaseCountFlag = false;
 	bool phaseFlag = false;
 	bool upFlag = false;
 	//フェーズ

@@ -11,6 +11,7 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 	particleMan = ParticleManager::GetInstance();
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0, 180, 0 });
+
 }
 
 FrontEnemy::~FrontEnemy()
@@ -30,7 +31,7 @@ void FrontEnemy::Update()
 	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
 		return !bullet->GetAlive();
 	});
-	if (alive) {
+	if (alive ) {
 		appearance();
 		if (!appFlag) {
 			Shoot();
@@ -51,16 +52,15 @@ void FrontEnemy::TitleUpdate()
 
 void FrontEnemy::appearance()
 {
-	position.z -= moveZ;
-	if (position.z <= 50) {
-		moveZ = 0;
-		appFlag = false;
-	}
+		position.z -= moveZ;
+		if (position.z <= 50) {
+			moveZ = 0;
+			appFlag = false;
+		}
 }
 
 void FrontEnemy::FrontShoot()
 {
-
 	//playerに向かって弾発射
 	{
 		assert(this->player);
@@ -95,7 +95,6 @@ void FrontEnemy::FrontShoot()
 
 void FrontEnemy::Shoot()
 {
-
 	shootTimer--;
 	if (shootTimer < 0) {
 		FrontShoot();

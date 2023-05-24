@@ -278,7 +278,6 @@ void GamePlayScene::Update()
 		back->Update();
 	}
 
-
 	playerPos = player->GetPosition();
 	//自機のHPが0になったら小さくする
 	if (!player->GetAlive()) {

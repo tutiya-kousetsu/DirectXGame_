@@ -100,7 +100,7 @@ private:
 	bool bulFlag = true;
 	// É}ÉEÉX
 	POINT mousePos{};
-	Input* input = nullptr;
+	//Input* input = nullptr;
 	ParticleManager* particleMan = nullptr;
 	int32_t shootTimer = 0;
 	std::unique_ptr<Framework> frame;

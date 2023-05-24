@@ -37,11 +37,9 @@ bool Player::Initialize()
 	}
 	particleMan = ParticleManager::GetInstance();
 
-	Object3d::SetRotation({ 0,0,0 });
+	//Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
 	camera.reset(new FollowingCamera());
-	Object3d::SetCamera(camera.get());
-	input = new Input();
 	shake.reset(new Shake());
 	//コライダーの追加
 	float radius = 1.9f;
@@ -86,6 +84,8 @@ void Player::StopUpdate()
 
 void Player::Mouse()
 {
+	Input* input = Input::GetInstance();
+
 	Input::MouseMove mouseMove = input->GetMouseMove();
 	float dy = mouseMove.lX * scaleY;
 	angleY = -dy * XM_PI;
@@ -118,12 +118,12 @@ void Player::Mouse()
 		fTargetEye.z = eye.z - target2.z;
 
 		//プレイヤーの回転
-		XMFLOAT3 playerRot = GetRotation();
+		XMFLOAT3 playerRot = Object3d::GetRotation();
 		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
 		playerRot.y *= 180 / XM_PI;
-		SetRotation({ 0.0f, playerRot.y, 0.0f });
+		Object3d::SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
-	camera->Update();
+	//camera->Update();
 }
 
 //チュートリアル用のアップデート

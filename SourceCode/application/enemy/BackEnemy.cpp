@@ -10,6 +10,8 @@ BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("yellowSquid"))
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0,0,0 });
 	particleMan = ParticleManager::GetInstance();
+	sanderObj = Object3d::Create();
+	sanderObj->SetModel(Model::CreateFromOBJ("sander"));
 }
 
 BackEnemy::~BackEnemy()
@@ -19,6 +21,7 @@ BackEnemy::~BackEnemy()
 bool BackEnemy::Initialize(XMFLOAT3 position)
 {
 	this->position = position;
+	sanderObj->SetPosition(position);
 	AccessPhase();
 	return true;
 }
@@ -37,9 +40,11 @@ void BackEnemy::Update()
 
 		}
 		object->SetPosition(position);
+		sanderObj->SetPosition(position);
 	}
 
 	object->Update();
+	sanderObj->Update();
 }
 
 void BackEnemy::appearance()
@@ -101,6 +106,7 @@ void BackEnemy::Draw()
 	//ƒtƒ‰ƒO1‚Å“G•\Ž¦
 	if (alive) {
 		object->Draw();
+		sanderObj->Draw();
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 			bullet->Draw();
 		}

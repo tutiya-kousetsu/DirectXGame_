@@ -55,5 +55,6 @@ private:
 
 	ParticleManager* particleMan = nullptr;
 	std::list < std::unique_ptr<EnemyBullet>> bullets;
+	std::unique_ptr<Object3d> sanderObj;
 };
 

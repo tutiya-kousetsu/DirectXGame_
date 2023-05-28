@@ -66,7 +66,6 @@ void Player::Update()
 		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 			bul->Update();
 		}
-		//CheckCollision();
 		Object3d::Update();
 	}
 	if (life <= 0) {

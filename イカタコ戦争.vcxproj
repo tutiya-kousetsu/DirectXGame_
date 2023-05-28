@@ -60,7 +60,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle;$(ProjectDir)SourceCode\application\arrow</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -78,7 +78,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle;$(ProjectDir)SourceCode\application\arrow</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -178,6 +178,7 @@
     <ClCompile Include="External\imgui\imgui_impl_dx12.cpp" />
     <ClCompile Include="External\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="External\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="SourceCode\application\arrow\Arrow.cpp" />
     <ClCompile Include="SourceCode\application\csvLoader\CsvLoader.cpp" />
     <ClCompile Include="SourceCode\application\door\Door.cpp" />
     <ClCompile Include="SourceCode\application\enemy\BackEnemy.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="External\imgui\imstb_rectpack.h" />
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
+    <ClInclude Include="SourceCode\application\arrow\Arrow.h" />
     <ClInclude Include="SourceCode\application\csvLoader\CsvLoader.h" />
     <ClInclude Include="SourceCode\application\door\Door.h" />
     <ClInclude Include="SourceCode\application\enemy\BackEnemy.h" />

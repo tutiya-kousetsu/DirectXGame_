@@ -11,7 +11,6 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 	particleMan = ParticleManager::GetInstance();
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0, 180, 0 });
-
 }
 
 FrontEnemy::~FrontEnemy()

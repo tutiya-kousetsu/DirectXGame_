@@ -198,6 +198,9 @@
     <ClCompile Include="SourceCode\application\csvLoader\CsvLoader.cpp">
       <Filter>application\csvLoader</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\application\arrow\Arrow.cpp">
+      <Filter>application\arrow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui\imconfig.h">
@@ -386,6 +389,9 @@
     <ClInclude Include="SourceCode\application\csvLoader\CsvLoader.h">
       <Filter>application\csvLoader</Filter>
     </ClInclude>
+    <ClInclude Include="SourceCode\application\arrow\Arrow.h">
+      <Filter>application\arrow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\FBX.hlsli">
@@ -485,6 +491,9 @@
     </Filter>
     <Filter Include="application\csvLoader">
       <UniqueIdentifier>{4b1fb0b1-965c-41f6-8c63-50c0f7cf1409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\arrow">
+      <UniqueIdentifier>{8a44184d-1b6c-44e4-8378-18bc7f089b3f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

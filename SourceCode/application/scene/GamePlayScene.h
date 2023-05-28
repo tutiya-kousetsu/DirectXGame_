@@ -26,6 +26,7 @@
 #include "CollisionManager.h"
 #include "BaseCollider.h"
 #include "Shake.h"
+#include "Arrow.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -104,11 +105,12 @@ private:
 	std::unique_ptr<Sprite> onAlignment;
 	std::unique_ptr<Sprite> damage;
 	std::unique_ptr<Sprite> clear;
+	
 	//表示されている間の秒数
 	int32_t damageTime = 20;
 	int phaseCount = 0;
 	std::unique_ptr<Phase> phase;
-
+	std::unique_ptr<Arrow> arrow;
 	//イーズイン用frame
 	float inFrame = 0.f;
 	float easFrame = 0.f;

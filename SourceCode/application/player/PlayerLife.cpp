@@ -29,7 +29,7 @@ void PlayerLife::MoveUpdate(int life)
 		if (frame < 1.0f) {
 			frame += 0.001f;
 		}
-		pos[i].y = Ease(Out, Cubic, frame, 595, 900);
+		pos[i].y = Ease(Out, Cubic, frame, pos[i].y, 900);
 
 		//}
 		lifeSp[i]->SetPosition(pos[i]);

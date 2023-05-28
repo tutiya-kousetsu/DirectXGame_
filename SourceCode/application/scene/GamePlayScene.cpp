@@ -34,6 +34,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	//phase
 	phase.reset(new Phase());
 	phase->Initialize();
+	//矢印のスプライト
+	arrow.reset(new Arrow());
+	arrow->Initialize();
 
 	//ポストエフェクトの初期化
 	postEffect.reset(new PostEffect());
@@ -96,6 +99,7 @@ void GamePlayScene::Finalize()
 	door.reset();
 	postEffect.reset();
 	phase.reset();
+	arrow.reset();
 	player.reset();
 	playerLife.reset();
 	CollisionManager::GetInstance()->RemoveCollider(collider);
@@ -386,6 +390,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//奥にあるほど先に書く
 	skyObj->Draw();
 	floor->Draw();
+
 	//前敵
 	for (auto& front : frontEnemy) {
 		front->Draw();
@@ -440,7 +445,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// </summary>
 	sprite->Draw();
 	playerLife->Draw(life);
-	if (landTime >= 230) {
+	if (landTime >= 230 && downTime <= 0) {
 		alignment->Draw();
 	}
 	if (damageFlag1 || damageFlag2 || damageFlag3 || damageFlag4) {
@@ -448,6 +453,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	}
 	//フェーズ変更時のスプライト
 	phase->Draw(phaseCount);
+	if (phaseCountFlag) {
+		arrow->Draw(phaseCount);
+	}
 	//クリア時表示する
 	if (clearFlag) {
 		clear->Draw();
@@ -477,20 +485,6 @@ void GamePlayScene::LoadEnemyPopData()
 
 void GamePlayScene::UpdataEnemyPopCommand()
 {
-	//if (waitFlag && timeFlag) {
-	//	wait--;
-	//	//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
-	//	if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
-	//		&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase
-	//		&& wait <= 0) {
-	//		timeFlag = false;
-	//		waitFlag = false;
-	//		phase->SetPhase(false);
-	//	}else{
-	//		//一致していなかったらreturnで返す
-	//			return;
-	//	}
-	//}
 	if (waitFlag) {
 		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
 		if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
@@ -618,14 +612,6 @@ void GamePlayScene::UpdataEnemyPopCommand()
 			//障害物を登録する
 			backEnemy.push_back(std::move(newBack));
 		}
-		/*else if (word.find("TIME") == 0) {
-			getline(line_stream, word, ',');
-			int32_t time = atoi(word.c_str());
-
-			timeFlag = true;
-			wait = time;
-
-		}*/
 		//PHASEコマンド(敵の発生の順番)
 		else if (word.find("PHASE") == 0) {
 			getline(line_stream, word, ',');
@@ -1138,7 +1124,9 @@ void GamePlayScene::CheckAllCollision()
 			obShape.radius = ob->GetScale().x;
 			if (Collision::CheckRay2Sphere(ray, obShape)) {
 				rayFlag = true;
-				ob->OnCollision(rayFlag);
+				if (!phaseCountFlag) {
+					ob->OnCollision(rayFlag);
+				}
 			}
 			else {
 				ob->OnCollision(!rayFlag);

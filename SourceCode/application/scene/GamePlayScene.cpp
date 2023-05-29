@@ -395,23 +395,24 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	skyObj->Draw();
 	floor->Draw();
 
-	//前敵
-	for (auto& front : frontEnemy) {
-		front->Draw();
+	if (downTime <= 0) {
+		//前敵
+		for (auto& front : frontEnemy) {
+			front->Draw();
+		}
+		//左敵
+		for (auto& left : leftEnemy) {
+			left->Draw();
+		}
+		//右敵
+		for (auto& right : rightEnemy) {
+			right->Draw();
+		}
+		//後ろ敵
+		for (auto& back : backEnemy) {
+			back->Draw();
+		}
 	}
-	//左敵
-	for (auto& left : leftEnemy) {
-		left->Draw();
-	}
-	//右敵
-	for (auto& right : rightEnemy) {
-		right->Draw();
-	}
-	//後ろ敵
-	for (auto& back : backEnemy) {
-		back->Draw();
-	}
-
 	if (sceneTime >= 10) {
 		for (auto& wall : walls) {
 			wall->Draw();
@@ -431,9 +432,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 			}
 		}
 	}
-
-	particleMan->Draw();
-
+	if (downTime <= 0) {
+		particleMan->Draw();
+	}
 	Object3d::PostDraw();
 
 	postEffect->PostDrawScene(dxCommon->GetCmdList());

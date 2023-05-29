@@ -30,11 +30,6 @@ void Arrow::Initialize()
 	arrow[7]->SetRotation(180.0f);
 }
 
-void Arrow::MovePhase(int phaseCount)
-{
-
-}
-
 void Arrow::Draw(int phaseCount)
 {
 	if(phaseCount >= 1){

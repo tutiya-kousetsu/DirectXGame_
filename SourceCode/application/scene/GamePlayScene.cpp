@@ -146,7 +146,6 @@ void GamePlayScene::Update()
 				ob->UpMove(landFlag);
 			}
 		}
-
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;
@@ -180,11 +179,14 @@ void GamePlayScene::Update()
 				}
 				phase->MovePhase(phaseCount);
 			}
+			//フェーズフラグが立ったら
 			if (phaseCountFlag) {
+				//カメラの切り替え
 				nowCamera = debugCam.get();
 				Object3d::SetCamera(nowCamera);
 				nowCamera->SetEye({ 0, 50.f, -1.f });
 				nowCamera->SetTarget({ 0, -90, 0 });
+				//タイムが230行ったら岩を下に下げるのを止める
 				if (downTime <= 230) {
 					for (auto& ob : obstacles) {
 						ob->DownMove(phaseCountFlag);
@@ -192,18 +194,20 @@ void GamePlayScene::Update()
 				}
 				downTime++;
 			}
+			//230超えたらあげるフラグを立てて岩を上に上げる
 			if (downTime >= 230) {
 				upFlag = true;
 				for (auto& ob : obstacles) {
 					ob->UpMove(upFlag);
 				}
 			}
+			//フラグとタイムの初期化
 			if (downTime >= 460) {
-
 				phaseCountFlag = false;
 				upFlag = false;
 				downTime = 0;
 			}
+			//カメラの切り替え
 			if (!phaseCountFlag) {
 				nowCamera = camera.get();
 				Object3d::SetCamera(nowCamera);

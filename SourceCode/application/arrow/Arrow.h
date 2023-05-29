@@ -8,8 +8,6 @@ class Arrow
 public:
 	void Initialize();
 
-	void MovePhase(int i);
-
 	void Draw(int i);
 
 private:

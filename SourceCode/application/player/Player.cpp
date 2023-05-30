@@ -61,7 +61,10 @@ void Player::Update()
 
 		Input* input = Input::GetInstance();
 		if (input->TriggerMouseLeft()) {
-			Shoot();
+			//フェーズ切り替え中は撃てなくする
+			if (!phaseFlag) {
+				Shoot();
+			}
 		}
 		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 			bul->Update();

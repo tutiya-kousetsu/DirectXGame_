@@ -207,6 +207,11 @@ void GamePlayScene::Update()
 				upFlag = false;
 				downTime = 0;
 			}
+			//自機が弾を打てなくする
+			if (downTime <= 460) {
+				player->SetPhaseFlag(phaseCountFlag);
+			}
+
 			//カメラの切り替え
 			if (!phaseCountFlag) {
 				nowCamera = camera.get();

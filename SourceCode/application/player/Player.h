@@ -83,6 +83,7 @@ public:
 	inline bool GetAlive() const { return alive; }
 	inline void SetAlive(bool alive) { this->alive = alive; }
 
+	inline void SetPhaseFlag(bool phaseF) { this->phaseFlag = phaseF; }
 
 	inline void SetLife(int life) { this->life = life; }
 	inline const int GetLife() const { return life; }
@@ -111,6 +112,7 @@ private:
 	bool atFlag = false;
 	int mWaiteCount = 0;
 	bool canShot = false;
+	bool phaseFlag = false;
 	// ƒWƒƒƒ“ƒv
 	bool alive = true;
 	int life = 8;

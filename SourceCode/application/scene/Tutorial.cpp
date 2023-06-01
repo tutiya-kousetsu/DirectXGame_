@@ -14,7 +14,7 @@
 #include "ParticleManager.h"
 #include "Easing.h"
 
-void Tutorial::Initialize(DirectXCommon* dxCommon)
+void Tutorial::Initialize(DirectXCommon* dxCommon, Audio* audio)
 {
 	Sprite::LoadTexture(1, L"Resources/WASD_UI.png");
 	wasdUI.reset(Sprite::Create(1, { 530,380 }));

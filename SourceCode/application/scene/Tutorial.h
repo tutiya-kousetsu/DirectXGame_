@@ -15,7 +15,7 @@
 #include "Framework.h"
 #include "Material.h"
 #include "PostEffect.h"
-
+#include "Audio.h"
 //‘O•ûéŒ¾
 class ParticleManager;
 
@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon) override;
+	void Initialize(DirectXCommon* dxCommon, Audio* audio) override;
 
 	/// <summary>
 	/// I—¹

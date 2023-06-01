@@ -27,6 +27,7 @@
 #include "BaseCollider.h"
 #include "Shake.h"
 #include "Arrow.h"
+#include "Audio.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -42,7 +43,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon) override;
+	void Initialize(DirectXCommon* dxCommon, Audio* audio) override;
 
 	/// <summary>
 	/// 終了
@@ -53,6 +54,8 @@ public:
 	/// 毎フレーム更新
 	/// </summary>
 	void Update() override;
+
+
 
 	/// <summary>
 	/// 描画
@@ -90,6 +93,7 @@ public:
 
 	void CheckAllCollision();
 private:
+	Audio* audio = nullptr;
 	//スプライト
 	std::unique_ptr<Sprite> sprite;
 	//HP

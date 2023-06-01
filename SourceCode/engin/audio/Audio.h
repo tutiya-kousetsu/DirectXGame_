@@ -88,5 +88,5 @@ private: // ƒƒ“ƒo•Ï”
 	std::unordered_map<std::string, SoundData> soundDatas;
 	std::unordered_map<std::string, IXAudio2SourceVoice*> pSourceVoices;
 
-	const std::string baseDirectory = "Resources/Audio/";
+	const std::string baseDirectory = "Resources/audio/";
 };

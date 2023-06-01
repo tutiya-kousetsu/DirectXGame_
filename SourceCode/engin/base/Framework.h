@@ -10,7 +10,7 @@
 #include "Sprite.h"
 #include "SceneManager.h"
 #include "PostEffect.h"
-
+#include "Audio.h"
 /// <summary>
 /// フレームワーク
 /// </summary>
@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	virtual void Update();
+	virtual void Update(Audio* audio);
 
 	/// <summary>
 	/// 描画

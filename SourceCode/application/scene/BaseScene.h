@@ -1,6 +1,6 @@
 #pragma once
 #include "DirectXCommon.h"
-
+#include "Audio.h"
 //‘O•ûéŒ¾
 class SceneManager;
 
@@ -17,7 +17,7 @@ public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	virtual void Initialize(DirectXCommon* dxCommon) = 0;
+	virtual void Initialize(DirectXCommon* dxCommon, Audio* audio) = 0;
 
 	/// <summary>
 	/// I—¹

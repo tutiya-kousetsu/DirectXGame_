@@ -15,8 +15,11 @@
 #include <fstream>
 #include <cassert>
 
-void GamePlayScene::Initialize(DirectXCommon* dxCommon)
+void GamePlayScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 {
+
+	this->audio = audio;
+
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
 	sprite.reset(Sprite::Create(1, { 0,0 }));
 
@@ -85,6 +88,9 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	skyObj = Object3d::Create();
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
 
+	// サウンド読み込み
+	audio->SoundLoadWave("2.wav");
+
 	//壁のマップチップ読み込み用
 	LoadWallPopData();
 	UpdataWallPopCommand();
@@ -120,6 +126,7 @@ void GamePlayScene::Update()
 	//着地する前
 	if (!landFlag) {
 		sceneTime++;
+		
 		//追従カメラから普通のカメラに変更
 		nowCamera = debugCam.get();
 		Object3d::SetCamera(nowCamera);
@@ -141,6 +148,10 @@ void GamePlayScene::Update()
 	//着地した後
 	if (landFlag) {
 		landTime++;
+		if (landTime >= 10) {
+			// サウンド再生
+			audio->SoundPlayWave("2.wav", true);
+		}
 		if (landTime <= 230) {
 			for (auto& ob : obstacles) {
 				ob->UpMove(landFlag);
@@ -149,6 +160,8 @@ void GamePlayScene::Update()
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;
+			// サウンド停止
+			audio->SoundStop("2.wav");
 			for (auto& ob : obstacles) {
 				ob->UpMove(!landFlag);
 			}
@@ -181,6 +194,7 @@ void GamePlayScene::Update()
 			}
 			//フェーズフラグが立ったら
 			if (phaseCountFlag) {
+				downTime++;
 				//カメラの切り替え
 				nowCamera = debugCam.get();
 				Object3d::SetCamera(nowCamera);
@@ -192,7 +206,6 @@ void GamePlayScene::Update()
 						ob->DownMove(phaseCountFlag);
 					}
 				}
-				downTime++;
 			}
 			//230超えたらあげるフラグを立てて岩を上に上げる
 			if (downTime >= 230) {
@@ -224,7 +237,6 @@ void GamePlayScene::Update()
 		for (auto& obstacle : obstacles) {
 			obstacle->Update();
 		}
-
 	}
 	Input* input = Input::GetInstance();
 
@@ -1088,10 +1100,10 @@ void GamePlayScene::BackColl()
 
 void GamePlayScene::CheckAllCollision()
 {
-	FrontColl();
-	LeftColl();
-	RightColl();
-	BackColl();
+	//FrontColl();
+	//LeftColl();
+	//RightColl();
+	//BackColl();
 	Input* input = Input::GetInstance();
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
@@ -1155,7 +1167,7 @@ void GamePlayScene::CheckAllCollision()
 
 			//前の敵
 			for (auto& front : frontEnemy) {
-				if (front->GetAlive()) {
+				/*if (front->GetAlive()) {
 					Sphere fEnemyShape;
 					fEnemyShape.center = XMLoadFloat3(&front->GetPosition());
 					fEnemyShape.radius = front->GetScale().z;
@@ -1168,7 +1180,8 @@ void GamePlayScene::CheckAllCollision()
 							wait--;
 						}
 					}
-				}
+				}*/
+				//CheckCollisionPair(pb, front);
 			}
 			for (auto& left : leftEnemy) {
 				//左の敵
@@ -1246,3 +1259,4 @@ void GamePlayScene::CheckAllCollision()
 #pragma endregion
 	}
 }
+

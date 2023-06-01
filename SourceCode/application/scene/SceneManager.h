@@ -1,7 +1,6 @@
 #pragma once
-
 #include "BaseScene.h"
-
+#include "Audio.h"
 /// <summary>
 /// シーン管理
 /// </summary>
@@ -12,7 +11,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update(DirectXCommon* dxCommon);
+	void Update(DirectXCommon* dxCommon, Audio* audio);
 
 	/// <summary>
 	/// 描画

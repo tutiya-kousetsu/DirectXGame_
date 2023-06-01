@@ -267,9 +267,6 @@ void Player::jump()
 	UpdateWorldMatrix();
 	collider->Update();
 
-	// 球と地形の交差を全検索
-	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_ENEMYS);
-
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
 	ray.start = sphereCollider->center;

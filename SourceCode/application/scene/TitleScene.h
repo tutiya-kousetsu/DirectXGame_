@@ -13,14 +13,14 @@
 #include "FrontEnemy.h"
 #include "Player.h"
 #include "Framework.h"
-
+#include "Audio.h"
 class TitleScene : public BaseScene
 {
 public:
 	/// <summary>
 	/// èâä˙âª
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon) override;
+	void Initialize(DirectXCommon* dxCommon, Audio* audio) override;
 
 	/// <summary>
 	/// èIóπ

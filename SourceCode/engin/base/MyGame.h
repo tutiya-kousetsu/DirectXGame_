@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "Framework.h"
-
+#include "Audio.h"
 /// <summary>
 /// ゲーム固有のクラス
 /// </summary>
@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	void Update() override;
+	void Update(Audio* audio) override;
 
 	/// <summary>
 	/// 描画

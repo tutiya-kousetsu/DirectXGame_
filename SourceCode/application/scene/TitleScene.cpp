@@ -13,7 +13,7 @@
 #include "MeshCollider.h"
 
 
-void TitleScene::Initialize(DirectXCommon* dxCommon)
+void TitleScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 {
 	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/Title.png");

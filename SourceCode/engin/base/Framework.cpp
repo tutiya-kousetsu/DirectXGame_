@@ -10,7 +10,7 @@ void Framework::Run()
 	while (true)  // ゲームループ
 	{
 		//毎フレーム更新
-		Update();
+		Update(audio);
 		Input* input = Input::GetInstance();
 		if (input->PushKey(DIK_ESCAPE)) {
 			break;
@@ -60,8 +60,8 @@ void Framework::Initialize()
 
 
 	//オーディオの初期化
-	/*audio = Audio::GetInstance();
-	audio->Initialize();*/
+	audio = Audio::GetInstance();
+	audio->Initialize();
 
 	//3Dオブジェット静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(),dxCommon->GetCmdList(), winApp->window_width, winApp->window_height);
@@ -87,7 +87,7 @@ void Framework::Finalize()
 
 }
 
-void Framework::Update()
+void Framework::Update(Audio* audio)
 {
 #pragma region ウィンドウメッセージ処理
 	if (winApp->ProcessMessage()) {
@@ -100,7 +100,7 @@ void Framework::Update()
 	/// <summary>
 	/// シーンの更新
 	/// </summary>
-	this->sceneManager->Update(dxCommon);
+	this->sceneManager->Update(dxCommon, audio);
 }
 
 void Framework::Draw()

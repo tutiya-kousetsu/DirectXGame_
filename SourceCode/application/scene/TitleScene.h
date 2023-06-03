@@ -38,7 +38,7 @@ public:
 	void Draw(DirectXCommon* dxCommon) override;
 
 private:
-
+	Audio* audio = nullptr;
 	std::unique_ptr <Sprite> titleSp;
 	std::unique_ptr <Sprite> spaceSp;
 	std::unique_ptr <Sprite> backSp;

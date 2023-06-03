@@ -16,6 +16,7 @@
 
 void Tutorial::Initialize(DirectXCommon* dxCommon, Audio* audio)
 {
+	this->audio = audio;
 	Sprite::LoadTexture(1, L"Resources/WASD_UI.png");
 	wasdUI.reset(Sprite::Create(1, { 530,380 }));
 
@@ -73,11 +74,13 @@ void Tutorial::Initialize(DirectXCommon* dxCommon, Audio* audio)
 
 void Tutorial::Finalize()
 {
+	audio->SoundUnload();
 }
 
 void Tutorial::Update()
 {
-
+	//タイトルからチュートリアルにシーン遷移したときに止める
+	audio->SoundStop("space.wav");
 	if (!startFlag) {
 		//中心から明るくする
 		startEfRadius += 10.5f;

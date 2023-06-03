@@ -44,7 +44,7 @@ void Obstacle::UpMove(bool landF)
 				easFrame += 0.0001f;
 			}
 			if (position.y <= -0.1f) {
-				position.y = Ease(Out, Cubic, easFrame, position.y, 0);
+				position.y = Ease(Out, Quad, easFrame, position.y, 0);
 			}
 			//シェイクのフラグを立てる
 			shake->SetShakeStart(true);

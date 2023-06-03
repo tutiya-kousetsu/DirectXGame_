@@ -108,6 +108,7 @@ void GamePlayScene::Finalize()
 	arrow.reset();
 	player.reset();
 	playerLife.reset();
+	audio->SoundUnload();
 	CollisionManager::GetInstance()->RemoveCollider(collider);
 	delete collider;
 	delete input;
@@ -122,6 +123,7 @@ void GamePlayScene::Finalize()
 
 void GamePlayScene::Update()
 {
+	
 	playerPos = player->GetPosition();
 	//着地する前
 	if (!landFlag) {
@@ -158,10 +160,13 @@ void GamePlayScene::Update()
 			}
 		}
 		player->StopUpdate();
-		if (landTime >= 230) {
-			//landFlag = false;
+		if (landTime >= 210) {
 			// サウンド停止
 			audio->SoundStop("2.wav");
+		}
+		if (landTime >= 230) {
+			//landFlag = false;
+			
 			for (auto& ob : obstacles) {
 				ob->UpMove(!landFlag);
 			}
@@ -195,6 +200,8 @@ void GamePlayScene::Update()
 			//フェーズフラグが立ったら
 			if (phaseCountFlag) {
 				downTime++;
+				// サウンド再生
+				audio->SoundPlayWave("2.wav", true);
 				//カメラの切り替え
 				nowCamera = debugCam.get();
 				Object3d::SetCamera(nowCamera);
@@ -219,6 +226,8 @@ void GamePlayScene::Update()
 				phaseCountFlag = false;
 				upFlag = false;
 				downTime = 0;
+				// サウンド停止
+				audio->SoundStop("2.wav");
 			}
 			//自機が弾を打てなくする
 			if (downTime <= 460) {

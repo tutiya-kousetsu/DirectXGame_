@@ -15,6 +15,7 @@
 
 void TitleScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 {
+	this->audio = audio;
 	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/Title.png");
 	//スプライトの生成
@@ -41,6 +42,8 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
+
+	audio->SoundLoadWave("space.wav");
 }
 
 void TitleScene::Finalize()
@@ -62,11 +65,13 @@ void TitleScene::Update()
 	camera->SetDistance(10.0f);
 	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
 	{
+		audio->SoundPlayWave("space.wav", true);
 		//シーン切り替え
 		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
+		
 	}
-
+	
 	camera->Update();
 	player->StopUpdate();
 	player->SetRotation({ 0,180,0 });

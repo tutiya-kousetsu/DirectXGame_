@@ -45,6 +45,7 @@ public:
 	void CheckAllCollision();
 
 private:
+	Audio* audio = nullptr;
 	std::unique_ptr<Sprite> alignment;
 	std::unique_ptr <Sprite> sprite;
 	std::unique_ptr <Sprite> spaceUI;

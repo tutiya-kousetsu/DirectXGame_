@@ -39,6 +39,8 @@ bool Player::Initialize()
 
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
+	numb = Object3d::Create();
+	numb->SetModel(Model::CreateFromOBJ("sander"));
 	camera.reset(new FollowingCamera());
 	shake.reset(new Shake());
 	//コライダーの追加
@@ -349,6 +351,7 @@ void Player::Numb(bool flag)
 {
 	if (flag) {
 		shake->SetShakeStart(true);
+		numb->Update();
 	}
 	else {
 		shake->SetShakeStart(false);
@@ -363,7 +366,9 @@ void Player::Numb(bool flag)
 	//ポジションにシェイクの動きを足す
 	position.x += shakePos.x;
 	position.z += shakePos.z;
+	numb->SetPosition(position);
 	Object3d::SetPosition(position);
+	
 }
 
 
@@ -394,11 +399,14 @@ void Player::CreateParticle()
 	}
 }
 
-void Player::Draw()
+void Player::Draw(bool flag)
 {
 	Object3d::Draw();
 	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
 		bul->Draw();
+	}
+	if (flag) {
+		numb->Draw();
 	}
 }
 

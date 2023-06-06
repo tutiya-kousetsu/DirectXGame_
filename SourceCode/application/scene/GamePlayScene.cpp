@@ -445,7 +445,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		}
 		door->Draw();
 	}
-	player->Draw();
+	player->Draw(numbFlag);
 	//障害物
 	if (landTime >= 10) {
 		for (auto& obstacle : obstacles) {
@@ -1109,10 +1109,10 @@ void GamePlayScene::BackColl()
 
 void GamePlayScene::CheckAllCollision()
 {
-	//FrontColl();
-	//LeftColl();
-	//RightColl();
-	//BackColl();
+	FrontColl();
+	LeftColl();
+	RightColl();
+	BackColl();
 	Input* input = Input::GetInstance();
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
@@ -1176,7 +1176,7 @@ void GamePlayScene::CheckAllCollision()
 
 			//前の敵
 			for (auto& front : frontEnemy) {
-				/*if (front->GetAlive()) {
+				if (front->GetAlive()) {
 					Sphere fEnemyShape;
 					fEnemyShape.center = XMLoadFloat3(&front->GetPosition());
 					fEnemyShape.radius = front->GetScale().z;
@@ -1189,8 +1189,7 @@ void GamePlayScene::CheckAllCollision()
 							wait--;
 						}
 					}
-				}*/
-				//CheckCollisionPair(pb, front);
+				}
 			}
 			for (auto& left : leftEnemy) {
 				//左の敵

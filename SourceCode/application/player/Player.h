@@ -56,7 +56,7 @@ public:
 	void ScaleLarge();
 
 	//描画
-	void Draw() override;
+	void Draw(bool flag = false);
 
 	//チュートリアル用更新
 	void TutorialUpdate();
@@ -105,7 +105,8 @@ private:
 	ParticleManager* particleMan = nullptr;
 	int32_t shootTimer = 0;
 	std::unique_ptr<Framework> frame;
-
+	std::unique_ptr<Object3d> numb;
+	XMFLOAT3 numbPos;
 	//攻撃(長押しかどうかのフラグ、タイマー、力)
 	int atPower = 1;
 	int atTimer = 0;

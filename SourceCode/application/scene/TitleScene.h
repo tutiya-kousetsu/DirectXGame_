@@ -14,13 +14,14 @@
 #include "Player.h"
 #include "Framework.h"
 #include "Audio.h"
+
 class TitleScene : public BaseScene
 {
 public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon, Audio* audio) override;
+	void Initialize(DirectXCommon* dxCommon) override;
 
 	/// <summary>
 	/// I—¹

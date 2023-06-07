@@ -43,7 +43,7 @@ public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon, Audio* audio) override;
+	void Initialize(DirectXCommon* dxCommon) override;
 
 	/// <summary>
 	/// I—¹

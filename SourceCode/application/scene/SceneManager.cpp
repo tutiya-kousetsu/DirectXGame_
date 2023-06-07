@@ -7,7 +7,7 @@ SceneManager::~SceneManager()
 	delete this->scene;
 }
 
-void SceneManager::Update(DirectXCommon* dxCommon, Audio* audio)
+void SceneManager::Update(DirectXCommon* dxCommon)
 {
 	//シーンの切り替え
 	if (this->nextScene) {
@@ -25,7 +25,7 @@ void SceneManager::Update(DirectXCommon* dxCommon, Audio* audio)
 		//シーンマネージャをセット
 		this->scene->SetSceneManager(this);
 		//新シーンの初期化
-		this->scene->Initialize(dxCommon, audio);
+		this->scene->Initialize(dxCommon);
 	}
 	this->scene->Update();
 }

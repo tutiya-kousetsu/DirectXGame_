@@ -179,7 +179,6 @@
     <ClCompile Include="External\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="SourceCode\application\arrow\Arrow.cpp" />
-    <ClCompile Include="SourceCode\application\csvLoader\CsvLoader.cpp" />
     <ClCompile Include="SourceCode\application\door\Door.cpp" />
     <ClCompile Include="SourceCode\application\enemy\BackEnemy.cpp" />
     <ClCompile Include="SourceCode\application\enemy\EnemyBullet.cpp" />
@@ -237,7 +236,6 @@
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
     <ClInclude Include="SourceCode\application\arrow\Arrow.h" />
-    <ClInclude Include="SourceCode\application\csvLoader\CsvLoader.h" />
     <ClInclude Include="SourceCode\application\door\Door.h" />
     <ClInclude Include="SourceCode\application\enemy\BackEnemy.h" />
     <ClInclude Include="SourceCode\application\enemy\EnemyBullet.h" />

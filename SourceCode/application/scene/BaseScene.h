@@ -17,7 +17,7 @@ public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	virtual void Initialize(DirectXCommon* dxCommon, Audio* audio) = 0;
+	virtual void Initialize(DirectXCommon* dxCommon) = 0;
 
 	/// <summary>
 	/// I—¹

@@ -10,7 +10,7 @@ void Framework::Run()
 	while (true)  // ゲームループ
 	{
 		//毎フレーム更新
-		Update(audio);
+		Update();
 		Input* input = Input::GetInstance();
 		if (input->PushKey(DIK_ESCAPE)) {
 			break;
@@ -87,7 +87,7 @@ void Framework::Finalize()
 
 }
 
-void Framework::Update(Audio* audio)
+void Framework::Update()
 {
 #pragma region ウィンドウメッセージ処理
 	if (winApp->ProcessMessage()) {
@@ -100,7 +100,7 @@ void Framework::Update(Audio* audio)
 	/// <summary>
 	/// シーンの更新
 	/// </summary>
-	this->sceneManager->Update(dxCommon, audio);
+	this->sceneManager->Update(dxCommon);
 }
 
 void Framework::Draw()

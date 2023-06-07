@@ -18,10 +18,10 @@ void MyGame::Finalize()
 	Framework::Finalize();
 }
 
-void MyGame::Update(Audio* audio)
+void MyGame::Update()
 {
 	//基底クラスの更新処理
-	Framework::Update(audio);
+	Framework::Update();
 }
 
 void MyGame::Draw()

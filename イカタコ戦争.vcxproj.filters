@@ -195,9 +195,6 @@
     <ClCompile Include="SourceCode\engin\shake\Shake.cpp">
       <Filter>engin\shake</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\application\csvLoader\CsvLoader.cpp">
-      <Filter>application\csvLoader</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\application\arrow\Arrow.cpp">
       <Filter>application\arrow</Filter>
     </ClCompile>
@@ -386,9 +383,6 @@
     <ClInclude Include="SourceCode\engin\shake\Shake.h">
       <Filter>engin\shake</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\application\csvLoader\CsvLoader.h">
-      <Filter>application\csvLoader</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\application\arrow\Arrow.h">
       <Filter>application\arrow</Filter>
     </ClInclude>
@@ -488,9 +482,6 @@
     </Filter>
     <Filter Include="engin\shake">
       <UniqueIdentifier>{7982d312-2697-4df3-a4e3-8fec44563c64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="application\csvLoader">
-      <UniqueIdentifier>{4b1fb0b1-965c-41f6-8c63-50c0f7cf1409}</UniqueIdentifier>
     </Filter>
     <Filter Include="application\arrow">
       <UniqueIdentifier>{8a44184d-1b6c-44e4-8378-18bc7f089b3f}</UniqueIdentifier>

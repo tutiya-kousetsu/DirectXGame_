@@ -13,9 +13,11 @@
 #include "MeshCollider.h"
 
 
-void TitleScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
+void TitleScene::Initialize(DirectXCommon* dxCommon)
 {
-	this->audio = audio;
+	Audio* audio = Audio::GetInstance();
+	audio->SoundLoadWave("water.wav");
+	audio->SoundLoadWave("space.wav");
 	//テクスチャ読み込み
 	Sprite::LoadTexture(1, L"Resources/Title.png");
 	//スプライトの生成
@@ -42,8 +44,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 
 	//自機のオブジェクトセット+初期化
 	player.reset(Player::Create(Model::CreateFromOBJ("octopus")));
-
-	audio->SoundLoadWave("space.wav");
+	
 }
 
 void TitleScene::Finalize()
@@ -52,6 +53,7 @@ void TitleScene::Finalize()
 
 void TitleScene::Update()
 {
+	Audio* audio = Audio::GetInstance();
 	Input* input = Input::GetInstance();
 	//フラグがfalseの時カメラをplayer中心にして回す
 	angle += XMConvertToRadians(0.6f);
@@ -63,13 +65,13 @@ void TitleScene::Update()
 	camera->SetTarget(player->GetPosition());
 	camera->SetEye(cameraPos);
 	camera->SetDistance(10.0f);
+	audio->SoundPlayWave("water.wav", true);
 	if (input->TriggerKey(DIK_SPACE))//スペースキーが押されていたら
 	{
-		audio->SoundPlayWave("space.wav", true);
+		audio->SoundPlayWave("space.wav", false);
 		//シーン切り替え
 		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
-		
 	}
 	
 	camera->Update();

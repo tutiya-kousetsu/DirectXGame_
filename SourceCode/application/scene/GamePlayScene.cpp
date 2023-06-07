@@ -15,11 +15,15 @@
 #include <fstream>
 #include <cassert>
 
-void GamePlayScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
+void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 
-	this->audio = audio;
+	Audio* audio = Audio::GetInstance();
+	// サウンド読み込み
+	audio->SoundLoadWave("2.wav");
+	audio->SoundLoadWave("numb.wav");
 
+	//スプライト読み込み
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
 	sprite.reset(Sprite::Create(1, { 0,0 }));
 
@@ -88,8 +92,6 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 	skyObj = Object3d::Create();
 	skyObj->SetModel(Model::CreateFromOBJ("skydome"));
 
-	// サウンド読み込み
-	audio->SoundLoadWave("2.wav");
 
 	//壁のマップチップ読み込み用
 	LoadWallPopData();
@@ -108,7 +110,6 @@ void GamePlayScene::Finalize()
 	arrow.reset();
 	player.reset();
 	playerLife.reset();
-	audio->SoundUnload();
 	CollisionManager::GetInstance()->RemoveCollider(collider);
 	delete collider;
 	delete input;
@@ -123,7 +124,7 @@ void GamePlayScene::Finalize()
 
 void GamePlayScene::Update()
 {
-	
+	Audio* audio = Audio::GetInstance();
 	playerPos = player->GetPosition();
 	//着地する前
 	if (!landFlag) {
@@ -837,7 +838,7 @@ void GamePlayScene::FrontColl()
 						damageFlag1 = true;
 					}
 				}
-				if (damageFlag1) {
+				if (damageFlag1 && !phaseCountFlag) {
 					color = damage->GetColor();
 					color.w -= 0.05f;
 					if (color.w <= 0.0f) {
@@ -906,7 +907,7 @@ void GamePlayScene::LeftColl()
 						damageFlag2 = true;
 					}
 				}
-				if (damageFlag2) {
+				if (damageFlag2 && !phaseCountFlag) {
 					color = damage->GetColor();
 					color.w -= 0.05f;
 					if (color.w <= 0.0f) {
@@ -976,7 +977,7 @@ void GamePlayScene::RightColl()
 						damageFlag3 = true;
 					}
 				}
-				if (damageFlag3) {
+				if (damageFlag3 && !phaseCountFlag) {
 					color = damage->GetColor();
 					color.w -= 0.05f;
 					if (color.w <= 0.0f) {
@@ -1026,6 +1027,7 @@ void GamePlayScene::RightColl()
 //後ろ敵の弾の当たり判定
 void GamePlayScene::BackColl()
 {
+	Audio* audio = Audio::GetInstance();
 	for (auto& back : backEnemy) {
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = back->GetBullet();
 #pragma region 敵弾と自機の当たり判定
@@ -1050,7 +1052,7 @@ void GamePlayScene::BackColl()
 						damageFlag4 = true;
 					}
 				}
-				if (damageFlag4) {
+				if (damageFlag4 && !phaseCountFlag) {
 					color = damage->GetColor();
 					color.w -= 0.05f;
 					if (color.w <= 0.0f) {
@@ -1062,11 +1064,13 @@ void GamePlayScene::BackColl()
 				//フラグが立ったらタイムを進める
 				if (numbFlag) {
 					numbTime++;
+					audio->SoundPlayWave("numb.wav", false);
 				}
 				//Timeが1秒経ったら初期化
 				if (numbTime >= 5) {
 					numbFlag = false;
 					numbTime = 0;
+					audio->SoundStop("numb.wav");
 				}
 			}
 

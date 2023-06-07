@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	void Update(Audio* audio) override;
+	void Update() override;
 
 	/// <summary>
 	/// 描画

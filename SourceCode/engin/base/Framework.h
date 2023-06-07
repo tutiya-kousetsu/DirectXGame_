@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	virtual void Update(Audio* audio);
+	virtual void Update();
 
 	/// <summary>
 	/// 描画

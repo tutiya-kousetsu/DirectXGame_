@@ -11,7 +11,7 @@ public:
 	/// <summary>
 	/// çXêV
 	/// </summary>
-	void Update(DirectXCommon* dxCommon, Audio* audio);
+	void Update(DirectXCommon* dxCommon);
 
 	/// <summary>
 	/// ï`âÊ

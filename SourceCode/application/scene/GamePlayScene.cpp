@@ -19,9 +19,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
 
 	Audio* audio = Audio::GetInstance();
-	// サウンド読み込み
-	audio->SoundLoadWave("2.wav");
-	audio->SoundLoadWave("numb.wav");
+	audio->SoundLoadWave("stone.wav");
 
 	//スプライト読み込み
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
@@ -125,6 +123,7 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Audio* audio = Audio::GetInstance();
+	audio->SoundStop("water.wav");
 	playerPos = player->GetPosition();
 	//着地する前
 	if (!landFlag) {
@@ -151,9 +150,13 @@ void GamePlayScene::Update()
 	//着地した後
 	if (landFlag) {
 		landTime++;
-		if (landTime >= 10) {
+		if (landTime >= 10 && landTime <= 210) {
 			// サウンド再生
-			audio->SoundPlayWave("2.wav", true);
+			audio->SoundPlayWave("stone.wav", false);
+		}
+		if (landTime == 210) {
+			// サウンド停止
+			audio->SoundStop("stone.wav");
 		}
 		if (landTime <= 230) {
 			for (auto& ob : obstacles) {
@@ -161,10 +164,6 @@ void GamePlayScene::Update()
 			}
 		}
 		player->StopUpdate();
-		if (landTime >= 210) {
-			// サウンド停止
-			audio->SoundStop("2.wav");
-		}
 		if (landTime >= 230) {
 			//landFlag = false;
 			
@@ -178,6 +177,8 @@ void GamePlayScene::Update()
 				//フェーズ2
 				if (fEnePhase >= 1) {
 					phaseCountFlag = true;
+					// サウンド再生
+					audio->SoundPlayWave("stone.wav", true);
 					phaseCount = 1;
 				}
 				//フェーズ3
@@ -201,8 +202,7 @@ void GamePlayScene::Update()
 			//フェーズフラグが立ったら
 			if (phaseCountFlag) {
 				downTime++;
-				// サウンド再生
-				audio->SoundPlayWave("2.wav", true);
+				
 				//カメラの切り替え
 				nowCamera = debugCam.get();
 				Object3d::SetCamera(nowCamera);
@@ -228,11 +228,12 @@ void GamePlayScene::Update()
 				upFlag = false;
 				downTime = 0;
 				// サウンド停止
-				audio->SoundStop("2.wav");
+				audio->SoundStop("stone.wav");
 			}
 			//自機が弾を打てなくする
 			if (downTime <= 460) {
 				player->SetPhaseFlag(phaseCountFlag);
+				
 			}
 
 			//カメラの切り替え
@@ -1027,7 +1028,6 @@ void GamePlayScene::RightColl()
 //後ろ敵の弾の当たり判定
 void GamePlayScene::BackColl()
 {
-	Audio* audio = Audio::GetInstance();
 	for (auto& back : backEnemy) {
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = back->GetBullet();
 #pragma region 敵弾と自機の当たり判定
@@ -1064,13 +1064,13 @@ void GamePlayScene::BackColl()
 				//フラグが立ったらタイムを進める
 				if (numbFlag) {
 					numbTime++;
-					audio->SoundPlayWave("numb.wav", false);
+					
 				}
 				//Timeが1秒経ったら初期化
 				if (numbTime >= 5) {
 					numbFlag = false;
 					numbTime = 0;
-					audio->SoundStop("numb.wav");
+					
 				}
 			}
 
@@ -1113,6 +1113,7 @@ void GamePlayScene::BackColl()
 
 void GamePlayScene::CheckAllCollision()
 {
+	audio = Audio::GetInstance();
 	FrontColl();
 	LeftColl();
 	RightColl();

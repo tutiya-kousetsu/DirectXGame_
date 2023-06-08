@@ -11,6 +11,8 @@ FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 	particleMan = ParticleManager::GetInstance();
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0, 180, 0 });
+	audio = Audio::GetInstance();
+	audio->SoundLoadWave("enHit.wav");
 }
 
 FrontEnemy::~FrontEnemy()
@@ -106,6 +108,8 @@ void FrontEnemy::Shoot()
 
 void FrontEnemy::OnCollision()
 {
+	audio = Audio::GetInstance();
+	audio->SoundPlayWave("enHit.wav", false);
 	for (int j = 0; j < 100; j++) {
 		//for (int i = 0; i < 11; i++) {
 		DirectX::XMFLOAT3 pos = object->GetPosition();
@@ -128,7 +132,7 @@ void FrontEnemy::OnCollision()
 	life--;
 	if (life == 0) {
 			alive = false;
-		}
+	}
 }
 
 void FrontEnemy::Draw()

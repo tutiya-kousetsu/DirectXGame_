@@ -16,7 +16,8 @@
 
 void Tutorial::Initialize(DirectXCommon* dxCommon)
 {
-	
+	Audio* audio = Audio::GetInstance();
+
 	Sprite::LoadTexture(1, L"Resources/WASD_UI.png");
 	wasdUI.reset(Sprite::Create(1, { 530,380 }));
 

@@ -12,6 +12,8 @@ BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("yellowSquid"))
 	particleMan = ParticleManager::GetInstance();
 	sanderObj = Object3d::Create();
 	sanderObj->SetModel(Model::CreateFromOBJ("sander"));
+	audio = Audio::GetInstance();
+	audio->SoundLoadWave("enHit.wav");
 }
 
 BackEnemy::~BackEnemy()
@@ -115,6 +117,8 @@ void BackEnemy::Draw()
 
 void BackEnemy::OnCollision()
 {
+	audio = Audio::GetInstance();
+	audio->SoundPlayWave("enHit.wav", false);
 	for (int j = 0; j < 100; j++) {
 		DirectX::XMFLOAT3 pos = object->GetPosition();
 		//X,Y,Z‘S‚Ä[-0.05f, +0.05f]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z

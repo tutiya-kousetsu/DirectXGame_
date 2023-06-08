@@ -57,9 +57,10 @@ void Obstacle::UpMove(bool landF)
 	//シェイクの最大値最小値などを入れる
 	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
 	shake->ShakePos(shakePos.z, 1, -1, 10, 20);
-	//フラグがfalseだったらシェイクをともる
+	//フラグがfalseだったらシェイクをとめる
 	if (!shake->GetShakeStart()) {
 		shakePos = { 0.0f, 0.0f, 0.0f };
+		
 	}
 	//ポジションにシェイクの動きを足す
 	position.x += shakePos.x;
@@ -94,6 +95,7 @@ void Obstacle::DownMove(bool flag)
 	//フラグがfalseだったらシェイクをともる
 	if (!shake->GetShakeStart()) {
 		shakePos = { 0.0f, 0.0f, 0.0f };
+		
 	}
 	//ポジションにシェイクの動きを足す
 	position.x += shakePos.x;

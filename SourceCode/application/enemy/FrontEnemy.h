@@ -2,7 +2,7 @@
 #include "EnemyBullet.h"
 #include "Object3d.h"
 #include "GameObject.h"
-#include "Phase.h"
+#include "Audio.h"
 #include <memory>
 #include <list>
 
@@ -72,5 +72,5 @@ private:
 	float moveZ = 0.05f;
 	ParticleManager* particleMan = nullptr;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
-	std::unique_ptr<Phase> phase;
+	Audio* audio = nullptr;
 };

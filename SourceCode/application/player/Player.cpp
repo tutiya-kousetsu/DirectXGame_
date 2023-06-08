@@ -48,11 +48,28 @@ bool Player::Initialize()
 	//半径だけ足元から浮いた座標を球の中心にする
 	SetCollider(new SphereCollider(DirectX::XMVECTOR({ 0, radius, 0, 0 }), radius));
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
+	AudioLoad();
 	return true;
+}
+
+void Player::AudioLoad()
+{
+	//SE
+	audio = Audio::GetInstance();
+	//弾を撃った時のSE
+	audio->SoundLoadWave("shoot.wav");
+	//ジャンプした時のSE
+	audio->SoundLoadWave("jump.wav");
+	//敵の弾が自機に当たった時のSE
+	audio->SoundLoadWave("plHit.wav");
+	//痺れた時のSE
+	audio->SoundLoadWave("numb.wav");
+
 }
 
 void Player::Update()
 {
+	Audio* audio = Audio::GetInstance();
 	if (life >= 0) {
 		//弾のフラグがfalseになったら削除する
 		bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
@@ -65,6 +82,7 @@ void Player::Update()
 		if (input->TriggerMouseLeft()) {
 			//フェーズ切り替え中は撃てなくする
 			if (!phaseFlag) {
+				audio->SoundPlayWave("shoot.wav", false);
 				Shoot();
 			}
 		}
@@ -192,6 +210,7 @@ void Player::move(float speed)
 //ジャンプ
 void Player::jump()
 {
+	Audio* audio = Audio::GetInstance();
 	Input* input = Input::GetInstance();
 	// 現在の座標を取得
 	position = Object3d::GetPosition();
@@ -213,6 +232,7 @@ void Player::jump()
 	else if (input->TriggerMouseRight() || input->TriggerKey(DIK_SPACE)) {
 		onGround = false;
 		jumpOpFlag = true;
+		audio->SoundPlayWave("jump.wav", false);
 		const float jumpVYFist = 0.56f;
 		fallV = { 0, jumpVYFist, 0, 0 };
 	}
@@ -349,12 +369,15 @@ bool Player::Shoot()
 //当たったらシェイク掛ける(麻痺)
 void Player::Numb(bool flag)
 {
+	Audio* audio = Audio::GetInstance();
 	if (flag) {
 		shake->SetShakeStart(true);
+		audio->SoundPlayWave("numb.wav", false);
 		numb->Update();
 	}
 	else {
 		shake->SetShakeStart(false);
+		audio->SoundStop("numb.wav");
 	}
 	//シェイクの最大値最小値などを入れる
 	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
@@ -374,6 +397,8 @@ void Player::Numb(bool flag)
 
 void Player::OnCollision(int i)
 {
+	audio = Audio::GetInstance();
+	audio->SoundPlayWave("plHit.wav", false);
 	life -= i;
 	CreateParticle();
 }
@@ -424,6 +449,7 @@ XMVECTOR Player::GetWorldPosition()
 //チュートリアル用のアップデート
 void Player::TutorialUpdate()
 {
+	audio = Audio::GetInstance();
 	//弾のフラグがfalseになったら削除する
 	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 		return !bullet->GetAlive();
@@ -436,6 +462,7 @@ void Player::TutorialUpdate()
 	Input* input = Input::GetInstance();
 	if (operatePhase >= 2) {
 		if (input->TriggerMouseLeft()) {
+			audio->SoundPlayWave("shoot.wav", false);
 			Shoot();
 			shotFlag = true;
 		}

@@ -1,7 +1,6 @@
 ﻿#include "MyGame.h"
 
-int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR, int)
-{
+int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR, int){
 	Framework* game = new MyGame();
 
 	game->Run();

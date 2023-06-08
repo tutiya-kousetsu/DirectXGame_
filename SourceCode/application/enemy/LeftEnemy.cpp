@@ -9,6 +9,8 @@ LeftEnemy::LeftEnemy() :LeftEnemy(Model::CreateFromOBJ("greenSquid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	particleMan = ParticleManager::GetInstance();
+	audio = Audio::GetInstance();
+	audio->SoundLoadWave("enHit.wav");
 }
 
 LeftEnemy::~LeftEnemy()
@@ -107,6 +109,8 @@ void LeftEnemy::Shoot()
 
 void LeftEnemy::OnCollision()
 {
+	audio = Audio::GetInstance();
+	audio->SoundPlayWave("enHit.wav", false);
 	for (int j = 0; j < 100; j++) {
 		DirectX::XMFLOAT3 pos = object->GetPosition();
 		//X,Y,Z‘S‚Ä[-0.05f, +0.05f]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z

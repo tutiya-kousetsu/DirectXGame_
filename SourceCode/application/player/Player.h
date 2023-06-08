@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "FollowingCamera.h"
 #include "Framework.h"
+#include "Audio.h"
 #include <memory>
 #include <list>
 #include <forward_list>
@@ -35,6 +36,8 @@ public:
 	~Player();
 
 	bool Initialize() override;
+
+	void AudioLoad();
 
 	//XV
 	void Update() override;
@@ -133,6 +136,8 @@ private:
 	std::unique_ptr<Shake> shake = nullptr;
 	bool shakeF = false;
 	XMFLOAT3 shakePos = { 0.0f,0.0f,0.0f };
+	//‰¹
+	Audio* audio = nullptr;
 	// ƒJƒƒ‰ŠÖŒW
 	bool dirty = false;
 	float angleX = 0;

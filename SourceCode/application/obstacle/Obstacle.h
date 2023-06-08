@@ -5,6 +5,7 @@
 #include "Object3d.h"
 #include "TouchableObject.h"
 #include "Shake.h"
+#include "Audio.h"
 #include <DirectXMath.h>
 #include <memory>
 
@@ -59,5 +60,6 @@ protected:
 	std::unique_ptr<Shake> shake = nullptr;
 	bool shakeF = false;
 	XMFLOAT3 shakePos = { 0.0f,0.0f,0.0f };
+	Audio* audio = nullptr;
 };
 

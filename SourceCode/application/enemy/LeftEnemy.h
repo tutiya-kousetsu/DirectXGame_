@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyBullet.h"
+#include "Audio.h"
 #include <memory>
 #include <list>
 
@@ -57,5 +58,6 @@ private:
 	int life = 3;
 	ParticleManager* particleMan = nullptr;
 	std::list < std::unique_ptr<EnemyBullet>> bullets;
+	Audio* audio = nullptr;
 };
 

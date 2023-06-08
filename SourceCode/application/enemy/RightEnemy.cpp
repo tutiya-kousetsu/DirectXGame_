@@ -10,6 +10,8 @@ RightEnemy::RightEnemy() :RightEnemy(Model::CreateFromOBJ("purpleSquid"))
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0,270,0 });
 	particleMan = ParticleManager::GetInstance();
+	audio = Audio::GetInstance();
+	audio->SoundLoadWave("enHit.wav");
 }
 
 RightEnemy::~RightEnemy()
@@ -98,6 +100,8 @@ void RightEnemy::Shoot()
 
 void RightEnemy::OnCollision()
 {
+	audio = Audio::GetInstance();
+	audio->SoundPlayWave("enHit.wav", false);
 	for (int j = 0; j < 100; j++) {
 		DirectX::XMFLOAT3 pos = object->GetPosition();
 		//X,Y,Z‘S‚Ä[-0.05f, +0.05f]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z

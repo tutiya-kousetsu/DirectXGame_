@@ -20,7 +20,8 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	Audio* audio = Audio::GetInstance();
 	audio->SoundLoadWave("stone.wav");
-
+	//痺れた時のSE
+	audio->SoundLoadWave("numb.wav");
 	//スプライト読み込み
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
 	sprite.reset(Sprite::Create(1, { 0,0 }));
@@ -904,11 +905,11 @@ void GamePlayScene::LeftColl()
 
 					eb->OnCollision();
 					player->OnCollision(1);
-					if (!damageFlag2) {
+					if (!damageFlag2 && !phaseCountFlag) {
 						damageFlag2 = true;
 					}
 				}
-				if (damageFlag2 && !phaseCountFlag) {
+				if (damageFlag2) {
 					color = damage->GetColor();
 					color.w -= 0.05f;
 					if (color.w <= 0.0f) {
@@ -974,11 +975,11 @@ void GamePlayScene::RightColl()
 
 					eb->OnCollision();
 					player->OnCollision(2);
-					if (!damageFlag3) {
+					if (!damageFlag3 && !phaseCountFlag) {
 						damageFlag3 = true;
 					}
 				}
-				if (damageFlag3 && !phaseCountFlag) {
+				if (damageFlag3) {
 					color = damage->GetColor();
 					color.w -= 0.05f;
 					if (color.w <= 0.0f) {
@@ -1042,17 +1043,17 @@ void GamePlayScene::BackColl()
 				playerShape.radius = player->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-
+					audio->SoundPlayWave("numb.wav", false);
 					eb->OnCollision();
 					player->OnCollision(1);
 					if (!numbFlag && life > 0) {
 						numbFlag = true;
 					}
-					if (!damageFlag4) {
+					if (!damageFlag4 && !phaseCountFlag) {
 						damageFlag4 = true;
 					}
 				}
-				if (damageFlag4 && !phaseCountFlag) {
+				if (damageFlag4) {
 					color = damage->GetColor();
 					color.w -= 0.05f;
 					if (color.w <= 0.0f) {

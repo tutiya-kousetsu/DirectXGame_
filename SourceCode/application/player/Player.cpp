@@ -62,8 +62,7 @@ void Player::AudioLoad()
 	audio->SoundLoadWave("jump.wav");
 	//敵の弾が自機に当たった時のSE
 	audio->SoundLoadWave("plHit.wav");
-	//痺れた時のSE
-	audio->SoundLoadWave("numb.wav");
+
 
 }
 
@@ -370,14 +369,15 @@ bool Player::Shoot()
 void Player::Numb(bool flag)
 {
 	Audio* audio = Audio::GetInstance();
+	
 	if (flag) {
 		shake->SetShakeStart(true);
-		audio->SoundPlayWave("numb.wav", false);
+		
 		numb->Update();
 	}
 	else {
 		shake->SetShakeStart(false);
-		audio->SoundStop("numb.wav");
+		//audio->SoundStop("numb.wav");
 	}
 	//シェイクの最大値最小値などを入れる
 	shake->ShakePos(shakePos.x, 1, -1, 10, 20);

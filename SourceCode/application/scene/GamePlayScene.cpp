@@ -22,6 +22,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	audio->SoundLoadWave("stone.wav");
 	//痺れた時のSE
 	audio->SoundLoadWave("numb.wav");
+	audio->SoundLoadWave("gamePlay.wav");
 	//スプライト読み込み
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
 	sprite.reset(Sprite::Create(1, { 0,0 }));
@@ -158,6 +159,7 @@ void GamePlayScene::Update()
 		if (landTime == 210) {
 			// サウンド停止
 			audio->SoundStop("stone.wav");
+			audio->SoundPlayWave("gamePlay.wav", true);
 		}
 		if (landTime <= 230) {
 			for (auto& ob : obstacles) {

@@ -19,16 +19,16 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	Audio* audio = Audio::GetInstance();
 
 	Sprite::LoadTexture(1, L"Resources/WASD_UI.png");
-	wasdUI.reset(Sprite::Create(1, { 530,380 }));
+	wasdUI.reset(Sprite::Create(1, { 640,400 }));
 
 	Sprite::LoadTexture(2, L"Resources/space_UI.png");
-	spaceUI.reset(Sprite::Create(2, { 510,380 }));
+	spaceUI.reset(Sprite::Create(2, { 640,400 }));
 
 	Sprite::LoadTexture(4, L"Resources/shot_UI.png");
-	shotUI.reset(Sprite::Create(4, { 560,380 }));
+	shotUI.reset(Sprite::Create(4, { 640,400 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 600,200 }));
+	alignment.reset(Sprite::Create(16, { 640,240 }));
 
 	//カメラの初期化
 	camera.reset(new FollowingCamera());
@@ -79,6 +79,8 @@ void Tutorial::Finalize()
 
 void Tutorial::Update()
 {
+	audio = Audio::GetInstance();
+	audio->SoundPlayWave("water.wav", true);
 	if (!startFlag) {
 		//中心から明るくする
 		startEfRadius += 10.5f;
@@ -95,6 +97,7 @@ void Tutorial::Update()
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
 	if (!rotateFlag) {
+
 		//カメラを3Dオブジェットにセット
 		nowCamera = camera.get();
 		//カメラを3Dオブジェットにセット

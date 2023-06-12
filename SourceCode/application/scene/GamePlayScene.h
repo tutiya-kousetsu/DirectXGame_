@@ -55,7 +55,7 @@ public:
 	/// </summary>
 	void Update() override;
 
-
+	void Clear();
 
 	/// <summary>
 	/// •`‰æ

@@ -25,18 +25,18 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	audio->SoundLoadWave("gamePlay.wav");
 	//スプライト読み込み
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
-	sprite.reset(Sprite::Create(1, { 0,0 }));
+	sprite.reset(Sprite::Create(1, { 640,360 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 600,210 }));
+	alignment.reset(Sprite::Create(16, { 640,240 }));
 	Sprite::LoadTexture(18, L"Resources/onAlignment.png");
-	onAlignment.reset(Sprite::Create(18, { 600,210 }));
+	onAlignment.reset(Sprite::Create(18, { 640,240 }));
 
 	Sprite::LoadTexture(17, L"Resources/damage.png");
-	damage.reset(Sprite::Create(17, { 0,0 }));
+	damage.reset(Sprite::Create(17, { 640,360 }));
 
 	Sprite::LoadTexture(19, L"Resources/clear.png");
-	clear.reset(Sprite::Create(19, { 0,-720 }));
+	clear.reset(Sprite::Create(19, { 640,-360 }));
 
 	//phase
 	phase.reset(new Phase());
@@ -301,7 +301,6 @@ void GamePlayScene::Update()
 
 		UpdataEnemyPopCommand();
 
-
 		for (auto& front : frontEnemy) {
 			front->Update();
 		}
@@ -340,24 +339,56 @@ void GamePlayScene::Update()
 		postEffect->SetRadius(endEfRadius);
 	}
 	if (endFlag) {
+		audio->SoundStop("gamePlay.wav");
+		
 		//シーン切り替え
 		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
 	}
 
+	Clear();
+
+	player->SetPosition(playerPos);
+	//カメラの更新
+	camera->Update();
+	debugCam->Update();
+
+	//床の更新
+	floor->Update();
+
+	life = player->GetLife();
+	playerLife->MoveUpdate(life);
+	player->SetLife(life);
+	skyObj->Update();
+	for (auto& wall : walls) {
+		wall->Update();
+	}
+
+	//当たり判定
+	CheckAllCollision();
+	collisionMan->CheckAllCollisions();
+
+	particleMan->Update();
+
+}
+
+void GamePlayScene::Clear()
+{
+	Audio* audio = Audio::GetInstance();
 	//クリア条件
 	if (fEnePhase >= 10 && lEnePhase >= 6 && rEnePhase >= 4 && bEnePhase >= 3) {
 		clearFlag = true;
+		audio->SoundStop("gamePlay.wav");
 	}
 	//クリアフラグが立ったらif文通す
 	if (clearFlag) {
 		//クリアしたらイージングでクリアのスプライト動かす
 		clearPos = clear->GetPosition();
-		if (clearPos.y <= 0) {
+		if (clearPos.y <= 360) {
 			if (easFrame < 1.0f) {
-				easFrame += 0.009f;
+				easFrame += 0.01f;
 			}
-			clearPos.y = Ease(In, Elastic, easFrame, -720.0f, 15.0f);
+			clearPos.y = Ease(In, Elastic, easFrame, -360.0f, 240.0f);
 
 			clear->SetPosition(clearPos);
 		}
@@ -383,29 +414,6 @@ void GamePlayScene::Update()
 		BaseScene* scene = new TitleScene();
 		this->sceneManager->SetNextScene(scene);
 	}
-
-	player->SetPosition(playerPos);
-	//カメラの更新
-	camera->Update();
-	debugCam->Update();
-
-	//床の更新
-	floor->Update();
-
-	life = player->GetLife();
-	playerLife->MoveUpdate(life);
-	player->SetLife(life);
-	skyObj->Update();
-	for (auto& wall : walls) {
-		wall->Update();
-	}
-
-	//当たり判定
-	CheckAllCollision();
-	collisionMan->CheckAllCollisions();
-
-	particleMan->Update();
-
 }
 
 void GamePlayScene::Draw(DirectXCommon* dxCommon)

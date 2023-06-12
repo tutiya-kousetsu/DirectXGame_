@@ -41,6 +41,7 @@ bool Player::Initialize()
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
 	numb = Object3d::Create();
 	numb->SetModel(Model::CreateFromOBJ("sander"));
+	numb->SetPosition({ Object3d::GetPosition().x,Object3d::GetPosition().y,Object3d::GetPosition().z });
 	camera.reset(new FollowingCamera());
 	shake.reset(new Shake());
 	//コライダーの追加
@@ -145,6 +146,10 @@ void Player::Mouse()
 		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
 		playerRot.y *= 180 / XM_PI;
 		Object3d::SetRotation({ 0.0f, playerRot.y, 0.0f });
+		XMFLOAT3 numbRot = numb->GetRotation();
+		numbRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
+		numbRot.y *= 180 / XM_PI;
+		numb->SetRotation({ 0.0f, playerRot.y, 0.0f });
 	}
 }
 

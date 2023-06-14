@@ -19,13 +19,13 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	Audio* audio = Audio::GetInstance();
 
 	Sprite::LoadTexture(1, L"Resources/WASD_UI.png");
-	wasdUI.reset(Sprite::Create(1, { 640,400 }));
+	wasdUI.reset(Sprite::Create(1, { 635,420 }));
 
 	Sprite::LoadTexture(2, L"Resources/space_UI.png");
-	spaceUI.reset(Sprite::Create(2, { 640,400 }));
+	spaceUI.reset(Sprite::Create(2, { 640,420 }));
 
 	Sprite::LoadTexture(4, L"Resources/shot_UI.png");
-	shotUI.reset(Sprite::Create(4, { 640,400 }));
+	shotUI.reset(Sprite::Create(4, { 640,420 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
 	alignment.reset(Sprite::Create(16, { 640,240 }));

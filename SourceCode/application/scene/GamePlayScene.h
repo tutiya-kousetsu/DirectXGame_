@@ -97,18 +97,13 @@ private:
 	//スプライト
 	std::unique_ptr<Sprite> sprite;
 	//HP
-	std::unique_ptr<Sprite> LifeSprite;
-	std::unique_ptr<Sprite> LifeSprite2;
-	std::unique_ptr<Sprite> LifeSprite3;
-	std::unique_ptr<Sprite> LifeSprite4;
-	std::unique_ptr<Sprite> LifeSprite5;
-	std::unique_ptr<Sprite> LifeSprite6;
-	std::unique_ptr<Sprite> LifeSprite7;
-	std::unique_ptr<Sprite> LifeSprite8;
 	std::unique_ptr<Sprite> alignment;
 	std::unique_ptr<Sprite> onAlignment;
 	std::unique_ptr<Sprite> damage;
 	std::unique_ptr<Sprite> clear;
+	std::unique_ptr<Sprite> upClear;
+	std::unique_ptr<Sprite> downClear;
+
 	
 	//表示されている間の秒数
 	int32_t damageTime = 20;
@@ -118,6 +113,8 @@ private:
 	//イーズイン用frame
 	float inFrame = 0.f;
 	float easFrame = 0.f;
+	float upFrame = 0.f;
+	float downFrame = 0.f;
 	
 	std::unique_ptr<Sprite> spriteBG;
 	// カメラ
@@ -166,7 +163,9 @@ private:
 	std::stringstream wallPopCom;
 	//スプライト
 	XMFLOAT2 phasePos;
-	XMFLOAT2 clearPos;
+	XMFLOAT2 clearSize;
+	XMFLOAT2 upPos;
+	XMFLOAT2 downPos;
 	XMFLOAT2 spPos;
 	//ポジション
 	//ドア
@@ -194,7 +193,7 @@ private:
 	bool waitFlag = false;//待ってるときのフラグ
 	bool timeFlag = false;
 	bool phFlag = false;
-	bool clearFlag = false;
+	bool clearFlag = true;
 	bool clearTFlag = false;
 	bool damageFlag1 = false;//敵弾に当たった時
 	bool damageFlag2 = false;//敵弾に当たった時

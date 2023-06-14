@@ -35,8 +35,13 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	Sprite::LoadTexture(17, L"Resources/damage.png");
 	damage.reset(Sprite::Create(17, { 640,360 }));
 
-	Sprite::LoadTexture(19, L"Resources/clear.png");
-	clear.reset(Sprite::Create(19, { 640,-360 }));
+	Sprite::LoadTexture(19, L"Resources/clear/upFrame.png");
+	upClear.reset(Sprite::Create(19, { 640,-56.5f }));
+	Sprite::LoadTexture(28, L"Resources/clear/string.png");
+	clear.reset(Sprite::Create(28, { 640,360 }));
+	clear->SetSize({ 2280, 1493 });
+	Sprite::LoadTexture(29, L"Resources/clear/downFrame.png");
+	downClear.reset(Sprite::Create(29, { 640,776.5f }));
 
 	//phase
 	phase.reset(new Phase());
@@ -95,7 +100,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	//壁のマップチップ読み込み用
 	LoadWallPopData();
-	UpdataWallPopCommand();
+	LoadObstaclePopData();
 	LoadEnemyPopData();
 }
 
@@ -246,7 +251,7 @@ void GamePlayScene::Update()
 			}
 		}
 		//障害物のマップチップ読み込み用
-		LoadObstaclePopData();
+		
 		UpdataObstaclePopCommand();
 		for (auto& obstacle : obstacles) {
 			obstacle->Update();
@@ -317,7 +322,7 @@ void GamePlayScene::Update()
 	if (door) {
 		door->Update();
 	}
-
+	
 	playerPos = player->GetPosition();
 	//自機のHPが0になったら小さくする
 	if (!player->GetAlive()) {
@@ -346,6 +351,7 @@ void GamePlayScene::Update()
 		this->sceneManager->SetNextScene(scene);
 	}
 
+	//クリアしたときの関数
 	Clear();
 
 	player->SetPosition(playerPos);
@@ -360,6 +366,7 @@ void GamePlayScene::Update()
 	playerLife->MoveUpdate(life);
 	player->SetLife(life);
 	skyObj->Update();
+	UpdataWallPopCommand();
 	for (auto& wall : walls) {
 		wall->Update();
 	}
@@ -374,6 +381,8 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Clear()
 {
+	float clearMove = 100;
+	bool stringF = false;
 	Audio* audio = Audio::GetInstance();
 	//クリア条件
 	if (fEnePhase >= 10 && lEnePhase >= 6 && rEnePhase >= 4 && bEnePhase >= 3) {
@@ -383,19 +392,42 @@ void GamePlayScene::Clear()
 	//クリアフラグが立ったらif文通す
 	if (clearFlag) {
 		//クリアしたらイージングでクリアのスプライト動かす
-		clearPos = clear->GetPosition();
-		if (clearPos.y <= 360) {
-			if (easFrame < 1.0f) {
-				easFrame += 0.01f;
+		upPos = upClear->GetPosition();
+		if (upPos.y <= 56.5) {
+			if (upFrame < 1.0f) {
+				upFrame += 0.01f;
 			}
-			clearPos.y = Ease(In, Elastic, easFrame, -360.0f, 240.0f);
+			upPos.y = Ease(In, Cubic, upFrame, upPos.y, 56.5f);
 
-			clear->SetPosition(clearPos);
+			upClear->SetPosition(upPos);
 		}
-		//クリアスプライトが降りきったらタイマースタートさせる
-		else {
-			clearTime++;
+		if (upPos.y == 56.5f) {
+			stringF = true;
 		}
+		//下から上がってくるスプライト
+		downPos = downClear->GetPosition();
+		if (downPos.y >= 663.5f) {
+			if (downFrame < 1.0f) {
+				downFrame += 0.01f;
+			}
+			downPos.y = Ease(In, Cubic, downFrame, downPos.y, 663.5f);
+
+			downClear->SetPosition(downPos);
+		}
+		if (stringF) {
+			clearSize = clear->GetSize();
+			if (clearSize.x >= 1380 && clearSize.y >= 593) {
+				clearSize.x -= clearMove;
+				clearSize.y -= clearMove;
+			}
+			//クリアスプライトが降りきったらタイマースタートさせる
+			else {
+				clearTime++;
+			}
+			clear->SetSize(clearSize);
+		}
+		
+		
 		//タイマーが120経ったらポストエフェクトで中心に向かって暗くする
 		if (clearTime >= 120) {
 			endEfRadius = postEffect->GetRadius();
@@ -503,6 +535,8 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	//クリア時表示する
 	if (clearFlag) {
 		clear->Draw();
+		upClear->Draw();
+		downClear->Draw();
 	}
 	// スプライト描画後処理
 

@@ -193,7 +193,7 @@ private:
 	bool waitFlag = false;//待ってるときのフラグ
 	bool timeFlag = false;
 	bool phFlag = false;
-	bool clearFlag = true;
+	bool clearFlag = false;
 	bool clearTFlag = false;
 	bool damageFlag1 = false;//敵弾に当たった時
 	bool damageFlag2 = false;//敵弾に当たった時
@@ -207,6 +207,7 @@ private:
 	bool phaseCountFlag = false;
 	bool phaseFlag = false;
 	bool upFlag = false;
+	bool stringFlag = false;
 	//フェーズ
 	//前の敵
 	int fEnePhase = 0;

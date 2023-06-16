@@ -28,7 +28,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	sprite.reset(Sprite::Create(1, { 640,360 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 640,240 }));
+	alignment.reset(Sprite::Create(16, { 635,235 }));
 	Sprite::LoadTexture(18, L"Resources/onAlignment.png");
 	onAlignment.reset(Sprite::Create(18, { 640,240 }));
 
@@ -382,7 +382,7 @@ void GamePlayScene::Update()
 void GamePlayScene::Clear()
 {
 	float clearMove = 100;
-	bool stringF = false;
+	
 	Audio* audio = Audio::GetInstance();
 	//クリア条件
 	if (fEnePhase >= 10 && lEnePhase >= 6 && rEnePhase >= 4 && bEnePhase >= 3) {
@@ -403,7 +403,7 @@ void GamePlayScene::Clear()
 		}
 		//枠ができったらフラグを立てる
 		if (upPos.y == 56.5f) {
-			stringF = true;
+			stringFlag = true;
 		}
 		//下から上がってくるスプライト
 		downPos = downClear->GetPosition();
@@ -416,7 +416,7 @@ void GamePlayScene::Clear()
 			downClear->SetPosition(downPos);
 		}
 		//フラグが立ったら文字の部分を小さくする
-		if (stringF) {
+		if (stringFlag) {
 			clearSize = clear->GetSize();
 			if (clearSize.x >= 1380 && clearSize.y >= 593) {
 				clearSize.x -= clearMove;
@@ -536,7 +536,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	}
 	//クリア時表示する
 	if (clearFlag) {
-		clear->Draw();
+		if (stringFlag) {
+			clear->Draw();
+		}
 		upClear->Draw();
 		downClear->Draw();
 	}

@@ -28,7 +28,7 @@ void Tutorial::Initialize(DirectXCommon* dxCommon)
 	shotUI.reset(Sprite::Create(4, { 640,420 }));
 
 	Sprite::LoadTexture(16, L"Resources/alignment.png");
-	alignment.reset(Sprite::Create(16, { 640,240 }));
+	alignment.reset(Sprite::Create(16, { 635,235 }));
 
 	//ƒJƒƒ‰‚Ì‰Šú‰»
 	camera.reset(new FollowingCamera());

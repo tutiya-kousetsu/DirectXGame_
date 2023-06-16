@@ -401,6 +401,7 @@ void GamePlayScene::Clear()
 
 			upClear->SetPosition(upPos);
 		}
+		//枠ができったらフラグを立てる
 		if (upPos.y == 56.5f) {
 			stringF = true;
 		}
@@ -414,13 +415,14 @@ void GamePlayScene::Clear()
 
 			downClear->SetPosition(downPos);
 		}
+		//フラグが立ったら文字の部分を小さくする
 		if (stringF) {
 			clearSize = clear->GetSize();
 			if (clearSize.x >= 1380 && clearSize.y >= 593) {
 				clearSize.x -= clearMove;
 				clearSize.y -= clearMove;
 			}
-			//クリアスプライトが降りきったらタイマースタートさせる
+			//クリアスプライトが元の大きさに戻ったらタイマースタートさせる
 			else {
 				clearTime++;
 			}

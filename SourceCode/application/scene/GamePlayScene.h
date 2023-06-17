@@ -57,6 +57,8 @@ public:
 
 	void Clear();
 
+	void Failed();
+
 	/// <summary>
 	/// •`‰æ
 	/// </summary>

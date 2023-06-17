@@ -39,7 +39,7 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	upClear.reset(Sprite::Create(19, { 640,-56.5f }));
 	Sprite::LoadTexture(28, L"Resources/clear/string.png");
 	clear.reset(Sprite::Create(28, { 640,360 }));
-	clear->SetSize({ 2280, 1493 });
+	clear->SetSize({ 3280, 2493 });
 	Sprite::LoadTexture(29, L"Resources/clear/downFrame.png");
 	downClear.reset(Sprite::Create(29, { 640,776.5f }));
 
@@ -251,7 +251,6 @@ void GamePlayScene::Update()
 			}
 		}
 		//障害物のマップチップ読み込み用
-		
 		UpdataObstaclePopCommand();
 		for (auto& obstacle : obstacles) {
 			obstacle->Update();
@@ -323,36 +322,10 @@ void GamePlayScene::Update()
 		door->Update();
 	}
 	
-	playerPos = player->GetPosition();
-	//自機のHPが0になったら小さくする
-	if (!player->GetAlive()) {
-		player->ScaleSmall();
-	}
-	//自機がステージから落ちたら小さくする
-	if (playerPos.y <= -10.0f) {
-		player->ScaleSmall();
-	}
-	//プレイヤーのHPが0になったらポストエフェクト
-	if (!player->GetAlive() || playerPos.y <= -10.0f) {
-		//中心に向かってポストエフェクトで暗くする
-		endEfRadius = postEffect->GetRadius();
-		endEfRadius -= 10.5f;
-		if (endEfRadius <= 0.f) {
-			endEfRadius = 0;
-			endFlag = true;
-		}
-		postEffect->SetRadius(endEfRadius);
-	}
-	if (endFlag) {
-		audio->SoundStop("gamePlay.wav");
-		
-		//シーン切り替え
-		BaseScene* scene = new Tutorial();
-		this->sceneManager->SetNextScene(scene);
-	}
-
 	//クリアしたときの関数
 	Clear();
+
+	Failed();
 
 	player->SetPosition(playerPos);
 	//カメラの更新
@@ -381,7 +354,7 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Clear()
 {
-	float clearMove = 100;
+	float clearMove = 200;
 	
 	Audio* audio = Audio::GetInstance();
 	//クリア条件
@@ -446,6 +419,37 @@ void GamePlayScene::Clear()
 	if (clearTFlag) {
 		//シーン切り替え
 		BaseScene* scene = new TitleScene();
+		this->sceneManager->SetNextScene(scene);
+	}
+}
+
+void GamePlayScene::Failed()
+{
+	playerPos = player->GetPosition();
+	//自機のHPが0になったら小さくする
+	if (!player->GetAlive()) {
+		player->ScaleSmall();
+	}
+	//自機がステージから落ちたら小さくする
+	if (playerPos.y <= -10.0f) {
+		player->ScaleSmall();
+	}
+	//プレイヤーのHPが0になったらポストエフェクト
+	if (!player->GetAlive() || playerPos.y <= -10.0f) {
+		//中心に向かってポストエフェクトで暗くする
+		endEfRadius = postEffect->GetRadius();
+		endEfRadius -= 10.5f;
+		if (endEfRadius <= 0.f) {
+			endEfRadius = 0;
+			endFlag = true;
+		}
+		postEffect->SetRadius(endEfRadius);
+	}
+	if (endFlag) {
+		audio->SoundStop("gamePlay.wav");
+
+		//シーン切り替え
+		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
 	}
 }
@@ -545,6 +549,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	// スプライト描画後処理
 
 	Sprite::PostDraw();
+
 	//描画後処理
 	dxCommon->PostDraw();
 

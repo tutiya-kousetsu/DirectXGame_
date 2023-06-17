@@ -81,6 +81,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle;$(ProjectDir)SourceCode\application\arrow</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

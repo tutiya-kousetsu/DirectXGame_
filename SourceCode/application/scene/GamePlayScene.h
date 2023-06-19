@@ -212,6 +212,7 @@ private:
 	bool phaseFlag = false;
 	bool upFlag = false;
 	bool stringFlag = false;
+	bool aliveFlag = false;
 	//フェーズ
 	//前の敵
 	int fEnePhase = 0;

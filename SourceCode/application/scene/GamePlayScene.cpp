@@ -135,7 +135,7 @@ void GamePlayScene::Update()
 	//着地する前
 	if (!landFlag) {
 		sceneTime++;
-		
+
 		//追従カメラから普通のカメラに変更
 		nowCamera = debugCam.get();
 		Object3d::SetCamera(nowCamera);
@@ -174,7 +174,7 @@ void GamePlayScene::Update()
 		player->StopUpdate();
 		if (landTime >= 230) {
 			//landFlag = false;
-			
+
 			for (auto& ob : obstacles) {
 				ob->UpMove(!landFlag);
 			}
@@ -210,7 +210,7 @@ void GamePlayScene::Update()
 			//フェーズフラグが立ったら
 			if (phaseCountFlag) {
 				downTime++;
-				
+
 				//カメラの切り替え
 				nowCamera = debugCam.get();
 				Object3d::SetCamera(nowCamera);
@@ -241,7 +241,7 @@ void GamePlayScene::Update()
 			//自機が弾を打てなくする
 			if (downTime <= 460) {
 				player->SetPhaseFlag(phaseCountFlag);
-				
+
 			}
 
 			//カメラの切り替え
@@ -321,7 +321,7 @@ void GamePlayScene::Update()
 	if (door) {
 		door->Update();
 	}
-	
+
 	//クリアしたときの関数
 	Clear();
 
@@ -356,7 +356,7 @@ void GamePlayScene::Update()
 void GamePlayScene::Clear()
 {
 	float clearMove = 200;
-	
+
 	Audio* audio = Audio::GetInstance();
 	//クリア条件
 	if (fEnePhase >= 10 && lEnePhase >= 6 && rEnePhase >= 4 && bEnePhase >= 3) {
@@ -402,8 +402,8 @@ void GamePlayScene::Clear()
 			}
 			clear->SetSize(clearSize);
 		}
-		
-		
+
+
 		//タイマーが120経ったらポストエフェクトで中心に向かって暗くする
 		if (clearTime >= 120) {
 			endEfRadius = postEffect->GetRadius();
@@ -427,16 +427,18 @@ void GamePlayScene::Clear()
 void GamePlayScene::Failed()
 {
 	playerPos = player->GetPosition();
+	aliveFlag = player->GetAlive();
 	//自機のHPが0になったら小さくする
-	if (!player->GetAlive()) {
-		player->ScaleSmall();
-	}
+	
 	//自機がステージから落ちたら小さくする
 	if (playerPos.y <= -10.0f) {
+		aliveFlag = false;
+	}
+	if (!aliveFlag) {
 		player->ScaleSmall();
 	}
 	//プレイヤーのHPが0になったらポストエフェクト
-	if (!player->GetAlive() || playerPos.y <= -10.0f) {
+	if (!aliveFlag || playerPos.y <= -10.0f) {
 		//中心に向かってポストエフェクトで暗くする
 		endEfRadius = postEffect->GetRadius();
 		endEfRadius -= 10.5f;
@@ -526,18 +528,24 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite->Draw();
-	playerLife->Draw(life);
-	if (landTime >= 230 && downTime <= 0) {
-		alignment->Draw();
-	}
-	if (damageFlag1 || damageFlag2 || damageFlag3 || damageFlag4) {
-		damage->Draw();
-	}
-	//フェーズ変更時のスプライト
-	phase->Draw(phaseCount);
-	if (phaseCountFlag) {
-		arrow->Draw(phaseCount);
+	
+	if (!clearFlag && aliveFlag) {
+		sprite->Draw();
+		playerLife->Draw(life);
+		if (landTime >= 230 && downTime <= 0) {
+			alignment->Draw();
+		}
+
+		if (damageFlag1 || damageFlag2 || damageFlag3 || damageFlag4) {
+			if (!phaseCountFlag) {
+				damage->Draw();
+			}
+		}
+		//フェーズ変更時のスプライト
+		phase->Draw(phaseCount);
+		if (phaseCountFlag) {
+			arrow->Draw(phaseCount);
+		}
 	}
 	//クリア時表示する
 	if (clearFlag) {
@@ -1119,13 +1127,13 @@ void GamePlayScene::BackColl()
 				//フラグが立ったらタイムを進める
 				if (numbFlag) {
 					numbTime++;
-					
+
 				}
 				//Timeが1秒経ったら初期化
 				if (numbTime >= 5) {
 					numbFlag = false;
 					numbTime = 0;
-					
+
 				}
 			}
 

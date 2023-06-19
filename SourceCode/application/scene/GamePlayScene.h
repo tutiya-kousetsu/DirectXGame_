@@ -55,8 +55,10 @@ public:
 	/// </summary>
 	void Update() override;
 
+	//ゲームクリア
 	void Clear();
 
+	//ゲームオーバー
 	void Failed();
 
 	/// <summary>

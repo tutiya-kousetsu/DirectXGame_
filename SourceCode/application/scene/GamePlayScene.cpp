@@ -325,6 +325,7 @@ void GamePlayScene::Update()
 	//クリアしたときの関数
 	Clear();
 
+	//ゲームオーバーになった時
 	Failed();
 
 	player->SetPosition(playerPos);
@@ -445,7 +446,7 @@ void GamePlayScene::Failed()
 		}
 		postEffect->SetRadius(endEfRadius);
 	}
-	if (endFlag) {
+	if (endFlag && !clearFlag) {
 		audio->SoundStop("gamePlay.wav");
 
 		//シーン切り替え

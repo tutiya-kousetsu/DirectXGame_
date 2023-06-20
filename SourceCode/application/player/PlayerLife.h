@@ -24,4 +24,3 @@ private:
 	int life = 0;
 	int frame = 0.0f;
 };
-

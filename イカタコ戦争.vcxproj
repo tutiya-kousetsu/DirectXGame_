@@ -60,7 +60,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle;$(ProjectDir)SourceCode\application\arrow</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engine\2d;$(ProjectDir)SourceCode\engine\3d;$(ProjectDir)SourceCode\engine\audio;$(ProjectDir)SourceCode\engine\base;$(ProjectDir)SourceCode\engine\camera;$(ProjectDir)SourceCode\engine\collision;$(ProjectDir)SourceCode\engine\input;$(ProjectDir)SourceCode\engine\easing;$(ProjectDir)SourceCode\engine\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle;$(ProjectDir)SourceCode\application\arrow</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -78,7 +78,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engin\2d;$(ProjectDir)SourceCode\engin\3d;$(ProjectDir)SourceCode\engin\audio;$(ProjectDir)SourceCode\engin\base;$(ProjectDir)SourceCode\engin\camera;$(ProjectDir)SourceCode\engin\collision;$(ProjectDir)SourceCode\engin\easing;$(ProjectDir)SourceCode\engin\input;$(ProjectDir)SourceCode\engin\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle;$(ProjectDir)SourceCode\application\arrow</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;$(ProjectDir);$(ProjectDir)SourceCode\engine\2d;$(ProjectDir)SourceCode\engine\3d;$(ProjectDir)SourceCode\engine\audio;$(ProjectDir)SourceCode\engine\base;$(ProjectDir)SourceCode\engine\camera;$(ProjectDir)SourceCode\engine\collision;$(ProjectDir)SourceCode\engine\easing;$(ProjectDir)SourceCode\engine\input;$(ProjectDir)SourceCode\engine\shake;$(ProjectDir)SourceCode\application\scene;$(ProjectDir)SourceCode\application\player;$(ProjectDir)SourceCode\application\enemy;$(ProjectDir)SourceCode\application\wall;$(ProjectDir)SourceCode\application\door;$(ProjectDir)SourceCode\application\obstacle;$(ProjectDir)SourceCode\application\arrow</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/ignore:4049 %(AdditionalOptions)</AdditionalOptions>
@@ -196,36 +196,36 @@
     <ClCompile Include="SourceCode\application\scene\TitleScene.cpp" />
     <ClCompile Include="SourceCode\application\scene\Tutorial.cpp" />
     <ClCompile Include="SourceCode\application\wall\Wall.cpp" />
-    <ClCompile Include="SourceCode\engin\2d\DebugText.cpp" />
-    <ClCompile Include="SourceCode\engin\2d\PostEffect.cpp" />
-    <ClCompile Include="SourceCode\engin\2d\Sprite.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\FbxLoader.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\Fbx_Model.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\Fbx_Object3d.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\GameObject.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\Material.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\Mesh.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\Model.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\Object3d.cpp" />
-    <ClCompile Include="SourceCode\engin\3d\ParticleManager.cpp" />
-    <ClCompile Include="SourceCode\engin\audio\Audio.cpp" />
-    <ClCompile Include="SourceCode\engin\base\DirectXCommon.cpp" />
-    <ClCompile Include="SourceCode\engin\base\Framework.cpp" />
-    <ClCompile Include="SourceCode\engin\base\main.cpp" />
-    <ClCompile Include="SourceCode\engin\base\MyGame.cpp" />
-    <ClCompile Include="SourceCode\engin\base\WinApp.cpp" />
-    <ClCompile Include="SourceCode\engin\camera\Camera.cpp" />
-    <ClCompile Include="SourceCode\engin\camera\DebugCamera.cpp" />
-    <ClCompile Include="SourceCode\engin\camera\FollowingCamera.cpp" />
-    <ClCompile Include="SourceCode\engin\collision\Collision.cpp" />
-    <ClCompile Include="SourceCode\engin\collision\CollisionManager.cpp" />
-    <ClCompile Include="SourceCode\engin\collision\CollisionPrimitive.cpp" />
-    <ClCompile Include="SourceCode\engin\collision\MeshCollider.cpp" />
-    <ClCompile Include="SourceCode\engin\collision\SphereCollider.cpp" />
-    <ClCompile Include="SourceCode\engin\collision\TouchableObject.cpp" />
-    <ClCompile Include="SourceCode\engin\easing\Easing.cpp" />
-    <ClCompile Include="SourceCode\engin\input\Input.cpp" />
-    <ClCompile Include="SourceCode\engin\shake\Shake.cpp" />
+    <ClCompile Include="SourceCode\engine\2d\DebugText.cpp" />
+    <ClCompile Include="SourceCode\engine\2d\PostEffect.cpp" />
+    <ClCompile Include="SourceCode\engine\2d\Sprite.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\FbxLoader.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\Fbx_Model.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\Fbx_Object3d.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\GameObject.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\Material.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\Mesh.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\Model.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\Object3d.cpp" />
+    <ClCompile Include="SourceCode\engine\3d\ParticleManager.cpp" />
+    <ClCompile Include="SourceCode\engine\audio\Audio.cpp" />
+    <ClCompile Include="SourceCode\engine\base\DirectXCommon.cpp" />
+    <ClCompile Include="SourceCode\engine\base\Framework.cpp" />
+    <ClCompile Include="SourceCode\engine\base\main.cpp" />
+    <ClCompile Include="SourceCode\engine\base\MyGame.cpp" />
+    <ClCompile Include="SourceCode\engine\base\WinApp.cpp" />
+    <ClCompile Include="SourceCode\engine\camera\Camera.cpp" />
+    <ClCompile Include="SourceCode\engine\camera\DebugCamera.cpp" />
+    <ClCompile Include="SourceCode\engine\camera\FollowingCamera.cpp" />
+    <ClCompile Include="SourceCode\engine\collision\Collision.cpp" />
+    <ClCompile Include="SourceCode\engine\collision\CollisionManager.cpp" />
+    <ClCompile Include="SourceCode\engine\collision\CollisionPrimitive.cpp" />
+    <ClCompile Include="SourceCode\engine\collision\MeshCollider.cpp" />
+    <ClCompile Include="SourceCode\engine\collision\SphereCollider.cpp" />
+    <ClCompile Include="SourceCode\engine\collision\TouchableObject.cpp" />
+    <ClCompile Include="SourceCode\engine\easing\Easing.cpp" />
+    <ClCompile Include="SourceCode\engine\input\Input.cpp" />
+    <ClCompile Include="SourceCode\engine\shake\Shake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui\imconfig.h" />
@@ -254,42 +254,42 @@
     <ClInclude Include="SourceCode\application\scene\TitleScene.h" />
     <ClInclude Include="SourceCode\application\scene\Tutorial.h" />
     <ClInclude Include="SourceCode\application\wall\Wall.h" />
-    <ClInclude Include="SourceCode\engin\2d\DebugText.h" />
-    <ClInclude Include="SourceCode\engin\2d\PostEffect.h" />
-    <ClInclude Include="SourceCode\engin\2d\Sprite.h" />
-    <ClInclude Include="SourceCode\engin\3d\FbxLoader.h" />
-    <ClInclude Include="SourceCode\engin\3d\Fbx_Model.h" />
-    <ClInclude Include="SourceCode\engin\3d\Fbx_Object3d.h" />
-    <ClInclude Include="SourceCode\engin\3d\GameObject.h" />
-    <ClInclude Include="SourceCode\engin\3d\Material.h" />
-    <ClInclude Include="SourceCode\engin\3d\Mesh.h" />
-    <ClInclude Include="SourceCode\engin\3d\Model.h" />
-    <ClInclude Include="SourceCode\engin\3d\Object3d.h" />
-    <ClInclude Include="SourceCode\engin\3d\ParticleManager.h" />
-    <ClInclude Include="SourceCode\engin\3d\PipelineSet.h" />
-    <ClInclude Include="SourceCode\engin\audio\Audio.h" />
-    <ClInclude Include="SourceCode\engin\base\DirectXCommon.h" />
-    <ClInclude Include="SourceCode\engin\base\Framework.h" />
-    <ClInclude Include="SourceCode\engin\base\MyGame.h" />
-    <ClInclude Include="SourceCode\engin\base\WinApp.h" />
-    <ClInclude Include="SourceCode\engin\camera\Camera.h" />
-    <ClInclude Include="SourceCode\engin\camera\DebugCamera.h" />
-    <ClInclude Include="SourceCode\engin\camera\FollowingCamera.h" />
-    <ClInclude Include="SourceCode\engin\collision\BaseCollider.h" />
-    <ClInclude Include="SourceCode\engin\collision\Collision.h" />
-    <ClInclude Include="SourceCode\engin\collision\CollisionAttribute.h" />
-    <ClInclude Include="SourceCode\engin\collision\CollisionInfo.h" />
-    <ClInclude Include="SourceCode\engin\collision\CollisionManager.h" />
-    <ClInclude Include="SourceCode\engin\collision\CollisionPrimitive.h" />
-    <ClInclude Include="SourceCode\engin\collision\CollisionTypes.h" />
-    <ClInclude Include="SourceCode\engin\collision\MeshCollider.h" />
-    <ClInclude Include="SourceCode\engin\collision\QueryCallback.h" />
-    <ClInclude Include="SourceCode\engin\collision\RaycastHit.h" />
-    <ClInclude Include="SourceCode\engin\collision\SphereCollider.h" />
-    <ClInclude Include="SourceCode\engin\collision\TouchableObject.h" />
-    <ClInclude Include="SourceCode\engin\easing\Easing.h" />
-    <ClInclude Include="SourceCode\engin\input\Input.h" />
-    <ClInclude Include="SourceCode\engin\shake\Shake.h" />
+    <ClInclude Include="SourceCode\engine\2d\DebugText.h" />
+    <ClInclude Include="SourceCode\engine\2d\PostEffect.h" />
+    <ClInclude Include="SourceCode\engine\2d\Sprite.h" />
+    <ClInclude Include="SourceCode\engine\3d\FbxLoader.h" />
+    <ClInclude Include="SourceCode\engine\3d\Fbx_Model.h" />
+    <ClInclude Include="SourceCode\engine\3d\Fbx_Object3d.h" />
+    <ClInclude Include="SourceCode\engine\3d\GameObject.h" />
+    <ClInclude Include="SourceCode\engine\3d\Material.h" />
+    <ClInclude Include="SourceCode\engine\3d\Mesh.h" />
+    <ClInclude Include="SourceCode\engine\3d\Model.h" />
+    <ClInclude Include="SourceCode\engine\3d\Object3d.h" />
+    <ClInclude Include="SourceCode\engine\3d\ParticleManager.h" />
+    <ClInclude Include="SourceCode\engine\3d\PipelineSet.h" />
+    <ClInclude Include="SourceCode\engine\audio\Audio.h" />
+    <ClInclude Include="SourceCode\engine\base\DirectXCommon.h" />
+    <ClInclude Include="SourceCode\engine\base\Framework.h" />
+    <ClInclude Include="SourceCode\engine\base\MyGame.h" />
+    <ClInclude Include="SourceCode\engine\base\WinApp.h" />
+    <ClInclude Include="SourceCode\engine\camera\Camera.h" />
+    <ClInclude Include="SourceCode\engine\camera\DebugCamera.h" />
+    <ClInclude Include="SourceCode\engine\camera\FollowingCamera.h" />
+    <ClInclude Include="SourceCode\engine\collision\BaseCollider.h" />
+    <ClInclude Include="SourceCode\engine\collision\Collision.h" />
+    <ClInclude Include="SourceCode\engine\collision\CollisionAttribute.h" />
+    <ClInclude Include="SourceCode\engine\collision\CollisionInfo.h" />
+    <ClInclude Include="SourceCode\engine\collision\CollisionManager.h" />
+    <ClInclude Include="SourceCode\engine\collision\CollisionPrimitive.h" />
+    <ClInclude Include="SourceCode\engine\collision\CollisionTypes.h" />
+    <ClInclude Include="SourceCode\engine\collision\MeshCollider.h" />
+    <ClInclude Include="SourceCode\engine\collision\QueryCallback.h" />
+    <ClInclude Include="SourceCode\engine\collision\RaycastHit.h" />
+    <ClInclude Include="SourceCode\engine\collision\SphereCollider.h" />
+    <ClInclude Include="SourceCode\engine\collision\TouchableObject.h" />
+    <ClInclude Include="SourceCode\engine\easing\Easing.h" />
+    <ClInclude Include="SourceCode\engine\input\Input.h" />
+    <ClInclude Include="SourceCode\engine\shake\Shake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

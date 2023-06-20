@@ -505,8 +505,9 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 			obstacle->Draw();
 		}
 		//フラグが立ったら半透明の岩を後に描画する
-		if (rayFlag) {
+		
 			for (auto& obstacle : obstacles) {
+				if (rayFlag) {
 				obstacle->Draw();
 			}
 		}

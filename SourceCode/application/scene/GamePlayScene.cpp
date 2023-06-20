@@ -17,12 +17,13 @@
 
 void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 {
-
+	//音の読み込み
 	Audio* audio = Audio::GetInstance();
 	audio->SoundLoadWave("stone.wav");
 	//痺れた時のSE
 	audio->SoundLoadWave("numb.wav");
 	audio->SoundLoadWave("gamePlay.wav");
+
 	//スプライト読み込み
 	Sprite::LoadTexture(1, L"Resources/sosa_sinan.png");
 	sprite.reset(Sprite::Create(1, { 640,360 }));
@@ -173,7 +174,6 @@ void GamePlayScene::Update()
 		}
 		player->StopUpdate();
 		if (landTime >= 230) {
-			//landFlag = false;
 
 			for (auto& ob : obstacles) {
 				ob->UpMove(!landFlag);
@@ -428,7 +428,6 @@ void GamePlayScene::Failed()
 {
 	playerPos = player->GetPosition();
 	aliveFlag = player->GetAlive();
-	//自機のHPが0になったら小さくする
 	
 	//自機がステージから落ちたら小さくする
 	if (playerPos.y <= -10.0f) {
@@ -529,6 +528,7 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	
+	//ゲームオーバーとクリアのフラグが経ってない時に描画してる
 	if (!clearFlag && aliveFlag) {
 		sprite->Draw();
 		playerLife->Draw(life);

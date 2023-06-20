@@ -193,26 +193,30 @@ private:
 	int32_t numbTime = 0;
 	int32_t downTime = 0;
 	//フラグ
-	bool bulFlag = true;//弾のフラグ
 	bool waitFlag = false;//待ってるときのフラグ
 	bool timeFlag = false;
-	bool phFlag = false;
-	bool clearFlag = false;
-	bool clearTFlag = false;
 	bool damageFlag1 = false;//敵弾に当たった時
 	bool damageFlag2 = false;//敵弾に当たった時
 	bool damageFlag3 = false;//敵弾に当たった時
 	bool damageFlag4 = false;//敵弾に当たった時
-	bool rayFlag = false;
-	bool endFlag = false;//ゲームが終わったか
-	bool landFlag = false;//着地しているか
-	bool numbFlag = false;
-	bool hpFlag = false;
+	bool rayFlag = false;//岩とレイが当たっているかどうかのフラグ
+
+	//フェーズ用
 	bool phaseCountFlag = false;
 	bool phaseFlag = false;
+
+	//ゲームオーバーとクリアの時
+	bool endFlag = false;//ゲームが終わったか
+	bool clearFlag = false;
+	bool clearTFlag = false;
 	bool upFlag = false;
-	bool stringFlag = false;
-	bool aliveFlag = false;
+	bool stringFlag = false;//クリアしたときの文字のフラグ
+
+	//プレイヤー用
+	bool landFlag = false;//着地しているか
+	bool numbFlag = false;
+	bool phFlag = false;
+	bool aliveFlag = false;//プレイヤーのフラグ
 	//フェーズ
 	//前の敵
 	int fEnePhase = 0;

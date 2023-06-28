@@ -18,7 +18,6 @@ void PlayerLife::Initialize()
 	lifeSp[6].reset(Sprite::Create(8, { 1202,656 }));
 	Sprite::LoadTexture(9, L"Resources/HP.png");
 	lifeSp[7].reset(Sprite::Create(9, { 1244,656 }));
-
 }
 
 void PlayerLife::MoveUpdate(int life)

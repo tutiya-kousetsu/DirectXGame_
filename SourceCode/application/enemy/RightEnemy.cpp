@@ -77,6 +77,8 @@ void RightEnemy::RightShoot()
 		//標的に向ける
 		float rotx = atan2f(velocity.m128_f32[1], velocity.m128_f32[2]);
 		float roty = atan2f(velocity.m128_f32[0], velocity.m128_f32[2]);
+
+		object->SetRotation({ rotx, roty, 0 });
 	}
 	//コンストラクタ呼ぶよ
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();

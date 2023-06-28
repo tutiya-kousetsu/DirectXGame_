@@ -150,6 +150,9 @@ void Player::Mouse()
 		numbRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
 		numbRot.y *= 180 / XM_PI;
 		numb->SetRotation({ 0.0f, playerRot.y, 0.0f });
+		for (auto& bullet : bullets) {
+			bullet->SetRotation({ 0.0f, playerRot.y, 0.0f });
+		}
 	}
 }
 

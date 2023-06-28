@@ -35,7 +35,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 	//床のオブジェクト生成
 	floor.reset(TouchableObject::Create(Model::CreateFromOBJ("FloorBox")));
 	floor->SetScale({ 20.f, 5.0f, 20.f });
- 	floor->SetPosition({ 0,-18.5f,0 });
+	floor->SetPosition({ 0,-18.5f,0 });
 
 	//データ読み込み
 	skyObj = Object3d::Create();

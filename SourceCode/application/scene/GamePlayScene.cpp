@@ -292,9 +292,12 @@ void GamePlayScene::Update()
 		player->StopUpdate();
 		player->Numb(numbFlag);
 	}
-	if (landTime >= 230 && !numbFlag) {
+	if (landTime >= 230 && !numbFlag && aliveFlag) {
 		//プレイヤーの更新
 		player->Update();
+	}
+	else if (!aliveFlag) {
+		player->StopUpdate();
 	}
 
 	//フェーズ
@@ -449,7 +452,7 @@ void GamePlayScene::Failed()
 	}
 	if (endFlag && !clearFlag) {
 		audio->SoundStop("gamePlay.wav");
-
+		audio->SoundStop("stone.wav");
 		//シーン切り替え
 		BaseScene* scene = new Tutorial();
 		this->sceneManager->SetNextScene(scene);
@@ -896,7 +899,6 @@ void GamePlayScene::FrontColl()
 				playerShape.radius = player->GetScale().x;
 
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
-
 					eb->OnCollision();
 					player->OnCollision(1);
 					if (!damageFlag1) {
@@ -904,15 +906,14 @@ void GamePlayScene::FrontColl()
 					}
 				}
 				if (damageFlag1 && !phaseCountFlag) {
-					color = damage->GetColor();
-					color.w -= 0.05f;
-					if (color.w <= 0.0f) {
-						color.w = 1.0f;
+					color1 = damage->GetColor();
+					color1.w -= 0.05f;
+					if (color1.w <= 0.0f) {
+						color1.w = 1.0f;
 						damageFlag1 = false;
 					}
-					damage->SetColor(color);
+					damage->SetColor(color1);
 				}
-
 			}
 
 #pragma endregion
@@ -972,15 +973,16 @@ void GamePlayScene::LeftColl()
 						damageFlag2 = true;
 					}
 				}
-				if (damageFlag2) {
-					color = damage->GetColor();
-					color.w -= 0.05f;
-					if (color.w <= 0.0f) {
-						color.w = 1.0f;
+				if (damageFlag2 && !phaseCountFlag) {
+					color2 = damage->GetColor();
+					color2.w -= 0.05f;
+					if (color2.w <= 0.0f) {
+						color2.w = 1.0f;
 						damageFlag2 = false;
 					}
-					damage->SetColor(color);
+					damage->SetColor(color2);
 				}
+				
 			}
 
 #pragma endregion
@@ -1042,14 +1044,14 @@ void GamePlayScene::RightColl()
 						damageFlag3 = true;
 					}
 				}
-				if (damageFlag3) {
-					color = damage->GetColor();
-					color.w -= 0.05f;
-					if (color.w <= 0.0f) {
-						color.w = 1.0f;
+				if (damageFlag3 && !phaseCountFlag) {
+					color3 = damage->GetColor();
+					color3.w -= 0.05f;
+					if (color3.w <= 0.0f) {
+						color3.w = 1.0f;
 						damageFlag3 = false;
 					}
-					damage->SetColor(color);
+					damage->SetColor(color3);
 				}
 			}
 
@@ -1116,25 +1118,24 @@ void GamePlayScene::BackColl()
 						damageFlag4 = true;
 					}
 				}
-				if (damageFlag4) {
-					color = damage->GetColor();
-					color.w -= 0.05f;
-					if (color.w <= 0.0f) {
-						color.w = 1.0f;
+				if (damageFlag4 && !phaseCountFlag) {
+					color4 = damage->GetColor();
+					color4.w -= 0.05f;
+					if (color4.w <= 0.0f) {
+						color4.w = 1.0f;
 						damageFlag4 = false;
 					}
-					damage->SetColor(color);
+					damage->SetColor(color4);
 				}
+				
 				//フラグが立ったらタイムを進める
 				if (numbFlag) {
 					numbTime++;
-
 				}
 				//Timeが1秒経ったら初期化
 				if (numbTime >= 5) {
 					numbFlag = false;
 					numbTime = 0;
-
 				}
 			}
 

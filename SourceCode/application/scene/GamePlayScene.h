@@ -182,9 +182,10 @@ private:
 	XMFLOAT3 doorRot;
 	XMFLOAT3 playerRot;
 	//スプライトのカラー
-	XMFLOAT4 damageColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-	XMFLOAT4 color;
-
+	XMFLOAT4 color1;
+	XMFLOAT4 color2;
+	XMFLOAT4 color3;
+	XMFLOAT4 color4;
 	//タイマー
 	int32_t wait = 460;
 	int32_t clearTime = 0;

@@ -183,26 +183,22 @@ void Player::move(float speed)
 
 	if (input->PushKey(DIK_W)) {
 		position.x += forwardVec.m128_f32[0];
-		position.x += forwardVec.m128_f32[1];
 		position.z += forwardVec.m128_f32[2];
 		moveFlag = true;
 	}
 	else if (input->PushKey(DIK_S)) {
 		position.x -= forwardVec.m128_f32[0];
-		position.x -= forwardVec.m128_f32[1];
 		position.z -= forwardVec.m128_f32[2];
 		moveFlag = true;
 	}
 
 	if (input->PushKey(DIK_D)) {
 		position.x += horizontalVec.m128_f32[0];
-		position.x += horizontalVec.m128_f32[1];
 		position.z += horizontalVec.m128_f32[2];
 		moveFlag = true;
 	}
 	else if (input->PushKey(DIK_A)) {
 		position.x -= horizontalVec.m128_f32[0];
-		position.x -= horizontalVec.m128_f32[1];
 		position.z -= horizontalVec.m128_f32[2];
 		moveFlag = true;
 	}
@@ -435,8 +431,10 @@ void Player::CreateParticle()
 void Player::Draw(bool flag)
 {
 	Object3d::Draw();
-	for (std::unique_ptr<PlayerBullet>& bul : bullets) {
-		bul->Draw();
+	if (!flag) {
+		for (std::unique_ptr<PlayerBullet>& bul : bullets) {
+			bul->Draw();
+		}
 	}
 	if (flag) {
 		numb->Draw();

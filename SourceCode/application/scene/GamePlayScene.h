@@ -218,6 +218,7 @@ private:
 	bool numbFlag = false;
 	bool phFlag = false;
 	bool aliveFlag = false;//プレイヤーのフラグ
+	bool landingFlag = false;
 	//フェーズ
 	//前の敵
 	int fEnePhase = 0;

@@ -434,13 +434,13 @@ void GamePlayScene::Failed()
 	
 	//自機がステージから落ちたら小さくする
 	if (playerPos.y <= -10.0f) {
-		aliveFlag = false;
+		landingFlag = true;
 	}
-	if (!aliveFlag) {
+	if (!aliveFlag || landingFlag) {
 		player->ScaleSmall();
 	}
 	//プレイヤーのHPが0になったらポストエフェクト
-	if (!aliveFlag || playerPos.y <= -10.0f) {
+	if (!aliveFlag || landingFlag) {
 		//中心に向かってポストエフェクトで暗くする
 		endEfRadius = postEffect->GetRadius();
 		endEfRadius -= 10.5f;

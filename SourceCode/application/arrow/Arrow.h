@@ -11,9 +11,9 @@ public:
 	void Draw(int i);
 
 private:
-	DirectX::XMFLOAT2 pos[8]{};
+	DirectX::XMFLOAT2 pos[9]{};
 	//Phase
-	std::unique_ptr<Sprite> arrow[8]{};
+	std::unique_ptr<Sprite> arrow[9]{};
 
 	//イーズイン用frame
 	float inFrame = 0.f;

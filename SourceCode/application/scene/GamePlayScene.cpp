@@ -1186,7 +1186,7 @@ void GamePlayScene::CheckAllCollision()
 	Input* input = Input::GetInstance();
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
-	if (landTime >= 230) {
+	if (landTime >= 230 && !numbFlag) {
 		Input::MouseMove mouseMove = input->GetMouseMove();
 		float dy = mouseMove.lX * scaleY;
 		angleY = -dy * XM_PI;

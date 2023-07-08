@@ -133,10 +133,11 @@ void GamePlayScene::Update()
 	Audio* audio = Audio::GetInstance();
 	audio->SoundStop("water.wav");
 	playerPos = player->GetPosition();
-	//着地する前
-	if (!landFlag) {
-		sceneTime++;
 
+	switch (gamePhase) {
+	case GamePhase::Air:
+	default:
+		sceneTime++;
 		//追従カメラから普通のカメラに変更
 		nowCamera = debugCam.get();
 		Object3d::SetCamera(nowCamera);
@@ -150,13 +151,12 @@ void GamePlayScene::Update()
 		playerPos.y = Ease(InOut, Cubic, inFrame, 30.f, -1.83f);
 		playerScale = player->GetScale();
 		if (playerScale.x >= 0.9f && playerScale.y >= 0.9f && playerScale.z >= 0.9f) {
-			landFlag = true;
+			gamePhase = GamePhase::Landing;
 		}
 		player->SetPosition(playerPos);
 		player->StopUpdate();
-	}
-	//着地した後
-	if (landFlag) {
+		break;
+	case GamePhase::Landing:
 		landTime++;
 		if (landTime >= 10 && landTime <= 210) {
 			// サウンド再生
@@ -174,88 +174,213 @@ void GamePlayScene::Update()
 		}
 		player->StopUpdate();
 		if (landTime >= 230) {
-
-			for (auto& ob : obstacles) {
-				ob->UpMove(!landFlag);
+			gamePhase = GamePhase::GameStart;
+		}
+		break;
+	case GamePhase::GameStart:
+		for (auto& ob : obstacles) {
+			ob->UpMove(!landFlag);
+		}
+		nowCamera = camera.get();
+		Object3d::SetCamera(nowCamera);
+		phaseFlag = phase->GetPhase();
+		if (!phaseFlag) {
+			//フェーズ2に移行するための条件
+			if (fEneCount >= 1) {
+				phaseCountFlag = true;
+				//flag = true;
+				// サウンド再生
+				audio->SoundPlayWave("stone.wav", true);
+				phaseCount = 1;
 			}
-			nowCamera = camera.get();
-			Object3d::SetCamera(nowCamera);
-			phaseFlag = phase->GetPhase();
-			if (!phaseFlag) {
-				//フェーズ2
-				if (fEnePhase >= 1) {
-					phaseCountFlag = true;
-					// サウンド再生
-					audio->SoundPlayWave("stone.wav", true);
-					phaseCount = 1;
-				}
-				//フェーズ3
-				if (fEnePhase >= 2 && lEnePhase >= 1) {
-					phaseCount = 2;
-				}
-				//フェーズ4
-				if (fEnePhase >= 4 && lEnePhase >= 2) {
-					phaseCount = 3;
-				}
-				//フェーズ5
-				if (fEnePhase >= 6 && lEnePhase >= 3 && rEnePhase >= 1) {
-					phaseCount = 4;
-				}
-				//フェーズ6
-				if (fEnePhase >= 8 && lEnePhase >= 4 && rEnePhase >= 2 && bEnePhase >= 1) {
-					phaseCount = 5;
-				}
-				phase->MovePhase(phaseCount);
+			//フェーズ3に移行するための条件
+			if (fEneCount >= 2 && lEneCount >= 1) {
+				phaseCount = 2;
 			}
-			//フェーズフラグが立ったら
-			if (phaseCountFlag) {
-				downTime++;
-
-				//カメラの切り替え
-				nowCamera = debugCam.get();
-				Object3d::SetCamera(nowCamera);
-				nowCamera->SetEye({ 0, 50.f, -1.f });
-				nowCamera->SetTarget({ 0, -90, 0 });
-				//タイムが230行ったら岩を下に下げるのを止める
-				if (downTime <= 230) {
-					for (auto& ob : obstacles) {
-						ob->DownMove(phaseCountFlag);
-					}
-				}
+			//フェーズ4に移行するための条件
+			if (fEneCount >= 4 && lEneCount >= 2) {
+				phaseCount = 3;
 			}
-			//230超えたらあげるフラグを立てて岩を上に上げる
-			if (downTime >= 230) {
-				upFlag = true;
-				for (auto& ob : obstacles) {
-					ob->UpMove(upFlag);
-				}
+			//フェーズ5に移行するための条件
+			if (fEneCount >= 6 && lEneCount >= 3 && rEneCount >= 1) {
+				phaseCount = 4;
 			}
-			//フラグとタイムの初期化
-			if (downTime >= 460) {
-				phaseCountFlag = false;
-				upFlag = false;
-				downTime = 0;
-				// サウンド停止
-				audio->SoundStop("stone.wav");
+			//フェーズ6に移行するための条件
+			if (fEneCount >= 8 && lEneCount >= 4 && rEneCount >= 2 && bEneCount >= 1) {
+				phaseCount = 5;
 			}
-			//自機が弾を打てなくする
-			if (downTime <= 460) {
-				player->SetPhaseFlag(phaseCountFlag);
-
-			}
+			//フェーズのスプライトの移動関数
+			phase->MovePhase(phaseCount);
+		}
+		//フェーズフラグが立ったら
+		if (phaseCountFlag) {
+			downTime++;
 
 			//カメラの切り替え
-			if (!phaseCountFlag) {
-				nowCamera = camera.get();
-				Object3d::SetCamera(nowCamera);
+			nowCamera = debugCam.get();
+			Object3d::SetCamera(nowCamera);
+			nowCamera->SetEye({ 0, 50.f, -1.f });
+			nowCamera->SetTarget({ 0, -90, 0 });
+			//タイムが230行ったら岩を下に下げるのを止める
+			if (downTime <= 230) {
+				for (auto& ob : obstacles) {
+					ob->DownMove(phaseCountFlag);
+				}
 			}
 		}
+		//230超えたらあげるフラグを立てて岩を上に上げる
+		if (downTime >= 230) {
+			upFlag = true;
+			for (auto& ob : obstacles) {
+				ob->UpMove(upFlag);
+			}
+		}
+		//フラグとタイムの初期化
+		if (downTime >= 460) {
+			phaseCountFlag = false;
+			upFlag = false;
+			downTime = 0;
+			// サウンド停止
+			audio->SoundStop("stone.wav");
+		}
+		//自機が弾を打てなくする
+		if (downTime <= 460) {
+			player->SetPhaseFlag(phaseCountFlag);
+
+		}
+
+		//カメラの切り替え
+		if (!phaseCountFlag) {
+			nowCamera = camera.get();
+			Object3d::SetCamera(nowCamera);
+		}
+		break;
+	}
+	////着地する前
+	//if (!landFlag) {
+	//	sceneTime++;
+
+	//	//追従カメラから普通のカメラに変更
+	//	nowCamera = debugCam.get();
+	//	Object3d::SetCamera(nowCamera);
+	//	nowCamera->SetEye({ playerPos.x, 2.f, 20.f });
+	//	nowCamera->SetTarget(playerPos);
+
+	//	if (inFrame < 1.0f) {
+	//		inFrame += 0.01f;
+	//		player->ScaleLarge();
+	//	}
+	//	playerPos.y = Ease(InOut, Cubic, inFrame, 30.f, -1.83f);
+	//	playerScale = player->GetScale();
+	//	if (playerScale.x >= 0.9f && playerScale.y >= 0.9f && playerScale.z >= 0.9f) {
+	//		landFlag = true;
+	//	}
+	//	player->SetPosition(playerPos);
+	//	player->StopUpdate();
+	//}
+	////着地した後
+	//if (landFlag) {
+	//	landTime++;
+	//	if (landTime >= 10 && landTime <= 210) {
+	//		// サウンド再生
+	//		audio->SoundPlayWave("stone.wav", false);
+	//	}
+	//	if (landTime == 210) {
+	//		// サウンド停止
+	//		audio->SoundStop("stone.wav");
+	//		audio->SoundPlayWave("gamePlay.wav", true);
+	//	}
+	//	if (landTime <= 230) {
+	//		for (auto& ob : obstacles) {
+	//			ob->UpMove(landFlag);
+	//		}
+	//	}
+	//	player->StopUpdate();
+	//	if (landTime >= 230) {
+
+	//		for (auto& ob : obstacles) {
+	//			ob->UpMove(!landFlag);
+	//		}
+	//		nowCamera = camera.get();
+	//		Object3d::SetCamera(nowCamera);
+	//		phaseFlag = phase->GetPhase();
+	//		if (!phaseFlag) {
+	//			//フェーズ2に移行するための条件
+	//			if (fEneCount >= 1) {
+	//				phaseCountFlag = true;
+	//				//flag = true;
+	//				// サウンド再生
+	//				audio->SoundPlayWave("stone.wav", true);
+	//				phaseCount = 1;
+	//			}
+	//			//フェーズ3に移行するための条件
+	//			if (fEneCount >= 2 && lEneCount >= 1) {
+	//				phaseCount = 2;
+	//			}
+	//			//フェーズ4に移行するための条件
+	//			if (fEneCount >= 4 && lEneCount >= 2) {
+	//				phaseCount = 3;
+	//			}
+	//			//フェーズ5に移行するための条件
+	//			if (fEneCount >= 6 && lEneCount >= 3 && rEneCount >= 1) {
+	//				phaseCount = 4;
+	//			}
+	//			//フェーズ6に移行するための条件
+	//			if (fEneCount >= 8 && lEneCount >= 4 && rEneCount >= 2 && bEneCount >= 1) {
+	//				phaseCount = 5;
+	//			}
+	//			//フェーズのスプライトの移動関数
+	//			phase->MovePhase(phaseCount);
+	//		}
+	//		//フェーズフラグが立ったら
+	//		if (phaseCountFlag) {
+	//			downTime++;
+
+	//			//カメラの切り替え
+	//			nowCamera = debugCam.get();
+	//			Object3d::SetCamera(nowCamera);
+	//			nowCamera->SetEye({ 0, 50.f, -1.f });
+	//			nowCamera->SetTarget({ 0, -90, 0 });
+	//			//タイムが230行ったら岩を下に下げるのを止める
+	//			if (downTime <= 230) {
+	//				for (auto& ob : obstacles) {
+	//					ob->DownMove(phaseCountFlag);
+	//				}
+	//			}
+	//		}
+	//		//230超えたらあげるフラグを立てて岩を上に上げる
+	//		if (downTime >= 230) {
+	//			upFlag = true;
+	//			for (auto& ob : obstacles) {
+	//				ob->UpMove(upFlag);
+	//			}
+	//		}
+	//		//フラグとタイムの初期化
+	//		if (downTime >= 460) {
+	//			phaseCountFlag = false;
+	//			upFlag = false;
+	//			downTime = 0;
+	//			// サウンド停止
+	//			audio->SoundStop("stone.wav");
+	//		}
+	//		//自機が弾を打てなくする
+	//		if (downTime <= 460) {
+	//			player->SetPhaseFlag(phaseCountFlag);
+
+	//		}
+
+	//		//カメラの切り替え
+	//		if (!phaseCountFlag) {
+	//			nowCamera = camera.get();
+	//			Object3d::SetCamera(nowCamera);
+	//		}
+	//	}
 		//障害物のマップチップ読み込み用
 		UpdataObstaclePopCommand();
 		for (auto& obstacle : obstacles) {
 			obstacle->Update();
 		}
-	}
+	//}
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
@@ -288,6 +413,7 @@ void GamePlayScene::Update()
 		return !back->GetAlive();
 		});
 
+	//痺れたらプレイヤーの動きを止める
 	if (numbFlag) {
 		player->StopUpdate();
 		player->Numb(numbFlag);
@@ -362,7 +488,7 @@ void GamePlayScene::Clear()
 
 	Audio* audio = Audio::GetInstance();
 	//クリア条件
-	if (fEnePhase >= 10 && lEnePhase >= 6 && rEnePhase >= 4 && bEnePhase >= 3) {
+	if (fEneCount >= 10 && lEneCount >= 6 && rEneCount >= 4 && bEneCount >= 3) {
 		clearFlag = true;
 		audio->SoundStop("gamePlay.wav");
 	}
@@ -434,13 +560,13 @@ void GamePlayScene::Failed()
 	
 	//自機がステージから落ちたら小さくする
 	if (playerPos.y <= -10.0f) {
-		landingFlag = true;
+		aliveFlag = false;
 	}
-	if (!aliveFlag || landingFlag) {
+	if (!aliveFlag) {
 		player->ScaleSmall();
 	}
 	//プレイヤーのHPが0になったらポストエフェクト
-	if (!aliveFlag || landingFlag) {
+	if (!aliveFlag || playerPos.y <= -10.0f) {
 		//中心に向かってポストエフェクトで暗くする
 		endEfRadius = postEffect->GetRadius();
 		endEfRadius -= 10.5f;
@@ -587,8 +713,8 @@ void GamePlayScene::UpdataEnemyPopCommand()
 {
 	if (waitFlag) {
 		//csv側のフェーズと敵フェーズが一致していたらWaitフラグをfalseにする
-		if (fWaitPhase == fEnePhase && lWaitPhase == lEnePhase
-			&& rWaitPhase == rEnePhase && bWaitPhase == bEnePhase) {
+		if (fWaitPhase == fEneCount && lWaitPhase == lEneCount
+			&& rWaitPhase == rEneCount && bWaitPhase == bEneCount) {
 			waitFlag = false;
 			phase->SetPhase(false);
 		}
@@ -905,6 +1031,7 @@ void GamePlayScene::FrontColl()
 						damageFlag1 = true;
 					}
 				}
+				//フラグが立ったらダメージ演出のスプライトを描画してだんだん薄くしていく
 				if (damageFlag1 && !phaseCountFlag) {
 					color1 = damage->GetColor();
 					color1.w -= 0.05f;
@@ -968,11 +1095,13 @@ void GamePlayScene::LeftColl()
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 
 					eb->OnCollision();
+					//自機のHPが1減る
 					player->OnCollision(1);
 					if (!damageFlag2 && !phaseCountFlag) {
 						damageFlag2 = true;
 					}
 				}
+				//フラグが立ったらダメージ演出のスプライトを描画してだんだん薄くしていく
 				if (damageFlag2 && !phaseCountFlag) {
 					color2 = damage->GetColor();
 					color2.w -= 0.05f;
@@ -1039,11 +1168,13 @@ void GamePlayScene::RightColl()
 				if (Collision::CheckSphere2Sphere(eBullet, playerShape)) {
 
 					eb->OnCollision();
+					//自機のHPが2減る
 					player->OnCollision(2);
 					if (!damageFlag3 && !phaseCountFlag) {
 						damageFlag3 = true;
 					}
 				}
+				//フラグが立ったらダメージ演出のスプライトを描画してだんだん薄くしていく
 				if (damageFlag3 && !phaseCountFlag) {
 					color3 = damage->GetColor();
 					color3.w -= 0.05f;
@@ -1118,6 +1249,7 @@ void GamePlayScene::BackColl()
 						damageFlag4 = true;
 					}
 				}
+				//フラグが立ったらダメージ演出のスプライトを描画してだんだん薄くしていく
 				if (damageFlag4 && !phaseCountFlag) {
 					color4 = damage->GetColor();
 					color4.w -= 0.05f;
@@ -1186,6 +1318,7 @@ void GamePlayScene::CheckAllCollision()
 	Input* input = Input::GetInstance();
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
+	//痺れた時にレイだけ動かないようにする
 	if (landTime >= 230 && !numbFlag) {
 		Input::MouseMove mouseMove = input->GetMouseMove();
 		float dy = mouseMove.lX * scaleY;
@@ -1255,7 +1388,7 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						front->OnCollision();
 						if (!front->GetAlive()) {
-							fEnePhase++;
+							fEneCount++;
 							wait--;
 						}
 					}
@@ -1272,7 +1405,7 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						left->OnCollision();
 						if (!left->GetAlive()) {
-							lEnePhase++;
+							lEneCount++;
 						}
 					}
 				}
@@ -1289,7 +1422,7 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						right->OnCollision();
 						if (!right->GetAlive()) {
-							rEnePhase++;
+							rEneCount++;
 						}
 					}
 				}
@@ -1306,7 +1439,7 @@ void GamePlayScene::CheckAllCollision()
 						pb->OnCollision();
 						back->OnCollision();
 						if (!back->GetAlive()) {
-							bEnePhase++;
+							bEneCount++;
 						}
 					}
 				}

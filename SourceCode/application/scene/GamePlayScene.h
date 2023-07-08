@@ -31,6 +31,7 @@
 #include <memory>
 #include <list>
 #include <sstream>
+#include <array>
 
 //前方宣言
 class ParticleManager;
@@ -96,6 +97,15 @@ public:
 	void BackColl();
 
 	void CheckAllCollision();
+
+public:
+	enum class GamePhase {
+		Air,//スタート時空中にいるとき
+		Landing,//着地した時
+		GameStart,//着地して岩が上がりきった時
+	};
+
+	GamePhase gamePhase = GamePhase::Air;
 private:
 	Audio* audio = nullptr;
 	//スプライト
@@ -218,19 +228,19 @@ private:
 	bool numbFlag = false;
 	bool phFlag = false;
 	bool aliveFlag = false;//プレイヤーのフラグ
-	bool landingFlag = false;
+	bool landingFlag = false;//ステージの外に落ちた時
 	//フェーズ
 	//前の敵
-	int fEnePhase = 0;
+	int fEneCount = 0;
 	int fWaitPhase = 0;
 	//左の敵
-	int lEnePhase = 0;
+	int lEneCount = 0;
 	int lWaitPhase = 0;
 	//右の敵
-	int rEnePhase = 0;
+	int rEneCount = 0;
 	int rWaitPhase = 0;
 	//後ろの敵
-	int bEnePhase = 0;
+	int bEneCount = 0;
 	int bWaitPhase = 0;
 	// カメラ関係
 	bool dirty = false;

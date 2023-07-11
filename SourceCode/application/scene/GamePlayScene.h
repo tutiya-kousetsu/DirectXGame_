@@ -100,10 +100,19 @@ public:
 
 public:
 	enum class GamePhase {
-		Air,//スタート時空中にいるとき
+		Air,
 		Landing,//着地した時
-		GameStart,//着地して岩が上がりきった時
+		GameStart,
 	};
+	//スタート時空中にいるとき
+	void Air();
+	//着地した時
+	void Landing();
+	//着地して岩が上がりきった時
+	void GameStart();
+private:
+	//メンバ関数ポインタ
+	static void (GamePlayScene::* gProgress[])();
 
 	GamePhase gamePhase = GamePhase::Air;
 private:

@@ -20,27 +20,6 @@ void PlayerLife::Initialize()
 	lifeSp[7].reset(Sprite::Create(9, { 1244,656 }));
 }
 
-void PlayerLife::MoveUpdate(int life)
-{
-	for (int i = 0; i < life; i++) {
-		pos[i] = lifeSp[i]->GetPosition();
-		//if (pos[i].y <= 900) {
-		if (frame < 1.0f) {
-			frame += 0.001f;
-		}
-		pos[i].y = Ease(Out, Cubic, frame, pos[i].y, 900);
-
-		//}
-		lifeSp[i]->SetPosition(pos[i]);
-
-
-		if (pos[i].y >= 900) {
-			disFlag = true;
-			frame = 0;
-		}
-	}
-}
-
 void PlayerLife::Draw(int life)
 {
 	for (int i = 0; i < life; i++) {

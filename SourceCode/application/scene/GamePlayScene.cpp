@@ -126,35 +126,6 @@ void GamePlayScene::Finalize()
 	obstacles.remove_if([](std::unique_ptr<Obstacle>& obstacle) {
 		return obstacle->GetAlive();
 		});
-}
-
-void GamePlayScene::Update()
-{
-	Audio* audio = Audio::GetInstance();
-	audio->SoundStop("water.wav");
-	playerPos = player->GetPosition();
-	
-	(this->*gProgress[static_cast<size_t>(gamePhase)])();
-	//障害物のマップチップ読み込み用
-	UpdataObstaclePopCommand();
-	for (auto& obstacle : obstacles) {
-		obstacle->Update();
-	}
-	Input* input = Input::GetInstance();
-
-	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
-	ShowCursor(FALSE);
-	// 座標の変更を反映
-	SetCursorPos(960, 540);
-
-	//カメラにプレイヤーを固定させる
-	camera->SetFollowingTarget(player.get());
-
-	// マウスの入力を取得
-	if (landTime >= 230 && !numbFlag) {
-		player->Mouse();
-	}
-
 	//前敵が死んだら削除する
 	frontEnemy.remove_if([](std::unique_ptr<FrontEnemy>& front) {
 		return !front->GetAlive();
@@ -172,6 +143,33 @@ void GamePlayScene::Update()
 		return !back->GetAlive();
 		});
 
+}
+
+void GamePlayScene::Update()
+{
+	Audio* audio = Audio::GetInstance();
+	audio->SoundStop("water.wav");
+	playerPos = player->GetPosition();
+	
+	(this->*gProgress[static_cast<size_t>(gamePhase)])();
+	//障害物のマップチップ読み込み用
+	UpdataObstaclePopCommand();
+	for (auto& obstacle : obstacles) {
+		obstacle->Update();
+	}
+	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
+	ShowCursor(FALSE);
+	// 座標の変更を反映
+	SetCursorPos(960, 540);
+
+	//カメラにプレイヤーを固定させる
+	camera->SetFollowingTarget(player.get());
+
+	// マウスの入力を取得
+	if (landTime >= 230 && !numbFlag) {
+		player->Mouse();
+	}
+
 	//痺れたらプレイヤーの動きを止める
 	if (numbFlag) {
 		player->StopUpdate();
@@ -182,11 +180,7 @@ void GamePlayScene::Update()
 		//プレイヤーの更新
 		player->Update();
 	}
-	else if (!aliveFlag) {
-		player->StopUpdate();
-	}
-
-	//フェーズ
+	//フェーズフラグが立つごとにドアを動かす、敵のcsvの更新をする
 	if (phaseFlag) {
 		if (door) {
 			door->DoorMove(phaseCount);
@@ -225,7 +219,6 @@ void GamePlayScene::Update()
 	floor->Update();
 
 	life = player->GetLife();
-	playerLife->MoveUpdate(life);
 	player->SetLife(life);
 	skyObj->Update();
 	UpdataWallPopCommand();
@@ -241,6 +234,7 @@ void GamePlayScene::Update()
 
 }
 
+//スタート時空中にいるときの関数
 void GamePlayScene::Air()
 {
 	sceneTime++;
@@ -256,7 +250,8 @@ void GamePlayScene::Air()
 	}
 	playerPos.y = Ease(InOut, Cubic, inFrame, 30.f, -1.83f);
 	playerScale = player->GetScale();
-	if (playerScale.x >= 0.9f && playerScale.y >= 0.9f && playerScale.z >= 0.9f) {
+	//プレイヤーの大きさが一定以上大きくなったら次のgamePhaseに移行する
+	if (playerScale.x >= fixedScale && playerScale.y >= fixedScale && playerScale.z >= fixedScale) {
 		gamePhase = GamePhase::Landing;
 		landFlag = true;
 	}
@@ -264,6 +259,7 @@ void GamePlayScene::Air()
 	player->StopUpdate();
 }
 
+//着地した時の関数
 void GamePlayScene::Landing()
 {
 	landTime++;
@@ -287,11 +283,13 @@ void GamePlayScene::Landing()
 	}
 }
 
+//着地して岩が上がりきった時、フェーズ1から始める関数
 void GamePlayScene::GameStart()
 {
 	for (auto& ob : obstacles) {
 		ob->UpMove(!landFlag);
 	}
+	//カメラの切り替え(自機の追従カメラに)
 	nowCamera = camera.get();
 	Object3d::SetCamera(nowCamera);
 	phaseFlag = phase->GetPhase();
@@ -451,13 +449,14 @@ void GamePlayScene::Failed()
 
 	//自機がステージから落ちたら小さくする
 	if (playerPos.y <= -10.0f) {
-		aliveFlag = false;
+		landingFlag = true;
 	}
 	if (!aliveFlag) {
-		player->ScaleSmall();
+		player->StopUpdate();
 	}
 	//プレイヤーのHPが0になったらポストエフェクト
-	if (!aliveFlag || playerPos.y <= -10.0f) {
+	if (!aliveFlag || landingFlag) {
+		player->ScaleSmall();
 		//中心に向かってポストエフェクトで暗くする
 		endEfRadius = postEffect->GetRadius();
 		endEfRadius -= 10.5f;

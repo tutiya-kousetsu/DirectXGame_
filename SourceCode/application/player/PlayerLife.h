@@ -7,11 +7,7 @@ class PlayerLife
 {
 public:
 	void Initialize();
-	void MoveUpdate(int life);
 	void Draw(int life);
-
-	inline bool GetDis() const { return disFlag; }
-	inline void SetDis(bool disFlag) { this->disFlag = disFlag; }
 
 private:
 
@@ -22,5 +18,4 @@ private:
 	bool disFlag = false;
 
 	int life = 0;
-	int frame = 0.0f;
 };

@@ -56,12 +56,6 @@ public:
 	/// </summary>
 	void Update() override;
 
-	//ゲームクリア
-	void Clear();
-
-	//ゲームオーバー
-	void Failed();
-
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -100,9 +94,9 @@ public:
 
 public:
 	enum class GamePhase {
-		Air,
+		Air,//スタート時空中にいるとき
 		Landing,//着地した時
-		GameStart,
+		GameStart,//着地して岩が上がりきった時
 	};
 	//スタート時空中にいるとき
 	void Air();
@@ -110,6 +104,10 @@ public:
 	void Landing();
 	//着地して岩が上がりきった時
 	void GameStart();
+	//ゲームクリア
+	void Clear();
+	//ゲームオーバー
+	void Failed();
 private:
 	//メンバ関数ポインタ
 	static void (GamePlayScene::* gProgress[])();
@@ -197,6 +195,7 @@ private:
 	XMFLOAT3 playerPos;
 	//自機のスケール
 	XMFLOAT3 playerScale;
+	float fixedScale = 0.9f;
 	//ローテーション
 	XMFLOAT3 doorRot;
 	XMFLOAT3 playerRot;

@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyBullet.h"
+#include "BaseEnemy.h"
 #include "Object3d.h"
 #include "GameObject.h"
 #include "Audio.h"
@@ -9,10 +10,10 @@
 class Player;
 class ParticleManager;
 
-class FrontEnemy : public GameObject
+class FrontEnemy : public BaseEnemy
 {
 public:
-	using GameObject::GameObject;
+	using BaseEnemy::BaseEnemy;
 
 public:
 	FrontEnemy();
@@ -26,22 +27,18 @@ public:
 	bool Initialize(XMFLOAT3 position);
 
 	//更新
-	void Update();
+	void Update() override;
 
 	//タイトルで使う何もしてこない敵用
 	void TitleUpdate();
 
 	//登場
 	void appearance();
-	//弾の処理
-	void FrontShoot();
 
-	void Shoot();
-
-	void OnCollision();
+	//void OnCollision();
 
 	//描画
-	void Draw();
+	//void Draw() override;
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
@@ -50,11 +47,7 @@ public:
 
 	static const int kShootInterval = 100;
 	//弾リスト取得
-	const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
-
-
-	void AccessPhase();
-	void SetPlayer(Player* player) { this->player = player; }
+	//const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
 
 private:
 	Player* player = nullptr;
@@ -67,6 +60,7 @@ private:
 	int enemyPopFlag = 0;
 	bool bulFlag = true;
 	int life = 2;
+	XMVECTOR worldPos{};
 	float move = 0.2f;
 	float moveY = 0.2f;
 	float moveZ = 0.05f;

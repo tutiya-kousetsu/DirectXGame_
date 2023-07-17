@@ -1,16 +1,37 @@
 #pragma once
-
 #include "Object3d.h"
 #include "Fbx_Object3d.h"
 #include "Model.h"
+#include "EnemyBullet.h"
+#include "Audio.h"
 #include <DirectXMath.h>
 #include <memory>
 
-class GameObject
+class Player;
+class ParticleManager;
+
+class BaseEnemy
 {
 protected:
 	std::unique_ptr<Object3d> object;
+	std::list<std::unique_ptr<EnemyBullet>> bullets;
+	ParticleManager* particleMan = nullptr;
+	Player* player = nullptr;
+	Audio* audio = nullptr;
 	bool alive = true;
+	DirectX::XMFLOAT3 position;
+	XMVECTOR velocity;
+	int32_t shootTimer = 0;
+	int enemyTimer = 0;
+	int enemyPopFlag = 0;
+	bool bulFlag = true;
+	int life = 2;
+	float move = 0.2f;
+	float moveY = 0.2f;
+	float moveZ = 0.05f;
+	float moveX = 0.05f;
+	int kShootInterval = 100;
+	bool appFlag = true;
 
 public:
 
@@ -30,10 +51,22 @@ public:
 	inline void SetMatRotation(const DirectX::XMMATRIX& matRot) { object->SetMatRotation(matRot); }
 	inline const DirectX::XMMATRIX& GetMatWorld() const { return object->GetMatWorld(); }
 
-	GameObject(Model* model,const DirectX::XMFLOAT3& position = { 0,0,0 });
+	//弾リスト取得
+	const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
+
+	BaseEnemy(Model* model, const DirectX::XMFLOAT3& position = { 0,0,0 });
 
 	virtual void Update();
 
-	virtual void Draw();
-};
+	virtual void Shoot(XMFLOAT3 position);
 
+	virtual void OnCollision();
+
+	virtual void Draw();
+
+	virtual void SetPlayer(Player* player) { this->player = player; }
+	virtual void AccessPhase();
+
+	//ワールド座標を取得
+	virtual XMVECTOR GetWorldPosition();
+};

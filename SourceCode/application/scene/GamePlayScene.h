@@ -28,6 +28,7 @@
 #include "Shake.h"
 #include "Arrow.h"
 #include "Audio.h"
+#include "BaseEnemy.h"
 #include <memory>
 #include <list>
 #include <sstream>
@@ -250,6 +251,7 @@ private:
 	//Œã‚ë‚Ì“G
 	int bEneCount = 0;
 	int bWaitPhase = 0;
+
 	// ƒJƒƒ‰ŠÖŒW
 	bool dirty = false;
 	float angleX = 0;

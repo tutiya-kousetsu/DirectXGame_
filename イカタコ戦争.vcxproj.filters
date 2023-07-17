@@ -198,6 +198,9 @@
     <ClCompile Include="SourceCode\engine\shake\Shake.cpp">
       <Filter>engine\shake</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\application\enemy\BaseEnemy.cpp">
+      <Filter>application\enemy\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\imgui\imconfig.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\engine\shake\Shake.h">
       <Filter>engine\shake</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\application\enemy\BaseEnemy.h">
+      <Filter>application\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

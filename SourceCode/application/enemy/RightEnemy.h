@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyBullet.h"
+#include "BaseEnemy.h"
 #include "Audio.h"
 #include <memory>
 #include <list>
@@ -7,10 +8,10 @@
 class Player;
 class ParticleManager;
 
-class RightEnemy :public GameObject
+class RightEnemy :public BaseEnemy
 {
 public:
-	using GameObject::GameObject;
+	using BaseEnemy::BaseEnemy;
 
 public:
 	RightEnemy();
@@ -29,12 +30,9 @@ public:
 	//登場
 	void appearance();
 
-	void RightShoot();
-
-	void Shoot();
-	void OnCollision();
+	//void OnCollision();
 	//描画
-	void Draw();
+	//void Draw() override;
 
 	//ワールド座標を取得
 	XMVECTOR GetWorldPosition();
@@ -42,13 +40,6 @@ public:
 public:
 
 	static const int kShootInterval = 100;
-	//弾リスト取得
-	const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
-
-	void AccessPhase();
-
-	void SetPlayer(Player* player) { this->player = player; }
-
 private:
 	Player* player = nullptr;
 	DirectX::XMFLOAT3 position;

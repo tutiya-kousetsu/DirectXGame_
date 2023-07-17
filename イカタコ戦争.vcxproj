@@ -182,6 +182,7 @@
     <ClCompile Include="SourceCode\application\arrow\Arrow.cpp" />
     <ClCompile Include="SourceCode\application\door\Door.cpp" />
     <ClCompile Include="SourceCode\application\enemy\BackEnemy.cpp" />
+    <ClCompile Include="SourceCode\application\enemy\BaseEnemy.cpp" />
     <ClCompile Include="SourceCode\application\enemy\EnemyBullet.cpp" />
     <ClCompile Include="SourceCode\application\enemy\FrontEnemy.cpp" />
     <ClCompile Include="SourceCode\application\enemy\LeftEnemy.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="SourceCode\application\arrow\Arrow.h" />
     <ClInclude Include="SourceCode\application\door\Door.h" />
     <ClInclude Include="SourceCode\application\enemy\BackEnemy.h" />
+    <ClInclude Include="SourceCode\application\enemy\BaseEnemy.h" />
     <ClInclude Include="SourceCode\application\enemy\EnemyBullet.h" />
     <ClInclude Include="SourceCode\application\enemy\FrontEnemy.h" />
     <ClInclude Include="SourceCode\application\enemy\LeftEnemy.h" />

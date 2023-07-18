@@ -7,9 +7,6 @@
 #include <memory>
 #include <list>
 
-class Player;
-class ParticleManager;
-
 class FrontEnemy : public BaseEnemy
 {
 public:
@@ -35,7 +32,7 @@ public:
 	//ìoèÍ
 	void appearance();
 
-	//void OnCollision();
+	void OnCollision();
 
 	//ï`âÊ
 	//void Draw() override;
@@ -46,25 +43,10 @@ public:
 public:
 
 	static const int kShootInterval = 100;
-	//íeÉäÉXÉgéÊìæ
-	//const std::list < std::unique_ptr<EnemyBullet>>& GetBullet() { return bullets; }
-
 private:
-	Player* player = nullptr;
-	DirectX::XMFLOAT3 position;
+	XMFLOAT3 position;
 	XMVECTOR velocity;
-	float resurrectionTimer = 0;
-	int aliveCount = 0;
 	int32_t shootTimer = 0;
-	int enemyTimer = 0;
-	int enemyPopFlag = 0;
-	bool bulFlag = true;
 	int life = 2;
 	XMVECTOR worldPos{};
-	float move = 0.2f;
-	float moveY = 0.2f;
-	float moveZ = 0.05f;
-	ParticleManager* particleMan = nullptr;
-	std::list<std::unique_ptr<EnemyBullet>> bullets;
-	Audio* audio = nullptr;
 };

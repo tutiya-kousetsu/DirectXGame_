@@ -25,12 +25,10 @@ protected:
 	int enemyTimer = 0;
 	int enemyPopFlag = 0;
 	bool bulFlag = true;
-	int life = 2;
 	float move = 0.2f;
 	float moveY = 0.2f;
 	float moveZ = 0.05f;
 	float moveX = 0.05f;
-	int kShootInterval = 100;
 	bool appFlag = true;
 
 public:
@@ -58,14 +56,14 @@ public:
 
 	virtual void Update();
 
-	virtual void Shoot(XMFLOAT3 position);
+	virtual void Shoot(XMFLOAT3 positio, int32_t kShootInterval);
 
-	virtual void OnCollision();
+	virtual void CreateParticle();
 
 	virtual void Draw();
 
 	virtual void SetPlayer(Player* player) { this->player = player; }
-	virtual void AccessPhase();
+	virtual void AccessPhase(int32_t kShootInterval);
 
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	virtual XMVECTOR GetWorldPosition();

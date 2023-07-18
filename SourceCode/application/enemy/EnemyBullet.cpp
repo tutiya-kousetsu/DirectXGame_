@@ -11,6 +11,7 @@ EnemyBullet::EnemyBullet() :EnemyBullet(Model::CreateFromOBJ("sphere"))
 
 EnemyBullet::~EnemyBullet()
 {
+	object.reset();
 }
 
 void EnemyBullet::Initialize(XMFLOAT3 pos, const XMVECTOR& vel)
@@ -24,7 +25,7 @@ void EnemyBullet::Update()
 {
 	if (disappearTime < ++frameNum) {
 		alive = false;
-	}
+	}	
 
 	if (alive) {
 		position.x += velocity.m128_f32[0];

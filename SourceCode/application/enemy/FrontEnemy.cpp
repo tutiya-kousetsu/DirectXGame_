@@ -3,15 +3,11 @@
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
 #include "SphereCollider.h"
-#include "Player.h"
-#include "ParticleManager.h"
 
 FrontEnemy::FrontEnemy() :FrontEnemy(Model::CreateFromOBJ("squid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0, 180, 0 });
-	audio = Audio::GetInstance();
-	audio->SoundLoadWave("enHit.wav");
 }
 
 FrontEnemy::~FrontEnemy()
@@ -21,23 +17,18 @@ FrontEnemy::~FrontEnemy()
 bool FrontEnemy::Initialize(XMFLOAT3 position)
 {
 	this->position = position;
-	
+	AccessPhase(kShootInterval);
 	return true;
 }
 
 void FrontEnemy::Update()
 {
-	//弾のフラグがfalseになったら削除する
-	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
-		return !bullet->GetAlive();
-	});
-	if (alive ) {
+	if (alive) {
 		appearance();
 		if (!appFlag) {
-			Shoot(position);
+			Shoot(position, kShootInterval);
 		}
 		object->SetPosition(position);
-
 	}
 	object->Update();
 }
@@ -57,6 +48,15 @@ void FrontEnemy::appearance()
 			moveZ = 0;
 			appFlag = false;
 		}
+}
+
+void FrontEnemy::OnCollision()
+{
+	CreateParticle();
+	life--;
+	if (life <= 0) {
+		alive = false;
+	}
 }
 
 XMVECTOR FrontEnemy::GetWorldPosition()

@@ -4,7 +4,7 @@
 
 using namespace DirectX;
 
-void BaseEnemy::AccessPhase()
+void BaseEnemy::AccessPhase(int32_t kShootInterval)
 {
 	shootTimer = kShootInterval;
 }
@@ -13,18 +13,18 @@ BaseEnemy::BaseEnemy(Model* model, const DirectX::XMFLOAT3& position) :object(st
 {
 	object->SetModel(model);
 	object->SetPosition(position);
-	AccessPhase();
+	//AccessPhase(kShootInterval);
 	particleMan = ParticleManager::GetInstance();
+	audio = Audio::GetInstance();
+	audio->SoundLoadWave("enHit.wav");
 }
 
 void BaseEnemy::Update()
 {
-	//Shot();
-	
 	object->Update();
 }
 
-void BaseEnemy::Shoot(XMFLOAT3 position)
+void BaseEnemy::Shoot(XMFLOAT3 position, int32_t kShootInterval)
 {
 	shootTimer--;
 	if (shootTimer < 0) {
@@ -62,7 +62,7 @@ void BaseEnemy::Shoot(XMFLOAT3 position)
 	}
 }
 
-void BaseEnemy::OnCollision()
+void BaseEnemy::CreateParticle()
 {
 	audio = Audio::GetInstance();
 	audio->SoundPlayWave("enHit.wav", false);
@@ -83,11 +83,6 @@ void BaseEnemy::OnCollision()
 		//’Ç‰Á
 		particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
 		//}
-	}
-
-	life--;
-	if (life == 0) {
-		alive = false;
 	}
 }
 

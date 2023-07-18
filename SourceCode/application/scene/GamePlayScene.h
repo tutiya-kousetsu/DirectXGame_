@@ -167,6 +167,7 @@ private:
 	std::list < std::unique_ptr<LeftEnemy>> leftEnemy;
 	std::list < std::unique_ptr<RightEnemy>> rightEnemy;
 	std::list < std::unique_ptr<BackEnemy>> backEnemy;
+	std::list < std::unique_ptr<BaseEnemy>> baseEnemy;
 
 	std::stringstream enemyPopCom;
 	//°

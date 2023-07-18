@@ -1,15 +1,11 @@
 #include "LeftEnemy.h"
-#include "Player.h"
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
-#include "ParticleManager.h"
 
 LeftEnemy::LeftEnemy() :LeftEnemy(Model::CreateFromOBJ("greenSquid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
-	audio = Audio::GetInstance();
-	audio->SoundLoadWave("enHit.wav");
 }
 
 LeftEnemy::~LeftEnemy()
@@ -21,7 +17,7 @@ bool LeftEnemy::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	this->position = position;
 	this->rotation = rotation;
 	SetRotation(rotation);
-	AccessPhase();
+	AccessPhase(kShootInterval);
 	return true;
 }
 
@@ -34,12 +30,21 @@ void LeftEnemy::Update()
 	if (alive) {
 		appearance();
 		if (!appFlag) {
-			Shoot(position);
+			Shoot(position, kShootInterval);
 		}
 		object->SetPosition(position);
 	}
 
 	object->Update();
+}
+
+void LeftEnemy::OnCollision()
+{
+	CreateParticle();
+	life--;
+	if (life <= 0) {
+		alive = false;
+	}
 }
 
 void LeftEnemy::appearance()

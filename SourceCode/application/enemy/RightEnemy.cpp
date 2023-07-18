@@ -1,16 +1,12 @@
 #include "RightEnemy.h"
-#include "Player.h"
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
-#include "ParticleManager.h"
 
 RightEnemy::RightEnemy() :RightEnemy(Model::CreateFromOBJ("purpleSquid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0,270,0 });
-	audio = Audio::GetInstance();
-	audio->SoundLoadWave("enHit.wav");
 }
 
 RightEnemy::~RightEnemy()
@@ -20,7 +16,7 @@ RightEnemy::~RightEnemy()
 bool RightEnemy::Initialize(XMFLOAT3 position)
 {
 	this->position = position;
-	AccessPhase();
+	AccessPhase(kShootInterval);
 	return true;
 }
 
@@ -34,7 +30,7 @@ void RightEnemy::Update()
 		appearance();
 
 		if (!appFlag) {
-			Shoot(position);
+			Shoot(position, kShootInterval);
 
 		}
 		object->SetPosition(position);
@@ -43,12 +39,23 @@ void RightEnemy::Update()
 	object->Update();
 }
 
+
+
 void RightEnemy::appearance()
 {
 	position.x -= moveX;
 	if (position.x <= 50) {
 		moveX = 0;
 		appFlag = false;
+	}
+}
+
+void RightEnemy::OnCollision()
+{
+	CreateParticle();
+	life--;
+	if (life <= 0) {
+		alive = false;
 	}
 }
 

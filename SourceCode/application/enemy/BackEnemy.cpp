@@ -1,9 +1,7 @@
 #include "BackEnemy.h"
-#include "Player.h"
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
-#include "ParticleManager.h"
 
 BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("yellowSquid"))
 {
@@ -11,8 +9,6 @@ BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("yellowSquid"))
 	object->SetRotation({ 0,0,0 });
 	sanderObj = Object3d::Create();
 	sanderObj->SetModel(Model::CreateFromOBJ("sander"));
-	audio = Audio::GetInstance();
-	audio->SoundLoadWave("enHit.wav");
 }
 
 BackEnemy::~BackEnemy()
@@ -23,7 +19,7 @@ bool BackEnemy::Initialize(XMFLOAT3 position)
 {
 	this->position = position;
 	sanderObj->SetPosition(position);
-	AccessPhase();
+	AccessPhase(kShootInterval);
 	return true;
 }
 
@@ -37,7 +33,7 @@ void BackEnemy::Update()
 		appearance();
 
 		if (!appFlag) {
-			Shoot(position);
+			Shoot(position, kShootInterval);
 
 		}
 		object->SetPosition(position);
@@ -61,11 +57,16 @@ void BackEnemy::Draw()
 {
 	//ƒtƒ‰ƒO1‚Å“G•\Ž¦
 	if (alive) {
-		object->Draw();
 		sanderObj->Draw();
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
-			bullet->Draw();
-		}
+	}
+}
+
+void BackEnemy::OnCollision()
+{
+	CreateParticle();
+	life--;
+	if (life <= 0) {
+		alive = false;
 	}
 }
 

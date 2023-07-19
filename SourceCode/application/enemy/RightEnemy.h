@@ -28,8 +28,6 @@ public:
 	void appearance();
 
 	void OnCollision();
-	//•`‰æ
-	//void Draw() override;
 
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	XMVECTOR GetWorldPosition();

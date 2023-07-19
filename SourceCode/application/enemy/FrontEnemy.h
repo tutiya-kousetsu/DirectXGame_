@@ -34,19 +34,14 @@ public:
 
 	void OnCollision();
 
-	//•`‰æ
-	//void Draw() override;
-
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	XMVECTOR GetWorldPosition();
 
 public:
-
 	static const int kShootInterval = 100;
 private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
-	int32_t shootTimer = 0;
 	int life = 2;
 	XMVECTOR worldPos{};
 };

@@ -43,11 +43,11 @@ void FrontEnemy::TitleUpdate()
 
 void FrontEnemy::appearance()
 {
-		position.z -= moveZ;
-		if (position.z <= 50) {
-			moveZ = 0;
-			appFlag = false;
-		}
+	position.z -= moveZ;
+	if (position.z <= 50) {
+		moveZ = 0;
+		appFlag = false;
+	}
 }
 
 void FrontEnemy::OnCollision()

@@ -7,8 +7,6 @@ BackEnemy::BackEnemy() :BackEnemy(Model::CreateFromOBJ("yellowSquid"))
 {
 	object->SetScale({ 1.3f, 1.3f, 1.3f });
 	object->SetRotation({ 0,0,0 });
-	sanderObj = Object3d::Create();
-	sanderObj->SetModel(Model::CreateFromOBJ("sander"));
 }
 
 BackEnemy::~BackEnemy()
@@ -25,10 +23,6 @@ bool BackEnemy::Initialize(XMFLOAT3 position)
 
 void BackEnemy::Update()
 {
-	//弾のフラグがfalseになったら削除する
-	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
-		return !bullet->GetAlive();
-		});
 	if (alive) {
 		appearance();
 
@@ -41,7 +35,6 @@ void BackEnemy::Update()
 	}
 
 	object->Update();
-	sanderObj->Update();
 }
 
 void BackEnemy::appearance()
@@ -50,14 +43,6 @@ void BackEnemy::appearance()
 	if (position.z >= -50) {
 		moveZ = 0;
 		appFlag = false;
-	}
-}
-
-void BackEnemy::Draw()
-{
-	//フラグ1で敵表示
-	if (alive) {
-		sanderObj->Draw();
 	}
 }
 

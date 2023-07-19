@@ -13,7 +13,6 @@ BaseEnemy::BaseEnemy(Model* model, const DirectX::XMFLOAT3& position) :object(st
 {
 	object->SetModel(model);
 	object->SetPosition(position);
-	//AccessPhase(kShootInterval);
 	particleMan = ParticleManager::GetInstance();
 	audio = Audio::GetInstance();
 	audio->SoundLoadWave("enHit.wav");
@@ -60,6 +59,11 @@ void BaseEnemy::Shoot(XMFLOAT3 position, int32_t kShootInterval)
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Update();
 	}
+	//弾のフラグがfalseになったら削除する
+	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+		return !bullet->GetAlive();
+		});
+
 }
 
 void BaseEnemy::CreateParticle()
@@ -68,11 +72,11 @@ void BaseEnemy::CreateParticle()
 	audio->SoundPlayWave("enHit.wav", false);
 	for (int j = 0; j < 100; j++) {
 		//for (int i = 0; i < 11; i++) {
-		DirectX::XMFLOAT3 pos = object->GetPosition();
+		XMFLOAT3 pos = object->GetPosition();
 
 		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
 		const float md_vel = 0.20f;
-		DirectX::XMFLOAT3 vel{};
+		XMFLOAT3 vel{};
 		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;

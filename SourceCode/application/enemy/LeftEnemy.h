@@ -29,14 +29,12 @@ public:
 	void appearance();
 
 	void OnCollision();
-	//•`‰æ
-	//void Draw() override;
 
 	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	XMVECTOR GetWorldPosition();
 
 public:
-	static const int kShootInterval = 50;
+	static const int kShootInterval = 70;
 private:
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;

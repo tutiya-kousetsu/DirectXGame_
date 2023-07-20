@@ -112,7 +112,7 @@ void Obstacle::OnCollision(bool flag)
 		color.w = 0.45f;
 		object->SetColor({ 1.0f, 1.0f, 1.0f, color.w });
 	}
-	if (!flag) {
+	else {
 		object->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 	}

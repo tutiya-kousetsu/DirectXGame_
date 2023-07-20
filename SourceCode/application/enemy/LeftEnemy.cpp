@@ -17,6 +17,7 @@ bool LeftEnemy::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	this->position = position;
 	this->rotation = rotation;
 	SetRotation(rotation);
+	//’e‚Ì”­ËŠÔŠu
 	AccessPhase(kShootInterval);
 	return true;
 }
@@ -24,7 +25,9 @@ bool LeftEnemy::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 void LeftEnemy::Update()
 {
 	if (alive) {
+		//“G‚Ì“oêŠÖ”
 		appearance();
+		//“G‚Ì“oê‚ªI‚í‚Á‚½‚ç’e‚ğ”­Ë‚·‚é
 		if (!appFlag) {
 			Shoot(position, kShootInterval);
 		}

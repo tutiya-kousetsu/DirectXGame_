@@ -17,14 +17,18 @@ FrontEnemy::~FrontEnemy()
 bool FrontEnemy::Initialize(XMFLOAT3 position)
 {
 	this->position = position;
+	//弾の発射間隔
 	AccessPhase(kShootInterval);
 	return true;
 }
 
 void FrontEnemy::Update()
 {
+	color = object->GetColor();
 	if (alive) {
+		//敵の登場関数
 		appearance();
+		//敵の登場が終わったら弾を発射する
 		if (!appFlag) {
 			Shoot(position, kShootInterval);
 		}

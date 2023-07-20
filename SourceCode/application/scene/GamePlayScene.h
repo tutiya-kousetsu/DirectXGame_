@@ -228,7 +228,7 @@ private:
 
 	//ゲームオーバーとクリアの時
 	bool endFlag = false;//ゲームが終わったか
-	bool clearFlag = false;
+	bool clearFlag = true;
 	bool clearTFlag = false;
 	bool upFlag = false;
 	bool stringFlag = false;//クリアしたときの文字のフラグ

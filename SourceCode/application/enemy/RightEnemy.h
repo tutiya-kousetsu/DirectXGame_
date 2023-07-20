@@ -38,6 +38,7 @@ public:
 private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
+	XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	int life = 2;
 };
 

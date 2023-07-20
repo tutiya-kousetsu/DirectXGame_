@@ -34,5 +34,6 @@ public:
 private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
+	XMFLOAT4 color;
 };
 

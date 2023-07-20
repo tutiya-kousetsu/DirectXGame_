@@ -39,6 +39,7 @@ private:
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	XMVECTOR velocity;
+	XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	int life = 3;
 };
 

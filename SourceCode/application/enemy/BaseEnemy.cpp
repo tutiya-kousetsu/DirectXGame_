@@ -6,6 +6,7 @@ using namespace DirectX;
 
 void BaseEnemy::AccessPhase(int32_t kShootInterval)
 {
+	//弾の発射間隔
 	shootTimer = kShootInterval;
 }
 
@@ -52,7 +53,6 @@ void BaseEnemy::Shoot(XMFLOAT3 position, int32_t kShootInterval)
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		//初期化
 		newBullet->Initialize(position, velocity);
-
 		bullets.push_back(std::move(newBullet));
 		shootTimer = kShootInterval;
 	}
@@ -63,15 +63,15 @@ void BaseEnemy::Shoot(XMFLOAT3 position, int32_t kShootInterval)
 	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
 		return !bullet->GetAlive();
 		});
-
+	
 }
 
 void BaseEnemy::CreateParticle()
 {
 	audio = Audio::GetInstance();
+	//音を鳴らす
 	audio->SoundPlayWave("enHit.wav", false);
 	for (int j = 0; j < 100; j++) {
-		//for (int i = 0; i < 11; i++) {
 		XMFLOAT3 pos = object->GetPosition();
 
 		//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
@@ -81,12 +81,11 @@ void BaseEnemy::CreateParticle()
 		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 		//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-		DirectX::XMFLOAT3 acc{};
+		XMFLOAT3 acc{};
 		const float rnd_acc = 0.005f;
 		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 		//追加
 		particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-		//}
 	}
 }
 

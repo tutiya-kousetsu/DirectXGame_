@@ -36,7 +36,7 @@ public:
 private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
+	XMFLOAT4 color = { 1, 1, 0, 1 };
 	int life = 2;
-	std::unique_ptr<Object3d> sanderObj;
 };
 

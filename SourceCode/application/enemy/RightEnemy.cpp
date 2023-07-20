@@ -16,6 +16,7 @@ RightEnemy::~RightEnemy()
 bool RightEnemy::Initialize(XMFLOAT3 position)
 {
 	this->position = position;
+	//’e‚Ì”­ËŠÔŠu
 	AccessPhase(kShootInterval);
 	return true;
 }
@@ -23,8 +24,9 @@ bool RightEnemy::Initialize(XMFLOAT3 position)
 void RightEnemy::Update()
 {
 	if (alive) {
+		//“G‚Ì“oêŠÖ”
 		appearance();
-
+		//“G‚Ì“oê‚ªI‚í‚Á‚½‚ç’e‚ğ”­Ë‚·‚é
 		if (!appFlag) {
 			Shoot(position, kShootInterval);
 

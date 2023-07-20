@@ -38,11 +38,11 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 
 	Sprite::LoadTexture(19, L"Resources/clear/upFrame.png");
 	upClear.reset(Sprite::Create(19, { 640,-56.5f }));
-	Sprite::LoadTexture(28, L"Resources/clear/string.png");
-	clear.reset(Sprite::Create(28, { 640,360 }));
+	Sprite::LoadTexture(29, L"Resources/clear/string.png");
+	clear.reset(Sprite::Create(29, { 640,360 }));
 	clear->SetSize({ 3280, 2493 });
-	Sprite::LoadTexture(29, L"Resources/clear/downFrame.png");
-	downClear.reset(Sprite::Create(29, { 640,776.5f }));
+	Sprite::LoadTexture(30, L"Resources/clear/downFrame.png");
+	downClear.reset(Sprite::Create(30, { 640,776.5f }));
 
 	//phase
 	phase.reset(new Phase());
@@ -148,9 +148,11 @@ void GamePlayScene::Finalize()
 void GamePlayScene::Update()
 {
 	Audio* audio = Audio::GetInstance();
+	//ゲームプレイが始まったら音を消す
 	audio->SoundStop("water.wav");
 	playerPos = player->GetPosition();
 	
+	//メンバ関数のポインタに入ってる関数を呼び出す
 	(this->*gProgress[static_cast<size_t>(gamePhase)])();
 	//障害物のマップチップ読み込み用
 	UpdataObstaclePopCommand();
@@ -187,6 +189,7 @@ void GamePlayScene::Update()
 		}
 		UpdataEnemyPopCommand();
 
+		//敵の更新処理
 		for (auto& front : frontEnemy) {
 			front->Update();
 		}
@@ -234,6 +237,12 @@ void GamePlayScene::Update()
 
 }
 
+void (GamePlayScene::* GamePlayScene::gProgress[])() = {
+	&GamePlayScene::Air,
+	&GamePlayScene::Landing,
+	&GamePlayScene::GameStart
+};
+
 //スタート時空中にいるときの関数
 void GamePlayScene::Air()
 {
@@ -246,6 +255,7 @@ void GamePlayScene::Air()
 
 	if (inFrame < 1.0f) {
 		inFrame += 0.01f;
+		//プレイヤーを大きくする関数
 		player->ScaleLarge();
 	}
 	playerPos.y = Ease(InOut, Cubic, inFrame, 30.f, -1.83f);
@@ -262,16 +272,19 @@ void GamePlayScene::Air()
 //着地した時の関数
 void GamePlayScene::Landing()
 {
+	//着地してからタイマーを進める
 	landTime++;
+	//時間が10～210の間だけ岩が動いてるときの音を流す
 	if (landTime >= 10 && landTime <= 210) {
-		// サウンド再生
 		audio->SoundPlayWave("stone.wav", false);
 	}
+	//時間が210になったら音を止める
 	if (landTime == 210) {
 		// サウンド停止
 		audio->SoundStop("stone.wav");
 		audio->SoundPlayWave("gamePlay.wav", true);
 	}
+	//
 	if (landTime <= 230) {
 		for (auto& ob : obstacles) {
 			ob->UpMove(landFlag);
@@ -364,12 +377,6 @@ void GamePlayScene::GameStart()
 		Object3d::SetCamera(nowCamera);
 	}
 }
-
-void (GamePlayScene::*GamePlayScene::gProgress[])() = {
-	&GamePlayScene::Air,
-	&GamePlayScene::Landing,
-	&GamePlayScene::GameStart
-};
 
 void GamePlayScene::Clear()
 {
@@ -1164,7 +1171,6 @@ void GamePlayScene::BackColl()
 #pragma endregion
 
 #pragma region 敵弾と障害物の当たり判定
-
 
 			if (eb->GetAlive()) {
 				eBullet.center = XMLoadFloat3(&eb->GetPosition());

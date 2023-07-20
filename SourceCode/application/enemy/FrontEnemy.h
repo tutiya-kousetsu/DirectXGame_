@@ -39,9 +39,11 @@ public:
 
 public:
 	static const int kShootInterval = 100;
+	XMFLOAT4 color = { 1.0f, 0, 0, 1 };
 private:
 	XMFLOAT3 position;
 	XMVECTOR velocity;
+	
 	int life = 2;
 	XMVECTOR worldPos{};
 };

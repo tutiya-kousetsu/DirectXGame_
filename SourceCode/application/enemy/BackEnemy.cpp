@@ -16,7 +16,7 @@ BackEnemy::~BackEnemy()
 bool BackEnemy::Initialize(XMFLOAT3 position)
 {
 	this->position = position;
-	sanderObj->SetPosition(position);
+	//’e‚Ì”­ŽËŠÔŠu
 	AccessPhase(kShootInterval);
 	return true;
 }
@@ -24,14 +24,14 @@ bool BackEnemy::Initialize(XMFLOAT3 position)
 void BackEnemy::Update()
 {
 	if (alive) {
+		//“G‚Ì“oêŠÖ”
 		appearance();
-
+		//“G‚Ì“oê‚ªI‚í‚Á‚½‚ç’e‚ð”­ŽË‚·‚é
 		if (!appFlag) {
 			Shoot(position, kShootInterval);
 
 		}
 		object->SetPosition(position);
-		sanderObj->SetPosition(position);
 	}
 
 	object->Update();

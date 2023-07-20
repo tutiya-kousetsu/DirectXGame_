@@ -19,7 +19,8 @@ protected:
 	Player* player = nullptr;
 	Audio* audio = nullptr;
 	bool alive = true;
-	DirectX::XMFLOAT3 position;
+	XMFLOAT3 position;
+	XMFLOAT4 color;
 	XMVECTOR velocity;
 	int32_t shootTimer = 0;
 	int enemyTimer = 0;

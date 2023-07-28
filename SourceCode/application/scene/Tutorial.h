@@ -37,6 +37,8 @@ public:
 	/// </summary>
 	void Update() override;
 
+	void PlayerRotate();
+
 	/// <summary>
 	/// •`‰æ
 	/// </summary>

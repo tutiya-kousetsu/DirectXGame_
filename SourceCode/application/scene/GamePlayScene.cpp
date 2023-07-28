@@ -284,13 +284,15 @@ void GamePlayScene::Landing()
 		audio->SoundStop("stone.wav");
 		audio->SoundPlayWave("gamePlay.wav", true);
 	}
-	//
+	//230より小さい間岩を押し上げる関数を呼ぶ
 	if (landTime <= 230) {
 		for (auto& ob : obstacles) {
 			ob->UpMove(landFlag);
 		}
 	}
+	//プレイヤーを動かせないようにするための関数
 	player->StopUpdate();
+	//次のゲームフェーズへ移行する
 	if (landTime >= 230) {
 		gamePhase = GamePhase::GameStart;
 	}
@@ -299,9 +301,6 @@ void GamePlayScene::Landing()
 //着地して岩が上がりきった時、フェーズ1から始める関数
 void GamePlayScene::GameStart()
 {
-	for (auto& ob : obstacles) {
-		ob->UpMove(!landFlag);
-	}
 	//カメラの切り替え(自機の追従カメラに)
 	nowCamera = camera.get();
 	Object3d::SetCamera(nowCamera);
@@ -337,7 +336,6 @@ void GamePlayScene::GameStart()
 	//フェーズフラグが立ったら
 	if (phaseCountFlag) {
 		downTime++;
-
 		//カメラの切り替え
 		nowCamera = debugCam.get();
 		Object3d::SetCamera(nowCamera);
@@ -397,7 +395,6 @@ void GamePlayScene::Clear()
 				upFrame += 0.01f;
 			}
 			upPos.y = Ease(In, Cubic, upFrame, upPos.y, 56.5f);
-
 			upClear->SetPosition(upPos);
 		}
 		//枠ができったらフラグを立てる
@@ -411,10 +408,9 @@ void GamePlayScene::Clear()
 				downFrame += 0.01f;
 			}
 			downPos.y = Ease(In, Cubic, downFrame, downPos.y, 663.5f);
-
 			downClear->SetPosition(downPos);
 		}
-		//フラグが立ったら文字の部分を小さくする
+		//フラグが立ったら文字の部分を元の大きさまで小さくする
 		if (stringFlag) {
 			clearSize = clear->GetSize();
 			if (clearSize.x >= 1380 && clearSize.y >= 593) {
@@ -427,7 +423,6 @@ void GamePlayScene::Clear()
 			}
 			clear->SetSize(clearSize);
 		}
-
 
 		//タイマーが120経ったらポストエフェクトで中心に向かって暗くする
 		if (clearTime >= 120) {
@@ -531,7 +526,6 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 			obstacle->Draw();
 		}
 		//フラグが立ったら半透明の岩を後に描画する
-
 		for (auto& obstacle : obstacles) {
 			if (rayFlag) {
 				obstacle->Draw();

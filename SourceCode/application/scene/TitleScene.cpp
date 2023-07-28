@@ -48,6 +48,10 @@ void TitleScene::Initialize(DirectXCommon* dxCommon)
 
 void TitleScene::Finalize()
 {
+	spaceSp.reset();
+	camera.reset();
+	floor.reset();
+	player.reset();
 }
 
 void TitleScene::Update()

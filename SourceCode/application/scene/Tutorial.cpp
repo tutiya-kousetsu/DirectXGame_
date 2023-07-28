@@ -81,23 +81,21 @@ void Tutorial::Update()
 {
 	audio = Audio::GetInstance();
 	audio->SoundPlayWave("water.wav", true);
-	if (!startFlag) {
-		//中心から明るくする
-		startEfRadius += 10.5f;
-		if (startEfRadius >= 1000) {
-			startFlag = true;
-			startEfRadius -= 10.5f;
-		}
-		
+	//中心から明るくする
+	startEfRadius += 10.5f;
+	if (startEfRadius >= 1000) {
+		startEfRadius -= 10.5f;
 	}
+
 	Input* input = Input::GetInstance();
 
 	// マウスを表示するかどうか(TRUEで表示、FALSEで非表示)
 	ShowCursor(FALSE);
 	// 座標の変更を反映
 	SetCursorPos(960, 540);
-	if (!rotateFlag) {
 
+	//ワープゾーンに触る前の処理
+	if (!rotateFlag) {
 		//カメラを3Dオブジェットにセット
 		nowCamera = camera.get();
 		//カメラを3Dオブジェットにセット
@@ -107,39 +105,10 @@ void Tutorial::Update()
 		player->Mouse();
 		player->TutorialUpdate();
 	}
-	if (rotateFlag) {
-		rotateTime--;
-		//追従カメラから普通のカメラに変更
-		nowCamera = debugCam.get();
-		Object3d::SetCamera(nowCamera);
-		nowCamera->SetEye({ player->GetPosition().x, 2.0f, 0 });
-		nowCamera->SetTarget(player->GetPosition());
-		//回転させる
-		playerRot = player->GetRotation();
-		playerRot.y += 3.0f;
-		player->SetRotation(playerRot);
-		if (rotateTime <= 0) {
-			//タイムが0になったら自機を上にあげる
-			playerPos = player->GetPosition();
-			if (easFrame < 1.0f) {
-				easFrame += 0.01f;
-				//自機の大きさを小さくさせる関数
-				player->ScaleSmall();
-			}
-
-			playerPos.y = Ease(In, Cubic, easFrame, playerPos.y, 40.0f);
-			playerScale = player->GetScale();
-			//プレイヤーのスケールが0になったらシーン移動
-			if (playerScale.x <= 0.f && playerScale.y <= 0.f &&playerScale.z <= 0.f) {
-				BaseScene* scene = new GamePlayScene();
-				this->sceneManager->SetNextScene(scene);
-			}
-			player->SetPosition(playerPos);
-		}
-		player->StopUpdate();
+	//敵を倒してワープゾーンに触れてからの処理
+	else{
+		PlayerRotate();
 	}
-
-
 	//プレイヤーがステージから落ちたらステージの真ん中に戻す
 	if (player->GetPosition().y <= -20) {
 		player->SetPosition({ 0,10,0 });
@@ -151,6 +120,7 @@ void Tutorial::Update()
 	enemy->TitleUpdate();
 
 	floor->Update();
+
 	if (zonePop) {
 		sceneMoveObj->Update();
 	}
@@ -161,6 +131,39 @@ void Tutorial::Update()
 	//当たり判定
 	CheckAllCollision();
 	particleMan->Update();
+}
+
+void Tutorial::PlayerRotate()
+{
+	rotateTime--;
+	//追従カメラから普通のカメラに変更
+	nowCamera = debugCam.get();
+	Object3d::SetCamera(nowCamera);
+	nowCamera->SetEye({ player->GetPosition().x, 2.0f, 0 });
+	nowCamera->SetTarget(player->GetPosition());
+	//回転させる
+	playerRot = player->GetRotation();
+	playerRot.y += 3.0f;
+	player->SetRotation(playerRot);
+	//タイムが0になったら自機を上にあげる
+	if (rotateTime <= 0) {
+		playerPos = player->GetPosition();
+		if (easFrame < 1.0f) {
+			easFrame += 0.01f;
+			//自機の大きさを小さくさせる関数
+			player->ScaleSmall();
+		}
+
+		playerPos.y = Ease(In, Cubic, easFrame, playerPos.y, 40.0f);
+		playerScale = player->GetScale();
+		//プレイヤーのスケールが0になったらシーン移動
+		if (playerScale.x <= 0.f && playerScale.y <= 0.f && playerScale.z <= 0.f) {
+			BaseScene* scene = new GamePlayScene();
+			this->sceneManager->SetNextScene(scene);
+		}
+		player->SetPosition(playerPos);
+	}
+	player->StopUpdate();
 }
 
 void Tutorial::Draw(DirectXCommon* dxCommon)
@@ -228,7 +231,7 @@ void Tutorial::Draw(DirectXCommon* dxCommon)
 	if (!rotateFlag) {
 		alignment->Draw();
 	}
-	
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -258,6 +261,7 @@ void Tutorial::CheckAllCollision()
 					if (Collision::CheckSphere2Sphere(pBullet, fEnemyShape)) {
 						pb->OnCollision();
 						enemy->OnCollision();
+						//敵のフラグがfalseになったらワープゾーンの出現フラグが立つ
 						if (!enemy->GetAlive()) {
 							zonePop = true;
 						}
@@ -274,13 +278,14 @@ void Tutorial::CheckAllCollision()
 		if (player->GetAlive()) {
 			pShape.center = XMLoadFloat3(&player->GetPosition());
 			pShape.radius = player->GetScale().x;
-			
+
 			Sphere zoneShape;
 			if (sceneMoveObj) {
 				zoneShape.center = XMLoadFloat3(&sceneMoveObj->GetPosition());
 				zoneShape.radius = sceneMoveObj->GetScale().x - 2.0f;
 				zoneShape.radius = sceneMoveObj->GetScale().y - 2.5f;
 				if (Collision::CheckSphere2Sphere(pShape, zoneShape)) {
+					//ワープゾーンと自機が当たったら自機の回転フラグをたてる
 					rotateFlag = true;
 				}
 			}

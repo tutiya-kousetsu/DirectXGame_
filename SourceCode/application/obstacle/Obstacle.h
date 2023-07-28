@@ -27,7 +27,7 @@ public:
 	void Draw();
 
 	//ä‚ÇÃâüÇµè„Ç∞
-	void UpMove(bool landF = false);
+	void UpMove(bool flag = false);
 
 	void DownMove(bool flag = false);
 

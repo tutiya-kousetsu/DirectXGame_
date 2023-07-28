@@ -39,6 +39,7 @@ bool Player::Initialize()
 
 	Object3d::SetRotation({ 0,0,0 });
 	Object3d::SetScale({ 0.9f,0.9f,0.9f });
+	//痺れた時のオブジェクト生成
 	numb = Object3d::Create();
 	numb->SetModel(Model::CreateFromOBJ("sander"));
 	numb->SetPosition({ Object3d::GetPosition().x,Object3d::GetPosition().y,Object3d::GetPosition().z });
@@ -63,8 +64,6 @@ void Player::AudioLoad()
 	audio->SoundLoadWave("jump.wav");
 	//敵の弾が自機に当たった時のSE
 	audio->SoundLoadWave("plHit.wav");
-
-
 }
 
 void Player::Update()
@@ -141,7 +140,7 @@ void Player::Mouse()
 		fTargetEye.y = eye.y - target2.y;
 		fTargetEye.z = eye.z - target2.z;
 
-		//プレイヤーの回転
+		//マウスの回転に合わせてプレイヤーも回転させる
 		XMFLOAT3 playerRot = Object3d::GetRotation();
 		playerRot.y = atan2f(-fTargetEye.x, -fTargetEye.z);
 		playerRot.y *= 180 / XM_PI;
@@ -155,7 +154,6 @@ void Player::Mouse()
 		}
 	}
 }
-
 
 //移動
 void Player::move(float speed)
@@ -202,6 +200,7 @@ void Player::move(float speed)
 		position.z -= horizontalVec.m128_f32[2];
 		moveFlag = true;
 	}
+	//動いたらフェーズを1にしてジャンプ出来るようにする
 	if (moveFlag) {
 		operatePhase = 1;
 	}
@@ -239,6 +238,7 @@ void Player::jump()
 		const float jumpVYFist = 0.56f;
 		fallV = { 0, jumpVYFist, 0, 0 };
 	}
+	//ジャンプしたらフェーズを2にして弾を撃てるようにする
 	if (jumpOpFlag) {
 		operatePhase = 2;
 	}
@@ -360,7 +360,7 @@ bool Player::Shoot()
 
 	velocity = XMVector3TransformNormal(velocity, Object3d::GetMatWorld());
 
-	//コンストラクタ呼ぶよ
+	//コンストラクタ呼ぶ
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	//初期化
 	newBullet->Initialize({ position.x - 0.45f, position.y + 0.5f, position.z }, velocity);
@@ -381,7 +381,6 @@ void Player::Numb(bool flag)
 	}
 	else {
 		shake->SetShakeStart(false);
-		//audio->SoundStop("numb.wav");
 	}
 	//シェイクの最大値最小値などを入れる
 	shake->ShakePos(shakePos.x, 1, -1, 10, 20);
@@ -461,17 +460,19 @@ void Player::TutorialUpdate()
 		return !bullet->GetAlive();
 		});
 	move();
-	//フェーズが位置にならないとjump出来ない
+	//フェーズが1にならないとjump出来ない
 	if (operatePhase >= 1) {
 		jump();
 	}
 	Input* input = Input::GetInstance();
+
 	if (operatePhase >= 2) {
 		if (input->TriggerMouseLeft()) {
 			audio->SoundPlayWave("shoot.wav", false);
 			Shoot();
 			shotFlag = true;
 		}
+		//弾を撃ったらフェーズを3にして操作方法のスプライトを描画しないようにする
 		if (shotFlag) {
 			operatePhase = 3;
 		}

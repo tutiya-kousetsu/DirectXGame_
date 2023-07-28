@@ -34,11 +34,11 @@ void Obstacle::Draw()
 	object->Draw();
 }
 
-void Obstacle::UpMove(bool landF)
+void Obstacle::UpMove(bool flag)
 {
 	float move = 0.1f;
 	//着地したら
-	if (landF) {
+	if (flag) {
 			//イージングで押し上げる
 			if (easFrame < 1.0f) {
 				easFrame += 0.0001f;
@@ -72,7 +72,6 @@ void Obstacle::UpMove(bool landF)
 void Obstacle::DownMove(bool flag)
 {
 	float move = 0.1f;
-	//着地したら
 	if (flag) {
 			//イージングで押し上げる
 			if (downFrame < 1.0f) {
@@ -83,7 +82,7 @@ void Obstacle::DownMove(bool flag)
 		}
 			//シェイクのフラグを立てる
 			shake->SetShakeStart(true);
-			//ポジションのy座標が-0.1まで行ったらフラグをfalseにする
+			//ポジションのy座標が-9.9まで行ったらフラグをfalseにする
 			if (position.y <= -9.9f) {
 				shake->SetShakeStart(false);
 				downFrame = 0;
@@ -106,14 +105,14 @@ void Obstacle::DownMove(bool flag)
 
 void Obstacle::OnCollision(bool flag)
 {
-
+	//フラグが立ったら半透明にする
 	if (flag) {
 		color = object->GetColor();
 		color.w = 0.45f;
 		object->SetColor({ 1.0f, 1.0f, 1.0f, color.w });
 	}
+	//立っていなかったら半透明にするのをやめる
 	else {
 		object->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-
 	}
 }

@@ -48,6 +48,7 @@ void LeftEnemy::OnCollision()
 
 void LeftEnemy::appearance()
 {
+	//”à‚ÌŒã‚ë‚©‚ç“oê‚·‚é‚Ìˆ—
 	if (position.x <= -50) {
 		position.x += moveX;
 		if (position.x >= -50) {

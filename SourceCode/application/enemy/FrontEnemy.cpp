@@ -47,6 +47,7 @@ void FrontEnemy::TitleUpdate()
 
 void FrontEnemy::appearance()
 {
+	//扉の後ろから登場する時の処理
 	position.z -= moveZ;
 	if (position.z <= 50) {
 		moveZ = 0;

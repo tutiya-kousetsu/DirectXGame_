@@ -33,7 +33,7 @@ void ParticleManager::LoadTexture()
 	DirectX::ScratchImage scratchImg{};
 
 	result = LoadFromWICFile(
-		L"Resources/effect1.png", DirectX::WIC_FLAGS::WIC_FLAGS_NONE,
+		L"Resources/particle_02.png", DirectX::WIC_FLAGS::WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 	if (FAILED(result)) {
 		assert(0);

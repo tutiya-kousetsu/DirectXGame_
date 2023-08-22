@@ -147,6 +147,7 @@ void GamePlayScene::Finalize()
 
 void GamePlayScene::Update()
 {
+	Input* input = Input::GetInstance();
 	Audio* audio = Audio::GetInstance();
 	//ゲームプレイが始まったら音を消す
 	audio->SoundStop("water.wav");
@@ -168,7 +169,7 @@ void GamePlayScene::Update()
 	camera->SetFollowingTarget(player.get());
 
 	// マウスの入力を取得
-	if (landTime >= 230 && !numbFlag) {
+	if (landTime >= 230 && !numbFlag && !standbyFlag) {
 		player->Mouse();
 	}
 
@@ -178,12 +179,12 @@ void GamePlayScene::Update()
 		player->Numb(numbFlag);
 	}
 
-	if (landTime >= 230 && !numbFlag && aliveFlag) {
+	if (landTime >= 230 && !numbFlag && aliveFlag && !standbyFlag) {
 		//プレイヤーの更新
 		player->Update();
 	}
 	//フェーズフラグが立つごとにドアを動かす、敵のcsvの更新をする
-	if (phaseFlag) {
+	if (phaseFlag && !standbyFlag) {
 		if (door) {
 			door->DoorMove(phaseCount);
 		}
@@ -205,6 +206,31 @@ void GamePlayScene::Update()
 	}
 	if (door) {
 		door->Update();
+	}
+
+	if (input->TriggerKey(DIK_Q)) {
+		if (!standbyFlag) {
+			standbyFlag = true;
+		}
+		else {
+			standbyFlag = false;
+		}
+	}
+
+	if (standbyFlag) {
+		for (auto& front : frontEnemy) {
+			front->StopUpdate();
+		}
+		for (auto& left : leftEnemy) {
+			left->StopUpdate();
+		}
+		for (auto& right : rightEnemy) {
+			right->StopUpdate();
+		}
+		for (auto& back : backEnemy) {
+			back->StopUpdate();
+		}
+		player->StopUpdate();
 	}
 
 	//クリアしたときの関数

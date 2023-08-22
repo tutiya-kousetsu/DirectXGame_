@@ -24,6 +24,11 @@ void BaseEnemy::Update()
 	object->Update();
 }
 
+void BaseEnemy::StopUpdate()
+{
+	object->Update();
+}
+
 void BaseEnemy::Shoot(XMFLOAT3 position, int32_t kShootInterval)
 {
 	shootTimer--;

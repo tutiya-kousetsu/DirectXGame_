@@ -394,7 +394,6 @@ void Player::Numb(bool flag)
 	position.z += shakePos.z;
 	numb->SetPosition(position);
 	Object3d::SetPosition(position);
-	
 }
 
 

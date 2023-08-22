@@ -39,6 +39,7 @@ void BackEnemy::Update()
 
 void BackEnemy::appearance()
 {
+	//”à‚ÌŒã‚ë‚©‚ç“oê‚·‚éŽž‚Ìˆ—
 	position.z += moveZ;
 	if (position.z >= -50) {
 		moveZ = 0;

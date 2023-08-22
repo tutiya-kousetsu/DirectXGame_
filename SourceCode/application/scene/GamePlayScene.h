@@ -233,6 +233,8 @@ private:
 	bool upFlag = false;
 	bool stringFlag = false;//クリアしたときの文字のフラグ
 
+	bool standbyFlag = false;
+
 	//プレイヤー用
 	bool landFlag = false;//着地しているか
 	bool numbFlag = false;

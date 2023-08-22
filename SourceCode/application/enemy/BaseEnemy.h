@@ -57,6 +57,8 @@ public:
 
 	virtual void Update();
 
+	virtual void StopUpdate();
+
 	virtual void Shoot(XMFLOAT3 positio, int32_t kShootInterval);
 
 	virtual void CreateParticle();

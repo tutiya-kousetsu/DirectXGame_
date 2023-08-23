@@ -125,7 +125,8 @@ private:
 	std::unique_ptr<Sprite> clear;
 	std::unique_ptr<Sprite> upClear;
 	std::unique_ptr<Sprite> downClear;
-
+	std::unique_ptr<Sprite> standby;
+	std::unique_ptr<Sprite> standby2;
 	
 	//表示されている間の秒数
 	int32_t damageTime = 20;
@@ -233,7 +234,10 @@ private:
 	bool upFlag = false;
 	bool stringFlag = false;//クリアしたときの文字のフラグ
 
+	bool popFlag = false;
 	bool standbyFlag = false;
+	bool standby2Flag = false;
+	bool titleFlag = false;
 
 	//プレイヤー用
 	bool landFlag = false;//着地しているか

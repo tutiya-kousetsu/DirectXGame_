@@ -44,6 +44,11 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon)
 	Sprite::LoadTexture(30, L"Resources/clear/downFrame.png");
 	downClear.reset(Sprite::Create(30, { 640,776.5f }));
 
+	Sprite::LoadTexture(31, L"Resources/standby.png");
+	standby.reset(Sprite::Create(31, { 640,360 }));
+	Sprite::LoadTexture(32, L"Resources/standby2.png");
+	standby2.reset(Sprite::Create(32, { 640,360 }));
+
 	//phase
 	phase.reset(new Phase());
 	phase->Initialize();
@@ -152,7 +157,7 @@ void GamePlayScene::Update()
 	//ゲームプレイが始まったら音を消す
 	audio->SoundStop("water.wav");
 	playerPos = player->GetPosition();
-	
+
 	//メンバ関数のポインタに入ってる関数を呼び出す
 	(this->*gProgress[static_cast<size_t>(gamePhase)])();
 	//障害物のマップチップ読み込み用
@@ -169,7 +174,7 @@ void GamePlayScene::Update()
 	camera->SetFollowingTarget(player.get());
 
 	// マウスの入力を取得
-	if (landTime >= 230 && !numbFlag && !standbyFlag) {
+	if (landTime >= 230 && !numbFlag && !popFlag) {
 		player->Mouse();
 	}
 
@@ -179,12 +184,12 @@ void GamePlayScene::Update()
 		player->Numb(numbFlag);
 	}
 
-	if (landTime >= 230 && !numbFlag && aliveFlag && !standbyFlag) {
+	if (landTime >= 230 && !numbFlag && aliveFlag && !popFlag) {
 		//プレイヤーの更新
 		player->Update();
 	}
 	//フェーズフラグが立つごとにドアを動かす、敵のcsvの更新をする
-	if (phaseFlag && !standbyFlag) {
+	if (phaseFlag && !popFlag) {
 		if (door) {
 			door->DoorMove(phaseCount);
 		}
@@ -209,15 +214,32 @@ void GamePlayScene::Update()
 	}
 
 	if (input->TriggerKey(DIK_Q)) {
-		if (!standbyFlag) {
+		if (!popFlag) {
+			popFlag = true;
 			standbyFlag = true;
-		}
-		else {
-			standbyFlag = false;
 		}
 	}
 
-	if (standbyFlag) {
+	if (popFlag) {
+		if (input->TriggerKey(DIK_RIGHT) && standbyFlag) {
+			standby2Flag = true;
+			standbyFlag = false;
+		}
+		if (input->TriggerKey(DIK_LEFT) && standby2Flag) {
+			standby2Flag = false;
+			standbyFlag = true;
+		}
+		if (input->TriggerKey(DIK_SPACE)) {
+			if (standbyFlag && !standby2Flag) {
+				audio->SoundStop("gamePlay.wav");
+				//シーン切り替え
+				BaseScene* scene = new TitleScene();
+				this->sceneManager->SetNextScene(scene);
+			}
+			if (!standbyFlag && standby2Flag) {
+				popFlag = false;
+			}
+		}
 		for (auto& front : frontEnemy) {
 			front->StopUpdate();
 		}
@@ -258,9 +280,7 @@ void GamePlayScene::Update()
 	//当たり判定
 	CheckAllCollision();
 	collisionMan->CheckAllCollisions();
-
 	particleMan->Update();
-
 }
 
 void (GamePlayScene::* GamePlayScene::gProgress[])() = {
@@ -601,6 +621,12 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		}
 		upClear->Draw();
 		downClear->Draw();
+	}
+	if (popFlag && standbyFlag) {
+		standby->Draw();
+	}
+	if (popFlag && standby2Flag) {
+		standby2->Draw();
 	}
 	// スプライト描画後処理
 
@@ -1235,7 +1261,7 @@ void GamePlayScene::CheckAllCollision()
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
 	//痺れた時にレイだけ動かないようにする
-	if (landTime >= 230 && !numbFlag) {
+	if (landTime >= 230 && !numbFlag && !standbyFlag) {
 		Input::MouseMove mouseMove = input->GetMouseMove();
 		float dy = mouseMove.lX * scaleY;
 		angleY = -dy * XM_PI;

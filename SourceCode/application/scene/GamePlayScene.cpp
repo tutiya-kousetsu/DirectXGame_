@@ -152,7 +152,6 @@ void GamePlayScene::Finalize()
 
 void GamePlayScene::Update()
 {
-	Input* input = Input::GetInstance();
 	Audio* audio = Audio::GetInstance();
 	//ゲームプレイが始まったら音を消す
 	audio->SoundStop("water.wav");
@@ -213,54 +212,8 @@ void GamePlayScene::Update()
 		door->Update();
 	}
 
-	if (input->TriggerKey(DIK_Q)) {
-		if (!poseFlag) {
-			poseFlag = true;
-			standbyFlag = true;
-		}
-	}
-
-	if (poseFlag) {
-		if (input->TriggerKey(DIK_RIGHT) && standbyFlag) {
-			standby2Flag = true;
-			standbyFlag = false;
-		}
-		if (input->TriggerKey(DIK_LEFT) && standby2Flag) {
-			standby2Flag = false;
-			standbyFlag = true;
-		}
-		if (input->TriggerKey(DIK_SPACE)) {
-			if (standbyFlag && !standby2Flag) {
-				audio->SoundStop("gamePlay.wav");
-				//シーン切り替え
-				BaseScene* scene = new TitleScene();
-				this->sceneManager->SetNextScene(scene);
-			}
-			if (!standbyFlag && standby2Flag) {
-				poseFlag = false;
-			}
-		}
-		for (auto& front : frontEnemy) {
-			front->StopUpdate();
-		}
-		for (auto& left : leftEnemy) {
-			left->StopUpdate();
-		}
-		for (auto& right : rightEnemy) {
-			right->StopUpdate();
-		}
-		for (auto& back : backEnemy) {
-			back->StopUpdate();
-		}
-		player->StopUpdate();
-	}
-	else {
-		standbyFlag = true;
-		standby2Flag = false;
-	}
-
-	//クリアしたときの関数
-	Clear();
+	//ポーズ画面
+	Pose();
 
 	//ゲームオーバーになった時
 	Failed();
@@ -290,7 +243,8 @@ void GamePlayScene::Update()
 void (GamePlayScene::* GamePlayScene::gProgress[])() = {
 	&GamePlayScene::Air,
 	&GamePlayScene::Landing,
-	&GamePlayScene::GameStart
+	&GamePlayScene::GameStart,
+	&GamePlayScene::Clear
 };
 
 //スタート時空中にいるときの関数
@@ -424,6 +378,69 @@ void GamePlayScene::GameStart()
 		nowCamera = camera.get();
 		Object3d::SetCamera(nowCamera);
 	}
+
+	//クリア条件
+	if (fEneCount >= 10 && lEneCount >= 6 && rEneCount >= 4 && bEneCount >= 3) {
+		gamePhase = GamePhase::Clear;
+		clearFlag = true;
+		audio->SoundStop("gamePlay.wav");
+	}
+}
+
+void GamePlayScene::Pose()
+{
+	Input* input = Input::GetInstance();
+	//Qキー押したらフラグを立てる
+	if (input->TriggerKey(DIK_Q)) {
+		if (!poseFlag) {
+			poseFlag = true;
+			standbyFlag = true;
+		}
+	}
+
+	if (poseFlag && !clearFlag) {
+		//フラグが立った状態で右を押したらフラグを切り替える
+		if (input->TriggerKey(DIK_RIGHT) && standbyFlag) {
+			standby2Flag = true;
+			standbyFlag = false;
+		}
+		//フラグが立った状態で左を押したらフラグを切り替える
+		if (input->TriggerKey(DIK_LEFT) && standby2Flag) {
+			standby2Flag = false;
+			standbyFlag = true;
+		}
+		//スペースを押したときどっちのフラグが立ってるかで決める
+		if (input->TriggerKey(DIK_SPACE)) {
+			//ゲームを終了してタイトルに行く
+			if (standbyFlag && !standby2Flag) {
+				audio->SoundStop("gamePlay.wav");
+				//シーン切り替え
+				BaseScene* scene = new TitleScene();
+				this->sceneManager->SetNextScene(scene);
+			}
+			//そのまま続ける
+			if (!standbyFlag && standby2Flag) {
+				poseFlag = false;
+			}
+		}
+		for (auto& front : frontEnemy) {
+			front->StopUpdate();
+		}
+		for (auto& left : leftEnemy) {
+			left->StopUpdate();
+		}
+		for (auto& right : rightEnemy) {
+			right->StopUpdate();
+		}
+		for (auto& back : backEnemy) {
+			back->StopUpdate();
+		}
+		player->StopUpdate();
+	}
+	else {
+		standbyFlag = true;
+		standby2Flag = false;
+	}
 }
 
 void GamePlayScene::Clear()
@@ -431,11 +448,6 @@ void GamePlayScene::Clear()
 	float clearMove = 200;
 
 	Audio* audio = Audio::GetInstance();
-	//クリア条件
-	if (fEneCount >= 10 && lEneCount >= 6 && rEneCount >= 4 && bEneCount >= 3) {
-		clearFlag = true;
-		audio->SoundStop("gamePlay.wav");
-	}
 	//クリアフラグが立ったらif文通す
 	if (clearFlag) {
 		//クリアしたらイージングでクリアのスプライト動かす

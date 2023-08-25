@@ -98,6 +98,7 @@ public:
 		Air,//スタート時空中にいるとき
 		Landing,//着地した時
 		GameStart,//着地して岩が上がりきった時
+		Clear,
 	};
 	//スタート時空中にいるとき
 	void Air();
@@ -105,6 +106,8 @@ public:
 	void Landing();
 	//着地して岩が上がりきった時
 	void GameStart();
+	//ポーズ画面
+	void Pose();
 	//ゲームクリア
 	void Clear();
 	//ゲームオーバー

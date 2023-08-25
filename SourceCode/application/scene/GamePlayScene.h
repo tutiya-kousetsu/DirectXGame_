@@ -234,7 +234,7 @@ private:
 	bool upFlag = false;
 	bool stringFlag = false;//クリアしたときの文字のフラグ
 
-	bool popFlag = false;
+	bool poseFlag = false;
 	bool standbyFlag = false;
 	bool standby2Flag = false;
 	bool titleFlag = false;

@@ -174,7 +174,7 @@ void GamePlayScene::Update()
 	camera->SetFollowingTarget(player.get());
 
 	// マウスの入力を取得
-	if (landTime >= 230 && !numbFlag && !popFlag) {
+	if (landTime >= 230 && !numbFlag && !poseFlag) {
 		player->Mouse();
 	}
 
@@ -184,12 +184,12 @@ void GamePlayScene::Update()
 		player->Numb(numbFlag);
 	}
 
-	if (landTime >= 230 && !numbFlag && aliveFlag && !popFlag) {
+	if (landTime >= 230 && !numbFlag && aliveFlag && !poseFlag) {
 		//プレイヤーの更新
 		player->Update();
 	}
 	//フェーズフラグが立つごとにドアを動かす、敵のcsvの更新をする
-	if (phaseFlag && !popFlag) {
+	if (phaseFlag && !poseFlag) {
 		if (door) {
 			door->DoorMove(phaseCount);
 		}
@@ -214,13 +214,13 @@ void GamePlayScene::Update()
 	}
 
 	if (input->TriggerKey(DIK_Q)) {
-		if (!popFlag) {
-			popFlag = true;
+		if (!poseFlag) {
+			poseFlag = true;
 			standbyFlag = true;
 		}
 	}
 
-	if (popFlag) {
+	if (poseFlag) {
 		if (input->TriggerKey(DIK_RIGHT) && standbyFlag) {
 			standby2Flag = true;
 			standbyFlag = false;
@@ -237,7 +237,7 @@ void GamePlayScene::Update()
 				this->sceneManager->SetNextScene(scene);
 			}
 			if (!standbyFlag && standby2Flag) {
-				popFlag = false;
+				poseFlag = false;
 			}
 		}
 		for (auto& front : frontEnemy) {
@@ -253,6 +253,10 @@ void GamePlayScene::Update()
 			back->StopUpdate();
 		}
 		player->StopUpdate();
+	}
+	else {
+		standbyFlag = true;
+		standby2Flag = false;
 	}
 
 	//クリアしたときの関数
@@ -622,10 +626,10 @@ void GamePlayScene::Draw(DirectXCommon* dxCommon)
 		upClear->Draw();
 		downClear->Draw();
 	}
-	if (popFlag && standbyFlag) {
+	if (poseFlag && standbyFlag) {
 		standby->Draw();
 	}
-	if (popFlag && standby2Flag) {
+	if (poseFlag && standby2Flag) {
 		standby2->Draw();
 	}
 	// スプライト描画後処理
@@ -1261,7 +1265,7 @@ void GamePlayScene::CheckAllCollision()
 	//レイの当たり判定(当たったら岩を透明にする)
 	Sphere obShape;
 	//痺れた時にレイだけ動かないようにする
-	if (landTime >= 230 && !numbFlag && !standbyFlag) {
+	if (landTime >= 230 && !numbFlag && !poseFlag) {
 		Input::MouseMove mouseMove = input->GetMouseMove();
 		float dy = mouseMove.lX * scaleY;
 		angleY = -dy * XM_PI;
